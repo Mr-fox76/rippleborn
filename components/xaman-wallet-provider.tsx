@@ -29,12 +29,6 @@ async function fetchStatus(url: string): Promise<WalletStatus> {
   return data
 }
 
-function openXaman(url: string) {
-  if (window.self !== window.top) {
-    window.open(url, '_blank', 'noopener,noreferrer')
-  }
-}
-
 export function XamanWalletProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<string | null>(null)
   const [request, setRequest] = useState<WalletRequest | null>(null)
@@ -63,7 +57,6 @@ export function XamanWalletProvider({ children }: { children: ReactNode }) {
       const data = (await response.json()) as WalletRequest & { error?: string }
       if (!response.ok) throw new Error(data.error ?? 'Unable to create a Xaman connection.')
       setRequest(data)
-      openXaman(data.deepLink)
     } catch (connectError) {
       setError(connectError instanceof Error ? connectError.message : 'Unable to connect to Xaman.')
     } finally {
