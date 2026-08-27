@@ -1,6 +1,13 @@
 import Image from 'next/image'
 import type { Card, Rarity } from '@/lib/rippleborn'
 
+type FulfilledCard = Card & {
+  mintStatus?: 'minted' | 'skipped' | 'failed'
+  nftId?: string
+  offerId?: string
+  reason?: string
+}
+
 const RARITY_STYLES: Record<Rarity, { text: string; border: string; glow: string }> = {
   Common: {
     text: 'text-rarity-common',
@@ -29,7 +36,7 @@ const RARITY_STYLES: Record<Rarity, { text: string; border: string; glow: string
   },
 }
 
-export function PackResults({ cards }: { cards: Card[] }) {
+export function PackResults({ cards }: { cards: FulfilledCard[] }) {
   return (
     <section aria-label="Cards pulled from your pack" className="flex flex-col gap-4">
       <div className="flex items-baseline justify-between gap-4">
@@ -77,6 +84,23 @@ export function PackResults({ cards }: { cards: Card[] }) {
                 <p className={`font-mono text-xs uppercase tracking-[0.18em] ${style.text}`}>
                   {card.rarity}
                 </p>
+                {card.mintStatus === 'minted' ? (
+                  <dl className="mt-2 flex flex-col gap-1 border-t border-border pt-2 font-mono text-xs text-muted-foreground">
+                    <div>
+                      <dt className="sr-only">NFT ID</dt>
+                      <dd className="break-all">NFT {card.nftId}</dd>
+                    </div>
+                    <div>
+                      <dt className="sr-only">Offer ID</dt>
+                      <dd className="break-all">Offer {card.offerId}</dd>
+                    </div>
+                  </dl>
+                ) : card.mintStatus ? (
+                  <p className="mt-2 border-t border-border pt-2 text-sm leading-relaxed text-muted-foreground">
+                    {card.mintStatus === 'skipped' ? 'Mint skipped: ' : 'Mint failed: '}
+                    {card.reason}
+                  </p>
+                ) : null}
               </div>
             </li>
           )

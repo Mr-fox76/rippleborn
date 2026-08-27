@@ -13,7 +13,7 @@ export default function Page() {
       <footer className="border-t border-border">
         <div className="mx-auto w-full max-w-5xl px-6 py-8">
           <p className="font-mono text-xs leading-relaxed text-muted-foreground">
-            Rippleborn · Demo mode — packs are simulated and no XRPL transaction is broadcast.
+            Rippleborn · Testnet only — payments, NFT mints, and destination-locked offers are recorded on XRPL testnet.
           </p>
         </div>
       </footer>

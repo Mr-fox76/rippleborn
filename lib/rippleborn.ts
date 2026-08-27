@@ -9,6 +9,8 @@ export type Card = {
   slot: number
   /** Local artwork path under /public/cards. Display only — not a token metadata URI. */
   image: string
+  /** Public token metadata URI encoded into the XRPL NFT when available. */
+  uri?: string
 }
 
 export const PACK_PRICE_XRP = 5
@@ -24,7 +26,7 @@ export const SLOT_ODDS: { slot: number; label: string; odds: Partial<Record<Rari
   { slot: 3, label: 'Slot 3', odds: { Rare: 55, Epic: 30, Legendary: 12, Mythic: 3 } },
 ]
 
-type CardArt = { name: string; image: string }
+type CardArt = { name: string; image: string; uri?: string }
 
 export const CARD_POOL: Record<Rarity, CardArt[]> = {
   Common: [
@@ -43,7 +45,11 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
     { name: 'Ledgerbound Knight', image: '/cards/ledgerbound-knight.png' },
   ],
   Epic: [
-    { name: 'Archon of Flowing Ledgers', image: '/cards/archon-of-flowing-ledgers.png', uri: "ipfs://bafkreicuzzed4vbpkikrvuij5verhvmgpamdesjbtebvz4bwzp6kvwyfuu" },
+    {
+      name: 'Archon of Flowing Ledgers',
+      image: '/cards/archon-of-flowing-ledgers.png',
+      uri: 'ipfs://bafkreics7yiqb56nodcjehqih5ayomtc7kyq25tc4phgeyabwa6x56flxm',
+    },
     { name: 'Abyssal Consensus', image: '/cards/abyssal-consensus.png' },
     { name: 'Stormforge Oracle', image: '/cards/stormforge-oracle.png' },
     { name: 'Warden of Split Tides', image: '/cards/warden-of-split-tides.png' },
@@ -84,13 +90,14 @@ function pickCard(rarity: Rarity): CardArt {
 export function rollPack(): Card[] {
   return SLOT_ODDS.map(({ slot }) => {
     const rarity = rollRarity(slot)
-    const { name, image } = pickCard(rarity)
+    const { name, image, uri } = pickCard(rarity)
     return {
       id: `${slot}-${Math.random().toString(36).slice(2, 10)}`,
       name,
       rarity,
       slot,
       image,
+      uri,
     }
   })
 }

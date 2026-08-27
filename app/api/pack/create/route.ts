@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server'
-import { CARDS_PER_PACK, PACK_PRICE_XRP, isLikelyXrplAddress } from '@/lib/rippleborn'
+import { dropsToXrp } from 'xrpl'
+import { CARDS_PER_PACK } from '@/lib/rippleborn'
+import { createDestinationTag, getXrplConfig, validateBuyer } from '@/lib/xrpl-server'
 
-/**
- * DEMO STUB. Returns a mock pack order.
- * A real implementation would record the order server-side and return a
- * deposit address plus a destination tag to watch for on the XRPL.
- * No seeds or private keys are ever handled here.
- */
+export const runtime = 'nodejs'
+
 export async function POST(request: Request) {
   let body: { buyer?: unknown }
 
@@ -16,31 +14,30 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON body.' }, { status: 400 })
   }
 
-  const buyer = typeof body.buyer === 'string' ? body.buyer.trim() : ''
-
+  const buyer = validateBuyer(body.buyer)
   if (!buyer) {
-    return NextResponse.json({ error: 'An XRPL address is required.' }, { status: 400 })
+    return NextResponse.json({ error: 'A valid XRPL classic address is required.' }, { status: 400 })
   }
 
-  if (!isLikelyXrplAddress(buyer)) {
-    return NextResponse.json(
-      { error: 'That does not look like an XRPL address. It should start with "r".' },
-      { status: 400 },
-    )
+  try {
+    const config = getXrplConfig()
+    const destinationTag = createDestinationTag()
+
+    return NextResponse.json({
+      orderId: destinationTag,
+      buyer,
+      status: 'awaiting_payment',
+      cardsPerPack: CARDS_PER_PACK,
+      Destination: config.treasuryAddress,
+      destinationAddress: config.treasuryAddress,
+      Amount: config.packPriceDrops,
+      amountDrops: config.packPriceDrops,
+      priceXrp: dropsToXrp(config.packPriceDrops),
+      DestinationTag: destinationTag,
+      destinationTag,
+    })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'XRPL configuration is unavailable.'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
-
-  const orderId = `RB-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`
-
-  return NextResponse.json({
-    orderId,
-    buyer,
-    status: 'awaiting_payment',
-    priceXrp: PACK_PRICE_XRP,
-    cardsPerPack: CARDS_PER_PACK,
-    // Placeholder values so the UI can render a full payment step in demo mode.
-    destinationAddress: 'rDEMO000000000000000000000000000',
-    destinationTag: Math.floor(Math.random() * 4_000_000_000),
-    expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
-    demo: true,
-  })
 }

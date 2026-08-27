@@ -9,7 +9,13 @@ import { CARDS_PER_PACK, PACK_PRICE_XRP, type Card } from '@/lib/rippleborn'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
-type Order = { orderId: string; destinationTag?: number }
+type Order = {
+  orderId: number
+  destinationAddress: string
+  destinationTag: number
+  amountDrops: string
+  priceXrp: string
+}
 
 export function PackShop() {
   const [buyer, setBuyer] = useState('')
@@ -37,10 +43,16 @@ export function PackShop() {
         return
       }
 
-      setOrder({ orderId: data.orderId, destinationTag: data.destinationTag })
+      setOrder({
+        orderId: data.orderId,
+        destinationAddress: data.destinationAddress,
+        destinationTag: data.destinationTag,
+        amountDrops: data.amountDrops,
+        priceXrp: data.priceXrp,
+      })
       setStatus({
         tone: 'success',
-        message: `Order ${data.orderId} reserved. Send ${PACK_PRICE_XRP} XRP, then fulfill to open.`,
+        message: `Order ${data.orderId} reserved. Send exactly ${data.priceXrp} XRP with the destination tag below.`,
       })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
@@ -196,11 +208,25 @@ export function PackShop() {
           <p className={`text-sm leading-relaxed ${statusTone}`}>
             {status.message || 'Enter your XRPL address to begin.'}
           </p>
-          {order && status.tone !== 'error' ? (
-            <p className="mt-1 font-mono text-xs text-muted-foreground">
-              Order {order.orderId}
-              {order.destinationTag ? ` · tag ${order.destinationTag}` : ''}
-            </p>
+          {order ? (
+            <dl className="mt-3 flex flex-col gap-2 border-t border-border pt-3 font-mono text-xs text-muted-foreground">
+              <div className="flex flex-col gap-1">
+                <dt className="uppercase tracking-wider">Destination</dt>
+                <dd className="break-all text-foreground">{order.destinationAddress}</dd>
+              </div>
+              <div className="flex flex-wrap justify-between gap-2">
+                <div>
+                  <dt className="uppercase tracking-wider">Amount</dt>
+                  <dd className="text-foreground">
+                    {order.amountDrops} drops ({order.priceXrp} XRP)
+                  </dd>
+                </div>
+                <div>
+                  <dt className="uppercase tracking-wider">Destination tag</dt>
+                  <dd className="text-foreground">{order.destinationTag}</dd>
+                </div>
+              </div>
+            </dl>
           ) : null}
         </div>
 
