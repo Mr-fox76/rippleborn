@@ -55,9 +55,6 @@ export function XamanPaymentButton({
       const data = (await response.json()) as PaymentRequest & { error?: string }
       if (!response.ok) throw new Error(data.error ?? 'Unable to create the Xaman payment.')
       setPayment(data)
-      if (window.self !== window.top) {
-        window.open(data.deepLink, '_blank', 'noopener,noreferrer')
-      }
     } catch (paymentError) {
       setError(paymentError instanceof Error ? paymentError.message : 'Unable to create the payment.')
     } finally {
