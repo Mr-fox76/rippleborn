@@ -9,24 +9,6 @@
   --font-mono: 'JetBrains Mono', 'JetBrains Mono Fallback';
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
-  --color-rarity-common: var(--rarity-common);
-  --color-rarity-rare: var(--rarity-rare);
-  --color-rarity-epic: var(--rarity-epic);
-  --color-rarity-legendary: var(--rarity-legendary);
-  --color-rarity-mythic: var(--rarity-mythic);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
   --color-input: var(--input);
   --color-border: var(--border);
@@ -49,59 +31,203 @@
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
   color-scheme: dark;
-  --background: oklch(0.14 0.032 264);
-  --foreground: oklch(0.96 0.008 240);
-  --card: oklch(0.19 0.034 264);
-  --card-foreground: oklch(0.96 0.008 240);
-  --popover: oklch(0.19 0.034 264);
-  --popover-foreground: oklch(0.96 0.008 240);
-  --primary: oklch(0.86 0.145 208);
-  --primary-foreground: oklch(0.16 0.035 264);
-  --secondary: oklch(0.25 0.036 264);
-  --secondary-foreground: oklch(0.96 0.008 240);
-  --muted: oklch(0.23 0.033 264);
-  --muted-foreground: oklch(0.68 0.026 250);
-  --accent: oklch(0.82 0.132 84);
-  --accent-foreground: oklch(0.16 0.035 264);
-  --destructive: oklch(0.62 0.216 24);
-  --border: oklch(0.86 0.145 208 / 16%);
-  --input: oklch(0.86 0.145 208 / 22%);
-  --ring: oklch(0.86 0.145 208);
-  --gold: oklch(0.82 0.132 84);
-  --gold-foreground: oklch(0.16 0.035 264);
-  --rarity-common: oklch(0.72 0.022 250);
-  --rarity-rare: oklch(0.86 0.145 208);
-  --rarity-epic: oklch(0.68 0.19 300);
-  --rarity-legendary: oklch(0.82 0.132 84);
-  --rarity-mythic: oklch(0.68 0.22 12);
-  --chart-1: oklch(0.86 0.145 208);
-  --chart-2: oklch(0.82 0.132 84);
-  --chart-3: oklch(0.68 0.19 300);
-  --chart-4: oklch(0.68 0.22 12);
-  --chart-5: oklch(0.72 0.022 250);
-  --radius: 0.5rem;
-  --sidebar: oklch(0.19 0.034 264);
-  --sidebar-foreground: oklch(0.96 0.008 240);
-  --sidebar-primary: oklch(0.86 0.145 208);
-  --sidebar-primary-foreground: oklch(0.16 0.035 264);
-  --sidebar-accent: oklch(0.25 0.036 264);
-  --sidebar-accent-foreground: oklch(0.96 0.008 240);
-  --sidebar-border: oklch(0.86 0.145 208 / 16%);
-  --sidebar-ring: oklch(0.86 0.145 208);
+  --background: oklch(0.16 0.035 164);
+  --foreground: oklch(0.93 0.025 83);
+  --card: oklch(0.16 0.018 72);
+  --card-foreground: oklch(0.93 0.025 83);
+  --popover: oklch(0.16 0.018 72);
+  --popover-foreground: oklch(0.93 0.025 83);
+  --primary: oklch(0.73 0.115 78);
+  --primary-foreground: oklch(0.13 0.018 72);
+  --secondary: oklch(0.23 0.035 164);
+  --secondary-foreground: oklch(0.93 0.025 83);
+  --muted: oklch(0.23 0.035 164);
+  --muted-foreground: oklch(0.72 0.025 83);
+  --accent: oklch(0.73 0.115 78);
+  --accent-foreground: oklch(0.13 0.018 72);
+  --destructive: oklch(0.61 0.19 29);
+  --border: oklch(0.73 0.115 78 / 24%);
+  --input: oklch(0.73 0.115 78 / 32%);
+  --ring: oklch(0.73 0.115 78);
+  --gold: oklch(0.73 0.115 78);
+  --gold-foreground: oklch(0.13 0.018 72);
+  --radius: 0.55rem;
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    @apply bg-background;
+  }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  button,
+  a,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+.table-surface {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse at center, transparent 15%, oklch(0.09 0.025 164 / 58%) 100%),
+    repeating-linear-gradient(112deg, transparent 0 3px, oklch(0.93 0.025 83 / 1.4%) 3px 4px);
+}
+
+.table-surface::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  pointer-events: none;
+  box-shadow: inset 0 0 12rem oklch(0.09 0.025 164 / 70%);
+}
+
+.reading-panel {
+  border-radius: 0.75rem;
+  box-shadow: 0 1.5rem 5rem oklch(0.09 0.025 164 / 42%);
+}
+
+.tarot-slot:nth-child(1) {
+  transform: rotate(-3deg) translateY(0.75rem);
+}
+
+.tarot-slot:nth-child(2) {
+  transform: translateY(0);
+}
+
+.tarot-slot:nth-child(3) {
+  transform: rotate(3deg) translateY(0.75rem);
+}
+
+.tarot-card {
+  aspect-ratio: 2 / 3;
+  width: 100%;
+  max-width: 16rem;
+  margin-inline: auto;
+  border-radius: 0.65rem;
+}
+
+.tarot-back {
+  position: relative;
+  padding: 0.4rem;
+  border: 1px solid oklch(0.73 0.115 78 / 70%);
+  background: var(--card);
+  box-shadow: 0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%);
+}
+
+.tarot-back::before {
+  position: absolute;
+  inset: 0.7rem;
+  border: 1px solid oklch(0.73 0.115 78 / 25%);
+  border-radius: 0.25rem;
+  content: '';
+}
+
+.tarot-back-inner {
+  position: relative;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid oklch(0.73 0.115 78 / 45%);
+  border-radius: 0.3rem;
+  background-image:
+    linear-gradient(45deg, transparent 46%, oklch(0.73 0.115 78 / 9%) 47% 53%, transparent 54%),
+    linear-gradient(-45deg, transparent 46%, oklch(0.73 0.115 78 / 9%) 47% 53%, transparent 54%);
+  background-size: 1.2rem 1.2rem;
+}
+
+.tarot-orbit {
+  position: absolute;
+  width: 54%;
+  aspect-ratio: 1;
+  border: 1px solid oklch(0.73 0.115 78 / 55%);
+  border-radius: 9999px;
+}
+
+.tarot-orbit::before,
+.tarot-orbit::after {
+  position: absolute;
+  inset: 17%;
+  border: 1px solid oklch(0.73 0.115 78 / 35%);
+  content: '';
+  transform: rotate(45deg);
+}
+
+.tarot-orbit::after {
+  inset: -18%;
+  border-radius: 9999px;
+  transform: scaleY(0.42);
+}
+
+.tarot-moon {
+  position: relative;
+  width: 22%;
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  background: var(--gold);
+  box-shadow: inset -0.35rem 0 0 var(--card);
+}
+
+.tarot-reveal {
+  aspect-ratio: auto;
+  animation: card-reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tarot-slot:nth-child(2) .tarot-reveal {
+  animation-delay: 110ms;
+}
+
+.tarot-slot:nth-child(3) .tarot-reveal {
+  animation-delay: 220ms;
+}
+
+@keyframes card-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem) rotateY(35deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateY(0) scale(1);
+  }
+}
+
+@media (max-width: 40rem) {
+  .tarot-spread {
+    gap: 0.45rem;
+  }
+
+  .tarot-slot:nth-child(1) {
+    transform: rotate(-2deg) translateY(0.35rem);
+  }
+
+  .tarot-slot:nth-child(3) {
+    transform: rotate(2deg) translateY(0.35rem);
+  }
+
+  .tarot-card {
+    border-radius: 0.45rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarot-reveal {
+    animation: none;
   }
 }

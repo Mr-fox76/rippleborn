@@ -1,11 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { Loader2, Package, Sparkles } from 'lucide-react'
+import { Loader2, Sparkles } from 'lucide-react'
+import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { Button } from '@/components/ui/button'
-import { PackResults } from '@/components/pack-results'
-import { RarityOdds } from '@/components/rarity-odds'
-import { CARDS_PER_PACK, PACK_PRICE_XRP, type Card } from '@/lib/rippleborn'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
@@ -21,24 +19,24 @@ type Order = {
 export function PackShop() {
   const [buyer, setBuyer] = useState('')
   const [order, setOrder] = useState<Order | null>(null)
-  const [cards, setCards] = useState<Card[] | null>(null)
+  const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
 
   async function createOrder() {
     setPending('create')
     setCards(null)
-    setStatus({ tone: 'pending', message: 'Reserving your pack…' })
+    setStatus({ tone: 'pending', message: 'Preparing your reading…' })
 
     try {
-      const res = await fetch('/api/pack/create', {
+      const response = await fetch('/api/pack/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ buyer }),
       })
-      const data = await res.json()
+      const data = await response.json()
 
-      if (!res.ok) {
+      if (!response.ok) {
         setOrder(null)
         setStatus({ tone: 'error', message: data.error ?? 'Could not create the pack order.' })
         return
@@ -54,7 +52,7 @@ export function PackShop() {
       })
       setStatus({
         tone: 'success',
-        message: `Order ${data.orderId} reserved. Send exactly ${data.priceXrp} XRP with the destination tag below.`,
+        message: `Send exactly ${data.priceXrp} XRP with the destination tag below.`,
       })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
@@ -70,23 +68,23 @@ export function PackShop() {
     }
 
     setPending('fulfill')
-    setStatus({ tone: 'pending', message: 'Verifying payment and opening your pack…' })
+    setStatus({ tone: 'pending', message: 'Reading the ledger…' })
 
     try {
-      const res = await fetch('/api/pack/fulfill', {
+      const response = await fetch('/api/pack/fulfill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId: order.orderId, buyer: order.buyer }),
       })
-      const data = await res.json()
+      const data = await response.json()
 
-      if (!res.ok) {
-        setStatus({ tone: 'error', message: data.error ?? 'Could not fulfill the order.' })
+      if (!response.ok) {
+        setStatus({ tone: 'error', message: data.error ?? 'Could not claim the pack.' })
         return
       }
 
       setCards(data.cards)
-      setStatus({ tone: 'success', message: `Pack opened. ${data.cards.length} cards pulled.` })
+      setStatus({ tone: 'success', message: 'The ledger has spoken. Your cards are revealed.' })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
     } finally {
@@ -94,102 +92,67 @@ export function PackShop() {
     }
   }
 
-  const statusTone =
+  const statusColor =
     status.tone === 'error'
       ? 'text-destructive'
       : status.tone === 'success'
-        ? 'text-primary'
+        ? 'text-gold'
         : 'text-muted-foreground'
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-        {/* Product panel */}
-      <section
-        aria-label="Booster pack"
-        className="relative flex flex-1 flex-col gap-8 overflow-hidden rounded-xl border border-border bg-card p-6 sm:p-8"
-      >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-primary/10 blur-3xl"
-        />
+    <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
+      <div className="flex flex-col items-center gap-2 text-center">
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
+          Genesis reading
+        </p>
+        <h1 className="font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+          Draw three from the ledger
+        </h1>
+        <p className="text-sm leading-relaxed text-muted-foreground">Three XRPL NFTs · 5 XRP</p>
+      </div>
 
-        <div className="relative flex flex-col gap-6">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex flex-col gap-1">
-              <h2 className="font-sans text-2xl font-semibold tracking-tight text-balance">
-                Genesis Booster
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                {CARDS_PER_PACK} XRPL NFTs, minted straight to your wallet.
-              </p>
-            </div>
-            <span className="shrink-0 rounded-full border border-gold/40 px-3 py-1 font-mono text-xs text-gold">
-              {PACK_PRICE_XRP} XRP
-            </span>
-          </div>
+      <TarotCards cards={cards} />
 
-          {/* Pack artwork stand-in: three stacked card silhouettes */}
-          <div className="flex items-end justify-center gap-3 py-4" aria-hidden="true">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="flex h-32 w-20 items-center justify-center rounded-md border border-primary/25 bg-gradient-to-b from-primary/10 to-transparent sm:h-40 sm:w-24"
-                style={{ transform: `translateY(${i === 1 ? '-12px' : '0'})` }}
-              >
-                <Package className="size-6 text-primary/50" />
-              </div>
-            ))}
-          </div>
-
-          <RarityOdds />
-        </div>
-      </section>
-
-      {/* Checkout panel */}
       <section
         aria-label="Open a pack"
-        className="flex flex-1 flex-col gap-6 rounded-xl border border-border bg-card p-6 sm:p-8"
+        className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
       >
         <div className="flex flex-col gap-2">
           <label
             htmlFor="xrpl-address"
-            className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
+            className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground"
           >
-            XRPL address
+            Receiving wallet
           </label>
           <input
             id="xrpl-address"
             name="xrpl-address"
             value={buyer}
-            onChange={(e) => setBuyer(e.target.value)}
+            onChange={(event) => setBuyer(event.target.value)}
             placeholder="r..."
             disabled={order !== null}
             autoComplete="off"
             spellCheck={false}
             aria-describedby="address-hint"
-            className="w-full rounded-md border border-input bg-background px-4 py-3 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
+            className="w-full rounded-md border border-input bg-background/70 px-3 py-2.5 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-70"
           />
           <p id="address-hint" className="text-xs text-muted-foreground">
-            Cards are minted to this address. Never share your seed or private key.
+            Use the same wallet to pay and receive the cards. Never share your seed.
           </p>
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-2 sm:flex-row">
           <Button
             onClick={createOrder}
             disabled={pending !== null || order !== null}
             className="flex-1 bg-primary font-medium text-primary-foreground hover:bg-primary/90"
           >
-            {pending === 'create' ? (
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            ) : null}
-            Create pack order
+            {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+            Prepare reading
           </Button>
-
           <Button
             onClick={fulfillOrder}
-            disabled={pending !== null}
+            disabled={pending !== null || order === null || cards !== null}
             variant="outline"
             className="flex-1 border-gold/50 bg-transparent font-medium text-gold hover:bg-gold/10 hover:text-gold"
           >
@@ -198,35 +161,34 @@ export function PackShop() {
             ) : (
               <Sparkles className="size-4" aria-hidden="true" />
             )}
-            Fulfill after payment
+            Reveal cards
           </Button>
         </div>
 
-        {/* Status message area */}
-        <div
-          role="status"
-          aria-live="polite"
-          className="min-h-12 rounded-md border border-border bg-background px-4 py-3"
-        >
-          <p className={`text-sm leading-relaxed ${statusTone}`}>
+        <div role="status" aria-live="polite" className="min-h-5 text-center">
+          <p className={`text-sm leading-relaxed ${statusColor}`}>
             {status.message || 'Enter your XRPL address to begin.'}
           </p>
-          {order ? (
-            <dl className="mt-3 flex flex-col gap-2 border-t border-border pt-3 font-mono text-xs text-muted-foreground">
+        </div>
+
+        {order ? (
+          <details className="rounded-md border border-border bg-background/55 px-3 py-2.5 font-mono text-xs text-muted-foreground" open>
+            <summary className="cursor-pointer uppercase tracking-[0.16em] text-foreground">
+              Payment details
+            </summary>
+            <dl className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
               <div className="flex flex-col gap-1">
-                <dt className="uppercase tracking-wider">Pay from / NFT recipient</dt>
+                <dt className="uppercase tracking-wider">Pay from</dt>
                 <dd className="break-all text-foreground">{order.buyer}</dd>
               </div>
               <div className="flex flex-col gap-1">
                 <dt className="uppercase tracking-wider">Destination</dt>
                 <dd className="break-all text-foreground">{order.destinationAddress}</dd>
               </div>
-              <div className="flex flex-wrap justify-between gap-2">
+              <div className="flex flex-wrap justify-between gap-3">
                 <div>
                   <dt className="uppercase tracking-wider">Amount</dt>
-                  <dd className="text-foreground">
-                    {order.amountDrops} drops ({order.priceXrp} XRP)
-                  </dd>
+                  <dd className="text-foreground">{order.priceXrp} XRP</dd>
                 </div>
                 <div>
                   <dt className="uppercase tracking-wider">Destination tag</dt>
@@ -234,13 +196,9 @@ export function PackShop() {
                 </div>
               </div>
             </dl>
-          ) : null}
-        </div>
-
-        </section>
-      </div>
-
-      {cards ? <PackResults cards={cards} /> : null}
+          </details>
+        ) : null}
+      </section>
     </div>
   )
 }

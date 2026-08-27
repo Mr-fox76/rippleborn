@@ -1,111 +1,90 @@
 import Image from 'next/image'
-import type { Card, Rarity } from '@/lib/rippleborn'
+import type { Card } from '@/lib/rippleborn'
 
-type FulfilledCard = Card & {
+export type FulfilledCard = Card & {
   mintStatus?: 'minted' | 'skipped' | 'failed'
   nftId?: string
   offerId?: string
   reason?: string
 }
 
-const RARITY_STYLES: Record<Rarity, { text: string; border: string; glow: string }> = {
-  Common: {
-    text: 'text-rarity-common',
-    border: 'border-rarity-common/30',
-    glow: 'from-rarity-common/10',
-  },
-  Rare: {
-    text: 'text-rarity-rare',
-    border: 'border-rarity-rare/40',
-    glow: 'from-rarity-rare/15',
-  },
-  Epic: {
-    text: 'text-rarity-epic',
-    border: 'border-rarity-epic/45',
-    glow: 'from-rarity-epic/20',
-  },
-  Legendary: {
-    text: 'text-rarity-legendary',
-    border: 'border-rarity-legendary/50',
-    glow: 'from-rarity-legendary/25',
-  },
-  Mythic: {
-    text: 'text-rarity-mythic',
-    border: 'border-rarity-mythic/55',
-    glow: 'from-rarity-mythic/30',
-  },
+function CardDetails({ card }: { card: FulfilledCard }) {
+  if (card.mintStatus === 'minted') {
+    return (
+      <details className="mt-2 text-left font-mono text-[0.65rem] text-muted-foreground">
+        <summary className="cursor-pointer uppercase tracking-wider">On-chain details</summary>
+        <dl className="mt-2 flex flex-col gap-2 border-t border-border pt-2">
+          <div>
+            <dt>NFT</dt>
+            <dd className="break-all">{card.nftId}</dd>
+          </div>
+          <div>
+            <dt>Offer</dt>
+            <dd className="break-all">{card.offerId}</dd>
+          </div>
+        </dl>
+      </details>
+    )
+  }
+
+  if (card.mintStatus) {
+    return (
+      <p className="mt-2 border-t border-border pt-2 text-xs leading-relaxed text-muted-foreground">
+        {card.mintStatus === 'skipped' ? 'Mint skipped: ' : 'Mint failed: '}
+        {card.reason}
+      </p>
+    )
+  }
+
+  return null
 }
 
-export function PackResults({ cards }: { cards: FulfilledCard[] }) {
+export function TarotCards({ cards }: { cards: FulfilledCard[] | null }) {
   return (
-    <section aria-label="Cards pulled from your pack" className="flex flex-col gap-4">
-      <div className="flex items-baseline justify-between gap-4">
-        <h2 className="font-sans text-lg font-semibold tracking-tight">Your pull</h2>
-        <span className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-          {cards.length} cards
-        </span>
-      </div>
-
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {cards.map((card) => {
-          const style = RARITY_STYLES[card.rarity]
+    <section aria-label={cards ? 'Your revealed cards' : 'Three face-down cards'}>
+      <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
+        {[0, 1, 2].map((index) => {
+          const card = cards?.[index]
 
           return (
-            <li
-              key={card.id}
-              className={`group relative flex flex-col overflow-hidden rounded-lg border bg-card ${style.border}`}
-            >
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
-                <Image
-                  src={card.image || '/placeholder.svg'}
-                  alt={`Illustration of ${card.name}, a ${card.rarity} card`}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent"
-                />
-                <span className="absolute left-3 top-3 rounded bg-background/80 px-2 py-1 font-mono text-xs text-muted-foreground backdrop-blur-sm">
-                  {String(card.slot).padStart(2, '0')}
-                </span>
-              </div>
-
-              <div
-                aria-hidden="true"
-                className={`pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent ${style.glow}`}
-              />
-
-              <div className="relative flex flex-col gap-1 px-4 py-3">
-                <p className="font-sans font-medium leading-snug text-card-foreground text-pretty">
-                  {card.name}
-                </p>
-                <p className={`font-mono text-xs uppercase tracking-[0.18em] ${style.text}`}>
-                  {card.rarity}
-                </p>
-                {card.mintStatus === 'minted' ? (
-                  <dl className="mt-2 flex flex-col gap-1 border-t border-border pt-2 font-mono text-xs text-muted-foreground">
-                    <div>
-                      <dt className="sr-only">NFT ID</dt>
-                      <dd className="break-all">NFT {card.nftId}</dd>
+            <li key={card?.id ?? index} className="tarot-slot min-w-0 flex-1">
+              {card ? (
+                <article className="tarot-card tarot-reveal overflow-hidden border border-gold/55 bg-card shadow-2xl">
+                  <div className="relative aspect-[2/3] overflow-hidden bg-muted">
+                    <Image
+                      src={card.image}
+                      alt={`${card.name}, ${card.rarity} card`}
+                      fill
+                      priority
+                      sizes="(max-width: 640px) 30vw, 220px"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 sm:px-4 sm:pb-4">
+                      <p className="font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
+                        {card.name}
+                      </p>
+                      <p className="mt-1 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-gold sm:text-xs">
+                        {card.rarity}
+                      </p>
                     </div>
-                    <div>
-                      <dt className="sr-only">Offer ID</dt>
-                      <dd className="break-all">Offer {card.offerId}</dd>
-                    </div>
-                  </dl>
-                ) : card.mintStatus ? (
-                  <p className="mt-2 border-t border-border pt-2 text-sm leading-relaxed text-muted-foreground">
-                    {card.mintStatus === 'skipped' ? 'Mint skipped: ' : 'Mint failed: '}
-                    {card.reason}
-                  </p>
-                ) : null}
-              </div>
+                  </div>
+                  <div className="hidden p-3 sm:block">
+                    <CardDetails card={card} />
+                  </div>
+                </article>
+              ) : (
+                <div className="tarot-card tarot-back" aria-label={`Face-down card ${index + 1}`}>
+                  <div className="tarot-back-inner">
+                    <span className="tarot-orbit" aria-hidden="true" />
+                    <span className="tarot-moon" aria-hidden="true" />
+                    <span className="sr-only">Face-down card {index + 1}</span>
+                  </div>
+                </div>
+              )}
             </li>
           )
         })}
-      </ul>
+      </ol>
     </section>
   )
 }
