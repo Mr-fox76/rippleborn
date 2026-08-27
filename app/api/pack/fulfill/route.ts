@@ -22,6 +22,7 @@ type FulfilledCard = Card & {
 
 type AccountTransaction = {
   validated?: boolean
+  hash?: string
   meta?: TransactionMetadata | string
   tx?: Record<string, unknown>
   tx_json?: Record<string, unknown>
@@ -51,6 +52,13 @@ async function findPayment(
       const meta = entry.meta
       const successful =
         typeof meta === 'object' && meta !== null && meta.TransactionResult === 'tesSUCCESS'
+      const requestedAmount = transaction.Amount ?? transaction.DeliverMax
+      const transactionHash =
+        typeof entry.hash === 'string'
+          ? entry.hash
+          : typeof transaction.hash === 'string'
+            ? transaction.hash
+            : null
 
       if (
         entry.validated === true &&
@@ -58,10 +66,11 @@ async function findPayment(
         transaction.TransactionType === 'Payment' &&
         transaction.Account === buyer &&
         transaction.Destination === config.treasuryAddress &&
-        transaction.Amount === config.packPriceDrops &&
+        typeof requestedAmount === 'string' &&
+        requestedAmount === config.packPriceDrops &&
         transaction.DestinationTag === destinationTag
       ) {
-        return typeof transaction.hash === 'string' ? transaction.hash : 'validated-payment'
+        return transactionHash ?? 'validated-payment'
       }
     }
 
@@ -98,7 +107,7 @@ export async function POST(request: Request) {
       if (!paymentTransaction) {
         return NextResponse.json(
           {
-            error: `No validated ${config.packPriceDrops}-drop payment was found for destination tag ${destinationTag}.`,
+            error: `No validated payment matching buyer, treasury, ${config.packPriceDrops}-drop amount, and destination tag ${destinationTag} was found.`,
           },
           { status: 402 },
         )
