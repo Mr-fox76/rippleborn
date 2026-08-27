@@ -43,7 +43,7 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
     { name: 'Ledgerbound Knight', image: '/cards/ledgerbound-knight.png' },
   ],
   Epic: [
-    { name: 'Archon of Flowing Ledgers', image: '/cards/archon-of-flowing-ledgers.png' },
+    { name: 'Archon of Flowing Ledgers', image: '/cards/archon-of-flowing-ledgers.png', uri: "ipfs://bafybeiaz62xd2zbtjhfqnad3pymg2q3sjxj5l3r3q2stcerfowsv4e33ga" },
     { name: 'Abyssal Consensus', image: '/cards/abyssal-consensus.png' },
     { name: 'Stormforge Oracle', image: '/cards/stormforge-oracle.png' },
     { name: 'Warden of Split Tides', image: '/cards/warden-of-split-tides.png' },
