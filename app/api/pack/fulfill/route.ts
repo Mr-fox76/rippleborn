@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server'
 import type { Client, TransactionMetadata } from 'xrpl'
-import { rollPack, type Card } from '@/lib/rippleborn'
+import { createPhoenixCard, rollPack, type Card } from '@/lib/rippleborn'
+import {
+  getPhoenixReservation,
+  markPhoenixFailed,
+  markPhoenixMinted,
+  PHOENIX_DROP_CHANCE,
+  phoenixMetadataReady,
+  reservePhoenixEdition,
+} from '@/lib/phoenix-editions'
 import {
   encodeMetadataUri,
   getXrplConfig,
@@ -114,9 +122,34 @@ export async function POST(request: Request) {
       }
 
       const cards = rollPack()
+      const existingPhoenix = await getPhoenixReservation(destinationTag)
+      const phoenixReservation =
+        existingPhoenix ??
+        (phoenixMetadataReady() && Math.random() < PHOENIX_DROP_CHANCE
+          ? await reservePhoenixEdition(destinationTag, buyer)
+          : null)
+
+      if (phoenixReservation) {
+        cards[2] = createPhoenixCard(phoenixReservation.edition, phoenixReservation.metadataUri)
+      }
+
       const fulfilledCards: FulfilledCard[] = []
 
       for (const card of cards) {
+        if (
+          card.limited &&
+          phoenixReservation?.status === 'minted' &&
+          phoenixReservation.nftId &&
+          phoenixReservation.offerId
+        ) {
+          fulfilledCards.push({
+            ...card,
+            mintStatus: 'minted',
+            nftId: phoenixReservation.nftId,
+            offerId: phoenixReservation.offerId,
+          })
+          continue
+        }
         if (!encodeMetadataUri(card.uri)) {
           fulfilledCards.push({
             ...card,
@@ -128,13 +161,16 @@ export async function POST(request: Request) {
 
         try {
           const minted = await mintCardNft(client, config, buyer, card.uri as string)
+          if (card.limited) {
+            await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
+          }
           fulfilledCards.push({ ...card, ...minted, mintStatus: 'minted' })
         } catch (error) {
-          fulfilledCards.push({
-            ...card,
-            mintStatus: 'failed',
-            reason: error instanceof Error ? error.message : 'XRPL minting failed.',
-          })
+          const reason = error instanceof Error ? error.message : 'XRPL minting failed.'
+          if (card.limited) {
+            await markPhoenixFailed(destinationTag, reason)
+          }
+          fulfilledCards.push({ ...card, mintStatus: 'failed', reason })
         }
       }
 

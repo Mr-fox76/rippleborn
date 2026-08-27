@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Loader2, Sparkles } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
+import { RarityOdds } from '@/components/rarity-odds'
 import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
@@ -240,6 +241,10 @@ export function PackShop() {
           </details>
         ) : null}
       </section>
+
+      <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">
+        <RarityOdds />
+      </aside>
     </div>
   )
 }

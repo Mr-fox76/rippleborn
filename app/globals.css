@@ -475,6 +475,21 @@
   background: color-mix(in oklch, var(--rarity-color) 14%, var(--card));
 }
 
+.phoenix-reveal {
+  border-color: color-mix(in oklch, var(--primary) 48%, var(--accent));
+  box-shadow:
+    0 1.5rem 4rem oklch(0.05 0.035 285 / 72%),
+    0 0 2.5rem color-mix(in oklch, var(--accent) 32%, transparent),
+    0 0 5rem color-mix(in oklch, var(--primary) 18%, transparent);
+}
+
+.phoenix-edition {
+  border-color: color-mix(in oklch, var(--foreground) 55%, var(--primary));
+  color: var(--foreground);
+  background: color-mix(in oklch, var(--accent) 58%, var(--card));
+  box-shadow: 0 0 1.25rem color-mix(in oklch, var(--primary) 35%, transparent);
+}
+
 .tarot-reveal {
   aspect-ratio: auto;
   transform-origin: center center;

@@ -62,6 +62,16 @@ export function RarityOdds() {
           )
         })}
       </dl>
+
+      <div className="rounded-lg border border-accent/40 bg-accent/10 p-3">
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+          Limited Phoenix · 0.1% per pack
+        </p>
+        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+          Only five numbered editions can ever be minted. The special third-slot pull ends when the
+          collection sells out.
+        </p>
+      </div>
     </section>
   )
 }

@@ -100,7 +100,7 @@ function RevealedSpread({ cards, buyer }: { cards: FulfilledCard[]; buyer: strin
           <li key={card?.id ?? index} className="tarot-slot min-w-0 flex-1">
             {card && isRevealed ? (
               <article
-                className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} overflow-hidden border bg-card shadow-2xl`}
+                className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
               >
                 <div className="relative aspect-[2/3] overflow-hidden bg-muted">
                   <Image
@@ -111,6 +111,11 @@ function RevealedSpread({ cards, buyer }: { cards: FulfilledCard[]; buyer: strin
                     sizes="(max-width: 640px) 30vw, 220px"
                     className="object-cover"
                   />
+                  {card.limited && card.edition && card.maxSupply ? (
+                    <span className="phoenix-edition absolute right-2 top-2 z-10 rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:right-3 sm:top-3 sm:text-xs">
+                      Edition {card.edition}/{card.maxSupply}
+                    </span>
+                  ) : null}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 sm:px-4 sm:pb-4">
                     <p className="font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
                       {card.name}

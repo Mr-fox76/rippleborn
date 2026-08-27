@@ -11,6 +11,9 @@ export type Card = {
   image: string
   /** Public token metadata URI encoded into the XRPL NFT when available. */
   uri?: string
+  edition?: number
+  maxSupply?: number
+  limited?: boolean
 }
 
 export const PACK_PRICE_XRP = 5
@@ -84,6 +87,20 @@ export function rollRarity(slot: number): Rarity {
 function pickCard(rarity: Rarity): CardArt {
   const pool = CARD_POOL[rarity]
   return pool[Math.floor(Math.random() * pool.length)]
+}
+
+export function createPhoenixCard(edition: number, uri: string): Card {
+  return {
+    id: `3-phoenix-${edition}`,
+    name: 'The Phoenix',
+    rarity: 'Mythic',
+    slot: 3,
+    image: '/cards/the-phoenix.png',
+    uri,
+    edition,
+    maxSupply: 5,
+    limited: true,
+  }
 }
 
 /** Rolls a full 3-card pack, one card per slot. */
