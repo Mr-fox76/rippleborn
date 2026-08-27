@@ -115,10 +115,31 @@
 
 .tarot-back {
   position: relative;
+  display: block;
   padding: 0.4rem;
   border: 1px solid oklch(0.73 0.115 78 / 70%);
   background: var(--card);
   box-shadow: 0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%);
+}
+
+.tarot-reveal-button {
+  cursor: pointer;
+  color: inherit;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.tarot-reveal-button:hover {
+  border-color: var(--gold);
+  box-shadow: 0 1.75rem 4rem oklch(0.09 0.025 164 / 65%);
+  transform: translateY(-0.4rem);
+}
+
+.tarot-reveal-button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 0.3rem;
 }
 
 .tarot-back::before {
@@ -184,14 +205,6 @@
   will-change: transform, opacity, filter;
 }
 
-.tarot-slot:nth-child(2) .tarot-reveal {
-  animation-delay: 180ms;
-}
-
-.tarot-slot:nth-child(3) .tarot-reveal {
-  animation-delay: 360ms;
-}
-
 @keyframes card-reveal {
   0% {
     opacity: 0;
@@ -227,5 +240,9 @@
 @media (prefers-reduced-motion: reduce) {
   .tarot-reveal {
     animation: none;
+  }
+
+  .tarot-reveal-button {
+    transition: none;
   }
 }
