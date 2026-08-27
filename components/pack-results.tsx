@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { ClaimNftButton } from '@/components/claim-nft-button'
 import type { Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
@@ -39,7 +40,13 @@ function CardDetails({ card }: { card: FulfilledCard }) {
   return null
 }
 
-export function TarotCards({ cards }: { cards: FulfilledCard[] | null }) {
+export function TarotCards({
+  cards,
+  buyer,
+}: {
+  cards: FulfilledCard[] | null
+  buyer: string | null
+}) {
   return (
     <section aria-label={cards ? 'Your revealed cards' : 'Three face-down cards'}>
       <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
@@ -68,8 +75,11 @@ export function TarotCards({ cards }: { cards: FulfilledCard[] | null }) {
                       </p>
                     </div>
                   </div>
-                  <div className="hidden p-3 sm:block">
+                  <div className="p-3">
                     <CardDetails card={card} />
+                    {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
+                      <ClaimNftButton buyer={buyer} nftId={card.nftId} offerId={card.offerId} />
+                    ) : null}
                   </div>
                 </article>
               ) : (

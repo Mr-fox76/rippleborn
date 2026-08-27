@@ -111,7 +111,7 @@ export function PackShop() {
         <p className="text-sm leading-relaxed text-muted-foreground">Three XRPL NFTs · 5 XRP</p>
       </div>
 
-      <TarotCards cards={cards} />
+      <TarotCards cards={cards} buyer={order?.buyer ?? null} />
 
       <section
         aria-label="Open a pack"
