@@ -12,6 +12,14 @@ export type FulfilledCard = Card & {
   reason?: string
 }
 
+const RARITY_CLASSES: Record<Card['rarity'], string> = {
+  Common: 'rarity-common',
+  Rare: 'rarity-rare',
+  Epic: 'rarity-epic',
+  Legendary: 'rarity-legendary',
+  Mythic: 'rarity-mythic',
+}
+
 function CardDetails({ card }: { card: FulfilledCard }) {
   if (card.mintStatus === 'minted') {
     return (
@@ -88,7 +96,9 @@ function RevealedSpread({ cards, buyer }: { cards: FulfilledCard[]; buyer: strin
         return (
           <li key={card?.id ?? index} className="tarot-slot min-w-0 flex-1">
             {card && isRevealed ? (
-              <article className="tarot-card tarot-reveal overflow-hidden border border-gold/55 bg-card shadow-2xl">
+              <article
+                className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} overflow-hidden border bg-card shadow-2xl`}
+              >
                 <div className="relative aspect-[2/3] overflow-hidden bg-muted">
                   <Image
                     src={card.image}
@@ -102,7 +112,7 @@ function RevealedSpread({ cards, buyer }: { cards: FulfilledCard[]; buyer: strin
                     <p className="font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
                       {card.name}
                     </p>
-                    <p className="mt-1 font-mono text-[0.6rem] uppercase tracking-[0.18em] text-gold sm:text-xs">
+                    <p className="rarity-badge mt-2 inline-flex rounded-full border px-2 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] sm:text-xs">
                       {card.rarity}
                     </p>
                   </div>
