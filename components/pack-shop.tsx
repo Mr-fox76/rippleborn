@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Loader2, Sparkles } from 'lucide-react'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { Button } from '@/components/ui/button'
+import { XamanPaymentButton } from '@/components/xaman-payment-button'
+import { useXamanWallet } from '@/components/xaman-wallet-provider'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
@@ -17,11 +19,14 @@ type Order = {
 }
 
 export function PackShop() {
+  const { account } = useXamanWallet()
   const [buyer, setBuyer] = useState('')
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
+
+  const activeBuyer = account ?? buyer.trim()
 
   async function createOrder() {
     setPending('create')
@@ -32,7 +37,7 @@ export function PackShop() {
       const response = await fetch('/api/pack/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ buyer }),
+        body: JSON.stringify({ buyer: activeBuyer }),
       })
       const data = await response.json()
 
@@ -44,7 +49,7 @@ export function PackShop() {
 
       setOrder({
         orderId: data.orderId,
-        buyer: buyer.trim(),
+        buyer: activeBuyer,
         destinationAddress: data.destinationAddress,
         destinationTag: data.destinationTag,
         amountDrops: data.amountDrops,
@@ -127,17 +132,19 @@ export function PackShop() {
           <input
             id="xrpl-address"
             name="xrpl-address"
-            value={buyer}
+            value={account ?? buyer}
             onChange={(event) => setBuyer(event.target.value)}
             placeholder="r..."
-            disabled={order !== null}
+            disabled={order !== null || account !== null}
             autoComplete="off"
             spellCheck={false}
             aria-describedby="address-hint"
             className="w-full rounded-md border border-input bg-background/70 px-3 py-2.5 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-70"
           />
           <p id="address-hint" className="text-xs text-muted-foreground">
-            Use the same wallet to pay and receive the cards. Never share your seed.
+            {account
+              ? 'Connected with Xaman. This wallet will pay and receive the cards.'
+              : 'Use the same wallet to pay and receive the cards. Never share your seed.'}
           </p>
         </div>
 
@@ -170,6 +177,21 @@ export function PackShop() {
             {status.message || 'Enter your XRPL address to begin.'}
           </p>
         </div>
+
+        {order && account === order.buyer && !cards ? (
+          <XamanPaymentButton
+            buyer={order.buyer}
+            orderId={order.orderId}
+            onSubmitted={(transactionHash) =>
+              setStatus({
+                tone: 'success',
+                message: transactionHash
+                  ? 'Payment submitted to XRPL. Wait a few seconds, then reveal your cards.'
+                  : 'Payment submitted. Wait a few seconds, then reveal your cards.',
+              })
+            }
+          />
+        ) : null}
 
         {order ? (
           <details className="rounded-md border border-border bg-background/55 px-3 py-2.5 font-mono text-xs text-muted-foreground" open>
