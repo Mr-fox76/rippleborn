@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Loader2, Sparkles } from 'lucide-react'
+import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
@@ -23,6 +24,7 @@ export function PackShop() {
   const [buyer, setBuyer] = useState('')
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
+  const [packOpened, setPackOpened] = useState(false)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
 
@@ -31,6 +33,7 @@ export function PackShop() {
   async function createOrder() {
     setPending('create')
     setCards(null)
+    setPackOpened(false)
     setStatus({ tone: 'pending', message: 'Preparing your reading…' })
 
     try {
@@ -89,7 +92,8 @@ export function PackShop() {
       }
 
       setCards(data.cards)
-      setStatus({ tone: 'success', message: 'The ledger has spoken. Your cards are revealed.' })
+      setPackOpened(false)
+      setStatus({ tone: 'success', message: 'The ledger has spoken. Open your sealed pack.' })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
     } finally {
@@ -116,7 +120,16 @@ export function PackShop() {
         <p className="text-sm leading-relaxed text-muted-foreground">Three XRPL NFTs · 5 XRP</p>
       </div>
 
-      <TarotCards cards={cards} buyer={order?.buyer ?? null} />
+      {cards && !packOpened ? (
+        <PackOpening
+          onComplete={() => {
+            setPackOpened(true)
+            setStatus({ tone: 'success', message: 'Choose each card to reveal your pull.' })
+          }}
+        />
+      ) : (
+        <TarotCards cards={packOpened ? cards : null} buyer={order?.buyer ?? null} />
+      )}
 
       <section
         aria-label="Open a pack"
