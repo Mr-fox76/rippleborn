@@ -40,7 +40,7 @@ function parseUnsignedInteger(name: string, value: string, maximum: number): num
 }
 
 export function getXrplConfig(): XrplConfig {
-  const websocketUrl = requiredEnvironmentValue('XRPL_WSS')
+  const websocketUrl = process.env.XRPL_WSS?.trim() || 'wss://s.altnet.rippletest.net:51233'
   const treasuryAddress = requiredEnvironmentValue('TREASURY_ADDRESS')
   const issuerAddress = requiredEnvironmentValue('ISSUER_ADDRESS')
   const packPriceDrops = requiredEnvironmentValue('PACK_PRICE_DROPS')
