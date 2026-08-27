@@ -10,7 +10,7 @@ export function SiteHero() {
           alt=""
           width={72}
           height={72}
-          className="size-16 rounded-full object-cover ring-1 ring-gold/60 sm:size-20"
+          className="size-16 rounded-full object-cover shadow-lg shadow-primary/20 ring-1 ring-primary/50 sm:size-20"
           priority
         />
       </a>

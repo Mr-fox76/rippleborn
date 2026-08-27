@@ -118,8 +118,8 @@ export function PackShop() {
           Draw three from the ledger
         </h1>
         <p className="max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Discover a unique collection of frontier-inspired, collectible NFTs—minted on the XRPL and
-          drawn from packs where every reveal holds its own rarity and story.
+          Discover a unique collection of celestial, collectible NFTs—minted on the XRPL and drawn
+          from packs where every reveal holds its own rarity and story.
         </p>
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-gold">
           Three collectible NFTs · 5 XRP
