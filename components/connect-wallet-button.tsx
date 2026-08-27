@@ -43,7 +43,7 @@ export function ConnectWalletButton() {
         ) : (
           <Wallet className="size-5" aria-hidden="true" />
         )}
-        {status?.status === 'pending' ? 'Waiting for Xaman' : 'Connect wallet'}
+        {status?.status === 'pending' ? 'Waiting for Xaman' : 'Connect Xaman'}
       </Button>
 
       {request ? (
