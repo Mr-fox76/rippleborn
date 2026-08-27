@@ -1,0 +1,7 @@
+{
+  id: "archon-flowing-ledgers",
+  name: "Archon of Flowing Ledgers",
+  rarity: "Legendary", // or whatever it is
+  image: "/cards/archon-of-flowing-ledgers.png",
+  uri: "ipfs://bafybeiaz62xd2zbtjhfqnad3pymg2q3sjxj5l3r3q2stcerfowsv4e33ga",
+}
