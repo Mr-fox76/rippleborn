@@ -11,6 +11,7 @@ type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string 
 
 type Order = {
   orderId: number
+  buyer: string
   destinationAddress: string
   destinationTag: number
   amountDrops: string
@@ -45,6 +46,7 @@ export function PackShop() {
 
       setOrder({
         orderId: data.orderId,
+        buyer: buyer.trim(),
         destinationAddress: data.destinationAddress,
         destinationTag: data.destinationTag,
         amountDrops: data.amountDrops,
@@ -74,7 +76,7 @@ export function PackShop() {
       const res = await fetch('/api/pack/fulfill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: order.orderId, buyer }),
+        body: JSON.stringify({ orderId: order.orderId, buyer: order.buyer }),
       })
       const data = await res.json()
 
@@ -162,6 +164,7 @@ export function PackShop() {
             value={buyer}
             onChange={(e) => setBuyer(e.target.value)}
             placeholder="r..."
+            disabled={order !== null}
             autoComplete="off"
             spellCheck={false}
             aria-describedby="address-hint"
@@ -175,7 +178,7 @@ export function PackShop() {
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button
             onClick={createOrder}
-            disabled={pending !== null}
+            disabled={pending !== null || order !== null}
             className="flex-1 bg-primary font-medium text-primary-foreground hover:bg-primary/90"
           >
             {pending === 'create' ? (
@@ -210,6 +213,10 @@ export function PackShop() {
           </p>
           {order ? (
             <dl className="mt-3 flex flex-col gap-2 border-t border-border pt-3 font-mono text-xs text-muted-foreground">
+              <div className="flex flex-col gap-1">
+                <dt className="uppercase tracking-wider">Pay from / NFT recipient</dt>
+                <dd className="break-all text-foreground">{order.buyer}</dd>
+              </div>
               <div className="flex flex-col gap-1">
                 <dt className="uppercase tracking-wider">Destination</dt>
                 <dd className="break-all text-foreground">{order.destinationAddress}</dd>

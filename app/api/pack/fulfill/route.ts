@@ -107,7 +107,7 @@ export async function POST(request: Request) {
       if (!paymentTransaction) {
         return NextResponse.json(
           {
-            error: `No validated payment matching buyer, treasury, ${config.packPriceDrops}-drop amount, and destination tag ${destinationTag} was found.`,
+            error: `A matching payment was not found. The payment must be sent from ${buyer} to the displayed treasury for exactly ${config.packPriceDrops} drops with destination tag ${destinationTag}.`,
           },
           { status: 402 },
         )
