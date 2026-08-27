@@ -84,7 +84,7 @@
   background-color: var(--background);
   background-image:
     radial-gradient(ellipse at center, transparent 12%, oklch(0.09 0.025 55 / 66%) 100%),
-    linear-gradient(oklch(0.11 0.025 55 / 18%), oklch(0.11 0.025 55 / 18%)),
+    linear-gradient(oklch(0.08 0.025 55 / 30%), oklch(0.08 0.025 55 / 30%)),
     url('/images/old-wood-tabletop.png');
   background-position: center;
   background-size: cover;
