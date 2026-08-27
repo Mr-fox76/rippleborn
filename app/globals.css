@@ -83,8 +83,12 @@
   isolation: isolate;
   background-color: var(--background);
   background-image:
-    radial-gradient(ellipse at center, transparent 15%, oklch(0.09 0.025 164 / 58%) 100%),
-    repeating-linear-gradient(112deg, transparent 0 3px, oklch(0.93 0.025 83 / 1.4%) 3px 4px);
+    radial-gradient(ellipse at center, transparent 12%, oklch(0.09 0.025 55 / 66%) 100%),
+    linear-gradient(oklch(0.11 0.025 55 / 18%), oklch(0.11 0.025 55 / 18%)),
+    url('/images/old-wood-tabletop.png');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 .table-surface::before {
