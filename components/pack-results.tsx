@@ -54,8 +54,13 @@ function CardDetails({ card }: { card: FulfilledCard }) {
 function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => void }) {
   const content = (
     <div className="tarot-back-inner">
-      <span className="tarot-orbit" aria-hidden="true" />
-      <span className="tarot-moon" aria-hidden="true" />
+      <span className="western-rule western-rule-top" aria-hidden="true" />
+      <span className="western-badge" aria-hidden="true">
+        <span>R</span>
+      </span>
+      <span className="western-card-name" aria-hidden="true">Rippleborn</span>
+      <span className="western-card-motto" aria-hidden="true">Frontier Collection</span>
+      <span className="western-rule western-rule-bottom" aria-hidden="true" />
       <span className="sr-only">Face-down card {index + 1}</span>
     </div>
   )
