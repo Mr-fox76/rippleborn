@@ -33,22 +33,21 @@ export function ConnectWalletButton() {
   return (
     <div className="relative flex flex-col items-end gap-1">
       <Button
-        variant="outline"
-        size="sm"
+        size="lg"
         onClick={connect}
         disabled={creating || status?.status === 'pending'}
-        className="border-primary/40 bg-transparent text-primary hover:bg-primary/10 hover:text-primary"
+        className="min-h-12 border border-gold bg-gold px-6 font-semibold text-card shadow-lg shadow-gold/20 hover:bg-gold/90 hover:text-card sm:min-w-52"
       >
         {creating || status?.status === 'pending' ? (
-          <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+          <Loader2 className="size-5 animate-spin" aria-hidden="true" />
         ) : (
-          <Wallet className="size-4" aria-hidden="true" />
+          <Wallet className="size-5" aria-hidden="true" />
         )}
         {status?.status === 'pending' ? 'Waiting for Xaman' : 'Connect wallet'}
       </Button>
 
       {request ? (
-        <div className="absolute right-0 top-11 z-50 flex w-56 flex-col items-center gap-3 border border-gold/45 bg-card p-4 text-center shadow-2xl">
+        <div className="absolute right-0 top-14 z-50 flex w-56 flex-col items-center gap-3 border border-gold/45 bg-card p-4 text-center shadow-2xl">
           <Image
             src={request.qrUrl}
             alt="Scan to connect your wallet in Xaman"
