@@ -14,8 +14,13 @@ export type PhoenixReservation = {
 }
 
 function metadataUriForEdition(edition: number) {
-  const value = process.env[`PHOENIX_EDITION_${edition}_URI`]
-  return value?.startsWith('ipfs://') ? value : null
+  const value = process.env[`PHOENIX_EDITION_${edition}_URI`]?.trim()
+  if (!value) return null
+
+  if (value.startsWith('ipfs://')) return value
+  if (/^(bafy|bafk|Qm)[A-Za-z0-9]+$/.test(value)) return `ipfs://${value}`
+
+  return null
 }
 
 export function phoenixMetadataReady() {
