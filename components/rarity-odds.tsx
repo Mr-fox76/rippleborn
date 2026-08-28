@@ -1,3 +1,4 @@
+import type { CollectionStats } from '@/lib/pack-results'
 import type { Rarity } from '@/lib/rippleborn'
 
 const CATEGORIES: Array<{ name: Rarity; description: string; className: string }> = [
@@ -8,9 +9,29 @@ const CATEGORIES: Array<{ name: Rarity; description: string; className: string }
   { name: 'Mythic', description: 'The highest tier of standard Rippleborn cards.', className: 'rarity-mythic' },
 ]
 
-export function RarityOdds() {
+export function RarityOdds({ stats }: { stats: CollectionStats }) {
+  const counters = [
+    { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
+    { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
+    { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
+    { label: 'Limited', value: stats.limitedFound, className: 'rarity-limited' },
+  ]
+
   return (
     <section aria-label="Card categories" className="flex flex-col gap-5">
+      <dl aria-label="Global collection totals" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {counters.map((counter) => (
+          <div key={counter.label} className="rounded-lg border border-border bg-card/55 p-3 text-center">
+            <dd className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}>
+              {counter.value.toLocaleString()}
+            </dd>
+            <dt className="mt-1 text-[0.7rem] font-medium uppercase tracking-wider text-muted-foreground">
+              {counter.label}
+            </dt>
+          </div>
+        ))}
+      </dl>
+
       <div className="flex flex-col gap-1">
         <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
           Discover every category

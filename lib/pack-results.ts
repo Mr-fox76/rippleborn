@@ -18,6 +18,20 @@ export type PackResultRecord = {
   status: string
 }
 
+export type CollectionStats = {
+  packsOpened: number
+  legendaryFound: number
+  mythicFound: number
+  limitedFound: number
+}
+
+export const EMPTY_COLLECTION_STATS: CollectionStats = {
+  packsOpened: 0,
+  legendaryFound: 0,
+  mythicFound: 0,
+  limitedFound: 0,
+}
+
 function canonicalCards(cards: Card[]) {
   return JSON.stringify(
     cards.map((card) => ({
@@ -38,6 +52,32 @@ export function createPackCommitment(paymentTxHash: string, cards: Card[]) {
   return createHash('sha256')
     .update(`${paymentTxHash}:${canonicalCards(cards)}`)
     .digest('hex')
+}
+
+export async function getCollectionStats(): Promise<CollectionStats> {
+  const fulfilledPacks = await db
+    .select({ cards: packResults.cardsJson })
+    .from(packResults)
+    .where(eq(packResults.status, 'fulfilled'))
+
+  return fulfilledPacks.reduce<CollectionStats>(
+    (stats, record) => {
+      stats.packsOpened += 1
+
+      for (const card of record.cards as Card[]) {
+        if (card.limited && card.name === 'The Phoenix') {
+          stats.limitedFound += 1
+        } else if (card.rarity === 'Legendary') {
+          stats.legendaryFound += 1
+        } else if (card.rarity === 'Mythic') {
+          stats.mythicFound += 1
+        }
+      }
+
+      return stats
+    },
+    { ...EMPTY_COLLECTION_STATS },
+  )
 }
 
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {

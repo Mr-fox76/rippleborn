@@ -2,14 +2,19 @@ import { NetworkStatus } from '@/components/network-status'
 import { PackShop } from '@/components/pack-shop'
 import { SiteHero } from '@/components/site-hero'
 import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
+import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
 
-export default function Page() {
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+  const collectionStats = await getCollectionStats().catch(() => EMPTY_COLLECTION_STATS)
+
   return (
     <XamanWalletProvider>
       <div className="table-surface flex min-h-svh flex-col">
       <SiteHero />
       <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-4 py-8 sm:px-6 sm:py-10">
-        <PackShop />
+        <PackShop collectionStats={collectionStats} />
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 px-6 py-5 text-center sm:flex-row sm:justify-center">
         <NetworkStatus />

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
@@ -8,6 +9,7 @@ import { RarityOdds } from '@/components/rarity-odds'
 import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import type { CollectionStats } from '@/lib/pack-results'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
@@ -20,7 +22,8 @@ type Order = {
   priceXrp: string
 }
 
-export function PackShop() {
+export function PackShop({ collectionStats }: { collectionStats: CollectionStats }) {
+  const router = useRouter()
   const { account } = useXamanWallet()
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
@@ -105,6 +108,7 @@ export function PackShop() {
       setCards(data.cards)
       setPackOpened(false)
       setStatus({ tone: 'success', message: 'The ledger has spoken. Open your sealed pack.' })
+      router.refresh()
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
     } finally {
@@ -210,7 +214,7 @@ export function PackShop() {
       </section>
 
       <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">
-        <RarityOdds />
+          <RarityOdds stats={collectionStats} />
       </aside>
     </div>
   )
