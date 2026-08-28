@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
@@ -173,8 +172,8 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
       {!order && !cards ? (
         <section aria-label="Choose a card set" className="mx-auto grid w-full max-w-2xl grid-cols-2 gap-3">
           {([
-            { id: 'ledgerborn', name: 'Ledgerborn', kicker: 'Mythical Set', image: '/cards/the-phoenix.png' },
-            { id: 'cyborg-cowboy', name: 'Cyborg Cowboy', kicker: 'Frontier Set', image: '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png' },
+            { id: 'ledgerborn', name: 'Ledgerborn', kicker: 'Mythical Set' },
+            { id: 'cyborg-cowboy', name: 'Cyborg Cowboy', kicker: 'Frontier Set' },
           ] as const).map((pack) => (
             <button
               key={pack.id}
@@ -183,8 +182,10 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
               onClick={() => setSelectedSet(pack.id)}
               className={`group flex flex-col overflow-hidden border text-left transition-colors ${selectedSet === pack.id ? 'border-primary bg-primary/10' : 'border-border bg-card/70 hover:border-primary/60'}`}
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
-                <Image src={pack.image} alt="" fill sizes="(max-width: 640px) 50vw, 320px" className="object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+              <div className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-muted">
+                <span className="foil-pack-sigil scale-125 transition-transform duration-300 group-hover:scale-[1.35]" aria-hidden="true">
+                  <span />
+                </span>
               </div>
               <span className="flex flex-col gap-1 p-3">
                 <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-gold">{pack.kicker}</span>
