@@ -1,6 +1,12 @@
 import { bigint, bigserial, jsonb, smallint, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core'
 import { pgTable } from 'drizzle-orm/pg-core'
 
+export const siteCounters = pgTable('site_counters', {
+  counterKey: text('counter_key').primaryKey(),
+  visitCount: bigint('visit_count', { mode: 'bigint' }).notNull().default(BigInt(0)),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
 export const packResults = pgTable(
   'pack_results',
   {
