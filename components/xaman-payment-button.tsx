@@ -96,7 +96,7 @@ export function XamanPaymentButton({
           type="button"
           onClick={createPayment}
           disabled={creating || disabled}
-          className="primary-action w-full font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+          className="primary-action min-h-14 w-full px-6 font-mono text-sm font-semibold uppercase tracking-[0.14em] sm:min-h-10 sm:text-xs"
         >
           {creating ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Smartphone className="size-4" aria-hidden="true" />}
           {creating ? 'Preparing Xaman…' : label}

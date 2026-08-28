@@ -174,11 +174,11 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
         aria-label="Open a pack"
         className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
       >
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
           <Button
             onClick={createOrder}
             disabled={!account || pending !== null || order !== null}
-            className="primary-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+            className="primary-action min-h-14 w-full flex-1 px-6 font-mono text-sm font-semibold uppercase tracking-[0.14em] sm:min-h-10 sm:text-xs"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
             Prepare pack
@@ -199,7 +199,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
             <Button
               disabled
               variant="outline"
-              className="ghost-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+              className="ghost-action min-h-14 w-full flex-1 px-6 font-mono text-sm font-semibold uppercase tracking-[0.14em] sm:min-h-10 sm:text-xs"
             >
               <Sparkles className="size-4" aria-hidden="true" />
               Open pack
