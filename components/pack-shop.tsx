@@ -83,7 +83,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
     }
   }
 
-  async function fulfillOrder() {
+  async function fulfillOrder(transactionHash?: string) {
     if (!order) {
       setStatus({ tone: 'error', message: 'Create a pack order first.' })
       return
@@ -96,7 +96,11 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
       const response = await fetch('/api/pack/fulfill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: order.orderId, buyer: order.buyer }),
+        body: JSON.stringify({
+          orderId: order.orderId,
+          buyer: order.buyer,
+          transactionHash,
+        }),
       })
       const data = await response.json()
 
@@ -194,9 +198,9 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
               orderId={order.orderId}
               label={pending === 'fulfill' ? 'Opening pack…' : 'Open pack'}
               disabled={pending !== null}
-              onSubmitted={() => {
+              onSubmitted={(transactionHash) => {
                 setStatus({ tone: 'pending', message: 'Payment received. Reading the ledger…' })
-                window.setTimeout(() => void fulfillOrder(), 2500)
+                void fulfillOrder(transactionHash)
               }}
             />
           ) : (

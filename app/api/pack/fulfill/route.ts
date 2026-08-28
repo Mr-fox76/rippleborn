@@ -60,6 +60,59 @@ async function validateCardMetadata(card: { name: string; uri?: string; limited?
   }
 }
 
+function getTransactionResult(meta: unknown): string | null {
+  if (typeof meta !== 'object' || meta === null) return null
+  const result = (meta as { TransactionResult?: unknown }).TransactionResult
+  return typeof result === 'string' ? result : null
+}
+
+function verifyPaymentTransaction(
+  transaction: Record<string, unknown>,
+  meta: unknown,
+  validated: boolean,
+  config: XrplConfig,
+  buyer: string,
+  destinationTag: number,
+): boolean {
+  const requestedAmount = transaction.Amount ?? transaction.DeliverMax
+
+  return (
+    validated &&
+    getTransactionResult(meta) === 'tesSUCCESS' &&
+    transaction.TransactionType === 'Payment' &&
+    transaction.Account === buyer &&
+    transaction.Destination === config.treasuryAddress &&
+    requestedAmount === config.packPriceDrops &&
+    transaction.DestinationTag === destinationTag
+  )
+}
+
+async function verifyPaymentByHash(
+  client: Client,
+  transactionHash: string,
+  config: XrplConfig,
+  buyer: string,
+  destinationTag: number,
+): Promise<string | null> {
+  try {
+    const response = await client.request({ command: 'tx', transaction: transactionHash })
+    const result = response.result as unknown as Record<string, unknown>
+
+    return verifyPaymentTransaction(
+      result,
+      result.meta,
+      result.validated === true,
+      config,
+      buyer,
+      destinationTag,
+    )
+      ? transactionHash
+      : null
+  } catch {
+    return null
+  }
+}
+
 async function findPayment(
   client: Client,
   config: XrplConfig,
@@ -82,9 +135,6 @@ async function findPayment(
     for (const entry of response.result.transactions as AccountTransaction[]) {
       const transaction = entry.tx_json ?? entry.tx ?? {}
       const meta = entry.meta
-      const successful =
-        typeof meta === 'object' && meta !== null && meta.TransactionResult === 'tesSUCCESS'
-      const requestedAmount = transaction.Amount ?? transaction.DeliverMax
       const transactionHash =
         typeof entry.hash === 'string'
           ? entry.hash
@@ -93,14 +143,14 @@ async function findPayment(
             : null
 
       if (
-        entry.validated === true &&
-        successful &&
-        transaction.TransactionType === 'Payment' &&
-        transaction.Account === buyer &&
-        transaction.Destination === config.treasuryAddress &&
-        typeof requestedAmount === 'string' &&
-        requestedAmount === config.packPriceDrops &&
-        transaction.DestinationTag === destinationTag
+        verifyPaymentTransaction(
+          transaction,
+          meta,
+          entry.validated === true,
+          config,
+          buyer,
+          destinationTag,
+        )
       ) {
         if (!transactionHash) {
           throw new Error('Validated payment did not include a transaction hash.')
@@ -116,7 +166,7 @@ async function findPayment(
 }
 
 export async function POST(request: Request) {
-  let body: { orderId?: unknown; buyer?: unknown }
+  let body: { orderId?: unknown; buyer?: unknown; transactionHash?: unknown }
 
   try {
     body = await request.json()
@@ -126,7 +176,14 @@ export async function POST(request: Request) {
 
   const destinationTag = parseDestinationTag(body.orderId)
   const buyer = validateBuyer(body.buyer)
+  const transactionHash =
+    typeof body.transactionHash === 'string' && /^[A-F0-9]{64}$/i.test(body.transactionHash)
+      ? body.transactionHash.toUpperCase()
+      : null
 
+  if (body.transactionHash !== undefined && !transactionHash) {
+    return NextResponse.json({ error: 'A valid XRPL transaction hash is required.' }, { status: 400 })
+  }
   if (destinationTag === null) {
     return NextResponse.json({ error: 'A valid numeric pack order ID is required.' }, { status: 400 })
   }
@@ -138,7 +195,9 @@ export async function POST(request: Request) {
     const config = getXrplConfig()
 
     return await withXrplClient(config.websocketUrl, async (client) => {
-      const paymentTransaction = await findPayment(client, config, buyer, destinationTag)
+      const paymentTransaction = transactionHash
+        ? await verifyPaymentByHash(client, transactionHash, config, buyer, destinationTag)
+        : await findPayment(client, config, buyer, destinationTag)
       if (!paymentTransaction) {
         return NextResponse.json(
           {
