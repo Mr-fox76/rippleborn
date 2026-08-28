@@ -139,7 +139,11 @@ function RevealedSpread({
               <article
                 className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
               >
-                <div className="relative aspect-[2/3] overflow-hidden bg-muted">
+                <div
+                  className="group/wisdom relative aspect-[2/3] overflow-hidden bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  tabIndex={0}
+                  aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
+                >
                   <Image
                     src={card.image}
                     alt={`${card.name}, ${card.rarity} card`}
@@ -153,7 +157,7 @@ function RevealedSpread({
                       Edition {card.edition}/{card.maxSupply}
                     </span>
                   ) : null}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 sm:px-4 sm:pb-4">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
                     <p className="font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
                       {card.name}
                     </p>
@@ -161,11 +165,13 @@ function RevealedSpread({
                       {card.rarity}
                     </p>
                   </div>
+                  <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
+                    <blockquote className="text-center font-sans text-sm italic leading-relaxed text-card-foreground text-pretty sm:text-base">
+                      “{getCardWisdom(card.name)}”
+                    </blockquote>
+                  </div>
                 </div>
                 <div className="flex flex-col gap-3 p-3">
-                  <blockquote className="border-t border-border pt-3 text-center font-sans text-sm italic leading-relaxed text-card-foreground text-pretty">
-                    “{getCardWisdom(card.name)}”
-                  </blockquote>
                   <CardDetails card={card} />
                   {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
                     <ClaimNftButton
