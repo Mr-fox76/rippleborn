@@ -1,7 +1,8 @@
 {
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "name": "Abyssal Consensus",
   "description": "Epic Rippleborn card.",
-  "image": "https://gateway.pinata.cloud/ipfs/bafybeifckuskjvilzi5662r5yfljtaoecps3uv7d2i73m2yf3irs6ryfsy",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeifckuskjvilzi5662r5yfljtaoecps3uv7d2i73m2yf3irs6ryfsy",
   "attributes": [
     { "trait_type": "Rarity", "value": "Epic" },
     { "trait_type": "Set", "value": "Rippleborn" }

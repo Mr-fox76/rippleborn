@@ -1,1 +1,15 @@
-{"name":"The Phoenix — Edition 3/5","description":"One of only five Rippleborn Phoenix NFTs ever minted. A celestial flame reborn from the living ledger.","image":"https://gateway.pinata.cloud/ipfs/bafybeih5k2vtny66ut2uhhboe47uszq534twteh6mfczby5vewgeryx7re","rarity":"Mythic","edition":3,"edition_display":"3/5","max_supply":5,"attributes":[{"trait_type":"Rarity","value":"Mythic"},{"trait_type":"Edition","value":"3/5"},{"trait_type":"Collection","value":"Rippleborn Genesis"}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "name": "The Phoenix — Edition 3/5",
+  "description": "One of only five Rippleborn Phoenix NFTs ever minted. A celestial flame reborn from the living ledger.",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeih5k2vtny66ut2uhhboe47uszq534twteh6mfczby5vewgeryx7re",
+  "rarity": "Mythic",
+  "edition": 3,
+  "edition_display": "3/5",
+  "max_supply": 5,
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Mythic" },
+    { "trait_type": "Edition", "value": "3/5" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

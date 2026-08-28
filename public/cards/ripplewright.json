@@ -1,7 +1,8 @@
 {
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "name": "Ripplewright",
   "description": "A Rare card from the Rippleborn Genesis collection.",
-  "image": "https://gateway.pinata.cloud/ipfs/bafybeidzgkipiv5jbdvpbbegw2fl2fdgoxeojy4iswrqpjoagavugrma7i",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeidzgkipiv5jbdvpbbegw2fl2fdgoxeojy4iswrqpjoagavugrma7i",
   "attributes": [
     { "trait_type": "Rarity", "value": "Rare" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

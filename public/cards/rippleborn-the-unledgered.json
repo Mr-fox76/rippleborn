@@ -1,7 +1,8 @@
 {
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "name": "Rippleborn, the Unledgered",
   "description": "A Mythic card from the Rippleborn Genesis collection.",
-  "image": "https://gateway.pinata.cloud/ipfs/bafybeiaza3drfluumimlmfbahl65bny375nt7r2wy2z4vksxddshvhtzye",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeiaza3drfluumimlmfbahl65bny375nt7r2wy2z4vksxddshvhtzye",
   "attributes": [
     { "trait_type": "Rarity", "value": "Mythic" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

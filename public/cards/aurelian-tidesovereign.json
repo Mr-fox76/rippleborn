@@ -1,7 +1,8 @@
 {
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "name": "Aurelian Tidesovereign",
   "description": "A Legendary card from the Rippleborn Genesis collection.",
-  "image": "https://gateway.pinata.cloud/ipfs/bafybeicv4pvmbxnzwxt35uwd7qfug54dnknz7rcyhg55i6sk3xk2id2vzi",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeicv4pvmbxnzwxt35uwd7qfug54dnknz7rcyhg55i6sk3xk2id2vzi",
   "attributes": [
     { "trait_type": "Rarity", "value": "Legendary" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

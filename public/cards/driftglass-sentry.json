@@ -1,7 +1,8 @@
 {
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "name": "Driftglass Sentry",
   "description": "A Common card from the Rippleborn Genesis collection.",
-   "image": "https://gateway.pinata.cloud/ipfs/bafybeifwomhmki4xpu5ienj7cj3iojjeiz2hjfc3oxhjrtjrucd5fwsiii",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeifwomhmki4xpu5ienj7cj3iojjeiz2hjfc3oxhjrtjrucd5fwsiii",
   "attributes": [
     { "trait_type": "Rarity", "value": "Common" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }
