@@ -59,7 +59,7 @@ function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => voi
       <span className="celestial-orbit" aria-hidden="true">
         <span className="celestial-core" />
       </span>
-      <span className="celestial-card-name" aria-hidden="true">Rippleborn</span>
+      <span className="celestial-card-name" aria-hidden="true">Ledgerborn</span>
       <span className="celestial-card-motto" aria-hidden="true">Genesis Collection</span>
       <span className="sr-only">Face-down card {index + 1}</span>
     </div>

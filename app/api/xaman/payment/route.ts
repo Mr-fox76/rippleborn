@@ -27,7 +27,7 @@ export async function POST(request: Request) {
       options: { submit: true, expire: 5, force_network: 'TESTNET' },
       custom_meta: {
         identifier: `rippleborn-pack-${destinationTag}`,
-        instruction: `Pay ${config.packPriceDrops} drops for Rippleborn pack ${destinationTag}.`,
+        instruction: `Pay ${config.packPriceDrops} drops for Ledgerborn pack ${destinationTag}.`,
         blob: { kind: 'pack-payment', buyer, destinationTag },
       },
     })

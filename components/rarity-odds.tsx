@@ -2,11 +2,11 @@ import type { CollectionStats } from '@/lib/pack-results'
 import type { Rarity } from '@/lib/rippleborn'
 
 const CATEGORIES: Array<{ name: Rarity; description: string; className: string }> = [
-  { name: 'Common', description: 'Foundational cards from the Rippleborn world.', className: 'rarity-common' },
+  { name: 'Common', description: 'Foundational cards from the Ledgerborn world.', className: 'rarity-common' },
   { name: 'Rare', description: 'Distinctive characters with stronger collectible appeal.', className: 'rarity-rare' },
   { name: 'Epic', description: 'Striking artwork reserved for exceptional pulls.', className: 'rarity-epic' },
   { name: 'Legendary', description: 'Prestige cards featuring the collection’s icons.', className: 'rarity-legendary' },
-  { name: 'Mythic', description: 'The highest tier of standard Rippleborn cards.', className: 'rarity-mythic' },
+  { name: 'Mythic', description: 'The highest tier of standard Ledgerborn cards.', className: 'rarity-mythic' },
 ]
 
 export function RarityOdds({ stats }: { stats: CollectionStats }) {
@@ -37,7 +37,7 @@ export function RarityOdds({ stats }: { stats: CollectionStats }) {
           Discover every category
         </h3>
         <p className="text-sm leading-relaxed text-foreground/80">
-          Every pack contains three collectible cards drawn from the Rippleborn collection.
+          Every pack contains three collectible cards drawn from the Ledgerborn collection.
         </p>
       </div>
 

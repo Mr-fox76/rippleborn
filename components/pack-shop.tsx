@@ -133,7 +133,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
           Open the pack. Feel the reveal. Own every card.
         </h1>
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Rippleborn turns the thrill of opening a collectible card pack into an on-chain experience.
+          Ledgerborn turns the thrill of opening a collectible card pack into an on-chain experience.
           Draw three celestial cards, reveal them one by one, then claim each NFT directly to your
           XRPL wallet—provably yours to hold, trade, or collect.
         </p>

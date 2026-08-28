@@ -7,9 +7,9 @@ const _spaceGrotesk = Space_Grotesk({ subsets: ['latin'] })
 const _jetBrainsMono = JetBrains_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Rippleborn — XRPL NFT Card Packs',
+  title: 'Ledgerborn — XRPL NFT Card Packs',
   description:
-    'Open the ledger. Pull the myth. Rippleborn booster packs deliver 3 XRPL NFTs per pack for 5 XRP.',
+    'Open the ledger. Pull the myth. Ledgerborn booster packs deliver 3 XRPL NFTs per pack for 5 XRP.',
   generator: 'v0.app',
   icons: {
     icon: [

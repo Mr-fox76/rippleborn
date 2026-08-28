@@ -10,7 +10,7 @@ export async function POST() {
       options: { expire: 5, force_network: 'TESTNET' },
       custom_meta: {
         identifier: 'rippleborn-wallet-connect',
-        instruction: 'Connect your XRPL Testnet wallet to Rippleborn.',
+        instruction: 'Connect your XRPL Testnet wallet to Ledgerborn.',
       },
     })
 

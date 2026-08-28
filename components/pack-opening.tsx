@@ -56,7 +56,7 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
   return (
     <section
       className={`pack-opening-stage phase-${phase} ${canOpen ? 'can-open' : 'pack-preview'}`}
-      aria-label={canOpen ? 'Open your Rippleborn pack' : 'Rippleborn collectible card pack'}
+      aria-label={canOpen ? 'Open your Ledgerborn pack' : 'Ledgerborn collectible card pack'}
     >
       <div className="pack-energy-rings" aria-hidden="true"><span /><span /><span /></div>
       <div className="pack-radiance" aria-hidden="true" />
@@ -79,7 +79,7 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
         <span className="foil-pack-face">
           <span className="foil-pack-kicker">XRPL Genesis</span>
           <span className="foil-pack-sigil" aria-hidden="true"><span /></span>
-          <span className="foil-pack-title">Rippleborn</span>
+          <span className="foil-pack-title">Ledgerborn</span>
           <span className="foil-pack-count">Three NFT cards</span>
         </span>
         <span className="foil-pack-bottom" aria-hidden="true" />

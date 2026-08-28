@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       },
       custom_meta: {
         identifier: `rippleborn-claim-${offerId.slice(0, 12)}`,
-        instruction: 'Accept your free Rippleborn NFT offer on XRPL Testnet.',
+        instruction: 'Accept your free Ledgerborn NFT offer on XRPL Testnet.',
         blob: { buyer, nftId, offerId },
       },
     })
