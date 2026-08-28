@@ -170,17 +170,6 @@
   pointer-events: none;
 }
 
-.pack-opening-stage::after {
-  position: absolute;
-  inset: 0.55rem;
-  z-index: 7;
-  border: 1px solid color-mix(in oklch, var(--primary) 18%, transparent);
-  border-radius: 0.9rem;
-  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--primary) 6%, transparent);
-  content: '';
-  pointer-events: none;
-}
-
 .pack-opening-stage.phase-flipping,
 .pack-opening-stage.phase-spreading {
   border-color: color-mix(in oklch, var(--primary) 72%, var(--gold));
@@ -751,11 +740,6 @@
   .pack-opening-stage {
     min-height: 29rem;
     border-radius: 0.85rem;
-  }
-
-  .pack-opening-stage::after {
-    inset: 0.35rem;
-    border-radius: 0.65rem;
   }
 
   .tarot-spread {
