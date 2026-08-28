@@ -12,6 +12,9 @@ import {
 
 export type XrplNetwork = 'Testnet' | 'Mainnet'
 
+const XRPL_TESTNET_WEBSOCKET = 'wss://s.altnet.rippletest.net:51233'
+const PACK_PRICE_DROPS = '5000000'
+
 export type XrplConfig = {
   websocketUrl: string
   treasuryAddress: string
@@ -57,12 +60,16 @@ export function getXrplConfig(): XrplConfig {
     requiredEnvironmentValue('TRANSFER_FEE'),
     50_000,
   )
-  const minterWallet = Wallet.fromSeed(requiredEnvironmentValue('MINTER_SEED'))
+  const signingSeed = process.env.ISSUER_SEED?.trim() || requiredEnvironmentValue('MINTER_SEED')
+  const minterWallet = Wallet.fromSeed(signingSeed)
 
+  if (websocketUrl !== XRPL_TESTNET_WEBSOCKET) {
+    throw new Error(`XRPL_WSS must be ${XRPL_TESTNET_WEBSOCKET} while minting is Testnet-only.`)
+  }
   if (!isValidClassicAddress(treasuryAddress)) throw new Error('TREASURY_ADDRESS is invalid.')
   if (!isValidClassicAddress(issuerAddress)) throw new Error('ISSUER_ADDRESS is invalid.')
-  if (!/^\d+$/.test(packPriceDrops) || BigInt(packPriceDrops) <= BigInt(0)) {
-    throw new Error('PACK_PRICE_DROPS must be a positive drops amount.')
+  if (packPriceDrops !== PACK_PRICE_DROPS) {
+    throw new Error(`PACK_PRICE_DROPS must be exactly ${PACK_PRICE_DROPS} (5 XRP).`)
   }
 
   return {
@@ -93,8 +100,8 @@ export function validateBuyer(value: unknown): string | null {
 
 export function encodeMetadataUri(uri: string | undefined): string | null {
   if (!uri?.startsWith('ipfs://')) return null
-  const cid = uri.slice('ipfs://'.length)
-  if (!/^b[a-z2-7]{20,}$/i.test(cid)) return null
+  const reference = uri.slice('ipfs://'.length)
+  if (!/^b[a-z2-7]{20,}(?:\/[a-z0-9][a-z0-9._-]*\.json)?$/i.test(reference)) return null
   const encoded = convertStringToHex(uri).toUpperCase()
   return encoded.length <= 512 ? encoded : null
 }

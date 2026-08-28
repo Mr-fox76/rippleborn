@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises'
+import path from 'node:path'
 import { NextResponse } from 'next/server'
 import type { Client, TransactionMetadata } from 'xrpl'
 import { createPhoenixCard, rollPack } from '@/lib/rippleborn'
@@ -34,6 +36,28 @@ type AccountTransaction = {
   meta?: TransactionMetadata | string
   tx?: Record<string, unknown>
   tx_json?: Record<string, unknown>
+}
+
+async function validateCardMetadata(card: { name: string; uri?: string; limited?: boolean }): Promise<string | null> {
+  if (!encodeMetadataUri(card.uri)) return 'No valid IPFS metadata URI is configured for this card.'
+  if (card.limited) return null
+
+  const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
+  if (!filename) return 'The card metadata URI must reference a JSON file in the pinned IPFS folder.'
+
+  try {
+    const raw = await readFile(path.join(process.cwd(), 'public', 'cards', filename), 'utf8')
+    const metadata = JSON.parse(raw) as Record<string, unknown>
+    if (metadata.name !== card.name) return 'The metadata name does not match the selected card.'
+    if (typeof metadata.description !== 'string' || !metadata.description.trim()) {
+      return 'The metadata description is missing.'
+    }
+    if (typeof metadata.image !== 'string' || !metadata.image.trim()) return 'The metadata image is missing.'
+    if (!Array.isArray(metadata.attributes)) return 'The metadata attributes are missing.'
+    return null
+  } catch {
+    return `Metadata file ${filename} is missing or invalid.`
+  }
 }
 
 async function findPayment(
@@ -178,12 +202,10 @@ export async function POST(request: Request) {
           })
           continue
         }
-        if (!encodeMetadataUri(card.uri)) {
-          fulfilledCards.push({
-            ...card,
-            mintStatus: 'skipped',
-            reason: 'No valid IPFS metadata URI is configured for this card.',
-          })
+        const metadataError = await validateCardMetadata(card)
+        if (metadataError) {
+          console.error(`[v0] Skipping ${card.name}: ${metadataError}`)
+          fulfilledCards.push({ ...card, mintStatus: 'skipped', reason: metadataError })
           continue
         }
 

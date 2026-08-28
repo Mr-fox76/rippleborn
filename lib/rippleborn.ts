@@ -51,12 +51,12 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
     { name: 'Ledgerbound Knight', image: '/cards/ledgerbound-knight.png', uri: metadataUri('ledgerbound-knight') },
   ],
   Epic: [
-    { name: 'Archon of Flowing Ledgers', image: '/cards/archon-of-flowing-ledgers.png', uri: metadataUri('archon-flowing-ledgers') },
     { name: 'Abyssal Consensus', image: '/cards/abyssal-consensus.png', uri: metadataUri('abyssal-consensus') },
     { name: 'Stormforge Oracle', image: '/cards/stormforge-oracle.png', uri: metadataUri('stormforge-oracle') },
     { name: 'Warden of Split Tides', image: '/cards/warden-of-split-tides.png', uri: metadataUri('warden-of-split-tides') },
   ],
   Legendary: [
+    { name: 'Archon of Flowing Ledgers', image: '/cards/archon-of-flowing-ledgers.png', uri: metadataUri('archon-flowing-ledgers') },
     { name: 'Leviathan of the First Ledger', image: '/cards/leviathan-of-the-first-ledger.png', uri: metadataUri('leviathan-of-the-first-ledger') },
     { name: 'Aurelian Tidesovereign', image: '/cards/aurelian-tidesovereign.png', uri: metadataUri('aurelian-tidesovereign') },
     { name: 'The Gilded Quorum', image: '/cards/the-gilded-quorum.png', uri: metadataUri('the-gilded-quorum') },
