@@ -1,6 +1,5 @@
 import Image from 'next/image'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
-import { NetworkStatus } from '@/components/network-status'
 
 export function SiteHero() {
   return (
@@ -12,7 +11,7 @@ export function SiteHero() {
         Testnet mode — do not send real XRP. Real XRP sent here will be lost.
       </div>
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5">
-        <a href="#reading-table" aria-label="Ledgerborn home">
+        <a href="#reading-table" aria-label="Ledgerborn home" className="shrink-0">
           <Image
             src="/images/ledgerborn-symbol.png"
             alt=""
@@ -22,10 +21,7 @@ export function SiteHero() {
             priority
           />
         </a>
-        <div className="flex items-center gap-2 sm:gap-3">
-          <NetworkStatus />
-          <ConnectWalletButton />
-        </div>
+        <ConnectWalletButton />
       </div>
     </header>
   )

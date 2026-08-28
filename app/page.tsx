@@ -1,3 +1,4 @@
+import { NetworkStatus } from '@/components/network-status'
 import { PackShop } from '@/components/pack-shop'
 import { SiteHero } from '@/components/site-hero'
 import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
@@ -16,6 +17,7 @@ export default async function Page() {
         <PackShop collectionStats={collectionStats} />
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
+        <NetworkStatus />
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
           3 cards · 5 XRP
         </p>
