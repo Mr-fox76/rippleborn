@@ -1,7 +1,7 @@
 {
   "name": "Driftglass Sentry",
   "description": "A Common card from the Rippleborn Genesis collection.",
-  "image": "/cards/driftglass-sentry.png",
+   "image": "ipfs://bafybeifwomhmki4xpu5ienj7cj3iojjeiz2hjfc3oxhjrtjrucd5fwsiii",
   "attributes": [
     { "trait_type": "Rarity", "value": "Common" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }
