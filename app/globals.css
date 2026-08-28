@@ -136,7 +136,8 @@
 .pack-opening-stage {
   position: relative;
   display: flex;
-  min-height: 25rem;
+  width: 100%;
+  min-height: 29rem;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -147,7 +148,7 @@
   position: relative;
   z-index: 2;
   display: flex;
-  width: min(15rem, 62vw);
+  width: min(17rem, 72vw);
   aspect-ratio: 0.68;
   cursor: pointer;
   flex-direction: column;
