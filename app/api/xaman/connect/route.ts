@@ -12,7 +12,7 @@ export async function POST() {
         identifier: 'rippleborn-wallet-connect',
         instruction: 'Connect your XRPL Testnet wallet to Ledgerborn.',
       },
-    })
+    }, true)
 
     if (!payload) throw new Error('Xaman did not create a connection request.')
 
@@ -23,6 +23,15 @@ export async function POST() {
     })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unable to connect to Xaman.'
+    const rateLimited = /(?:error code|status)\s*429|too many requests|rate limit/i.test(message)
+
+    if (rateLimited) {
+      return NextResponse.json(
+        { error: 'Xaman is temporarily limiting connection requests. Please wait a minute, then try again.' },
+        { status: 429, headers: { 'Retry-After': '60' } },
+      )
+    }
+
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }

@@ -1,6 +1,13 @@
 import type { CollectionStats } from '@/lib/pack-results'
+import { CARD_POOL, RARITIES } from '@/lib/rippleborn'
 
 export function RarityOdds({ stats }: { stats: CollectionStats }) {
+  const categoryCounts = RARITIES.map((rarity) => ({
+    label: rarity,
+    count: CARD_POOL[rarity].length + (rarity === 'Mythic' ? 1 : 0),
+  }))
+  const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
+
   const counters = [
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
@@ -23,6 +30,28 @@ export function RarityOdds({ stats }: { stats: CollectionStats }) {
         ))}
       </dl>
 
+      <div className="flex flex-col gap-3 border-t border-border pt-4">
+        <div className="flex items-baseline justify-between gap-4">
+          <h2 className="font-sans text-sm font-semibold uppercase tracking-wider text-foreground">
+            Cards to collect
+          </h2>
+          <p className="font-mono text-sm font-semibold text-gold">{totalCards} card set</p>
+        </div>
+        <dl className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+          {categoryCounts.map((category) => (
+            <div
+              key={category.label}
+              className={`collection-category rarity-${category.label.toLowerCase()} border px-3 py-2 text-center`}
+            >
+              <dd className="font-mono text-lg font-semibold tabular-nums">{category.count}</dd>
+              <dt className="text-[0.65rem] font-medium uppercase tracking-wider">{category.label}</dt>
+            </div>
+          ))}
+        </dl>
+        <p className="text-center text-xs leading-relaxed text-muted-foreground">
+          Includes The Phoenix, a five-edition limited Mythic card.
+        </p>
+      </div>
     </section>
   )
 }

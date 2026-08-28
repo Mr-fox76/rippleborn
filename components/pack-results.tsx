@@ -1,11 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
-import type { Card } from '@/lib/rippleborn'
+import { getCardWisdom, type Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
   mintStatus?: 'minted' | 'skipped' | 'failed'
@@ -76,10 +76,11 @@ function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => voi
   return (
     <button
       type="button"
-      className="tarot-card tarot-back tarot-reveal-button"
-      aria-label={`Reveal card ${index + 1}`}
+      className={`tarot-card tarot-back tarot-reveal-button ${index === 0 ? 'is-first-card' : ''}`}
+      aria-label={index === 0 ? 'Open the middle card first' : `Reveal card ${index + 1}`}
       onClick={onReveal}
     >
+      {index === 0 ? <span className="first-card-prompt">Open first</span> : null}
       {content}
     </button>
   )
@@ -125,21 +126,24 @@ function RevealedSpread({
   return (
     <div className="flex flex-col items-center gap-6">
       <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
-        {[0, 1, 2].map((index) => {
+        {[1, 0, 2].map((index) => {
         const card = cards[index]
         const isRevealed = revealed.has(index)
 
         return (
           <li
             key={card?.id ?? index}
-            className={`tarot-slot tarot-arrival min-w-0 flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
-            style={{ '--arrival-index': index } as CSSProperties}
+            className={`tarot-slot min-w-0 flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
           >
             {card && isRevealed ? (
               <article
                 className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
               >
-                <div className="relative aspect-[2/3] overflow-hidden bg-muted">
+                <div
+                  className="group/wisdom relative aspect-[2/3] overflow-hidden bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  tabIndex={0}
+                  aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
+                >
                   <Image
                     src={card.image}
                     alt={`${card.name}, ${card.rarity} card`}
@@ -153,7 +157,7 @@ function RevealedSpread({
                       Edition {card.edition}/{card.maxSupply}
                     </span>
                   ) : null}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 sm:px-4 sm:pb-4">
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
                     <p className="font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
                       {card.name}
                     </p>
@@ -161,8 +165,13 @@ function RevealedSpread({
                       {card.rarity}
                     </p>
                   </div>
+                  <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
+                    <blockquote className="text-center font-sans text-sm italic leading-relaxed text-card-foreground text-pretty sm:text-base">
+                      “{getCardWisdom(card.name)}”
+                    </blockquote>
+                  </div>
                 </div>
-                <div className="p-3">
+                <div className="flex flex-col gap-3 p-3">
                   <CardDetails card={card} />
                   {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
                     <ClaimNftButton

@@ -83,7 +83,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
     }
   }
 
-  async function fulfillOrder() {
+  async function fulfillOrder(transactionHash?: string) {
     if (!order) {
       setStatus({ tone: 'error', message: 'Create a pack order first.' })
       return
@@ -96,7 +96,11 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
       const response = await fetch('/api/pack/fulfill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: order.orderId, buyer: order.buyer }),
+        body: JSON.stringify({
+          orderId: order.orderId,
+          buyer: order.buyer,
+          transactionHash,
+        }),
       })
       const data = await response.json()
 
@@ -129,9 +133,12 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
           Digital pack opening. Real NFT ownership.
         </p>
-        <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Chase the rare. Reveal the extraordinary. Mint what you pull.
+        <h1 className="max-w-2xl font-sans text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+          Become Ledgerborn.
         </h1>
+        <p className="max-w-2xl font-sans text-lg font-medium text-pretty text-foreground sm:text-xl">
+          Chase the rare. Reveal the extraordinary. Mint what you pull.
+        </p>
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
           Enter a collection inspired by mythical characters, legendary beings, and ancient powers.
           Each pack holds three unique cards—from sought-after rarities to strictly limited editions—and
@@ -191,9 +198,9 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
               orderId={order.orderId}
               label={pending === 'fulfill' ? 'Opening pack…' : 'Open pack'}
               disabled={pending !== null}
-              onSubmitted={() => {
+              onSubmitted={(transactionHash) => {
                 setStatus({ tone: 'pending', message: 'Payment received. Reading the ledger…' })
-                window.setTimeout(() => void fulfillOrder(), 2500)
+                void fulfillOrder(transactionHash)
               }}
             />
           ) : (

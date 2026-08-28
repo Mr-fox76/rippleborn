@@ -41,7 +41,7 @@ export function XamanPaymentButton({
     payment ? `/api/xaman/payment/${payment.uuid}` : null,
     fetchStatus,
     {
-      refreshInterval: (latest) => (latest?.status === 'pending' ? 2500 : 0),
+      refreshInterval: (latest) => (latest?.status === 'pending' ? 6000 : 0),
       onSuccess: (latest) => {
         if (latest.status === 'submitted' && !submitted.current) {
           submitted.current = true
