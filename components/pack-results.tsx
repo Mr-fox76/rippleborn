@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState, type CSSProperties } from 'react'
 import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -95,6 +95,7 @@ function RevealedSpread({
   onReset?: () => void
 }) {
   const [revealed, setRevealed] = useState(() => new Set<number>())
+  const [revealing, setRevealing] = useState<number | null>(null)
   const [claimed, setClaimed] = useState(() => new Set<string>())
   const claimableCards = cards.filter((card) => card.mintStatus === 'minted' && card.nftId)
   const canReset =
@@ -103,8 +104,19 @@ function RevealedSpread({
     claimableCards.every((card) => card.nftId && claimed.has(card.nftId))
 
   function revealCard(index: number) {
-    setRevealed((current) => new Set(current).add(index))
+    if (revealing !== null || index !== revealed.size) return
+    setRevealing(index)
   }
+
+  useEffect(() => {
+    if (revealing === null) return
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const timer = window.setTimeout(() => {
+      setRevealed((current) => new Set(current).add(revealing))
+      setRevealing(null)
+    }, reducedMotion ? 40 : 650)
+    return () => window.clearTimeout(timer)
+  }, [revealing])
 
   const markClaimed = useCallback((nftId: string) => {
     setClaimed((current) => new Set(current).add(nftId))
@@ -118,7 +130,11 @@ function RevealedSpread({
         const isRevealed = revealed.has(index)
 
         return (
-          <li key={card?.id ?? index} className="tarot-slot min-w-0 flex-1">
+          <li
+            key={card?.id ?? index}
+            className={`tarot-slot tarot-arrival min-w-0 flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
+            style={{ '--arrival-index': index } as CSSProperties}
+          >
             {card && isRevealed ? (
               <article
                 className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
@@ -159,7 +175,10 @@ function RevealedSpread({
                 </div>
               </article>
             ) : (
-              <FaceDownCard index={index} onReveal={card ? () => revealCard(index) : undefined} />
+              <FaceDownCard
+                index={index}
+                onReveal={card && index === revealed.size && revealing === null ? () => revealCard(index) : undefined}
+              />
             )}
           </li>
         )
@@ -208,8 +227,8 @@ export function TarotCards({
         </ol>
       )}
       {cards ? (
-        <p className="mt-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-gold">
-          Choose each card to reveal it
+        <p className="mt-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
+          Reveal the cards in order. Each one carries its own fate.
         </p>
       ) : null}
     </section>
