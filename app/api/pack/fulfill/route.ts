@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server'
 import type { Client, TransactionMetadata } from 'xrpl'
-import { createPhoenixCard, rollPack, type Card } from '@/lib/rippleborn'
+import { createPhoenixCard, rollPack } from '@/lib/rippleborn'
+import {
+  commitPackResult,
+  getPackResult,
+  markPackFailed,
+  saveMintResults,
+  type MintedPackCard,
+} from '@/lib/pack-results'
 import {
   getPhoenixReservation,
   markPhoenixFailed,
@@ -20,13 +27,6 @@ import {
 } from '@/lib/xrpl-server'
 
 export const runtime = 'nodejs'
-
-type FulfilledCard = Card & {
-  mintStatus: 'minted' | 'skipped' | 'failed'
-  nftId?: string
-  offerId?: string
-  reason?: string
-}
 
 type AccountTransaction = {
   validated?: boolean
@@ -78,7 +78,10 @@ async function findPayment(
         requestedAmount === config.packPriceDrops &&
         transaction.DestinationTag === destinationTag
       ) {
-        return transactionHash ?? 'validated-payment'
+        if (!transactionHash) {
+          throw new Error('Validated payment did not include a transaction hash.')
+        }
+        return transactionHash
       }
     }
 
@@ -121,19 +124,44 @@ export async function POST(request: Request) {
         )
       }
 
-      const cards = rollPack()
-      const existingPhoenix = await getPhoenixReservation(destinationTag)
-      const phoenixReservation =
-        existingPhoenix ??
-        (phoenixMetadataReady() && Math.random() < PHOENIX_DROP_CHANCE
-          ? await reservePhoenixEdition(destinationTag, buyer)
-          : null)
-
-      if (phoenixReservation) {
-        cards[2] = createPhoenixCard(phoenixReservation.edition, phoenixReservation.metadataUri)
+      const existingResult = await getPackResult(destinationTag)
+      if (existingResult?.mintResults) {
+        return NextResponse.json({
+          orderId: destinationTag,
+          buyer,
+          status: 'fulfilled',
+          paymentVerified: true,
+          paymentTransaction,
+          commitment: existingResult.commitment,
+          cards: existingResult.mintResults,
+        })
       }
 
-      const fulfilledCards: FulfilledCard[] = []
+      let cards = existingResult?.cards
+      if (!cards) {
+        cards = rollPack()
+        const existingPhoenix = await getPhoenixReservation(destinationTag)
+        const phoenixReservation =
+          existingPhoenix ??
+          (phoenixMetadataReady() && Math.random() < PHOENIX_DROP_CHANCE
+            ? await reservePhoenixEdition(destinationTag, buyer)
+            : null)
+
+        if (phoenixReservation) {
+          cards[2] = createPhoenixCard(phoenixReservation.edition, phoenixReservation.metadataUri)
+        }
+      }
+
+      const committed = await commitPackResult({
+        orderId: destinationTag,
+        buyer,
+        paymentTxHash: paymentTransaction,
+        cards,
+      })
+      cards = committed.cards
+
+      const phoenixReservation = await getPhoenixReservation(destinationTag)
+      const fulfilledCards: MintedPackCard[] = []
 
       for (const card of cards) {
         if (
@@ -174,17 +202,23 @@ export async function POST(request: Request) {
         }
       }
 
+      await saveMintResults(destinationTag, fulfilledCards)
+
       return NextResponse.json({
         orderId: destinationTag,
         buyer,
         status: 'fulfilled',
         paymentVerified: true,
         paymentTransaction,
+        commitment: committed.commitment,
         cards: fulfilledCards,
       })
     })
   } catch (error) {
     const message = error instanceof Error ? error.message : 'XRPL fulfillment failed.'
+    if (destinationTag !== null) {
+      await markPackFailed(destinationTag, message).catch(() => undefined)
+    }
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }
