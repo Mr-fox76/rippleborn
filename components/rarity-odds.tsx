@@ -1,11 +1,11 @@
 import type { Rarity } from '@/lib/rippleborn'
 
 const CATEGORIES: Array<{ name: Rarity; description: string; className: string }> = [
-  { name: 'Common', description: 'Foundational cards from the Rippleborn world.', className: 'text-rarity-common' },
-  { name: 'Rare', description: 'Distinctive characters with stronger collectible appeal.', className: 'text-rarity-rare' },
-  { name: 'Epic', description: 'Striking artwork reserved for exceptional pulls.', className: 'text-rarity-epic' },
-  { name: 'Legendary', description: 'Prestige cards featuring the collection’s icons.', className: 'text-rarity-legendary' },
-  { name: 'Mythic', description: 'The highest tier of standard Rippleborn cards.', className: 'text-rarity-mythic' },
+  { name: 'Common', description: 'Foundational cards from the Rippleborn world.', className: 'rarity-common' },
+  { name: 'Rare', description: 'Distinctive characters with stronger collectible appeal.', className: 'rarity-rare' },
+  { name: 'Epic', description: 'Striking artwork reserved for exceptional pulls.', className: 'rarity-epic' },
+  { name: 'Legendary', description: 'Prestige cards featuring the collection’s icons.', className: 'rarity-legendary' },
+  { name: 'Mythic', description: 'The highest tier of standard Rippleborn cards.', className: 'rarity-mythic' },
 ]
 
 export function RarityOdds() {
@@ -20,13 +20,16 @@ export function RarityOdds() {
         </p>
       </div>
 
-      <ul className="grid gap-3 sm:grid-cols-2">
+      <ul className="flex flex-col gap-3">
         {CATEGORIES.map((category) => (
-          <li key={category.name} className="rounded-lg border border-border bg-card/55 p-3">
-            <p className={`font-mono text-xs font-semibold uppercase tracking-[0.16em] ${category.className}`}>
+          <li
+            key={category.name}
+            className={`${category.className} rarity-badge rounded-lg border p-3`}
+          >
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em]">
               {category.name}
             </p>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+            <p className="mt-1 text-xs leading-relaxed text-foreground/70">
               {category.description}
             </p>
           </li>
