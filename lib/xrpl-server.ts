@@ -106,7 +106,7 @@ export function encodeMetadataUri(uri: string | undefined): string | null {
     const isPublicMetadataUrl =
       metadataUrl.protocol === 'https:' &&
       metadataUrl.hostname === 'tomato-fancy-frog-92.mypinata.cloud' &&
-      /^\/ipfs\/bafybeifm7vuorm23itozcmevi3ksiqeczazy73hu7qlobu6ds6rxk4ellm\/[a-z0-9][a-z0-9._-]*\.json$/i.test(
+      /^\/ipfs\/bafybeibgaqms7fahrd5xsxd6eswei55gmrlflrphql3ovcwoxoobeo3ahy\/[a-z0-9][a-z0-9._-]*\.json$/i.test(
         metadataUrl.pathname,
       )
     if (!isPublicMetadataUrl) return null

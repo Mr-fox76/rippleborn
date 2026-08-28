@@ -32,7 +32,7 @@ export const SLOT_ODDS: { slot: number; label: string; odds: Partial<Record<Rari
 type CardArt = { name: string; image: string; uri: string }
 
 const CARD_META_FOLDER =
-  'https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeifm7vuorm23itozcmevi3ksiqeczazy73hu7qlobu6ds6rxk4ellm'
+  'https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeibgaqms7fahrd5xsxd6eswei55gmrlflrphql3ovcwoxoobeo3ahy'
 const metadataUri = (slug: string) => `${CARD_META_FOLDER}/${slug}.json`
 
 export const CARD_POOL: Record<Rarity, CardArt[]> = {
