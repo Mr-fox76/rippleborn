@@ -1,7 +1,7 @@
 {
   "name": "Escrow Warden",
   "description": "A Rare card from the Rippleborn Genesis collection.",
-  "image": "ipfs://bafybeia4z2tfzsa7xslti2qhs5iji2gqrcalw6fqtvoueyfyytc2344dk4",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeia4z2tfzsa7xslti2qhs5iji2gqrcalw6fqtvoueyfyytc2344dk4",
   "attributes": [
     { "trait_type": "Rarity", "value": "Rare" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

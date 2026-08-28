@@ -1,7 +1,7 @@
 {
   "name": "Rippleborn, the Unledgered",
   "description": "A Mythic card from the Rippleborn Genesis collection.",
-  "image": "ipfs://bafybeiaza3drfluumimlmfbahl65bny375nt7r2wy2z4vksxddshvhtzye",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeiaza3drfluumimlmfbahl65bny375nt7r2wy2z4vksxddshvhtzye",
   "attributes": [
     { "trait_type": "Rarity", "value": "Mythic" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

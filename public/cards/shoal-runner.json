@@ -1,7 +1,7 @@
 {
   "name": "Shoal Runner",
   "description": "A Common card from the Rippleborn Genesis collection.",
-  "image": "ipfs://bafybeigadv73zcybwia7e53vdqv5wzkh6k5ekpjae25fdtpvi3pp3pou5e",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeigadv73zcybwia7e53vdqv5wzkh6k5ekpjae25fdtpvi3pp3pou5e",
   "attributes": [
     { "trait_type": "Rarity", "value": "Common" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

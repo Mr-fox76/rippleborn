@@ -1,7 +1,7 @@
 {
   "name": "Stormforge Oracle",
   "description": "An Epic card from the Rippleborn Genesis collection.",
-  "image": "ipfs://bafybeiazyz26tykuwn2bldehqmmcek55tabyl3icsdplydzbd4aqfb7hem",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeiazyz26tykuwn2bldehqmmcek55tabyl3icsdplydzbd4aqfb7hem",
   "attributes": [
     { "trait_type": "Rarity", "value": "Epic" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

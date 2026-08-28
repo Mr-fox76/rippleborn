@@ -1,7 +1,7 @@
 {
   "name": "Ledger Acolyte",
   "description": "A Common card from the Rippleborn Genesis collection.",
- "image": "ipfs://bafybeigjd6onfq3uqdrdhjststsno7omsm2ovsz4yeqd74vjbhssw3yrqa",
+ "image": "https://gateway.pinata.cloud/ipfs/bafybeigjd6onfq3uqdrdhjststsno7omsm2ovsz4yeqd74vjbhssw3yrqa",
   "attributes": [
     { "trait_type": "Rarity", "value": "Common" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

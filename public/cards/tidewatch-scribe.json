@@ -1,7 +1,7 @@
 {
   "name": "Tidewatch Scribe",
   "description": "A Common card from the Rippleborn Genesis collection.",
-  "image": "/cards/tidewatch-scribe.png",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeif4eujk6kj3ox3l4cpfmoc5kc3uig5umfspybwyh7fwlqr37tm3ma/tidewatch-scribe.png",
   "attributes": [
     { "trait_type": "Rarity", "value": "Common" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

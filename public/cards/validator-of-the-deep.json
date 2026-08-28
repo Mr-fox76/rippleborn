@@ -1,7 +1,7 @@
 {
   "name": "Validator of the Deep",
   "description": "A Rare card from the Rippleborn Genesis collection.",
-  "image": "/cards/validator-of-the-deep.png",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeif4eujk6kj3ox3l4cpfmoc5kc3uig5umfspybwyh7fwlqr37tm3ma/validator-of-the-deep.png",
   "attributes": [
     { "trait_type": "Rarity", "value": "Rare" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

@@ -1,7 +1,7 @@
 {
   "name": "Abyssal Consensus",
   "description": "Epic Rippleborn card.",
-  "image": "ipfs://bafybeifckuskjvilzi5662r5yfljtaoecps3uv7d2i73m2yf3irs6ryfsy",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeifckuskjvilzi5662r5yfljtaoecps3uv7d2i73m2yf3irs6ryfsy",
   "attributes": [
     { "trait_type": "Rarity", "value": "Epic" },
     { "trait_type": "Set", "value": "Rippleborn" }

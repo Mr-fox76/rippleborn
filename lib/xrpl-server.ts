@@ -136,6 +136,7 @@ export async function mintCardNft(
   if (config.issuerAddress !== config.minterWallet.address) mint.Issuer = config.issuerAddress
 
   const mintResult = await client.submitAndWait(mint, { wallet: config.minterWallet })
+  console.info(`[v0] NFTokenMint URI: ${Buffer.from(uri, 'hex').toString('utf8')}`)
   const mintMeta = successfulMetadata(mintResult.result, 'NFTokenMint') as TransactionMetadata & {
     nftoken_id?: string
   }

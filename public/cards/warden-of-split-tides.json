@@ -1,7 +1,7 @@
 {
   "name": "Warden of Split Tides",
   "description": "An Epic card from the Rippleborn Genesis collection.",
-  "image": "/cards/warden-of-split-tides.png",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeif4eujk6kj3ox3l4cpfmoc5kc3uig5umfspybwyh7fwlqr37tm3ma/warden-of-split-tides.png",
   "attributes": [
     { "trait_type": "Rarity", "value": "Epic" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }

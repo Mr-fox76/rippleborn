@@ -1,7 +1,7 @@
 {
   "name": "Archon of Flowing Ledgers",
   "description": "Legendary Rippleborn card.",
-  "image": "ipfs://bafybeiaz62xd2zbtjhfqnad3pymg2q3sjxj5l3r3q2stcerfowsv4e33ga",
+  "image": "https://gateway.pinata.cloud/ipfs/bafybeiaz62xd2zbtjhfqnad3pymg2q3sjxj5l3r3q2stcerfowsv4e33ga",
   "attributes": [
     { "trait_type": "Rarity", "value": "Legendary" },
     { "trait_type": "Set", "value": "Rippleborn" }
