@@ -1,0 +1,9 @@
+{
+  "name": "Abyssal Consensus",
+  "description": "Common Rippleborn card.",
+  "image": "ipfs://bafybeifckuskjvilzi5662r5yfljtaoecps3uv7d2i73m2yf3irs6ryfsy",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Common" },
+    { "trait_type": "Set", "value": "Rippleborn" }
+  ]
+}
