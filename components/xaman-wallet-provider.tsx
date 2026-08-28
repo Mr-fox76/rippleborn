@@ -38,7 +38,7 @@ export function XamanWalletProvider({ children }: { children: ReactNode }) {
     request && !account ? `/api/xaman/connect/${request.uuid}` : null,
     fetchStatus,
     {
-      refreshInterval: (latest) => (latest?.status === 'pending' ? 2500 : 0),
+      refreshInterval: (latest) => (latest?.status === 'pending' ? 6000 : 0),
       onSuccess: (latest) => {
         if (latest.status === 'connected' && latest.account) {
           setAccount(latest.account)
