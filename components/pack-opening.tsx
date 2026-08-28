@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 type PackOpeningProps = {
   onComplete?: () => void
   canOpen?: boolean
+  packName?: string
+  packKicker?: string
 }
 
 type OpeningPhase = 'sealed' | 'flipping' | 'spreading'
@@ -59,7 +61,12 @@ function playMythicalOpeningSound() {
   window.setTimeout(() => void context.close(), 2600)
 }
 
-export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
+export function PackOpening({
+  onComplete,
+  canOpen = true,
+  packName = 'Ledgerborn',
+  packKicker = 'Mythical Set',
+}: PackOpeningProps) {
   const [phase, setPhase] = useState<OpeningPhase>('sealed')
   const completed = useRef(false)
 
@@ -90,7 +97,7 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
   return (
     <section
       className={`pack-opening-stage phase-${phase} ${canOpen ? 'can-open' : 'pack-preview'}`}
-      aria-label={canOpen ? 'Open your Ledgerborn pack' : 'Ledgerborn collectible card pack'}
+      aria-label={canOpen ? `Open your ${packName} pack` : `${packName} collectible card pack`}
     >
       <div className="pack-radiance" aria-hidden="true" />
 
@@ -109,9 +116,9 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
       >
         <span className="foil-pack-top" aria-hidden="true" />
         <span className="foil-pack-face">
-          <span className="foil-pack-kicker">Mythical Set</span>
+          <span className="foil-pack-kicker">{packKicker}</span>
           <span className="foil-pack-sigil" aria-hidden="true"><span /></span>
-          <span className="foil-pack-title">Ledgerborn</span>
+          <span className="foil-pack-title">{packName}</span>
           <span className="foil-pack-count" aria-label="Three card pack">
             <span className="foil-pack-count-number" aria-hidden="true">3</span>
             <span aria-hidden="true">Pack</span>
@@ -127,8 +134,8 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
               <span className="celestial-orbit">
                 <span className="celestial-core" />
               </span>
-              <span className="celestial-card-name">Ledgerborn</span>
-              <span className="celestial-card-motto">Mythical Set</span>
+              <span className="celestial-card-name">{packName}</span>
+              <span className="celestial-card-motto">{packKicker}</span>
             </div>
           </div>
         ))}

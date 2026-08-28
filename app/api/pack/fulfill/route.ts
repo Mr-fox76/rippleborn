@@ -2,7 +2,8 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { NextResponse } from 'next/server'
 import type { Client, TransactionMetadata } from 'xrpl'
-import { createPhoenixCard, rollPack } from '@/lib/rippleborn'
+import { rollCyborgCowboyCard } from '@/lib/cyborg-cowboy'
+import { createPhoenixCard, isPackSetId, rollPack, rollRarity, SLOT_ODDS } from '@/lib/rippleborn'
 import {
   commitPackResult,
   getPackResult,
@@ -170,7 +171,7 @@ async function findPayment(
 }
 
 export async function POST(request: Request) {
-  let body: { orderId?: unknown; buyer?: unknown; transactionHash?: unknown }
+  let body: { orderId?: unknown; buyer?: unknown; setId?: unknown; transactionHash?: unknown }
 
   try {
     body = await request.json()
@@ -180,6 +181,10 @@ export async function POST(request: Request) {
 
   const destinationTag = parseDestinationTag(body.orderId)
   const buyer = validateBuyer(body.buyer)
+  const setId = body.setId ?? 'ledgerborn'
+  if (!isPackSetId(setId)) {
+    return NextResponse.json({ error: 'A valid card set is required.' }, { status: 400 })
+  }
   const transactionHash =
     typeof body.transactionHash === 'string' && /^[A-F0-9]{64}$/i.test(body.transactionHash)
       ? body.transactionHash.toUpperCase()
@@ -189,7 +194,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'A valid XRPL transaction hash is required.' }, { status: 400 })
   }
   if (destinationTag === null) {
-    return NextResponse.json({ error: 'A valid numeric pack order ID is required.' }, { status: 400 })
+    return NextResponse.json({ error: 'A valid destination tag is required.' }, { status: 400 })
+  }
+  const expectedCowboyTag = setId === 'cyborg-cowboy'
+  if ((destinationTag % 2 === 1) !== expectedCowboyTag) {
+    return NextResponse.json({ error: 'The selected card set does not match this pack order.' }, { status: 400 })
   }
   if (!buyer) {
     return NextResponse.json({ error: 'A valid XRPL classic address is required.' }, { status: 400 })
@@ -239,20 +248,33 @@ export async function POST(request: Request) {
         })
       }
 
-      let cards = existingResult?.cards
-      if (!cards) {
-        cards = rollPack()
-        const existingPhoenix = await getPhoenixReservation(destinationTag)
-        const phoenixReservation =
-          existingPhoenix ??
-          (phoenixMetadataReady() && Math.random() < PHOENIX_DROP_CHANCE
-            ? await reservePhoenixEdition(destinationTag, buyer)
-            : null)
-
-        if (phoenixReservation) {
-          cards[2] = createPhoenixCard(phoenixReservation.edition, phoenixReservation.metadataUri)
-        }
+  let cards = existingResult?.cards
+  if (!cards) {
+    if (setId === 'cyborg-cowboy') {
+      const metadataBaseUrl = process.env.CYBORG_COWBOY_METADATA_BASE_URL
+      if (!metadataBaseUrl) {
+        return NextResponse.json(
+          { error: 'The Cyborg Cowboy Pinata metadata URL has not been configured yet.' },
+          { status: 503 },
+        )
       }
+      cards = SLOT_ODDS.map(({ slot }) =>
+        rollCyborgCowboyCard(rollRarity(slot), slot, metadataBaseUrl),
+      )
+    } else {
+      cards = rollPack()
+      const existingPhoenix = await getPhoenixReservation(destinationTag)
+      const phoenixReservation =
+        existingPhoenix ??
+        (phoenixMetadataReady() && Math.random() < PHOENIX_DROP_CHANCE
+          ? await reservePhoenixEdition(destinationTag, buyer)
+          : null)
+
+      if (phoenixReservation) {
+        cards[2] = createPhoenixCard(phoenixReservation.edition, phoenixReservation.metadataUri)
+      }
+    }
+  }
 
       const committed = await commitPackResult({
         orderId: destinationTag,
