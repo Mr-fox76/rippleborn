@@ -39,13 +39,12 @@ export function RarityOdds({ stats }: { stats: CollectionStats }) {
         </div>
         <dl className="grid grid-cols-2 gap-2 sm:grid-cols-5">
           {categoryCounts.map((category) => (
-            <div key={category.label} className="border border-border bg-card/55 px-3 py-2 text-center">
-              <dd className={`font-mono text-lg font-semibold tabular-nums rarity-${category.label.toLowerCase()}`}>
-                {category.count}
-              </dd>
-              <dt className="text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground">
-                {category.label}
-              </dt>
+            <div
+              key={category.label}
+              className={`collection-category rarity-${category.label.toLowerCase()} border px-3 py-2 text-center`}
+            >
+              <dd className="font-mono text-lg font-semibold tabular-nums">{category.count}</dd>
+              <dt className="text-[0.65rem] font-medium uppercase tracking-wider">{category.label}</dt>
             </div>
           ))}
         </dl>
