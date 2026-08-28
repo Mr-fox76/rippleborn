@@ -1,7 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import Image from 'next/image'
+import { RotateCcw } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
 import type { Card } from '@/lib/rippleborn'
 
@@ -83,16 +85,35 @@ function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => voi
   )
 }
 
-function RevealedSpread({ cards, buyer }: { cards: FulfilledCard[]; buyer: string | null }) {
+function RevealedSpread({
+  cards,
+  buyer,
+  onReset,
+}: {
+  cards: FulfilledCard[]
+  buyer: string | null
+  onReset?: () => void
+}) {
   const [revealed, setRevealed] = useState(() => new Set<number>())
+  const [claimed, setClaimed] = useState(() => new Set<string>())
+  const claimableCards = cards.filter((card) => card.mintStatus === 'minted' && card.nftId)
+  const canReset =
+    revealed.size === cards.length &&
+    claimableCards.length > 0 &&
+    claimableCards.every((card) => card.nftId && claimed.has(card.nftId))
 
   function revealCard(index: number) {
     setRevealed((current) => new Set(current).add(index))
   }
 
+  const markClaimed = useCallback((nftId: string) => {
+    setClaimed((current) => new Set(current).add(nftId))
+  }, [])
+
   return (
-    <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
-      {[0, 1, 2].map((index) => {
+    <div className="flex flex-col items-center gap-6">
+      <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
+        {[0, 1, 2].map((index) => {
         const card = cards[index]
         const isRevealed = revealed.has(index)
 
@@ -128,7 +149,12 @@ function RevealedSpread({ cards, buyer }: { cards: FulfilledCard[]; buyer: strin
                 <div className="p-3">
                   <CardDetails card={card} />
                   {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
-                    <ClaimNftButton buyer={buyer} nftId={card.nftId} offerId={card.offerId} />
+                    <ClaimNftButton
+                      buyer={buyer}
+                      nftId={card.nftId}
+                      offerId={card.offerId}
+                      onClaimed={markClaimed}
+                    />
                   ) : null}
                 </div>
               </article>
@@ -137,22 +163,41 @@ function RevealedSpread({ cards, buyer }: { cards: FulfilledCard[]; buyer: strin
             )}
           </li>
         )
-      })}
-    </ol>
+        })}
+      </ol>
+      {canReset && onReset ? (
+        <Button
+          type="button"
+          size="lg"
+          onClick={onReset}
+          className="bg-primary px-6 text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90"
+        >
+          <RotateCcw className="size-5" aria-hidden="true" />
+          Reset the deck
+        </Button>
+      ) : null}
+    </div>
   )
 }
 
 export function TarotCards({
   cards,
   buyer,
+  onReset,
 }: {
   cards: FulfilledCard[] | null
   buyer: string | null
+  onReset?: () => void
 }) {
   return (
     <section aria-label={cards ? 'Reveal your cards' : 'Three face-down cards'}>
       {cards ? (
-        <RevealedSpread key={cards.map((card) => card.id).join(':')} cards={cards} buyer={buyer} />
+        <RevealedSpread
+          key={cards.map((card) => card.id).join(':')}
+          cards={cards}
+          buyer={buyer}
+          onReset={onReset}
+        />
       ) : (
         <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
           {[0, 1, 2].map((index) => (

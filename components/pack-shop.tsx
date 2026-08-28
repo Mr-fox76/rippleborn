@@ -31,6 +31,15 @@ export function PackShop() {
 
   const activeBuyer = account ?? buyer.trim()
 
+  function resetDeck() {
+    setOrder(null)
+    setCards(null)
+    setPackOpened(false)
+    setStatus({ tone: 'idle', message: '' })
+    setPending(null)
+    if (!account) setBuyer('')
+  }
+
   async function createOrder() {
     setPending('create')
     setCards(null)
@@ -135,7 +144,11 @@ export function PackShop() {
           }}
         />
       ) : (
-        <TarotCards cards={packOpened ? cards : null} buyer={order?.buyer ?? null} />
+        <TarotCards
+          cards={packOpened ? cards : null}
+          buyer={order?.buyer ?? null}
+          onReset={resetDeck}
+        />
       )}
 
       <section

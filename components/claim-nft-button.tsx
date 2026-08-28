@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 
 type ClaimRequest = {
@@ -28,10 +28,12 @@ export function ClaimNftButton({
   buyer,
   nftId,
   offerId,
+  onClaimed,
 }: {
   buyer: string
   nftId: string
   offerId: string
+  onClaimed?: (nftId: string) => void
 }) {
   const [claim, setClaim] = useState<ClaimRequest | null>(null)
   const [creating, setCreating] = useState(false)
@@ -44,6 +46,10 @@ export function ClaimNftButton({
       revalidateOnFocus: true,
     },
   )
+
+  useEffect(() => {
+    if (status?.status === 'claimed') onClaimed?.(nftId)
+  }, [nftId, onClaimed, status?.status])
 
   async function createClaim() {
     setCreating(true)
