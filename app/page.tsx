@@ -3,11 +3,15 @@ import { PackShop } from '@/components/pack-shop'
 import { SiteHero } from '@/components/site-hero'
 import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
 import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
+import { incrementHomepageVisits } from '@/lib/site-counter'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-  const collectionStats = await getCollectionStats().catch(() => EMPTY_COLLECTION_STATS)
+  const [collectionStats, visitCount] = await Promise.all([
+    getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
+    incrementHomepageVisits(),
+  ])
 
   return (
     <XamanWalletProvider>
@@ -18,9 +22,14 @@ export default async function Page() {
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
         <NetworkStatus />
-        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-          3 cards · 5 XRP
-        </p>
+        <div className="flex flex-wrap items-center justify-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+          <p>3 cards · 5 XRP</p>
+          {visitCount !== null ? (
+            <p aria-label={`${visitCount.toLocaleString('en-GB')} site visits`}>
+              Site visits · {visitCount.toLocaleString('en-GB')}
+            </p>
+          ) : null}
+        </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Ledgerborn is an independent company and is not affiliated with, endorsed by, or sponsored by Ripple. Ledgerborn uses the open-source XRP Ledger technology.
         </p>
