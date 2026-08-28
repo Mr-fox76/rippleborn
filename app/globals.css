@@ -505,11 +505,11 @@
 }
 
 .rarity-mythic {
-  --rarity-color: oklch(0.79 0.13 83);
+  --rarity-color: oklch(0.7 0.19 45);
 }
 
 .rarity-limited {
-  --rarity-color: oklch(0.79 0.13 83);
+  --rarity-color: oklch(0.62 0.23 25);
 }
 
 .rarity-common,
