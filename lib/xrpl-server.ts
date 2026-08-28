@@ -10,6 +10,8 @@ import {
   type TransactionMetadata,
 } from 'xrpl'
 
+export type XrplNetwork = 'Testnet' | 'Mainnet'
+
 export type XrplConfig = {
   websocketUrl: string
   treasuryAddress: string
@@ -37,6 +39,11 @@ function parseUnsignedInteger(name: string, value: string, maximum: number): num
     throw new Error(`${name} must be between 0 and ${maximum}.`)
   }
   return parsed
+}
+
+export function getXrplNetwork(websocketUrl = process.env.XRPL_WSS?.trim()): XrplNetwork {
+  const host = (websocketUrl || 'wss://s.altnet.rippletest.net:51233').toLowerCase()
+  return host.includes('altnet') || host.includes('testnet') ? 'Testnet' : 'Mainnet'
 }
 
 export function getXrplConfig(): XrplConfig {
