@@ -22,14 +22,11 @@ type Order = {
 
 export function PackShop() {
   const { account } = useXamanWallet()
-  const [buyer, setBuyer] = useState('')
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [packOpened, setPackOpened] = useState(false)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
-
-  const activeBuyer = account ?? buyer.trim()
 
   function resetDeck() {
     setOrder(null)
@@ -37,10 +34,14 @@ export function PackShop() {
     setPackOpened(false)
     setStatus({ tone: 'idle', message: '' })
     setPending(null)
-    if (!account) setBuyer('')
   }
 
   async function createOrder() {
+    if (!account) {
+      setStatus({ tone: 'error', message: 'Connect Xaman before preparing your pack.' })
+      return
+    }
+
     setPending('create')
     setCards(null)
     setPackOpened(false)
@@ -50,7 +51,7 @@ export function PackShop() {
       const response = await fetch('/api/pack/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ buyer: activeBuyer }),
+        body: JSON.stringify({ buyer: account }),
       })
       const data = await response.json()
 
@@ -62,7 +63,7 @@ export function PackShop() {
 
       setOrder({
         orderId: data.orderId,
-        buyer: activeBuyer,
+        buyer: account,
         destinationAddress: data.destinationAddress,
         destinationTag: data.destinationTag,
         amountDrops: data.amountDrops,
@@ -168,104 +169,44 @@ export function PackShop() {
         aria-label="Open a pack"
         className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
       >
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="xrpl-address"
-            className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground"
-          >
-            Receiving wallet
-          </label>
-          <input
-            id="xrpl-address"
-            name="xrpl-address"
-            value={account ?? buyer}
-            onChange={(event) => setBuyer(event.target.value)}
-            placeholder="r..."
-            disabled={order !== null || account !== null}
-            autoComplete="off"
-            spellCheck={false}
-            aria-describedby="address-hint"
-            className="w-full rounded-md border border-input bg-background/70 px-3 py-2.5 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-70"
-          />
-          <p id="address-hint" className="text-xs text-muted-foreground">
-            {account
-              ? 'Connected with Xaman. This wallet will pay and receive the cards.'
-              : 'Use the same wallet to pay and receive the cards. Never share your seed.'}
-          </p>
-        </div>
-
         <div className="flex flex-col gap-2 sm:flex-row">
           <Button
             onClick={createOrder}
-            disabled={pending !== null || order !== null}
+            disabled={!account || pending !== null || order !== null}
             className="flex-1 bg-primary font-medium text-primary-foreground hover:bg-primary/90"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            Prepare reading
+            Prepare pack
           </Button>
-          <Button
-            onClick={fulfillOrder}
-            disabled={pending !== null || order === null || cards !== null}
-            variant="outline"
-            className="flex-1 border-gold/50 bg-transparent font-medium text-gold hover:bg-gold/10 hover:text-gold"
-          >
-            {pending === 'fulfill' ? (
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            ) : (
+
+          {order && account === order.buyer && !cards ? (
+            <XamanPaymentButton
+              buyer={order.buyer}
+              orderId={order.orderId}
+              label={pending === 'fulfill' ? 'Opening pack…' : 'Open pack'}
+              disabled={pending !== null}
+              onSubmitted={() => {
+                setStatus({ tone: 'pending', message: 'Payment received. Reading the ledger…' })
+                window.setTimeout(() => void fulfillOrder(), 2500)
+              }}
+            />
+          ) : (
+            <Button
+              disabled
+              variant="outline"
+              className="flex-1 border-gold/50 bg-transparent font-medium text-gold"
+            >
               <Sparkles className="size-4" aria-hidden="true" />
-            )}
-            Reveal cards
-          </Button>
+              Open pack
+            </Button>
+          )}
         </div>
 
         <div role="status" aria-live="polite" className="min-h-5 text-center">
           <p className={`text-sm leading-relaxed ${statusColor}`}>
-            {status.message || 'Enter your XRPL address to begin.'}
+            {status.message || (account ? 'Prepare your pack, then open it securely with Xaman.' : 'Connect Xaman to begin.')}
           </p>
         </div>
-
-        {order && account === order.buyer && !cards ? (
-          <XamanPaymentButton
-            buyer={order.buyer}
-            orderId={order.orderId}
-            onSubmitted={(transactionHash) =>
-              setStatus({
-                tone: 'success',
-                message: transactionHash
-                  ? 'Payment submitted to XRPL. Wait a few seconds, then reveal your cards.'
-                  : 'Payment submitted. Wait a few seconds, then reveal your cards.',
-              })
-            }
-          />
-        ) : null}
-
-        {order ? (
-          <details className="rounded-md border border-border bg-background/55 px-3 py-2.5 font-mono text-xs text-muted-foreground" open>
-            <summary className="cursor-pointer uppercase tracking-[0.16em] text-foreground">
-              Payment details
-            </summary>
-            <dl className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
-              <div className="flex flex-col gap-1">
-                <dt className="uppercase tracking-wider">Pay from</dt>
-                <dd className="break-all text-foreground">{order.buyer}</dd>
-              </div>
-              <div className="flex flex-col gap-1">
-                <dt className="uppercase tracking-wider">Destination</dt>
-                <dd className="break-all text-foreground">{order.destinationAddress}</dd>
-              </div>
-              <div className="flex flex-wrap justify-between gap-3">
-                <div>
-                  <dt className="uppercase tracking-wider">Amount</dt>
-                  <dd className="text-foreground">{order.priceXrp} XRP</dd>
-                </div>
-                <div>
-                  <dt className="uppercase tracking-wider">Destination tag</dt>
-                  <dd className="text-foreground">{order.destinationTag}</dd>
-                </div>
-              </div>
-            </dl>
-          </details>
-        ) : null}
       </section>
 
       <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">

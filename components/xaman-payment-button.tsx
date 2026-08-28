@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { Loader2, Smartphone } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import useSWR from 'swr'
 import { Button } from '@/components/ui/button'
 
@@ -24,12 +24,17 @@ export function XamanPaymentButton({
   buyer,
   orderId,
   onSubmitted,
+  label = 'Pay with Xaman',
+  disabled = false,
 }: {
   buyer: string
   orderId: number
   onSubmitted: (transactionHash?: string) => void
+  label?: string
+  disabled?: boolean
 }) {
   const [payment, setPayment] = useState<PaymentRequest | null>(null)
+  const submitted = useRef(false)
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const { data: status, error: statusError } = useSWR(
@@ -38,7 +43,10 @@ export function XamanPaymentButton({
     {
       refreshInterval: (latest) => (latest?.status === 'pending' ? 2500 : 0),
       onSuccess: (latest) => {
-        if (latest.status === 'submitted') onSubmitted(latest.transactionHash)
+        if (latest.status === 'submitted' && !submitted.current) {
+          submitted.current = true
+          onSubmitted(latest.transactionHash)
+        }
       },
     },
   )
@@ -82,16 +90,16 @@ export function XamanPaymentButton({
   }
 
   return (
-    <div className="flex flex-col items-center gap-3 rounded-md border border-gold/35 bg-background/55 p-3 text-center">
+    <div className="flex flex-1 flex-col items-center gap-3 text-center">
       {!payment || terminalMessage ? (
         <Button
           type="button"
           onClick={createPayment}
-          disabled={creating}
+          disabled={creating || disabled}
           className="w-full bg-gold text-primary-foreground hover:bg-gold/85"
         >
           {creating ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Smartphone className="size-4" aria-hidden="true" />}
-          {creating ? 'Preparing Xaman…' : 'Pay with Xaman'}
+          {creating ? 'Preparing Xaman…' : label}
         </Button>
       ) : (
         <>
