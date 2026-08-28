@@ -374,6 +374,40 @@
   outline-offset: 0.3rem;
 }
 
+.tarot-reveal-button.is-first-card {
+  border-color: var(--gold);
+  animation: first-card-glow 1.8s ease-in-out infinite;
+}
+
+.first-card-prompt {
+  position: absolute;
+  left: 50%;
+  top: -0.9rem;
+  z-index: 6;
+  transform: translateX(-50%);
+  border: 1px solid var(--gold);
+  border-radius: 9999px;
+  padding: 0.35rem 0.65rem;
+  background: var(--card);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@keyframes first-card-glow {
+  0%, 100% {
+    box-shadow: 0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%), 0 0 1rem color-mix(in oklch, var(--gold) 35%, transparent);
+  }
+  50% {
+    box-shadow: 0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%), 0 0 2.5rem color-mix(in oklch, var(--gold) 72%, transparent);
+  }
+}
+
 .tarot-back::before {
   position: absolute;
   inset: 0.8rem;
@@ -651,6 +685,7 @@
   .foil-pack,
   .pack-radiance,
   .opening-card,
+  .tarot-reveal-button.is-first-card,
   .table-surface::before,
   .table-surface::after,
   .tarot-slot.is-revealing .tarot-back,

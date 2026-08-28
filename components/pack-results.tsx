@@ -76,10 +76,11 @@ function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => voi
   return (
     <button
       type="button"
-      className="tarot-card tarot-back tarot-reveal-button"
-      aria-label={`Reveal card ${index + 1}`}
+      className={`tarot-card tarot-back tarot-reveal-button ${index === 0 ? 'is-first-card' : ''}`}
+      aria-label={index === 0 ? 'Open the middle card first' : `Reveal card ${index + 1}`}
       onClick={onReveal}
     >
+      {index === 0 ? <span className="first-card-prompt">Open first</span> : null}
       {content}
     </button>
   )
