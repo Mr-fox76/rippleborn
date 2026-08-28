@@ -81,23 +81,53 @@
 .table-surface {
   position: relative;
   isolation: isolate;
+  overflow: hidden;
   background-color: var(--background);
   background-image:
-    radial-gradient(circle at 52% 32%, oklch(0.64 0.2 295 / 18%), transparent 34%),
-    radial-gradient(circle at 18% 72%, oklch(0.72 0.14 205 / 12%), transparent 28%),
-    radial-gradient(circle, oklch(0.94 0.018 260 / 24%) 0 1px, transparent 1.5px);
-  background-size: auto, auto, 5.5rem 5.5rem;
+    radial-gradient(ellipse at 52% 22%, color-mix(in oklch, var(--accent) 16%, transparent), transparent 38%),
+    radial-gradient(ellipse at 12% 72%, color-mix(in oklch, var(--primary) 11%, transparent), transparent 34%),
+    radial-gradient(ellipse at 88% 58%, color-mix(in oklch, var(--accent) 8%, transparent), transparent 30%);
   background-attachment: fixed;
 }
 
-.table-surface::before {
+.table-surface::before,
+.table-surface::after {
   position: fixed;
-  inset: 0;
+  inset: -12%;
   z-index: -1;
   content: '';
   pointer-events: none;
-  background: linear-gradient(180deg, transparent, oklch(0.07 0.035 285 / 62%));
-  box-shadow: inset 0 0 14rem oklch(0.06 0.035 285 / 72%);
+}
+
+.table-surface::before {
+  background-image:
+    radial-gradient(circle, var(--foreground) 0 1px, transparent 1.4px),
+    radial-gradient(circle, var(--primary) 0 1.2px, transparent 1.7px),
+    radial-gradient(circle, var(--accent) 0 0.9px, transparent 1.5px);
+  background-position: 0 0, 2rem 3rem, 5rem 1rem;
+  background-size: 6.5rem 6.5rem, 11rem 11rem, 15rem 15rem;
+  opacity: 0.42;
+  animation: galaxy-drift 90s linear infinite;
+}
+
+.table-surface::after {
+  background:
+    linear-gradient(180deg, transparent 15%, oklch(0.07 0.035 285 / 62%)),
+    radial-gradient(circle at 24% 28%, var(--primary) 0 1px, transparent 2px),
+    radial-gradient(circle at 72% 16%, var(--foreground) 0 1px, transparent 2px),
+    radial-gradient(circle at 82% 76%, var(--accent) 0 1px, transparent 2px);
+  background-size: auto, 19rem 19rem, 27rem 27rem, 23rem 23rem;
+  box-shadow: inset 0 0 14rem oklch(0.06 0.035 285 / 76%);
+  opacity: 0.7;
+  animation: galaxy-drift-near 120s linear infinite;
+}
+
+@keyframes galaxy-drift {
+  to { transform: translate3d(5rem, 3rem, 0) rotate(0.4deg); }
+}
+
+@keyframes galaxy-drift-near {
+  to { transform: translate3d(-4rem, 2rem, 0) scale(1.015); }
 }
 
 .reading-panel {
@@ -687,6 +717,8 @@
   .pack-opening-stage.is-opening .foil-pack,
   .pack-opening-stage.is-opening .foil-pack-top,
   .pack-opening-stage.is-opening .pack-radiance,
+  .table-surface::before,
+  .table-surface::after,
   .pack-opening-stage.is-opening .pack-deal span,
   .pack-energy-rings span,
   .foil-pack,
