@@ -41,9 +41,9 @@ export function RarityOdds({ stats }: { stats: CollectionStats }) {
         </p>
       </div>
 
-      <ul className="flex flex-col gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {CATEGORIES.map((category) => (
-          <li
+          <div
             key={category.name}
             className={`${category.className} rarity-badge rounded-lg border p-3`}
           >
@@ -53,18 +53,18 @@ export function RarityOdds({ stats }: { stats: CollectionStats }) {
             <p className="mt-1 text-xs leading-relaxed text-foreground/70">
               {category.description}
             </p>
-          </li>
+          </div>
         ))}
-      </ul>
 
-      <div className="rarity-limited rarity-badge rounded-lg border p-3">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em]">
-          Limited Phoenix editions
-        </p>
-        <p className="mt-1 text-xs leading-relaxed text-foreground/70">
-          Five individually numbered Phoenix cards crown the collection, available only while their
-          editions remain unclaimed.
-        </p>
+        <div className="rarity-limited rarity-badge rounded-lg border p-3">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em]">
+            Limited Phoenix editions
+          </p>
+          <p className="mt-1 text-xs leading-relaxed text-foreground/70">
+            Five individually numbered Phoenix cards crown the collection, available only while their
+            editions remain unclaimed.
+          </p>
+        </div>
       </div>
     </section>
   )
