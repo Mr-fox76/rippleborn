@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -125,15 +125,14 @@ function RevealedSpread({
   return (
     <div className="flex flex-col items-center gap-6">
       <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
-        {[0, 1, 2].map((index) => {
+        {[1, 0, 2].map((index) => {
         const card = cards[index]
         const isRevealed = revealed.has(index)
 
         return (
           <li
             key={card?.id ?? index}
-            className={`tarot-slot tarot-arrival min-w-0 flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
-            style={{ '--arrival-index': index } as CSSProperties}
+            className={`tarot-slot min-w-0 flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
           >
             {card && isRevealed ? (
               <article

@@ -8,17 +8,17 @@ type PackOpeningProps = {
   canOpen?: boolean
 }
 
-type OpeningPhase = 'sealed' | 'flipping' | 'dealing'
+type OpeningPhase = 'sealed' | 'flipping' | 'spreading'
 
 const PHASE_TIMINGS: Array<{ phase: OpeningPhase; delay: number }> = [
   { phase: 'flipping', delay: 0 },
-  { phase: 'dealing', delay: 1150 },
+  { phase: 'spreading', delay: 1050 },
 ]
 
 const PHASE_COPY: Record<OpeningPhase, string> = {
   sealed: 'Select the sealed pack to begin',
-  flipping: 'The seal is turning…',
-  dealing: 'Your cards have arrived',
+  flipping: 'The first card emerges…',
+  spreading: 'Three fates await your reveal',
 }
 
 export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
@@ -45,7 +45,7 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
     const timers = PHASE_TIMINGS.filter(({ delay }) => delay > 0).map(({ phase: next, delay }) =>
       window.setTimeout(() => setPhase(next), delay),
     )
-    timers.push(window.setTimeout(finish, 2350))
+    timers.push(window.setTimeout(finish, 2200))
     return () => timers.forEach(window.clearTimeout)
   }, [finish, opening])
 
@@ -84,7 +84,19 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
         <span className="foil-pack-bottom" aria-hidden="true" />
       </button>
 
-      <div className="pack-deal" aria-hidden="true"><span /><span /><span /></div>
+      <div className="opening-card-stack" aria-hidden="true">
+        {[0, 1, 2].map((index) => (
+          <div className="opening-card tarot-card tarot-back" key={index}>
+            <div className="tarot-back-inner">
+              <span className="celestial-orbit">
+                <span className="celestial-core" />
+              </span>
+              <span className="celestial-card-name">Ledgerborn</span>
+              <span className="celestial-card-motto">Mythical Set</span>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="pack-opening-controls">
         <p className="pack-opening-prompt" role="status" aria-live="polite">
