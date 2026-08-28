@@ -32,15 +32,6 @@ export function RarityOdds({ stats }: { stats: CollectionStats }) {
         ))}
       </dl>
 
-      <div className="flex flex-col gap-1">
-        <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          Discover every category
-        </h3>
-        <p className="text-sm leading-relaxed text-foreground/80">
-          Every pack contains three collectible cards drawn from the Ledgerborn collection.
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {CATEGORIES.map((category) => (
           <div
