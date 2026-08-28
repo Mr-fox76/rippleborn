@@ -1,0 +1,9 @@
+{
+  "name": "Ledgerbound Knight",
+  "description": "A Rare card from the Rippleborn Genesis collection.",
+  "image": "/cards/ledgerbound-knight.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Rare" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

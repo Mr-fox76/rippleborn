@@ -1,0 +1,9 @@
+{
+  "name": "Validator of the Deep",
+  "description": "A Rare card from the Rippleborn Genesis collection.",
+  "image": "/cards/validator-of-the-deep.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Rare" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

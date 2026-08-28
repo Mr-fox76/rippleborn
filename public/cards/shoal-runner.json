@@ -1,0 +1,9 @@
+{
+  "name": "Shoal Runner",
+  "description": "A Common card from the Rippleborn Genesis collection.",
+  "image": "/cards/shoal-runner.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Common" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

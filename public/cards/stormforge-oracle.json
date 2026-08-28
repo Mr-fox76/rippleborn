@@ -1,0 +1,9 @@
+{
+  "name": "Stormforge Oracle",
+  "description": "An Epic card from the Rippleborn Genesis collection.",
+  "image": "/cards/stormforge-oracle.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Epic" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

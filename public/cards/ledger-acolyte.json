@@ -1,0 +1,9 @@
+{
+  "name": "Ledger Acolyte",
+  "description": "A Common card from the Rippleborn Genesis collection.",
+  "image": "/cards/ledger-acolyte.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Common" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

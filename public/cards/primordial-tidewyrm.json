@@ -1,0 +1,9 @@
+{
+  "name": "Primordial Tidewyrm",
+  "description": "A Mythic card from the Rippleborn Genesis collection.",
+  "image": "/cards/primordial-tidewyrm.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Mythic" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

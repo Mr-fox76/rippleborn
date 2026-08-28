@@ -1,0 +1,9 @@
+{
+  "name": "Aurelian Tidesovereign",
+  "description": "A Legendary card from the Rippleborn Genesis collection.",
+  "image": "/cards/aurelian-tidesovereign.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Legendary" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

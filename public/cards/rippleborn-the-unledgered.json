@@ -1,0 +1,9 @@
+{
+  "name": "Rippleborn, the Unledgered",
+  "description": "A Mythic card from the Rippleborn Genesis collection.",
+  "image": "/cards/rippleborn-the-unledgered.png",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Mythic" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}
