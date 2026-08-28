@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
+import { NetworkStatus } from '@/components/network-status'
 
 export function SiteHero() {
   return (
@@ -14,7 +15,10 @@ export function SiteHero() {
           priority
         />
       </a>
-      <ConnectWalletButton />
+      <div className="flex items-center gap-2 sm:gap-3">
+        <NetworkStatus />
+        <ConnectWalletButton />
+      </div>
     </header>
   )
 }
