@@ -82,7 +82,7 @@ export function XamanPaymentButton({
 
   if (status?.status === 'submitted') {
     return (
-      <div className="rounded-md border border-gold/45 bg-gold/10 px-3 py-3 text-center">
+      <div className="qr-panel px-3 py-3 text-center">
         <p className="font-mono text-xs uppercase tracking-wider text-gold">Payment submitted</p>
         <p className="mt-1 text-xs text-muted-foreground">Wait a few seconds, then reveal your cards.</p>
       </div>
@@ -96,7 +96,7 @@ export function XamanPaymentButton({
           type="button"
           onClick={createPayment}
           disabled={creating || disabled}
-          className="w-full bg-gold text-primary-foreground hover:bg-gold/85"
+          className="primary-action w-full font-mono text-xs font-semibold uppercase tracking-[0.14em]"
         >
           {creating ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : <Smartphone className="size-4" aria-hidden="true" />}
           {creating ? 'Preparing Xaman…' : label}

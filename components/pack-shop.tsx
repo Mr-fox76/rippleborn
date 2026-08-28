@@ -138,15 +138,15 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
           XRPL wallet—provably yours to hold, trade, or collect.
         </p>
         <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/65 px-3 py-1.5 text-xs text-foreground">
+          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
             <Sparkles className="size-3.5 text-primary" aria-hidden="true" />
             One-by-one reveals
           </span>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/65 px-3 py-1.5 text-xs text-foreground">
+          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
             <Gem className="size-3.5 text-primary" aria-hidden="true" />
             Real rarity, including limited pulls
           </span>
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/65 px-3 py-1.5 text-xs text-foreground">
+          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
             <ShieldCheck className="size-3.5 text-primary" aria-hidden="true" />
             Minted and claimed on XRPL
           </span>
@@ -177,7 +177,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
           <Button
             onClick={createOrder}
             disabled={!account || pending !== null || order !== null}
-            className="flex-1 bg-primary font-medium text-primary-foreground hover:bg-primary/90"
+            className="primary-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
             Prepare pack
@@ -198,7 +198,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
             <Button
               disabled
               variant="outline"
-              className="flex-1 border-gold/50 bg-transparent font-medium text-gold"
+              className="ghost-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
             >
               <Sparkles className="size-4" aria-hidden="true" />
               Open pack

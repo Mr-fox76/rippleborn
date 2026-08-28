@@ -13,10 +13,10 @@ export default async function Page() {
     <XamanWalletProvider>
       <div className="table-surface flex min-h-svh flex-col">
       <SiteHero />
-      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-4 py-8 sm:px-6 sm:py-10">
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-4 py-10 sm:px-6 sm:py-14">
         <PackShop collectionStats={collectionStats} />
       </main>
-      <footer className="relative z-10 flex flex-col items-center gap-3 px-6 py-5 text-center sm:flex-row sm:justify-center">
+      <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center sm:flex-row sm:justify-center">
         <NetworkStatus />
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
           3 cards · 5 XRP

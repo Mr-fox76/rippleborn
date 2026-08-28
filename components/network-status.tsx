@@ -6,7 +6,7 @@ export function NetworkStatus() {
 
   return (
     <div
-      className="inline-flex items-center gap-2 rounded-full border border-border bg-card/70 px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-foreground"
+      className="interface-chip inline-flex items-center gap-2 border border-border px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.16em] text-foreground"
       aria-label={`XRPL network: ${network}`}
       title={`Connected to XRPL ${network}`}
     >

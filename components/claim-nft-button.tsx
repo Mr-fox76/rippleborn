@@ -104,13 +104,13 @@ export function ClaimNftButton({
           type="button"
           onClick={createClaim}
           disabled={creating}
-          className="w-full border border-gold/60 bg-gold px-3 py-2 font-sans text-sm font-semibold text-primary-foreground transition hover:bg-gold/85 disabled:cursor-wait disabled:opacity-60"
+          className="primary-action w-full px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] transition disabled:cursor-wait disabled:opacity-60"
         >
           {creating ? 'Preparing Xaman…' : 'Claim NFT'}
         </button>
       ) : (
         <div className="flex flex-col items-center gap-2">
-          <div className="overflow-hidden border border-gold/35 bg-foreground p-2">
+          <div className="qr-panel overflow-hidden p-2">
             <Image src={claim.qrUrl} alt="Scan to claim this NFT in Xaman" width={144} height={144} unoptimized />
           </div>
           <a

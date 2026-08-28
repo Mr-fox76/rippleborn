@@ -189,7 +189,7 @@ function RevealedSpread({
           type="button"
           size="lg"
           onClick={onReset}
-          className="bg-primary px-6 text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90"
+          className="primary-action px-6 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
         >
           <RotateCcw className="size-5" aria-hidden="true" />
           Reset the deck
