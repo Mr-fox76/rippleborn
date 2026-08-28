@@ -99,9 +99,21 @@ export function validateBuyer(value: unknown): string | null {
 }
 
 export function encodeMetadataUri(uri: string | undefined): string | null {
-  if (!uri?.startsWith('ipfs://')) return null
-  const reference = uri.slice('ipfs://'.length)
-  if (!/^b[a-z2-7]{20,}(?:\/[a-z0-9][a-z0-9._-]*\.json)?$/i.test(reference)) return null
+  if (!uri) return null
+
+  try {
+    const metadataUrl = new URL(uri)
+    const isPublicMetadataUrl =
+      metadataUrl.protocol === 'https:' &&
+      metadataUrl.hostname === 'tomato-fancy-frog-92.mypinata.cloud' &&
+      /^\/ipfs\/bafybeifm7vuorm23itozcmevi3ksiqeczazy73hu7qlobu6ds6rxk4ellm\/[a-z0-9][a-z0-9._-]*\.json$/i.test(
+        metadataUrl.pathname,
+      )
+    if (!isPublicMetadataUrl) return null
+  } catch {
+    return null
+  }
+
   const encoded = convertStringToHex(uri).toUpperCase()
   return encoded.length <= 512 ? encoded : null
 }
@@ -122,7 +134,7 @@ export async function mintCardNft(
   metadataUri: string,
 ): Promise<{ nftId: string; offerId: string }> {
   const uri = encodeMetadataUri(metadataUri)
-  if (!uri) throw new Error('Card metadata URI is not a valid IPFS URI.')
+  if (!uri) throw new Error('Card metadata URI is not a valid public HTTPS metadata URL.')
 
   const mint: NFTokenMint = {
     TransactionType: 'NFTokenMint',
