@@ -1,33 +1,75 @@
 'use client'
 
-import { useState } from 'react'
-import { Wallet } from 'lucide-react'
+import Image from 'next/image'
+import { Loader2, LogOut, Wallet } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useXamanWallet } from '@/components/xaman-wallet-provider'
 
-/**
- * UI only. No wallet SDK is wired up yet, so this just reflects intent
- * and tells the user to paste an address for now.
- */
+function shortAddress(address: string) {
+  return `${address.slice(0, 6)}…${address.slice(-5)}`
+}
+
 export function ConnectWalletButton() {
-  const [notice, setNotice] = useState(false)
+  const { account, request, status, creating, error, connect, disconnect } = useXamanWallet()
+
+  if (account) {
+    return (
+      <div className="flex items-center gap-2">
+        <span className="hidden font-mono text-xs text-gold sm:inline">{shortAddress(account)}</span>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={disconnect}
+          className="ghost-action font-mono text-xs uppercase tracking-[0.14em]"
+          aria-label={`Disconnect wallet ${account}`}
+        >
+          <LogOut className="size-4" aria-hidden="true" />
+          Disconnect
+        </Button>
+      </div>
+    )
+  }
 
   return (
-    <div className="flex flex-col items-end gap-1">
+    <div className="relative flex flex-col items-end gap-1">
       <Button
-        variant="outline"
-        size="sm"
-        onClick={() => setNotice(true)}
-        className="border-primary/40 bg-transparent text-primary hover:bg-primary/10 hover:text-primary"
+        size="lg"
+        onClick={connect}
+        disabled={creating || status?.status === 'pending'}
+        className="primary-action min-h-12 px-6 font-mono text-xs font-semibold uppercase tracking-[0.14em] sm:min-w-52"
       >
-        <Wallet className="size-4" aria-hidden="true" />
-        Connect wallet
+        {creating || status?.status === 'pending' ? (
+          <Loader2 className="size-5 animate-spin" aria-hidden="true" />
+        ) : (
+          <Wallet className="size-5" aria-hidden="true" />
+        )}
+        {status?.status === 'pending' ? 'Waiting for Xaman' : 'Connect Xaman'}
       </Button>
 
-      {notice ? (
-        <p role="status" className="font-mono text-xs text-muted-foreground">
-          Coming soon — paste your address below.
-        </p>
+      {request ? (
+        <div className="qr-panel absolute right-0 top-14 z-50 flex w-56 flex-col items-center gap-3 p-4 text-center">
+          <Image
+            src={request.qrUrl}
+            alt="Scan to connect your wallet in Xaman"
+            width={160}
+            height={160}
+            unoptimized
+          />
+          <a
+            href={request.deepLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-gold underline underline-offset-4"
+          >
+            Open in Xaman
+          </a>
+          <p className="font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">
+            Scan or open to connect
+          </p>
+        </div>
       ) : null}
+
+      {error ? <p role="alert" className="max-w-64 text-right text-xs text-destructive">{error}</p> : null}
     </div>
   )
 }

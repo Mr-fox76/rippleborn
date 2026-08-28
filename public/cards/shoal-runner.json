@@ -1,0 +1,10 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "name": "Shoal Runner",
+  "description": "A Common card from the Rippleborn Genesis collection.",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeigadv73zcybwia7e53vdqv5wzkh6k5ekpjae25fdtpvi3pp3pou5e",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Common" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "name": "Cobalt Tidecaller",
+  "description": "A Rare card from the Rippleborn Genesis collection.",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeiajgnadgegt5gtdz2wc64qvuqoeg3rx5v5w6pylg6sipuozxksijm",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Rare" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}

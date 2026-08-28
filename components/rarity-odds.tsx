@@ -1,67 +1,71 @@
-import { RARITIES, SLOT_ODDS, type Rarity } from '@/lib/rippleborn'
+import type { CollectionStats } from '@/lib/pack-results'
+import type { Rarity } from '@/lib/rippleborn'
 
-const RARITY_TEXT: Record<Rarity, string> = {
-  Common: 'text-rarity-common',
-  Rare: 'text-rarity-rare',
-  Epic: 'text-rarity-epic',
-  Legendary: 'text-rarity-legendary',
-  Mythic: 'text-rarity-mythic',
-}
+const CATEGORIES: Array<{ name: Rarity; description: string; className: string }> = [
+  { name: 'Common', description: 'Foundational cards from the Ledgerborn world.', className: 'rarity-common' },
+  { name: 'Rare', description: 'Distinctive characters with stronger collectible appeal.', className: 'rarity-rare' },
+  { name: 'Epic', description: 'Striking artwork reserved for exceptional pulls.', className: 'rarity-epic' },
+  { name: 'Legendary', description: 'Prestige cards featuring the collection’s icons.', className: 'rarity-legendary' },
+  { name: 'Mythic', description: 'The highest tier of standard Ledgerborn cards.', className: 'rarity-mythic' },
+]
 
-const RARITY_BAR: Record<Rarity, string> = {
-  Common: 'bg-rarity-common',
-  Rare: 'bg-rarity-rare',
-  Epic: 'bg-rarity-epic',
-  Legendary: 'bg-rarity-legendary',
-  Mythic: 'bg-rarity-mythic',
-}
+export function RarityOdds({ stats }: { stats: CollectionStats }) {
+  const counters = [
+    { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
+    { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
+    { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
+    { label: 'Limited', value: stats.limitedFound, className: 'rarity-limited' },
+  ]
 
-export function RarityOdds() {
   return (
-    <section aria-label="Pack rarity odds" className="flex flex-col gap-5">
-      <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-        Rarity odds
-      </h3>
-
-      <dl className="flex flex-col gap-5">
-        {SLOT_ODDS.map((slot) => {
-          const entries = RARITIES.filter((r) => slot.odds[r]).map((r) => ({
-            rarity: r,
-            weight: slot.odds[r] as number,
-          }))
-
-          return (
-            <div key={slot.slot} className="flex flex-col gap-2">
-              <dt className="font-mono text-xs uppercase tracking-widest text-foreground/70">
-                {slot.label}
-              </dt>
-
-              <dd className="flex flex-col gap-2">
-                {/* Proportional bar so the chase odds read at a glance */}
-                <div className="flex h-1 overflow-hidden rounded-full bg-muted">
-                  {entries.map(({ rarity, weight }) => (
-                    <span
-                      key={rarity}
-                      aria-hidden="true"
-                      className={RARITY_BAR[rarity]}
-                      style={{ width: `${weight}%` }}
-                    />
-                  ))}
-                </div>
-
-                <ul className="flex flex-wrap gap-x-4 gap-y-1">
-                  {entries.map(({ rarity, weight }) => (
-                    <li key={rarity} className="font-mono text-xs">
-                      <span className={RARITY_TEXT[rarity]}>{rarity}</span>
-                      <span className="text-muted-foreground"> {weight}%</span>
-                    </li>
-                  ))}
-                </ul>
-              </dd>
-            </div>
-          )
-        })}
+    <section aria-label="Card categories" className="flex flex-col gap-5">
+      <dl aria-label="Global collection totals" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {counters.map((counter) => (
+          <div key={counter.label} className="rounded-lg border border-border bg-card/55 p-3 text-center">
+            <dd className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}>
+              {counter.value.toLocaleString()}
+            </dd>
+            <dt className="mt-1 text-[0.7rem] font-medium uppercase tracking-wider text-muted-foreground">
+              {counter.label}
+            </dt>
+          </div>
+        ))}
       </dl>
+
+      <div className="flex flex-col gap-1">
+        <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+          Discover every category
+        </h3>
+        <p className="text-sm leading-relaxed text-foreground/80">
+          Every pack contains three collectible cards drawn from the Ledgerborn collection.
+        </p>
+      </div>
+
+      <ul className="flex flex-col gap-3">
+        {CATEGORIES.map((category) => (
+          <li
+            key={category.name}
+            className={`${category.className} rarity-badge rounded-lg border p-3`}
+          >
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em]">
+              {category.name}
+            </p>
+            <p className="mt-1 text-xs leading-relaxed text-foreground/70">
+              {category.description}
+            </p>
+          </li>
+        ))}
+      </ul>
+
+      <div className="rarity-limited rarity-badge rounded-lg border p-3">
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em]">
+          Limited Phoenix editions
+        </p>
+        <p className="mt-1 text-xs leading-relaxed text-foreground/70">
+          Five individually numbered Phoenix cards crown the collection, available only while their
+          editions remain unclaimed.
+        </p>
+      </div>
     </section>
   )
 }

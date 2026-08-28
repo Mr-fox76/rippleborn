@@ -1,46 +1,80 @@
 'use client'
 
 import { useState } from 'react'
-import { Loader2, Package, Sparkles } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { PackResults } from '@/components/pack-results'
+import { useRouter } from 'next/navigation'
+import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
+import { PackOpening } from '@/components/pack-opening'
+import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { RarityOdds } from '@/components/rarity-odds'
-import { CARDS_PER_PACK, PACK_PRICE_XRP, type Card } from '@/lib/rippleborn'
+import { Button } from '@/components/ui/button'
+import { XamanPaymentButton } from '@/components/xaman-payment-button'
+import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import type { CollectionStats } from '@/lib/pack-results'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
-type Order = { orderId: string; destinationTag?: number }
+type Order = {
+  orderId: number
+  buyer: string
+  destinationAddress: string
+  destinationTag: number
+  amountDrops: string
+  priceXrp: string
+}
 
-export function PackShop() {
-  const [buyer, setBuyer] = useState('')
+export function PackShop({ collectionStats }: { collectionStats: CollectionStats }) {
+  const router = useRouter()
+  const { account } = useXamanWallet()
   const [order, setOrder] = useState<Order | null>(null)
-  const [cards, setCards] = useState<Card[] | null>(null)
+  const [cards, setCards] = useState<FulfilledCard[] | null>(null)
+  const [packOpened, setPackOpened] = useState(false)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
 
+  function resetDeck() {
+    setOrder(null)
+    setCards(null)
+    setPackOpened(false)
+    setStatus({ tone: 'idle', message: '' })
+    setPending(null)
+  }
+
   async function createOrder() {
+    if (!account) {
+      setStatus({ tone: 'error', message: 'Connect Xaman before preparing your pack.' })
+      return
+    }
+
     setPending('create')
     setCards(null)
-    setStatus({ tone: 'pending', message: 'Reserving your pack…' })
+    setPackOpened(false)
+    setStatus({ tone: 'pending', message: 'Preparing your reading…' })
 
     try {
-      const res = await fetch('/api/pack/create', {
+      const response = await fetch('/api/pack/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ buyer }),
+        body: JSON.stringify({ buyer: account }),
       })
-      const data = await res.json()
+      const data = await response.json()
 
-      if (!res.ok) {
+      if (!response.ok) {
         setOrder(null)
         setStatus({ tone: 'error', message: data.error ?? 'Could not create the pack order.' })
         return
       }
 
-      setOrder({ orderId: data.orderId, destinationTag: data.destinationTag })
+      setOrder({
+        orderId: data.orderId,
+        buyer: account,
+        destinationAddress: data.destinationAddress,
+        destinationTag: data.destinationTag,
+        amountDrops: data.amountDrops,
+        priceXrp: data.priceXrp,
+      })
       setStatus({
         tone: 'success',
-        message: `Order ${data.orderId} reserved. Send ${PACK_PRICE_XRP} XRP, then fulfill to open.`,
+        message: `Send exactly ${data.priceXrp} XRP with the destination tag below.`,
       })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
@@ -56,23 +90,25 @@ export function PackShop() {
     }
 
     setPending('fulfill')
-    setStatus({ tone: 'pending', message: 'Verifying payment and opening your pack…' })
+    setStatus({ tone: 'pending', message: 'Reading the ledger…' })
 
     try {
-      const res = await fetch('/api/pack/fulfill', {
+      const response = await fetch('/api/pack/fulfill', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ orderId: order.orderId, buyer }),
+        body: JSON.stringify({ orderId: order.orderId, buyer: order.buyer }),
       })
-      const data = await res.json()
+      const data = await response.json()
 
-      if (!res.ok) {
-        setStatus({ tone: 'error', message: data.error ?? 'Could not fulfill the order.' })
+      if (!response.ok) {
+        setStatus({ tone: 'error', message: data.error ?? 'Could not claim the pack.' })
         return
       }
 
       setCards(data.cards)
-      setStatus({ tone: 'success', message: `Pack opened. ${data.cards.length} cards pulled.` })
+      setPackOpened(false)
+      setStatus({ tone: 'success', message: 'The ledger has spoken. Open your sealed pack.' })
+      router.refresh()
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
     } finally {
@@ -80,134 +116,106 @@ export function PackShop() {
     }
   }
 
-  const statusTone =
+  const statusColor =
     status.tone === 'error'
       ? 'text-destructive'
       : status.tone === 'success'
-        ? 'text-primary'
+        ? 'text-gold'
         : 'text-muted-foreground'
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
-        {/* Product panel */}
-      <section
-        aria-label="Booster pack"
-        className="relative flex flex-1 flex-col gap-8 overflow-hidden rounded-xl border border-border bg-card p-6 sm:p-8"
-      >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -top-24 size-64 rounded-full bg-primary/10 blur-3xl"
+    <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
+      <div className="flex flex-col items-center gap-2 text-center">
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
+          A new kind of digital pack opening
+        </p>
+        <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+          Open the pack. Feel the reveal. Own every card.
+        </h1>
+        <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Ledgerborn turns the thrill of opening a collectible card pack into an on-chain experience.
+          Draw three celestial cards, reveal them one by one, then claim each NFT directly to your
+          XRPL wallet—provably yours to hold, trade, or collect.
+        </p>
+        <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
+          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
+            <Sparkles className="size-3.5 text-primary" aria-hidden="true" />
+            One-by-one reveals
+          </span>
+          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
+            <Gem className="size-3.5 text-primary" aria-hidden="true" />
+            Real rarity, including limited pulls
+          </span>
+          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
+            <ShieldCheck className="size-3.5 text-primary" aria-hidden="true" />
+            Minted and claimed on XRPL
+          </span>
+        </div>
+        <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-gold">
+          Three collectible NFTs · One immersive opening · 5 XRP
+        </p>
+      </div>
+
+      {!cards ? (
+        <PackOpening canOpen={false} />
+      ) : !packOpened ? (
+        <PackOpening
+          onComplete={() => {
+            setPackOpened(true)
+            setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
+          }}
         />
+      ) : (
+        <TarotCards cards={cards} buyer={order?.buyer ?? null} onReset={resetDeck} />
+      )}
 
-        <div className="relative flex flex-col gap-6">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex flex-col gap-1">
-              <h2 className="font-sans text-2xl font-semibold tracking-tight text-balance">
-                Genesis Booster
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                {CARDS_PER_PACK} XRPL NFTs, minted straight to your wallet.
-              </p>
-            </div>
-            <span className="shrink-0 rounded-full border border-gold/40 px-3 py-1 font-mono text-xs text-gold">
-              {PACK_PRICE_XRP} XRP
-            </span>
-          </div>
+      <section
+        aria-label="Open a pack"
+        className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
+      >
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <Button
+            onClick={createOrder}
+            disabled={!account || pending !== null || order !== null}
+            className="primary-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+          >
+            {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+            Prepare pack
+          </Button>
 
-          {/* Pack artwork stand-in: three stacked card silhouettes */}
-          <div className="flex items-end justify-center gap-3 py-4" aria-hidden="true">
-            {[0, 1, 2].map((i) => (
-              <div
-                key={i}
-                className="flex h-32 w-20 items-center justify-center rounded-md border border-primary/25 bg-gradient-to-b from-primary/10 to-transparent sm:h-40 sm:w-24"
-                style={{ transform: `translateY(${i === 1 ? '-12px' : '0'})` }}
-              >
-                <Package className="size-6 text-primary/50" />
-              </div>
-            ))}
-          </div>
+          {order && account === order.buyer && !cards ? (
+            <XamanPaymentButton
+              buyer={order.buyer}
+              orderId={order.orderId}
+              label={pending === 'fulfill' ? 'Opening pack…' : 'Open pack'}
+              disabled={pending !== null}
+              onSubmitted={() => {
+                setStatus({ tone: 'pending', message: 'Payment received. Reading the ledger…' })
+                window.setTimeout(() => void fulfillOrder(), 2500)
+              }}
+            />
+          ) : (
+            <Button
+              disabled
+              variant="outline"
+              className="ghost-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+            >
+              <Sparkles className="size-4" aria-hidden="true" />
+              Open pack
+            </Button>
+          )}
+        </div>
 
-          <RarityOdds />
+        <div role="status" aria-live="polite" className="min-h-5 text-center">
+          <p className={`text-sm leading-relaxed ${statusColor}`}>
+            {status.message || (account ? 'Prepare your pack, then open it securely with Xaman.' : 'Connect Xaman to begin.')}
+          </p>
         </div>
       </section>
 
-      {/* Checkout panel */}
-      <section
-        aria-label="Open a pack"
-        className="flex flex-1 flex-col gap-6 rounded-xl border border-border bg-card p-6 sm:p-8"
-      >
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="xrpl-address"
-            className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground"
-          >
-            XRPL address
-          </label>
-          <input
-            id="xrpl-address"
-            name="xrpl-address"
-            value={buyer}
-            onChange={(e) => setBuyer(e.target.value)}
-            placeholder="r..."
-            autoComplete="off"
-            spellCheck={false}
-            aria-describedby="address-hint"
-            className="w-full rounded-md border border-input bg-background px-4 py-3 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30"
-          />
-          <p id="address-hint" className="text-xs text-muted-foreground">
-            Cards are minted to this address. Never share your seed or private key.
-          </p>
-        </div>
-
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <Button
-            onClick={createOrder}
-            disabled={pending !== null}
-            className="flex-1 bg-primary font-medium text-primary-foreground hover:bg-primary/90"
-          >
-            {pending === 'create' ? (
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            ) : null}
-            Create pack order
-          </Button>
-
-          <Button
-            onClick={fulfillOrder}
-            disabled={pending !== null}
-            variant="outline"
-            className="flex-1 border-gold/50 bg-transparent font-medium text-gold hover:bg-gold/10 hover:text-gold"
-          >
-            {pending === 'fulfill' ? (
-              <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-            ) : (
-              <Sparkles className="size-4" aria-hidden="true" />
-            )}
-            Fulfill after payment
-          </Button>
-        </div>
-
-        {/* Status message area */}
-        <div
-          role="status"
-          aria-live="polite"
-          className="min-h-12 rounded-md border border-border bg-background px-4 py-3"
-        >
-          <p className={`text-sm leading-relaxed ${statusTone}`}>
-            {status.message || 'Enter your XRPL address to begin.'}
-          </p>
-          {order && status.tone !== 'error' ? (
-            <p className="mt-1 font-mono text-xs text-muted-foreground">
-              Order {order.orderId}
-              {order.destinationTag ? ` · tag ${order.destinationTag}` : ''}
-            </p>
-          ) : null}
-        </div>
-
-        </section>
-      </div>
-
-      {cards ? <PackResults cards={cards} /> : null}
+      <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">
+          <RarityOdds stats={collectionStats} />
+      </aside>
     </div>
   )
 }

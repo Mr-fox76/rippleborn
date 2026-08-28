@@ -1,22 +1,28 @@
-import { SiteHero } from '@/components/site-hero'
+import { NetworkStatus } from '@/components/network-status'
 import { PackShop } from '@/components/pack-shop'
+import { SiteHero } from '@/components/site-hero'
+import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
+import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
 
-export default function Page() {
+export const dynamic = 'force-dynamic'
+
+export default async function Page() {
+  const collectionStats = await getCollectionStats().catch(() => EMPTY_COLLECTION_STATS)
+
   return (
-    <>
+    <XamanWalletProvider>
+      <div className="table-surface flex min-h-svh flex-col">
       <SiteHero />
-
-      <main className="mx-auto w-full max-w-5xl px-6 py-12 sm:py-16">
-        <PackShop />
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-4 py-10 sm:px-6 sm:py-14">
+        <PackShop collectionStats={collectionStats} />
       </main>
-
-      <footer className="border-t border-border">
-        <div className="mx-auto w-full max-w-5xl px-6 py-8">
-          <p className="font-mono text-xs leading-relaxed text-muted-foreground">
-            Rippleborn · Demo mode — packs are simulated and no XRPL transaction is broadcast.
-          </p>
-        </div>
+      <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center sm:flex-row sm:justify-center">
+        <NetworkStatus />
+        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
+          3 cards · 5 XRP
+        </p>
       </footer>
-    </>
+      </div>
+    </XamanWalletProvider>
   )
 }

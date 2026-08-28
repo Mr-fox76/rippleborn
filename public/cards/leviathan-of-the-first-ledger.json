@@ -1,0 +1,10 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "name": "Leviathan of the First Ledger",
+  "description": "A Legendary card from the Rippleborn Genesis collection.",
+  "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeicu62iag455faavn63db757icu64i63igsccwhis7jk66tdea42fu",
+  "attributes": [
+    { "trait_type": "Rarity", "value": "Legendary" },
+    { "trait_type": "Collection", "value": "Rippleborn Genesis" }
+  ]
+}
