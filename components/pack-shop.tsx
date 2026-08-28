@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Loader2, Sparkles } from 'lucide-react'
+import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { RarityOdds } from '@/components/rarity-odds'
@@ -122,17 +122,32 @@ export function PackShop() {
     <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
       <div className="flex flex-col items-center gap-2 text-center">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
-          Genesis reading
+          A new kind of digital pack opening
         </p>
-        <h1 className="font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Draw three from the ledger
+        <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+          Open the pack. Feel the reveal. Own every card.
         </h1>
-        <p className="max-w-xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Discover a unique collection of celestial, collectible NFTs—minted on the XRPL and drawn
-          from packs where every reveal holds its own rarity and story.
+        <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Rippleborn turns the thrill of opening a collectible card pack into an on-chain experience.
+          Draw three celestial cards, reveal them one by one, then claim each NFT directly to your
+          XRPL wallet—provably yours to hold, trade, or collect.
         </p>
+        <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/65 px-3 py-1.5 text-xs text-foreground">
+            <Sparkles className="size-3.5 text-primary" aria-hidden="true" />
+            One-by-one reveals
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/65 px-3 py-1.5 text-xs text-foreground">
+            <Gem className="size-3.5 text-primary" aria-hidden="true" />
+            Real rarity, including limited pulls
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card/65 px-3 py-1.5 text-xs text-foreground">
+            <ShieldCheck className="size-3.5 text-primary" aria-hidden="true" />
+            Minted and claimed on XRPL
+          </span>
+        </div>
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-gold">
-          Three collectible NFTs · 5 XRP
+          Three collectible NFTs · One immersive opening · 5 XRP
         </p>
       </div>
 
