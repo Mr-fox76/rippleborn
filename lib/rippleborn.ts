@@ -19,6 +19,34 @@ export type Card = {
 export const PACK_PRICE_XRP = 5
 export const CARDS_PER_PACK = 3
 
+const CARD_WISDOM: Record<string, string> = {
+  'Ledger Acolyte': 'Every great path begins with one honest step. Trust what you are learning and keep moving forward.',
+  'Tidewatch Scribe': 'Notice the quiet signs around you. Wisdom often arrives softly, long before the tide turns.',
+  'Shoal Runner': 'Move with those who lift your spirit. Shared courage carries everyone farther.',
+  'Consensus Page': 'Your voice matters, and so does listening. Harmony grows when every truth is given room.',
+  'Driftglass Sentry': 'Stay gentle without lowering your guard. Clear boundaries protect the light you carry.',
+  'Saltmarsh Courier': 'Good news grows when it is shared. Be the message of hope someone needs today.',
+  'Validator of the Deep': 'Stand firm in what you know to be true. Integrity is a beacon even in the deepest waters.',
+  Ripplewright: 'Small ripples become mighty currents. Never underestimate the good your actions can set in motion.',
+  'Escrow Warden': 'What is meant for you will arrive in its season. Patience protects what haste might lose.',
+  'Cobalt Tidecaller': 'Call your dreams closer with brave action. The future listens when intention becomes movement.',
+  'Ledgerbound Knight': 'Keep your promises, especially the ones made to yourself. Self-trust is a strength no one can take.',
+  'Abyssal Consensus': 'Even in uncertainty, common ground can be found. Seek connection before division.',
+  'Stormforge Oracle': 'The storm is shaping you, not stopping you. Let every challenge reveal a stronger vision.',
+  'Warden of Split Tides': 'When two paths appear, choose the one that brings you closer to who you wish to become.',
+  'Archon of Flowing Ledgers': 'Let abundance flow through you, not merely to you. What you share returns in unexpected forms.',
+  'Leviathan of the First Ledger': 'Your beginnings hold more power than you remember. Return to your purpose and rise renewed.',
+  'Aurelian Tidesovereign': 'Lead with warmth and others will find their courage. True power leaves light in its wake.',
+  'The Gilded Quorum': 'Celebrate the strengths of others. Together, many bright voices become an unshakable song.',
+  'Rippleborn, the Unledgered': 'You are not confined by the story already written. Create the next chapter with fearless hope.',
+  'Primordial Tidewyrm': 'Ancient strength lives within you. Breathe deeply, trust yourself, and meet the moment whole.',
+  'The Phoenix': 'Endings are embers awaiting breath. Release what has passed, keep its lesson, and rise lighter.',
+}
+
+export function getCardWisdom(name: string): string {
+  return CARD_WISDOM[name] ?? 'Carry hope into what comes next. Your light can change the path ahead.'
+}
+
 /**
  * Odds per slot, expressed as weights that sum to 100.
  * Slot 1 is a guaranteed Common, slot 3 carries the chase rarities.

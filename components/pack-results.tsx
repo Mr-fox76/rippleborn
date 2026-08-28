@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
-import type { Card } from '@/lib/rippleborn'
+import { getCardWisdom, type Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
   mintStatus?: 'minted' | 'skipped' | 'failed'
@@ -162,7 +162,10 @@ function RevealedSpread({
                     </p>
                   </div>
                 </div>
-                <div className="p-3">
+                <div className="flex flex-col gap-3 p-3">
+                  <blockquote className="border-t border-border pt-3 text-center font-sans text-sm italic leading-relaxed text-card-foreground text-pretty">
+                    “{getCardWisdom(card.name)}”
+                  </blockquote>
                   <CardDetails card={card} />
                   {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
                     <ClaimNftButton
