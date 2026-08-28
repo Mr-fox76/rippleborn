@@ -76,9 +76,9 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
           <span className="foil-pack-kicker">Mythical Set</span>
           <span className="foil-pack-sigil" aria-hidden="true"><span /></span>
           <span className="foil-pack-title">Ledgerborn</span>
-          <span className="foil-pack-count" aria-label="Three NFT cards">
+          <span className="foil-pack-count" aria-label="Three card pack">
             <span className="foil-pack-count-number" aria-hidden="true">3</span>
-            <span aria-hidden="true">NFT cards</span>
+            <span aria-hidden="true">Pack</span>
           </span>
         </span>
         <span className="foil-pack-bottom" aria-hidden="true" />
