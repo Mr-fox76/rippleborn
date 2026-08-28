@@ -1,7 +1,7 @@
 {
   "name": "Leviathan of the First Ledger",
   "description": "A Legendary card from the Rippleborn Genesis collection.",
-  "image": "/cards/leviathan-of-the-first-ledger.png",
+  "image": "ipfs://bafybeicu62iag455faavn63db757icu64i63igsccwhis7jk66tdea42fu",
   "attributes": [
     { "trait_type": "Rarity", "value": "Legendary" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }
