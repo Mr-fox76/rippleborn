@@ -29,42 +29,41 @@ export const SLOT_ODDS: { slot: number; label: string; odds: Partial<Record<Rari
   { slot: 3, label: 'Slot 3', odds: { Rare: 55, Epic: 30, Legendary: 12, Mythic: 3 } },
 ]
 
-type CardArt = { name: string; image: string; uri?: string }
+type CardArt = { name: string; image: string; uri: string }
+
+const CARD_METADATA_ROOT = 'ipfs://bafybeif4eujk6kj3ox3l4cpfmoc5kc3uig5umfspybwyh7fwlqr37tm3ma'
+const metadataUri = (filename: string) => `${CARD_METADATA_ROOT}/${filename}.json`
 
 export const CARD_POOL: Record<Rarity, CardArt[]> = {
   Common: [
-    { name: 'Ledger Acolyte', image: '/cards/ledger-acolyte.png' },
-    { name: 'Tidewatch Scribe', image: '/cards/tidewatch-scribe.png' },
-    { name: 'Shoal Runner', image: '/cards/shoal-runner.png' },
-    { name: 'Consensus Page', image: '/cards/consensus-page.png' },
-    { name: 'Driftglass Sentry', image: '/cards/driftglass-sentry.png' },
-    { name: 'Saltmarsh Courier', image: '/cards/saltmarsh-courier.png' },
+    { name: 'Ledger Acolyte', image: '/cards/ledger-acolyte.png', uri: metadataUri('ledger-acolyte') },
+    { name: 'Tidewatch Scribe', image: '/cards/tidewatch-scribe.png', uri: metadataUri('tidewatch-scribe') },
+    { name: 'Shoal Runner', image: '/cards/shoal-runner.png', uri: metadataUri('shoal-runner') },
+    { name: 'Consensus Page', image: '/cards/consensus-page.png', uri: metadataUri('consensus-page') },
+    { name: 'Driftglass Sentry', image: '/cards/driftglass-sentry.png', uri: metadataUri('driftglass-sentry') },
+    { name: 'Saltmarsh Courier', image: '/cards/saltmarsh-courier.png', uri: metadataUri('saltmarsh-courier') },
   ],
   Rare: [
-    { name: 'Validator of the Deep', image: '/cards/validator-of-the-deep.png' },
-    { name: 'Ripplewright', image: '/cards/ripplewright.png' },
-    { name: 'Escrow Warden', image: '/cards/escrow-warden.png' },
-    { name: 'Cobalt Tidecaller', image: '/cards/cobalt-tidecaller.png' },
-    { name: 'Ledgerbound Knight', image: '/cards/ledgerbound-knight.png' },
+    { name: 'Validator of the Deep', image: '/cards/validator-of-the-deep.png', uri: metadataUri('validator-of-the-deep') },
+    { name: 'Ripplewright', image: '/cards/ripplewright.png', uri: metadataUri('ripplewright') },
+    { name: 'Escrow Warden', image: '/cards/escrow-warden.png', uri: metadataUri('escrow-warden') },
+    { name: 'Cobalt Tidecaller', image: '/cards/cobalt-tidecaller.png', uri: metadataUri('cobalt-tidecaller') },
+    { name: 'Ledgerbound Knight', image: '/cards/ledgerbound-knight.png', uri: metadataUri('ledgerbound-knight') },
   ],
   Epic: [
-    {
-      name: 'Archon of Flowing Ledgers',
-      image: '/cards/archon-of-flowing-ledgers.png',
-      uri: 'ipfs://bafkreics7yiqb56nodcjehqih5ayomtc7kyq25tc4phgeyabwa6x56flxm',
-    },
-    { name: 'Abyssal Consensus', image: '/cards/abyssal-consensus.png' },
-    { name: 'Stormforge Oracle', image: '/cards/stormforge-oracle.png' },
-    { name: 'Warden of Split Tides', image: '/cards/warden-of-split-tides.png' },
+    { name: 'Archon of Flowing Ledgers', image: '/cards/archon-of-flowing-ledgers.png', uri: metadataUri('archon-flowing-ledgers') },
+    { name: 'Abyssal Consensus', image: '/cards/abyssal-consensus.png', uri: metadataUri('abyssal-consensus') },
+    { name: 'Stormforge Oracle', image: '/cards/stormforge-oracle.png', uri: metadataUri('stormforge-oracle') },
+    { name: 'Warden of Split Tides', image: '/cards/warden-of-split-tides.png', uri: metadataUri('warden-of-split-tides') },
   ],
   Legendary: [
-    { name: 'Leviathan of the First Ledger', image: '/cards/leviathan-of-the-first-ledger.png' },
-    { name: 'Aurelian Tidesovereign', image: '/cards/aurelian-tidesovereign.png' },
-    { name: 'The Gilded Quorum', image: '/cards/the-gilded-quorum.png' },
+    { name: 'Leviathan of the First Ledger', image: '/cards/leviathan-of-the-first-ledger.png', uri: metadataUri('leviathan-of-the-first-ledger') },
+    { name: 'Aurelian Tidesovereign', image: '/cards/aurelian-tidesovereign.png', uri: metadataUri('aurelian-tidesovereign') },
+    { name: 'The Gilded Quorum', image: '/cards/the-gilded-quorum.png', uri: metadataUri('the-gilded-quorum') },
   ],
   Mythic: [
-    { name: 'Rippleborn, the Unledgered', image: '/cards/rippleborn-the-unledgered.png' },
-    { name: 'Primordial Tidewyrm', image: '/cards/primordial-tidewyrm.png' },
+    { name: 'Rippleborn, the Unledgered', image: '/cards/rippleborn-the-unledgered.png', uri: metadataUri('rippleborn-the-unledgered') },
+    { name: 'Primordial Tidewyrm', image: '/cards/primordial-tidewyrm.png', uri: metadataUri('primordial-tidewyrm') },
   ],
 }
 
