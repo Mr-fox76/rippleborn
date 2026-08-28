@@ -1,7 +1,7 @@
 {
   "name": "Ripplewright",
   "description": "A Rare card from the Rippleborn Genesis collection.",
-  "image": "/cards/ripplewright.png",
+  "image": "ipfs://bafybeidzgkipiv5jbdvpbbegw2fl2fdgoxeojy4iswrqpjoagavugrma7i",
   "attributes": [
     { "trait_type": "Rarity", "value": "Rare" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }
