@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 type PackOpeningProps = {
-  onComplete: () => void
+  onComplete?: () => void
+  canOpen?: boolean
 }
 
 type OpeningPhase = 'sealed' | 'charging' | 'tearing' | 'releasing' | 'dealing'
@@ -24,14 +25,14 @@ const PHASE_COPY: Record<OpeningPhase, string> = {
   dealing: 'Your cards have arrived',
 }
 
-export function PackOpening({ onComplete }: PackOpeningProps) {
+export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
   const [phase, setPhase] = useState<OpeningPhase>('sealed')
   const completed = useRef(false)
 
   const finish = useCallback(() => {
     if (completed.current) return
     completed.current = true
-    onComplete()
+    onComplete?.()
   }, [onComplete])
 
   const opening = phase !== 'sealed'
@@ -54,8 +55,8 @@ export function PackOpening({ onComplete }: PackOpeningProps) {
 
   return (
     <section
-      className={`pack-opening-stage phase-${phase}`}
-      aria-label="Open your Rippleborn pack"
+      className={`pack-opening-stage phase-${phase} ${canOpen ? 'can-open' : 'pack-preview'}`}
+      aria-label={canOpen ? 'Open your Rippleborn pack' : 'Rippleborn collectible card pack'}
     >
       <div className="pack-energy-rings" aria-hidden="true"><span /><span /><span /></div>
       <div className="pack-radiance" aria-hidden="true" />
@@ -66,10 +67,13 @@ export function PackOpening({ onComplete }: PackOpeningProps) {
       <button
         type="button"
         className="foil-pack"
-        aria-label={opening ? 'Pack opening in progress' : 'Open pack'}
+        aria-label={opening ? 'Pack opening in progress' : canOpen ? 'Open pack' : 'Purchase pack to open'}
         aria-busy={opening}
+        aria-disabled={!canOpen || opening}
         disabled={opening}
-        onClick={() => setPhase('charging')}
+        onClick={() => {
+          if (canOpen) setPhase('charging')
+        }}
       >
         <span className="foil-pack-top" aria-hidden="true" />
         <span className="foil-pack-face">
@@ -86,7 +90,9 @@ export function PackOpening({ onComplete }: PackOpeningProps) {
       <div className="pack-deal" aria-hidden="true"><span /><span /><span /></div>
 
       <div className="pack-opening-controls">
-        <p className="pack-opening-prompt" role="status" aria-live="polite">{PHASE_COPY[phase]}</p>
+        <p className="pack-opening-prompt" role="status" aria-live="polite">
+          {!canOpen && phase === 'sealed' ? 'Purchase a pack to break the seal' : PHASE_COPY[phase]}
+        </p>
         {opening ? (
           <Button type="button" variant="ghost" size="sm" onClick={finish} className="pack-skip">
             Skip animation

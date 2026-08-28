@@ -151,19 +151,17 @@ export function PackShop() {
         </p>
       </div>
 
-      {cards && !packOpened ? (
+      {!cards ? (
+        <PackOpening canOpen={false} />
+      ) : !packOpened ? (
         <PackOpening
           onComplete={() => {
             setPackOpened(true)
-            setStatus({ tone: 'success', message: 'Choose each card to reveal your pull.' })
+            setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
           }}
         />
       ) : (
-        <TarotCards
-          cards={packOpened ? cards : null}
-          buyer={order?.buyer ?? null}
-          onReset={resetDeck}
-        />
+        <TarotCards cards={cards} buyer={order?.buyer ?? null} onReset={resetDeck} />
       )}
 
       <section

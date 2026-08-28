@@ -160,9 +160,20 @@
   transition: transform 220ms ease, box-shadow 220ms ease;
 }
 
-.foil-pack:hover {
-  transform: translateY(-0.5rem) rotateX(3deg);
-  box-shadow: 0 2.5rem 6rem oklch(0.09 0.025 164 / 82%);
+.pack-preview .foil-pack:hover,
+.can-open.phase-sealed .foil-pack:hover {
+  animation: pack-hover-wiggle 720ms ease-in-out infinite;
+  box-shadow:
+    0 2.5rem 6rem oklch(0.09 0.025 164 / 82%),
+    0 0 4rem color-mix(in oklch, var(--primary) 28%, transparent);
+}
+
+.can-open.phase-sealed .foil-pack:hover {
+  cursor: pointer;
+}
+
+.pack-preview .foil-pack {
+  cursor: default;
 }
 
 .foil-pack:focus-visible {
@@ -305,6 +316,13 @@
 @keyframes foil-idle {
   0%, 100% { background-position: -8rem 0, 0 0; }
   50% { background-position: 8rem 0, 0 0; }
+}
+
+@keyframes pack-hover-wiggle {
+  0%, 100% { transform: translateY(-0.35rem) rotate(-1.5deg) scale(1.01); }
+  25% { transform: translateY(-0.55rem) rotate(1.8deg) scale(1.02); }
+  50% { transform: translateY(-0.4rem) rotate(-1deg) scale(1.015); }
+  75% { transform: translateY(-0.6rem) rotate(1.2deg) scale(1.02); }
 }
 
 @keyframes pack-open {
