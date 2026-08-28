@@ -1,7 +1,7 @@
 {
   "name": "Saltmarsh Courier",
   "description": "A Common card from the Rippleborn Genesis collection.",
-  "image": "/cards/saltmarsh-courier.png",
+ "image": "ipfs://bafybeiczwlft32z26nk7on4lhlssoogcfdq5cmk6b3ctuqlvqx5u3pwrha",
   "attributes": [
     { "trait_type": "Rarity", "value": "Common" },
     { "trait_type": "Collection", "value": "Rippleborn Genesis" }
