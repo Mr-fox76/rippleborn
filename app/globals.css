@@ -135,13 +135,60 @@
 
 .pack-opening-stage {
   position: relative;
+  isolation: isolate;
   display: flex;
-  width: 100%;
-  min-height: 29rem;
+  width: min(100%, 58rem);
+  min-height: 32rem;
+  margin-inline: auto;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--primary) 42%, transparent);
+  border-radius: 1.25rem;
+  background:
+    linear-gradient(115deg, oklch(0.93 0.018 210 / 7%), transparent 18% 70%, oklch(0.72 0.12 205 / 5%)),
+    repeating-linear-gradient(0deg, transparent 0 5px, oklch(0.72 0.12 205 / 3%) 5px 6px),
+    repeating-linear-gradient(90deg, transparent 0 3.75rem, oklch(0.72 0.12 205 / 3%) 3.75rem calc(3.75rem + 1px)),
+    color-mix(in oklch, var(--card) 88%, transparent);
+  box-shadow:
+    0 2.5rem 6rem oklch(0.04 0.02 225 / 62%),
+    0 0 2.5rem color-mix(in oklch, var(--primary) 10%, transparent),
+    inset 0 0 4rem color-mix(in oklch, var(--primary) 8%, transparent),
+    inset 0 1px 0 oklch(0.93 0.018 210 / 14%);
   perspective: 75rem;
+  transition: border-color 700ms ease, box-shadow 700ms ease, background-color 700ms ease;
+}
+
+.pack-opening-stage::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(105deg, transparent 12%, oklch(0.93 0.018 210 / 8%) 26%, transparent 42%),
+    radial-gradient(ellipse at 50% 55%, color-mix(in oklch, var(--primary) 12%, transparent), transparent 52%);
+  content: '';
+  pointer-events: none;
+}
+
+.pack-opening-stage::after {
+  position: absolute;
+  inset: 0.55rem;
+  z-index: 7;
+  border: 1px solid color-mix(in oklch, var(--primary) 18%, transparent);
+  border-radius: 0.9rem;
+  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--primary) 6%, transparent);
+  content: '';
+  pointer-events: none;
+}
+
+.pack-opening-stage.phase-flipping,
+.pack-opening-stage.phase-spreading {
+  border-color: color-mix(in oklch, var(--primary) 72%, var(--gold));
+  box-shadow:
+    0 2.5rem 6rem oklch(0.04 0.02 225 / 62%),
+    0 0 3.5rem color-mix(in oklch, var(--primary) 20%, transparent),
+    inset 0 0 6rem color-mix(in oklch, var(--primary) 14%, transparent),
+    inset 0 1px 0 oklch(0.93 0.018 210 / 18%);
 }
 
 .foil-pack {
@@ -152,23 +199,25 @@
   aspect-ratio: 0.68;
   cursor: pointer;
   flex-direction: column;
-  overflow: hidden;
-  border: 1px solid color-mix(in oklch, var(--gold) 62%, var(--primary));
-  border-radius: 0.7rem;
+  overflow: visible;
+  border: 1px solid color-mix(in oklch, var(--gold) 68%, var(--primary));
+  border-radius: 0.8rem 0.8rem 0.65rem 0.65rem;
   color: var(--foreground);
   background:
-    linear-gradient(112deg, transparent 24%, oklch(0.93 0.018 210 / 13%) 42%, transparent 58%),
-    linear-gradient(180deg, oklch(0.72 0.12 205 / 6%) 1px, transparent 1px),
-    radial-gradient(circle at 50% 42%, color-mix(in oklch, var(--accent) 24%, transparent), transparent 44%),
+    linear-gradient(108deg, transparent 18%, oklch(0.93 0.018 210 / 17%) 36%, transparent 49%),
+    linear-gradient(72deg, transparent 55%, color-mix(in oklch, var(--primary) 12%, transparent) 56% 58%, transparent 60%),
+    radial-gradient(circle at 50% 40%, color-mix(in oklch, var(--primary) 16%, transparent), transparent 46%),
     linear-gradient(145deg, oklch(0.18 0.045 220), oklch(0.11 0.035 245));
-  background-size: auto, 100% 1.45rem, auto, auto;
+  background-size: 220% 100%, auto, auto, auto;
   box-shadow:
-    0 2rem 5rem oklch(0.04 0.02 225 / 78%),
-    0 0 0 1px oklch(0.72 0.12 205 / 12%),
-    0 0 2.5rem oklch(0.72 0.12 205 / 12%),
-    inset 0 1px 0 oklch(0.93 0.018 210 / 13%);
-  animation: foil-idle 4.5s ease-in-out infinite;
-  transition: transform 220ms ease, box-shadow 220ms ease;
+    0 2rem 4rem oklch(0.04 0.02 225 / 72%),
+    0 0.65rem 1.2rem oklch(0.04 0.02 225 / 48%),
+    0 0 1.5rem color-mix(in oklch, var(--primary) 10%, transparent),
+    inset 1px 0 0 oklch(0.93 0.018 210 / 12%),
+    inset -1px 0 0 color-mix(in oklch, var(--gold) 12%, transparent);
+  filter: saturate(0.88);
+  animation: foil-idle 6s ease-in-out infinite;
+  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
 }
 
 .pack-preview .foil-pack:hover,
@@ -201,19 +250,35 @@
   justify-content: center;
   flex-direction: column;
   gap: 0.65rem;
-  border-block: 1px solid color-mix(in oklch, var(--primary) 40%, transparent);
+  overflow: hidden;
+  border-inline: 1px solid color-mix(in oklch, var(--primary) 24%, transparent);
   background:
-    radial-gradient(circle at center, color-mix(in oklch, var(--primary) 15%, transparent), transparent 55%),
-    repeating-radial-gradient(circle at center, transparent 0 1.35rem, color-mix(in oklch, var(--foreground) 6%, transparent) 1.4rem 1.45rem);
+    linear-gradient(100deg, transparent 18%, oklch(0.93 0.018 210 / 7%) 32%, transparent 45%),
+    radial-gradient(circle at center, color-mix(in oklch, var(--primary) 14%, transparent), transparent 55%),
+    repeating-radial-gradient(circle at center, transparent 0 1.35rem, color-mix(in oklch, var(--gold) 5%, transparent) 1.4rem 1.45rem);
+  box-shadow: inset 0 0 2rem oklch(0.04 0.02 225 / 28%);
   text-align: center;
 }
 
 .foil-pack-top,
 .foil-pack-bottom {
+  position: relative;
   height: 1.2rem;
   flex: none;
-  background: linear-gradient(90deg, var(--primary), var(--gold), var(--primary));
-  opacity: 0.74;
+  overflow: hidden;
+  border-block: 1px solid color-mix(in oklch, var(--gold) 48%, transparent);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 5px, oklch(0.93 0.018 210 / 10%) 5px 6px),
+    linear-gradient(90deg, color-mix(in oklch, var(--primary) 80%, var(--card)), var(--gold), color-mix(in oklch, var(--primary) 80%, var(--card)));
+  box-shadow: inset 0 1px 0 oklch(0.93 0.018 210 / 20%);
+  opacity: 0.86;
+}
+
+.foil-pack-top::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(108deg, transparent 45%, oklch(0.93 0.018 210 / 22%) 50%, transparent 55%);
+  content: '';
 }
 
 .foil-pack-kicker,
@@ -604,6 +669,11 @@
   animation: pack-becomes-card 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.phase-flipping .foil-pack-top {
+  animation: foil-seal-tear 780ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+  transform-origin: left center;
+}
+
 .phase-flipping .pack-radiance,
 .phase-spreading .pack-radiance {
   animation: seal-flare 1.05s ease-out both;
@@ -651,13 +721,19 @@
 }
 
 @keyframes pack-becomes-card {
-  0% { opacity: 1; transform: rotateY(0deg) scale(1); filter: brightness(1); }
-  48% { opacity: 1; transform: rotateY(90deg) scale(1.04); filter: brightness(1.5); }
-  100% { opacity: 0; transform: rotateY(180deg) scale(0.94); filter: brightness(1.08); }
+  0% { opacity: 1; transform: translateY(0) rotateY(0deg) scale(1); filter: brightness(1); }
+  34% { opacity: 1; transform: translateY(-0.55rem) rotateY(0deg) scale(1.015); filter: brightness(1.08); }
+  62% { opacity: 1; transform: translateY(-1rem) rotateY(90deg) scale(1.03); filter: brightness(1.28); }
+  100% { opacity: 0; transform: translateY(-1.3rem) rotateY(180deg) scale(0.94); filter: brightness(1.08); }
+}
+@keyframes foil-seal-tear {
+  0% { opacity: 1; transform: translate(0) rotate(0); }
+  45% { opacity: 1; transform: translate(0.55rem, -0.2rem) rotate(3deg); }
+  100% { opacity: 0; transform: translate(3.25rem, -2.4rem) rotate(12deg); }
 }
 @keyframes center-card-emerge {
-  0%, 46% { opacity: 0; transform: rotateY(-90deg) scale(0.94); }
-  100% { opacity: 1; transform: rotateY(0deg) scale(1); }
+  0%, 46% { opacity: 0; transform: translateY(0.6rem) rotateY(-90deg) scale(0.94); }
+  100% { opacity: 1; transform: translateY(-0.8rem) rotateY(0deg) scale(1); }
 }
 @keyframes spread-card-left {
   from { opacity: 1; transform: translateX(0); }
@@ -672,6 +748,16 @@
 @keyframes phoenix-halo { 0% { opacity: 0.9; transform: scale(0.2) rotate(0); } 100% { opacity: 0; transform: scale(1.4) rotate(35deg); } }
 
 @media (max-width: 40rem) {
+  .pack-opening-stage {
+    min-height: 29rem;
+    border-radius: 0.85rem;
+  }
+
+  .pack-opening-stage::after {
+    inset: 0.35rem;
+    border-radius: 0.65rem;
+  }
+
   .tarot-spread {
     gap: 0.45rem;
   }
