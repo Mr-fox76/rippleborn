@@ -6,11 +6,11 @@ export function SiteHero() {
     <header className="relative z-20 mx-auto flex w-full max-w-6xl items-center justify-between gap-4 border-b border-border/40 px-4 py-4 sm:px-6 sm:py-5">
       <a href="#reading-table" aria-label="Ledgerborn home">
         <Image
-          src="/images/rippleborn-logo.png"
+          src="/images/ledgerborn-logo.jpg"
           alt=""
-          width={72}
-          height={72}
-          className="size-16 rounded-full object-cover shadow-xl shadow-background ring-1 ring-gold/45 sm:size-20"
+          width={96}
+          height={96}
+          className="size-16 rounded-xl object-cover shadow-xl shadow-background ring-1 ring-gold/45 sm:size-20 sm:rounded-2xl"
           priority
         />
       </a>
