@@ -179,7 +179,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
             onClick={createOrder}
             disabled={!account || pending !== null || order !== null}
             size="lg"
-            className="primary-action h-16 w-full flex-1 px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:h-12 sm:text-sm"
+            className="primary-action h-16 w-full flex-1 px-8 font-mono text-base font-semibold uppercase tracking-[0.12em]"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
             Prepare pack
@@ -201,7 +201,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
               disabled
               variant="outline"
               size="lg"
-              className="ghost-action h-16 w-full flex-1 px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:h-12 sm:text-sm"
+              className="ghost-action h-16 w-full flex-1 px-8 font-mono text-base font-semibold uppercase tracking-[0.12em]"
             >
               <Sparkles className="size-4" aria-hidden="true" />
               Open pack
