@@ -127,15 +127,16 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
     <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
       <div className="flex flex-col items-center gap-2 text-center">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
-          A new kind of digital pack opening
+          Digital pack opening. Real NFT ownership.
         </p>
         <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Open the pack. Feel the reveal. Own every card.
+          Chase the rare. Reveal the extraordinary. Mint what you pull.
         </h1>
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Ledgerborn turns the thrill of opening a collectible card pack into an on-chain experience.
-          Draw three celestial cards, reveal them one by one, then claim each NFT directly to your
-          XRPL wallet—provably yours to hold, trade, or collect.
+          Enter a collection inspired by mythical characters, legendary beings, and ancient powers.
+          Each pack holds three unique cards—from sought-after rarities to strictly limited editions—and
+          turns every dramatic reveal into a real NFT on the XRP Ledger, ready to mint, claim, trade,
+          and build into a collection that is truly yours.
         </p>
         <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
           <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
@@ -173,11 +174,12 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
         aria-label="Open a pack"
         className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
       >
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
           <Button
             onClick={createOrder}
             disabled={!account || pending !== null || order !== null}
-            className="primary-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+            size="lg"
+            className="primary-action h-16 w-full flex-1 rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
             Prepare pack
@@ -198,7 +200,8 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
             <Button
               disabled
               variant="outline"
-              className="ghost-action flex-1 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+              size="lg"
+              className="ghost-action h-16 w-full flex-1 rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
             >
               <Sparkles className="size-4" aria-hidden="true" />
               Open pack
