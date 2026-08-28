@@ -129,9 +129,12 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
           Digital pack opening. Real NFT ownership.
         </p>
-        <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Chase the rare. Reveal the extraordinary. Mint what you pull.
+        <h1 className="max-w-2xl font-sans text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+          Become Ledgerborn.
         </h1>
+        <p className="max-w-2xl font-sans text-lg font-medium text-pretty text-foreground sm:text-xl">
+          Chase the rare. Reveal the extraordinary. Mint what you pull.
+        </p>
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
           Enter a collection inspired by mythical characters, legendary beings, and ancient powers.
           Each pack holds three unique cards—from sought-after rarities to strictly limited editions—and
