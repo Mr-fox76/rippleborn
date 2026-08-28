@@ -31,7 +31,7 @@ export const SLOT_ODDS: { slot: number; label: string; odds: Partial<Record<Rari
 
 type CardArt = { name: string; image: string; uri: string }
 
-const CARD_METADATA_ROOT = 'ipfs://bafybeif4eujk6kj3ox3l4cpfmoc5kc3uig5umfspybwyh7fwlqr37tm3ma'
+const CARD_METADATA_ROOT = 'ipfs://bafybeifm7vuorm23itozcmevi3ksiqeczazy73hu7qlobu6ds6rxk4ellm'
 const metadataUri = (filename: string) => `${CARD_METADATA_ROOT}/${filename}.json`
 
 export const CARD_POOL: Record<Rarity, CardArt[]> = {
