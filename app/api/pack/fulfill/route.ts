@@ -97,9 +97,13 @@ async function verifyPaymentByHash(
   try {
     const response = await client.request({ command: 'tx', transaction: transactionHash })
     const result = response.result as unknown as Record<string, unknown>
+    const transaction =
+      typeof result.tx_json === 'object' && result.tx_json !== null
+        ? (result.tx_json as Record<string, unknown>)
+        : result
 
     return verifyPaymentTransaction(
-      result,
+      transaction,
       result.meta,
       result.validated === true,
       config,
@@ -195,9 +199,24 @@ export async function POST(request: Request) {
     const config = getXrplConfig()
 
     return await withXrplClient(config.websocketUrl, async (client) => {
-      const paymentTransaction = transactionHash
-        ? await verifyPaymentByHash(client, transactionHash, config, buyer, destinationTag)
-        : await findPayment(client, config, buyer, destinationTag)
+      let paymentTransaction: string | null = null
+
+      if (transactionHash) {
+        for (let attempt = 0; attempt < 5 && !paymentTransaction; attempt += 1) {
+          paymentTransaction = await verifyPaymentByHash(
+            client,
+            transactionHash,
+            config,
+            buyer,
+            destinationTag,
+          )
+          if (!paymentTransaction && attempt < 4) {
+            await new Promise((resolve) => setTimeout(resolve, 800))
+          }
+        }
+      }
+
+      paymentTransaction ??= await findPayment(client, config, buyer, destinationTag)
       if (!paymentTransaction) {
         return NextResponse.json(
           {
