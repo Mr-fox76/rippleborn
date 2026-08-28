@@ -127,15 +127,16 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
     <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
       <div className="flex flex-col items-center gap-2 text-center">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
-          A new kind of digital pack opening
+          Digital pack opening. Real NFT ownership.
         </p>
         <h1 className="max-w-2xl font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          Open the pack. Feel the reveal. Own every card.
+          Chase the rare. Reveal the extraordinary. Mint what you pull.
         </h1>
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Ledgerborn turns the thrill of opening a collectible card pack into an on-chain experience.
-          Draw three celestial cards, reveal them one by one, then claim each NFT directly to your
-          XRPL wallet—provably yours to hold, trade, or collect.
+          Experience the suspense of opening a digital collectible pack, then turn every reveal into
+          a real NFT on the XRP Ledger. Each pack holds three unique cards, from sought-after rarities
+          to strictly limited editions—ready to mint, claim, trade, and build into a collection that
+          is truly yours.
         </p>
         <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
           <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
