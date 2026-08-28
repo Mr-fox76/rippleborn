@@ -135,7 +135,6 @@
 
 .pack-opening-stage {
   position: relative;
-  isolation: isolate;
   display: flex;
   width: min(100%, 58rem);
   min-height: 32rem;
@@ -143,41 +142,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border: 1px solid color-mix(in oklch, var(--primary) 42%, transparent);
-  border-radius: 0;
-  background:
-    linear-gradient(115deg, oklch(0.93 0.018 210 / 7%), transparent 18% 70%, oklch(0.72 0.12 205 / 5%)),
-    repeating-linear-gradient(0deg, transparent 0 5px, oklch(0.72 0.12 205 / 3%) 5px 6px),
-    repeating-linear-gradient(90deg, transparent 0 3.75rem, oklch(0.72 0.12 205 / 3%) 3.75rem calc(3.75rem + 1px)),
-    color-mix(in oklch, var(--card) 88%, transparent);
-  box-shadow:
-    0 2.5rem 6rem oklch(0.04 0.02 225 / 62%),
-    0 0 2.5rem color-mix(in oklch, var(--primary) 10%, transparent),
-    inset 0 0 4rem color-mix(in oklch, var(--primary) 8%, transparent),
-    inset 0 1px 0 oklch(0.93 0.018 210 / 14%);
   perspective: 75rem;
-  transition: border-color 700ms ease, box-shadow 700ms ease, background-color 700ms ease;
-}
-
-.pack-opening-stage::before {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(105deg, transparent 12%, oklch(0.93 0.018 210 / 8%) 26%, transparent 42%),
-    radial-gradient(ellipse at 50% 55%, color-mix(in oklch, var(--primary) 12%, transparent), transparent 52%);
-  content: '';
-  pointer-events: none;
-}
-
-.pack-opening-stage.phase-flipping,
-.pack-opening-stage.phase-spreading {
-  border-color: color-mix(in oklch, var(--primary) 72%, var(--gold));
-  box-shadow:
-    0 2.5rem 6rem oklch(0.04 0.02 225 / 62%),
-    0 0 3.5rem color-mix(in oklch, var(--primary) 20%, transparent),
-    inset 0 0 6rem color-mix(in oklch, var(--primary) 14%, transparent),
-    inset 0 1px 0 oklch(0.93 0.018 210 / 18%);
 }
 
 .foil-pack {
