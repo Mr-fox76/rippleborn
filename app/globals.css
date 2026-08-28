@@ -476,30 +476,35 @@
 }
 
 .rarity-common {
-  --rarity-color: var(--muted-foreground);
+  --rarity-color: oklch(0.67 0.015 255);
 }
 
 .rarity-rare {
-  --rarity-color: var(--primary);
+  --rarity-color: oklch(0.72 0.19 145);
 }
 
 .rarity-epic {
-  --rarity-color: var(--accent);
+  --rarity-color: oklch(0.68 0.18 250);
 }
 
 .rarity-legendary {
-  --rarity-color: var(--foreground);
+  --rarity-color: oklch(0.67 0.22 305);
 }
 
 .rarity-mythic {
-  --rarity-color: color-mix(in oklch, var(--primary) 45%, var(--accent));
+  --rarity-color: oklch(0.66 0.24 25);
+}
+
+.rarity-limited {
+  --rarity-color: oklch(0.79 0.17 85);
 }
 
 .rarity-common,
 .rarity-rare,
 .rarity-epic,
 .rarity-legendary,
-.rarity-mythic {
+.rarity-mythic,
+.rarity-limited {
   border-color: color-mix(in oklch, var(--rarity-color) 70%, transparent);
   box-shadow:
     0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%),

@@ -36,11 +36,11 @@ export function RarityOdds() {
         ))}
       </ul>
 
-      <div className="rounded-lg border border-accent/40 bg-accent/10 p-3">
-        <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+      <div className="rarity-limited rarity-badge rounded-lg border p-3">
+        <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em]">
           Limited Phoenix editions
         </p>
-        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+        <p className="mt-1 text-xs leading-relaxed text-foreground/70">
           Five individually numbered Phoenix cards crown the collection, available only while their
           editions remain unclaimed.
         </p>
