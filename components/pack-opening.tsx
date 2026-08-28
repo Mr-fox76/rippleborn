@@ -8,20 +8,16 @@ type PackOpeningProps = {
   canOpen?: boolean
 }
 
-type OpeningPhase = 'sealed' | 'charging' | 'tearing' | 'releasing' | 'dealing'
+type OpeningPhase = 'sealed' | 'flipping' | 'dealing'
 
 const PHASE_TIMINGS: Array<{ phase: OpeningPhase; delay: number }> = [
-  { phase: 'charging', delay: 0 },
-  { phase: 'tearing', delay: 850 },
-  { phase: 'releasing', delay: 1550 },
-  { phase: 'dealing', delay: 2250 },
+  { phase: 'flipping', delay: 0 },
+  { phase: 'dealing', delay: 1150 },
 ]
 
 const PHASE_COPY: Record<OpeningPhase, string> = {
   sealed: 'Select the sealed pack to begin',
-  charging: 'Charging the living ledger…',
-  tearing: 'The seal is breaking…',
-  releasing: 'Something is emerging…',
+  flipping: 'The seal is turning…',
   dealing: 'Your cards have arrived',
 }
 
@@ -49,7 +45,7 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
     const timers = PHASE_TIMINGS.filter(({ delay }) => delay > 0).map(({ phase: next, delay }) =>
       window.setTimeout(() => setPhase(next), delay),
     )
-    timers.push(window.setTimeout(finish, 3550))
+    timers.push(window.setTimeout(finish, 2350))
     return () => timers.forEach(window.clearTimeout)
   }, [finish, opening])
 
@@ -58,11 +54,7 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
       className={`pack-opening-stage phase-${phase} ${canOpen ? 'can-open' : 'pack-preview'}`}
       aria-label={canOpen ? 'Open your Ledgerborn pack' : 'Ledgerborn collectible card pack'}
     >
-      <div className="pack-energy-rings" aria-hidden="true"><span /><span /><span /></div>
       <div className="pack-radiance" aria-hidden="true" />
-      <div className="pack-particles" aria-hidden="true">
-        {Array.from({ length: 12 }, (_, index) => <span key={index} />)}
-      </div>
 
       <button
         type="button"
@@ -72,7 +64,11 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
         aria-disabled={!canOpen || opening}
         disabled={opening}
         onClick={() => {
-          if (canOpen) setPhase('charging')
+          if (!canOpen) return
+          const sound = new Audio('/audio/ledger-awakening.wav')
+          sound.volume = 0.34
+          void sound.play().catch(() => undefined)
+          setPhase('flipping')
         }}
       >
         <span className="foil-pack-top" aria-hidden="true" />
@@ -85,8 +81,6 @@ export function PackOpening({ onComplete, canOpen = true }: PackOpeningProps) {
         <span className="foil-pack-bottom" aria-hidden="true" />
       </button>
 
-      <div className="pack-tear-piece pack-tear-left" aria-hidden="true" />
-      <div className="pack-tear-piece pack-tear-right" aria-hidden="true" />
       <div className="pack-deal" aria-hidden="true"><span /><span /><span /></div>
 
       <div className="pack-opening-controls">

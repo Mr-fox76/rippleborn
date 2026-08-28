@@ -173,11 +173,12 @@
 
 .pack-preview .foil-pack:hover,
 .can-open.phase-sealed .foil-pack:hover {
-  animation: pack-hover-wiggle 720ms ease-in-out infinite;
   box-shadow:
     0 2.5rem 6rem oklch(0.04 0.02 225 / 82%),
-    0 0 2.5rem color-mix(in oklch, var(--primary) 22%, transparent),
-    0 0 0 1px color-mix(in oklch, var(--gold) 34%, transparent);
+    0 0 3.5rem color-mix(in oklch, var(--primary) 30%, transparent),
+    0 0 0 1px color-mix(in oklch, var(--gold) 48%, transparent),
+    inset 0 1px 0 oklch(0.93 0.018 210 / 18%);
+  filter: brightness(1.08);
 }
 
 .can-open.phase-sealed .foil-pack:hover {
@@ -328,13 +329,6 @@
 @keyframes foil-idle {
   0%, 100% { background-position: -8rem 0, 0 0; }
   50% { background-position: 8rem 0, 0 0; }
-}
-
-@keyframes pack-hover-wiggle {
-  0%, 100% { transform: translateY(-0.35rem) rotate(-1.5deg) scale(1.01); }
-  25% { transform: translateY(-0.55rem) rotate(1.8deg) scale(1.02); }
-  50% { transform: translateY(-0.4rem) rotate(-1deg) scale(1.015); }
-  75% { transform: translateY(-0.6rem) rotate(1.2deg) scale(1.02); }
 }
 
 @keyframes pack-open {
@@ -505,11 +499,11 @@
 }
 
 .rarity-mythic {
-  --rarity-color: oklch(0.79 0.13 83);
+  --rarity-color: oklch(0.7 0.19 45);
 }
 
 .rarity-limited {
-  --rarity-color: oklch(0.79 0.13 83);
+  --rarity-color: oklch(0.62 0.23 25);
 }
 
 .rarity-common,
@@ -575,33 +569,7 @@
   }
 }
 
-/* Cinematic pack ritual */
-.pack-energy-rings {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  width: 19rem;
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  pointer-events: none;
-}
-
-.pack-energy-rings span {
-  position: absolute;
-  inset: 0;
-  border: 1px solid color-mix(in oklch, var(--primary) 36%, transparent);
-  border-radius: 9999px;
-  opacity: 0;
-}
-
-.phase-charging .pack-energy-rings span,
-.phase-tearing .pack-energy-rings span,
-.phase-releasing .pack-energy-rings span {
-  animation: ledger-ring 1.7s ease-out infinite;
-}
-
-.pack-energy-rings span:nth-child(2) { animation-delay: 280ms; }
-.pack-energy-rings span:nth-child(3) { animation-delay: 560ms; }
-
+/* Controlled pack flip and card deal */
 .pack-opening-controls {
   position: absolute;
   inset-inline: 0;
@@ -623,74 +591,18 @@
   text-transform: uppercase;
 }
 
-.phase-charging .foil-pack {
-  animation: pack-charge 850ms cubic-bezier(0.16, 1, 0.3, 1) both;
+.phase-flipping .foil-pack {
+  animation: pack-flip 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.phase-tearing .foil-pack,
-.phase-releasing .foil-pack,
-.phase-dealing .foil-pack {
-  animation: pack-vanish 800ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.pack-tear-piece {
-  position: absolute;
-  z-index: 4;
-  width: min(7.5rem, 31vw);
-  height: 3rem;
-  border: 1px solid var(--primary);
-  opacity: 0;
-  background: color-mix(in oklch, var(--accent) 24%, var(--card));
-  pointer-events: none;
-}
-
-.phase-tearing .pack-tear-piece,
-.phase-releasing .pack-tear-piece {
-  opacity: 1;
-}
-
-.phase-tearing .pack-tear-left,
-.phase-releasing .pack-tear-left { animation: tear-left 700ms ease-out both; }
-.phase-tearing .pack-tear-right,
-.phase-releasing .pack-tear-right { animation: tear-right 700ms ease-out both; }
-
-.phase-releasing .pack-radiance,
+.phase-flipping .pack-radiance,
 .phase-dealing .pack-radiance {
-  animation: pack-light 1.1s ease-out both;
+  animation: seal-flare 1.1s ease-out both;
 }
 
-.pack-particles {
-  position: absolute;
-  inset: 50% auto auto 50%;
-  pointer-events: none;
+.phase-dealing .foil-pack {
+  animation: pack-settle-away 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-
-.pack-particles span {
-  position: absolute;
-  width: 0.28rem;
-  aspect-ratio: 1;
-  border-radius: 9999px;
-  opacity: 0;
-  background: var(--gold);
-}
-
-.phase-releasing .pack-particles span {
-  --particle-angle: calc(var(--particle-index, 1) * 30deg);
-  animation: particle-flight 900ms ease-out both;
-}
-
-.pack-particles span:nth-child(1) { --particle-index: 1; }
-.pack-particles span:nth-child(2) { --particle-index: 2; }
-.pack-particles span:nth-child(3) { --particle-index: 3; }
-.pack-particles span:nth-child(4) { --particle-index: 4; }
-.pack-particles span:nth-child(5) { --particle-index: 5; }
-.pack-particles span:nth-child(6) { --particle-index: 6; }
-.pack-particles span:nth-child(7) { --particle-index: 7; }
-.pack-particles span:nth-child(8) { --particle-index: 8; }
-.pack-particles span:nth-child(9) { --particle-index: 9; }
-.pack-particles span:nth-child(10) { --particle-index: 10; }
-.pack-particles span:nth-child(11) { --particle-index: 11; }
-.pack-particles span:nth-child(12) { --particle-index: 12; }
 
 .phase-dealing .pack-deal span {
   opacity: 1;
@@ -716,14 +628,15 @@
   animation: phoenix-halo 1.1s ease-out both;
 }
 
-@keyframes ledger-ring { 0% { opacity: 0.7; transform: scale(0.45); } 100% { opacity: 0; transform: scale(1.25); } }
-@keyframes pack-charge { 0% { transform: scale(1); filter: brightness(1); } 65% { transform: scale(1.04); filter: brightness(1.35); } 100% { transform: scale(1.08); filter: brightness(1.7); box-shadow: 0 0 5rem color-mix(in oklch, var(--primary) 45%, transparent); } }
-@keyframes pack-vanish { 0% { transform: scale(1.08); opacity: 1; } 35% { transform: rotate(-2deg) scale(1.12); } 100% { transform: translateY(2rem) scale(0.65); opacity: 0; } }
-@keyframes tear-left { from { transform: translate(0, -7rem); } to { transform: translate(-7rem, -11rem) rotate(-24deg); opacity: 0; } }
-@keyframes tear-right { from { transform: translate(0, -7rem); } to { transform: translate(7rem, -11rem) rotate(24deg); opacity: 0; } }
-@keyframes particle-flight { 0% { opacity: 1; transform: rotate(var(--particle-angle)) translateX(0) scale(1); } 100% { opacity: 0; transform: rotate(var(--particle-angle)) translateX(9rem) scale(0); } }
-@keyframes cinematic-deal { 0% { opacity: 0; transform: translate(-50%, -20%) scale(0.35) rotate(0); } 55% { opacity: 1; } 100% { opacity: 1; transform: translate(var(--deal-x), -50%) scale(1) rotate(var(--deal-rotate)); } }
-@keyframes card-arrival { from { opacity: 0; transform: translateY(-2rem) scale(0.86) rotateY(18deg); } to { opacity: 1; transform: none; } }
+@keyframes pack-flip {
+  0% { transform: rotateY(0deg); filter: brightness(1); }
+  48% { transform: rotateY(180deg); filter: brightness(1.5); box-shadow: 0 0 4rem color-mix(in oklch, var(--primary) 38%, transparent); }
+  100% { transform: rotateY(360deg); filter: brightness(1.08); }
+}
+@keyframes seal-flare { 0% { opacity: 0; transform: scale(0.35); } 38% { opacity: 0.78; } 100% { opacity: 0; transform: scale(1.85); } }
+@keyframes pack-settle-away { from { opacity: 1; transform: rotateY(360deg) scale(1); } to { opacity: 0; transform: rotateY(360deg) translateY(1.5rem) scale(0.82); } }
+@keyframes cinematic-deal { 0% { opacity: 0; transform: translate(-50%, -5%) scale(0.45) rotate(0); } 62% { opacity: 1; } 100% { opacity: 1; transform: translate(var(--deal-x), -50%) scale(1) rotate(var(--deal-rotate)); } }
+@keyframes card-arrival { from { opacity: 0; transform: translateY(-3rem) scale(0.8) rotateY(12deg); } to { opacity: 1; transform: none; } }
 @keyframes pre-reveal { 0% { transform: translateY(0) scale(1); filter: brightness(1); } 55% { transform: translateY(-0.7rem) scale(1.035); filter: brightness(1.45); box-shadow: 0 0 3rem color-mix(in oklch, var(--primary) 45%, transparent); } 100% { transform: rotateY(88deg) scale(0.96); filter: brightness(1.9); } }
 @keyframes phoenix-halo { 0% { opacity: 0.9; transform: scale(0.2) rotate(0); } 100% { opacity: 0; transform: scale(1.4) rotate(35deg); } }
 
@@ -745,11 +658,8 @@
   .table-surface::before,
   .table-surface::after,
   .pack-opening-stage.is-opening .pack-deal span,
-  .pack-energy-rings span,
-  .foil-pack,
-  .pack-tear-piece,
-  .pack-radiance,
-  .pack-particles span,
+      .foil-pack,
+      .pack-radiance,
   .phase-dealing .pack-deal span,
   .tarot-arrival,
   .tarot-arrival.is-revealing .tarot-back,

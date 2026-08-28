@@ -63,10 +63,6 @@ export function ClaimNftButton({
       const data = (await response.json()) as ClaimRequest & { error?: string }
       if (!response.ok) throw new Error(data.error ?? 'Unable to create claim request.')
       setClaim(data)
-
-      if (window.self !== window.top) {
-        window.open(data.deepLink, '_blank', 'noopener,noreferrer')
-      }
     } catch (claimError) {
       setError(claimError instanceof Error ? claimError.message : 'Unable to create claim request.')
     } finally {
