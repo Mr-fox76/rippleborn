@@ -9,6 +9,7 @@ import { RarityOdds } from '@/components/rarity-odds'
 import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import type { PackCatalogEntry } from '@/lib/pack-catalog'
 import type { CollectionStats } from '@/lib/pack-results'
 import type { PackSetId } from '@/lib/rippleborn'
 
@@ -24,10 +25,16 @@ type Order = {
   priceXrp: string
 }
 
-export function PackShop({ collectionStats }: { collectionStats: CollectionStats }) {
+export function PackShop({
+  collectionStats,
+  pack,
+}: {
+  collectionStats: CollectionStats
+  pack: PackCatalogEntry
+}) {
+  const selectedSet = pack.id
   const router = useRouter()
   const { account } = useXamanWallet()
-  const [selectedSet, setSelectedSet] = useState<PackSetId>('ledgerborn')
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [packOpened, setPackOpened] = useState(false)
@@ -134,74 +141,40 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
 
   return (
     <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
-      <div className="flex flex-col items-center gap-2 text-center">
-        <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
-          Digital pack opening. Real NFT ownership.
+      <div className="pack-theme-intro mx-auto flex max-w-3xl flex-col items-center gap-3 px-4 py-5 text-center sm:px-8 sm:py-7">
+        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
+          {pack.theme.eyebrow}
         </p>
         <h1 className="max-w-2xl font-sans text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          Become Ledgerborn.
+          {pack.theme.title}
         </h1>
         <p className="max-w-2xl font-sans text-lg font-medium text-pretty text-foreground sm:text-xl">
-          Chase the rare. Reveal the extraordinary. Mint what you pull.
+          {pack.theme.tagline}
         </p>
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Enter a collection inspired by mythical characters, legendary beings, and ancient powers.
-          Each pack holds three unique cards—from sought-after rarities to strictly limited editions—and
-          turns every dramatic reveal into a real NFT on the XRP Ledger, ready to mint, claim, trade,
-          and build into a collection that is truly yours.
+          {pack.theme.introduction}
         </p>
         <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
-          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
-            <Sparkles className="size-3.5 text-primary" aria-hidden="true" />
-            One-by-one reveals
-          </span>
-          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
-            <Gem className="size-3.5 text-primary" aria-hidden="true" />
-            Real rarity, including limited pulls
-          </span>
-          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
-            <ShieldCheck className="size-3.5 text-primary" aria-hidden="true" />
-            Minted and claimed on XRPL
-          </span>
+          {pack.theme.features.map((feature, index) => {
+            const Icon = [Sparkles, Gem, ShieldCheck][index]
+            return (
+              <span key={feature} className="inline-flex items-center gap-2 interface-chip rounded-full border px-3 py-1.5 text-xs text-foreground">
+                <Icon className="pack-theme-accent size-3.5" aria-hidden="true" />
+                {feature}
+              </span>
+            )
+          })}
         </div>
-        <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-gold">
-          Three collectible NFTs · One immersive opening · 5 XRP
+        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.22em]">
+          Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
         </p>
       </div>
 
-      {!order && !cards ? (
-        <section aria-label="Choose a card set" className="mx-auto grid w-full max-w-2xl grid-cols-2 gap-3">
-          {([
-            { id: 'ledgerborn', name: 'Ledgerborn', kicker: 'Mythical Set' },
-            { id: 'cyborg-cowboy', name: 'Cyborg Cowboy', kicker: 'Frontier Set' },
-          ] as const).map((pack) => (
-            <button
-              key={pack.id}
-              type="button"
-              aria-pressed={selectedSet === pack.id}
-              onClick={() => setSelectedSet(pack.id)}
-              className={`group flex flex-col overflow-hidden border text-left transition-colors ${selectedSet === pack.id ? 'border-primary bg-primary/10' : 'border-border bg-card/70 hover:border-primary/60'}`}
-            >
-              <div className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-muted">
-                <span className="foil-pack-sigil scale-125 transition-transform duration-300 group-hover:scale-[1.35]" aria-hidden="true">
-                  <span />
-                </span>
-              </div>
-              <span className="flex flex-col gap-1 p-3">
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-gold">{pack.kicker}</span>
-                <span className="font-sans text-base font-semibold text-foreground">{pack.name}</span>
-                <span className="text-xs text-muted-foreground">21 cards · 3 per pack · 5 XRP</span>
-              </span>
-            </button>
-          ))}
-        </section>
-      ) : null}
-
       {!cards ? (
-        <PackOpening canOpen={false} packName={selectedSet === 'cyborg-cowboy' ? 'Cyborg Cowboy' : 'Ledgerborn'} packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'} />
+        <PackOpening canOpen={false} packName={selectedSet === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'} packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'} />
       ) : !packOpened ? (
         <PackOpening
-          packName={order?.setId === 'cyborg-cowboy' ? 'Cyborg Cowboy' : 'Ledgerborn'}
+          packName={order?.setId === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'}
           packKicker={order?.setId === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'}
           onComplete={() => {
             setPackOpened(true)
