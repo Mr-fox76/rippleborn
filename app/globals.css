@@ -332,6 +332,7 @@
 }
 
 .stable-card-layer.is-hidden {
+  align-items: center;
   opacity: 0.14;
   transform: translateY(0);
 }
