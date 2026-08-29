@@ -34,9 +34,9 @@ export const CYBORG_COWBOY_POOL = {
 export const CYBORG_COWBOY_NFT_TAXON = 20260827
 
 export const CYBORG_COWBOY_METADATA_CID =
-  'bafybeieqp3deiyodrvhojsfyepcztety4pcssx2vr3rhpmnfi52tvpr234'
+  'bafybeiahusnio5qkjhb6yco6tvgnd6dn75bf7qw6x6itejhchus26mrpcu'
 export const CYBORG_COWBOY_IMAGE_CID =
-  'bafybeifvjt63capngr3fnkeb4ssz2lostypmj5jeo2dmowtz4sodcpealu'
+  'bafybeic6jkwvqvtiqopyq7vtxychxfdsa5p4gb5tl5ai6ee2k45ip4djwy'
 export const CYBORG_COWBOY_METADATA_BASE_URL =
   `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${CYBORG_COWBOY_METADATA_CID}/metadata`
 
