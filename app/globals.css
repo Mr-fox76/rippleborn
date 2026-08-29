@@ -123,6 +123,95 @@
   to { transform: translate3d(-4rem, 2rem, 0) scale(1.015); }
 }
 
+.pack-theme {
+  --pack-accent: var(--primary);
+  --pack-accent-strong: var(--gold);
+  --pack-surface: oklch(0.105 0.025 225 / 88%);
+  color: var(--foreground);
+  background-position: center top;
+  background-size: cover;
+}
+
+.pack-theme-mythic {
+  --pack-accent: oklch(0.76 0.13 292);
+  --pack-accent-strong: var(--phoenix);
+  --pack-surface: oklch(0.095 0.045 275 / 88%);
+  background-image:
+    linear-gradient(180deg, oklch(0.055 0.04 275 / 58%), oklch(0.055 0.035 265 / 84%) 68%, oklch(0.045 0.025 250 / 96%)),
+    linear-gradient(90deg, oklch(0.045 0.025 255 / 65%), transparent 35%, transparent 65%, oklch(0.045 0.025 255 / 65%)),
+    url('/images/ledgerborn-page-bg.png');
+}
+
+.pack-theme-cyborg {
+  --pack-accent: oklch(0.8 0.13 195);
+  --pack-accent-strong: oklch(0.78 0.14 62);
+  --pack-surface: oklch(0.105 0.02 205 / 90%);
+  background-image:
+    linear-gradient(180deg, oklch(0.055 0.02 225 / 55%), oklch(0.07 0.025 215 / 86%) 68%, oklch(0.045 0.018 215 / 96%)),
+    linear-gradient(90deg, oklch(0.05 0.02 220 / 68%), transparent 34%, transparent 66%, oklch(0.05 0.02 220 / 68%)),
+    url('/images/cyborg-cowboy-page-bg.png');
+}
+
+.pack-theme.table-surface::after {
+  background:
+    linear-gradient(180deg, transparent 10%, oklch(0.045 0.02 235 / 72%)),
+    radial-gradient(circle at 22% 28%, var(--pack-accent) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 78% 18%, var(--pack-accent-strong) 0 1px, transparent 1.5px);
+  background-size: auto, 25rem 25rem, 32rem 32rem;
+  opacity: 0.42;
+}
+
+.pack-theme-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 20%, color-mix(in oklch, var(--pack-accent) 14%, transparent), transparent 46%);
+}
+
+.pack-theme-cyborg .pack-theme-atmosphere {
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--pack-accent) 7%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--pack-accent) 7%, transparent) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  mask-image: linear-gradient(to bottom, transparent 8%, black 42%, transparent 86%);
+}
+
+.pack-theme-bar {
+  border-color: color-mix(in oklch, var(--pack-accent) 24%, transparent);
+  background: color-mix(in oklch, var(--pack-surface) 78%, transparent);
+  backdrop-filter: blur(1rem);
+}
+
+.pack-theme-intro {
+  border: 1px solid color-mix(in oklch, var(--pack-accent) 24%, transparent);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, color-mix(in oklch, var(--pack-accent) 8%, transparent), var(--pack-surface));
+  box-shadow: 0 1.5rem 5rem oklch(0.035 0.02 235 / 55%), inset 0 1px 0 color-mix(in oklch, var(--pack-accent) 18%, transparent);
+  backdrop-filter: blur(1rem);
+}
+
+.pack-theme-accent {
+  color: var(--pack-accent-strong);
+}
+
+.pack-theme .reading-panel,
+.pack-theme .interface-chip {
+  border-color: color-mix(in oklch, var(--pack-accent) 24%, transparent);
+  background-color: var(--pack-surface);
+}
+
+.pack-theme .primary-action {
+  border-color: color-mix(in oklch, var(--pack-accent-strong) 70%, var(--foreground));
+  background: var(--pack-accent-strong);
+  box-shadow: 0 0.8rem 2.5rem oklch(0.03 0.02 230 / 55%), 0 0 1.5rem color-mix(in oklch, var(--pack-accent-strong) 16%, transparent);
+}
+
+.pack-theme .ghost-action {
+  border-color: color-mix(in oklch, var(--pack-accent) 48%, transparent);
+  color: var(--pack-accent);
+}
+
 .reading-panel {
   position: relative;
   border-radius: var(--radius);
@@ -726,6 +815,19 @@
 @keyframes phoenix-halo { 0% { opacity: 0.9; transform: scale(0.2) rotate(0); } 100% { opacity: 0; transform: scale(1.4) rotate(35deg); } }
 
 @media (max-width: 40rem) {
+  .pack-theme {
+    background-attachment: scroll;
+    background-position: center top;
+  }
+
+  .pack-theme-intro {
+    background: var(--pack-surface);
+  }
+
+  .pack-theme-atmosphere {
+    opacity: 0.65;
+  }
+
   .pack-opening-stage {
     min-height: 29rem;
     border-radius: 0;

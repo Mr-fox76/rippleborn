@@ -34,8 +34,9 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
 
   return (
     <XamanWalletProvider>
-      <div className="table-surface flex min-h-svh flex-col">
-        <header className="relative z-10 flex items-center justify-between gap-4 border-b border-border/40 px-4 py-4 sm:px-6">
+      <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
+        <div aria-hidden="true" className="pack-theme-atmosphere" />
+        <header className="pack-theme-bar relative z-10 flex items-center justify-between gap-4 border-b px-4 py-4 sm:px-6">
           <Link href="/" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
             <ArrowLeft className="size-4" aria-hidden="true" />
             All packs
@@ -44,10 +45,10 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
         </header>
 
         <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-4 py-10 sm:px-6 sm:py-14">
-          <PackShop collectionStats={collectionStats} selectedSet={pack.id} />
+          <PackShop collectionStats={collectionStats} pack={pack} />
         </main>
 
-        <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
+        <footer className="pack-theme-bar relative z-10 flex flex-col items-center gap-3 border-t px-6 py-6 text-center">
           <NetworkStatus />
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
             {pack.cardsPerPack} cards · {pack.priceXrp} XRP · {pack.cardCount} to collect

@@ -9,6 +9,7 @@ import { RarityOdds } from '@/components/rarity-odds'
 import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import type { PackCatalogEntry } from '@/lib/pack-catalog'
 import type { CollectionStats } from '@/lib/pack-results'
 import type { PackSetId } from '@/lib/rippleborn'
 
@@ -26,11 +27,12 @@ type Order = {
 
 export function PackShop({
   collectionStats,
-  selectedSet,
+  pack,
 }: {
   collectionStats: CollectionStats
-  selectedSet: PackSetId
+  pack: PackCatalogEntry
 }) {
+  const selectedSet = pack.id
   const router = useRouter()
   const { account } = useXamanWallet()
   const [order, setOrder] = useState<Order | null>(null)
@@ -139,38 +141,32 @@ export function PackShop({
 
   return (
     <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
-      <div className="flex flex-col items-center gap-2 text-center">
-        <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">
-          Digital pack opening. Real NFT ownership.
+      <div className="pack-theme-intro mx-auto flex max-w-3xl flex-col items-center gap-3 px-4 py-5 text-center sm:px-8 sm:py-7">
+        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
+          {pack.theme.eyebrow}
         </p>
         <h1 className="max-w-2xl font-sans text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          Become Ledgerborn.
+          {pack.theme.title}
         </h1>
         <p className="max-w-2xl font-sans text-lg font-medium text-pretty text-foreground sm:text-xl">
-          Chase the rare. Reveal the extraordinary. Mint what you pull.
+          {pack.theme.tagline}
         </p>
         <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Enter a collection inspired by mythical characters, legendary beings, and ancient powers.
-          Each pack holds three unique cards—from sought-after rarities to strictly limited editions—and
-          turns every dramatic reveal into a real NFT on the XRP Ledger, ready to mint, claim, trade,
-          and build into a collection that is truly yours.
+          {pack.theme.introduction}
         </p>
         <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
-          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
-            <Sparkles className="size-3.5 text-primary" aria-hidden="true" />
-            One-by-one reveals
-          </span>
-          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
-            <Gem className="size-3.5 text-primary" aria-hidden="true" />
-            Real rarity, including limited pulls
-          </span>
-          <span className="inline-flex items-center gap-2 interface-chip rounded-full border border-border px-3 py-1.5 text-xs text-foreground">
-            <ShieldCheck className="size-3.5 text-primary" aria-hidden="true" />
-            Minted and claimed on XRPL
-          </span>
+          {pack.theme.features.map((feature, index) => {
+            const Icon = [Sparkles, Gem, ShieldCheck][index]
+            return (
+              <span key={feature} className="inline-flex items-center gap-2 interface-chip rounded-full border px-3 py-1.5 text-xs text-foreground">
+                <Icon className="pack-theme-accent size-3.5" aria-hidden="true" />
+                {feature}
+              </span>
+            )
+          })}
         </div>
-        <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-gold">
-          Three collectible NFTs · One immersive opening · 5 XRP
+        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.22em]">
+          Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
         </p>
       </div>
 
