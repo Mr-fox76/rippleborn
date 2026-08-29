@@ -4,6 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
+import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { PackShop } from '@/components/pack-shop'
 import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
 import { getPack, PACK_CATALOG } from '@/lib/pack-catalog'
@@ -50,7 +51,8 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
           </div>
         </header>
 
-        <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-4 py-10 sm:px-6 sm:py-14">
+        <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-6 px-4 py-10 sm:px-6 sm:py-14">
+          {pack.id === 'cyborg-cowboy' ? <NftRecoveryPanel /> : null}
           <PackShop collectionStats={collectionStats} pack={pack} />
         </main>
 

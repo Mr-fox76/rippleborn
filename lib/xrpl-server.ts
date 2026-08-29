@@ -137,7 +137,7 @@ export async function mintCardNft(
   config: XrplConfig,
   buyer: string,
   metadataUri: string,
-): Promise<{ nftId: string; offerId: string }> {
+): Promise<{ nftId: string; offerId: string; mintTransactionHash: string }> {
   const uri = encodeMetadataUri(metadataUri)
   if (!uri) throw new Error('Card metadata URI is not a valid pinned HTTPS or IPFS metadata URL.')
 
@@ -175,7 +175,25 @@ export async function mintCardNft(
   const offerId = offerMeta.offer_id
   if (!offerId) throw new Error('NFTokenCreateOffer succeeded but returned no offer ID.')
 
-  return { nftId, offerId }
+  return { nftId, offerId, mintTransactionHash: mintResult.result.hash }
+}
+
+export async function accountOwnsNft(
+  client: Client,
+  account: string,
+  nftId: string,
+  expectedUri?: string,
+): Promise<boolean> {
+  const response = await client.request({
+    command: 'account_nfts',
+    account,
+    ledger_index: 'validated',
+    limit: 400,
+  })
+  return response.result.account_nfts.some((token) => {
+    if (token.NFTokenID.toUpperCase() !== nftId.toUpperCase()) return false
+    return expectedUri ? token.URI === Buffer.from(expectedUri, 'utf8').toString('hex').toUpperCase() : true
+  })
 }
 
 export type ConfirmedNftClaim =
