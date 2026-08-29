@@ -103,13 +103,18 @@ export function encodeMetadataUri(uri: string | undefined): string | null {
 
   try {
     const metadataUrl = new URL(uri)
-    const isPublicMetadataUrl =
+    const isLedgerbornGatewayUrl =
       metadataUrl.protocol === 'https:' &&
       metadataUrl.hostname === 'tomato-fancy-frog-92.mypinata.cloud' &&
       /^\/ipfs\/bafybeibgaqms7fahrd5xsxd6eswei55gmrlflrphql3ovcwoxoobeo3ahy\/[a-z0-9][a-z0-9._-]*\.json$/i.test(
         metadataUrl.pathname,
       )
-    if (!isPublicMetadataUrl) return null
+    const isPinnedIpfsUrl =
+      metadataUrl.protocol === 'ipfs:' &&
+      /^(bafy|bafk|Qm)[A-Za-z0-9]+$/.test(metadataUrl.hostname) &&
+      /^\/(?:json\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(metadataUrl.pathname)
+
+    if (!isLedgerbornGatewayUrl && !isPinnedIpfsUrl) return null
   } catch {
     return null
   }
@@ -134,7 +139,7 @@ export async function mintCardNft(
   metadataUri: string,
 ): Promise<{ nftId: string; offerId: string }> {
   const uri = encodeMetadataUri(metadataUri)
-  if (!uri) throw new Error('Card metadata URI is not a valid public HTTPS metadata URL.')
+  if (!uri) throw new Error('Card metadata URI is not a valid pinned HTTPS or IPFS metadata URL.')
 
   const mint: NFTokenMint = {
     TransactionType: 'NFTokenMint',
