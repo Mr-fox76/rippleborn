@@ -18,6 +18,7 @@ export type Card = {
 
 export const PACK_PRICE_XRP = 5
 export const CARDS_PER_PACK = 3
+export const PHOENIX_MAX_SUPPLY = 5
 export const PACK_SET_IDS = ['ledgerborn', 'cyborg-cowboy'] as const
 export type PackSetId = (typeof PACK_SET_IDS)[number]
 

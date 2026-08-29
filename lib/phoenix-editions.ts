@@ -1,9 +1,9 @@
 import { eq, sql } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { phoenixEditions } from '@/lib/db/schema'
+import { PHOENIX_MAX_SUPPLY } from '@/lib/rippleborn'
 
 export const PHOENIX_DROP_CHANCE = 0.001
-export const PHOENIX_MAX_SUPPLY = 5
 
 export type PhoenixReservation = {
   edition: number

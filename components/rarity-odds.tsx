@@ -1,7 +1,6 @@
 import type { CollectionStats } from '@/lib/pack-results'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
-import { PHOENIX_MAX_SUPPLY } from '@/lib/phoenix-editions'
-import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
+import { CARD_POOL, PHOENIX_MAX_SUPPLY, RARITIES, type PackSetId } from '@/lib/rippleborn'
 
 export function RarityOdds({
   stats,
