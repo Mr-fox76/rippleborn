@@ -57,21 +57,18 @@ async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, metadat
     }, null, 2)),
   }))
 
-  const metadataCid = await pinFiles(metadataFiles.map((file) => ({
-    path: '',
-    name: file.name,
-    type: file.type,
-    data: file.data,
-  })), `${id} NFT metadata XLS-24`)
+  const metadataCid = await pinPreparedFiles(metadataFiles, `${id} NFT metadata XLS-24`)
 
   return { imageCid, metadataCid, metadataBaseUri: `ipfs://${metadataCid}/${metadataPrefix.replace(/\/$/, '')}`.replace(/\/$/, '') }
 }
 
 async function pinPreparedFiles(files, name) {
   const form = new FormData()
-  for (const file of files) form.append('file', new Blob([file.data], { type: file.type }), file.name)
+  for (const file of files) {
+    form.append('file', new Blob([file.data], { type: file.type }), `ledgerborn/${file.name}`)
+  }
   form.append('pinataMetadata', JSON.stringify({ name }))
-  form.append('pinataOptions', JSON.stringify({ cidVersion: 1, wrapWithDirectory: true }))
+  form.append('pinataOptions', JSON.stringify({ cidVersion: 1, wrapWithDirectory: false }))
   const response = await fetch('https://api.pinata.cloud/pinning/pinFileToIPFS', {
     method: 'POST', headers: { Authorization: `Bearer ${jwt}` }, body: form,
   })
@@ -80,29 +77,8 @@ async function pinPreparedFiles(files, name) {
   return body.IpfsHash
 }
 
-async function publish({ id, metadataDir, imageDir, imageNameForSlug, metadataPrefix = '' }) {
-  const metadataNames = (await readdir(metadataDir)).filter((name) => name.endsWith('.json')).sort()
-  const entries = await Promise.all(metadataNames.map(async (filename) => ({
-    filename,
-    slug: filename.replace(/\.json$/, ''),
-    source: JSON.parse(await readFile(join(metadataDir, filename), 'utf8')),
-  })))
-  const imageNames = [...new Set(entries.map(({ slug }) => imageNameForSlug(slug)))]
-  const imageCid = await pinFiles(imageNames.map((filename) => ({ path: join(imageDir, filename), name: `images/${filename}`, type: 'image/png' })), `${id} NFT artwork XLS-24`)
-  const metadataCid = await pinPreparedFiles(entries.map(({ filename, slug, source }) => ({
-    name: `${metadataPrefix}${filename}`,
-    type: 'application/json',
-    data: Buffer.from(JSON.stringify({
-      schema: 'https://api.xrpldata.com/api/v1/xls20-nft-metadata.json',
-      nftType: 'collectible',
-      name: source.name,
-      description: source.description,
-      image: `ipfs://${imageCid}/images/${imageNameForSlug(slug)}`,
-      external_url: source.external_url ?? 'https://ledgerborn.com',
-      attributes: source.attributes ?? [],
-    }, null, 2)),
-  })), `${id} NFT metadata XLS-24`)
-  return { imageCid, metadataCid, metadataBaseUri: `ipfs://${metadataCid}/${metadataPrefix}`.replace(/\/$/, '') }
+async function publish(options) {
+  return publishSet(options)
 }
 
 const mythical = await publish({

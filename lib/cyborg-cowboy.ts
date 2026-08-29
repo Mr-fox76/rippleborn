@@ -32,7 +32,7 @@ export const CYBORG_COWBOY_POOL = {
 } satisfies Record<Rarity, Array<{ name: string; image: string; slug: string; rarity: Rarity }>>
 
 export const CYBORG_COWBOY_METADATA_CID =
-  'bafybeicfmxu3wstvxowgwkjyasdx432kcsvtstljsngda4re2o7vdn4ru4'
+  'bafybeihv3fr7c3dyrdzidrk4gvkpwovhm4wbxeo2rzc2bbb6z2y5vrydxu'
 export const CYBORG_COWBOY_IMAGE_CID =
   'bafybeifvjt63capngr3fnkeb4ssz2lostypmj5jeo2dmowtz4sodcpealu'
 export const CYBORG_COWBOY_METADATA_BASE_URL =

@@ -19,6 +19,7 @@ const cardNames: Record<string, string> = {
   'circuit-trailhand': 'Circuit Trailhand',
   'neon-wrangler': 'Neon Wrangler',
   'arcspur-outrider': 'Arcspur Outrider',
+  'escrow-warden': 'Escrow Warden',
 }
 
 async function fetcher(url: string) {
@@ -96,9 +97,9 @@ export function NftRecoveryPanel() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-1">
           <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-gold">Wallet repair</p>
-          <h2 id="recovery-title" className="font-serif text-xl text-balance">Recover hidden Cyborg NFTs</h2>
+          <h2 id="recovery-title" className="font-serif text-xl text-balance">Recover NFTs with invalid metadata</h2>
           <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Four earlier claims reached your wallet with malformed metadata. Claim corrected replacements here; the originals remain untouched.
+            Earlier claims reached your wallet with metadata rejected by explorers. Claim standards-compliant replacements here; the originals remain untouched.
           </p>
         </div>
         {!account ? (
