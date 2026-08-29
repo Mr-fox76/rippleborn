@@ -147,19 +147,21 @@ function RevealedSpread({
                 className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
               >
                 <div
-                  className="group/wisdom relative aspect-[2/3] overflow-hidden bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   tabIndex={0}
                   aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
                 >
-                  <Image
-                    src={card.image}
-                    alt={`${card.name}, ${card.rarity} card`}
-                    width={640}
-                    height={960}
-                    priority
-                    sizes="(max-width: 640px) 30vw, 320px"
-                    className="h-full w-full scale-110 object-cover"
-                  />
+                  <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
+                    <Image
+                      src={card.image}
+                      alt={`${card.name}, ${card.rarity} card`}
+                      width={640}
+                      height={960}
+                      priority
+                      sizes="(max-width: 640px) 30vw, 320px"
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
                   {card.limited && card.edition && card.maxSupply ? (
                     <span className="phoenix-edition absolute right-2 top-2 z-10 rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:right-3 sm:top-3 sm:text-xs">
                       Edition {card.edition}/{card.maxSupply}
