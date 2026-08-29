@@ -22,7 +22,6 @@ export function RarityOdds({
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
-    { label: 'Limited', value: stats.limitedFound, className: 'rarity-limited' },
     ...(setId === 'ledgerborn'
       ? [{ label: 'The Phoenix', value: stats.phoenixFound, className: 'text-gold', featured: true }]
       : []),
@@ -32,7 +31,7 @@ export function RarityOdds({
     <section aria-label={countersOnly ? 'All-set collection totals' : 'Card categories'} className="flex flex-col gap-5">
       <dl
         aria-label={countersOnly ? 'All-set collection totals' : 'Set collection totals'}
-        className={`grid grid-cols-2 gap-2 ${setId === 'ledgerborn' ? 'sm:grid-cols-5' : 'sm:grid-cols-4'}`}
+        className={`grid grid-cols-2 gap-2 ${setId === 'ledgerborn' ? 'sm:grid-cols-4' : 'sm:grid-cols-3'}`}
       >
         {counters.map((counter) => (
           <div
