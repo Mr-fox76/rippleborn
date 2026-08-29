@@ -23,7 +23,7 @@ export function RarityOdds({
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
     ...(setId === 'ledgerborn'
-      ? [{ label: 'The Phoenix', value: stats.phoenixFound, className: 'text-gold', featured: true }]
+      ? [{ label: 'The Phoenix', value: stats.phoenixFound, className: 'text-phoenix', featured: true }]
       : []),
   ]
 
@@ -36,7 +36,7 @@ export function RarityOdds({
         {counters.map((counter) => (
           <div
             key={counter.label}
-            className={`rounded-lg border p-3 text-center ${counter.featured ? 'border-gold bg-gold/10 shadow-[0_0_20px_color-mix(in_oklch,var(--gold)_18%,transparent)]' : 'border-border bg-card/55'}`}
+            className={`rounded-lg border p-3 text-center ${counter.featured ? 'border-phoenix bg-phoenix/10 shadow-[0_0_20px_color-mix(in_oklch,var(--phoenix)_20%,transparent)]' : 'border-border bg-card/55'}`}
           >
             <dd
               className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}
@@ -55,7 +55,7 @@ export function RarityOdds({
       </dl>
 
       {setId === 'ledgerborn' ? (
-        <p className="text-center text-sm font-medium leading-relaxed text-gold">
+        <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
           Hunt The Phoenix — only five editions can ever rise from a pack.
         </p>
       ) : null}
