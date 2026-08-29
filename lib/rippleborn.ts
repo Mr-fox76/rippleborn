@@ -88,7 +88,7 @@ export const SLOT_ODDS: { slot: number; label: string; odds: Partial<Record<Rari
 type CardArt = { name: string; image: string; uri: string }
 
 export const RIPPLEBORN_METADATA_CID =
-  'bafybeifizkackmhyf3bs4ohskybzer6ebyq7e4f44ncv6l3ep72kgfatpy'
+  'bafybeidu3usjcomy3qxnm3zlwxwqxppcmy5mj4wjr6645tmqqsfquwwd5a'
 export const RIPPLEBORN_METADATA_BASE_URL =
   `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${RIPPLEBORN_METADATA_CID}`
 const metadataUri = (slug: string) => `${RIPPLEBORN_METADATA_BASE_URL}/${slug}.json`
