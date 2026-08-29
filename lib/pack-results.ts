@@ -24,6 +24,7 @@ export type CollectionStats = {
   legendaryFound: number
   mythicFound: number
   limitedFound: number
+  phoenixFound: number
 }
 
 export const EMPTY_COLLECTION_STATS: CollectionStats = {
@@ -31,6 +32,7 @@ export const EMPTY_COLLECTION_STATS: CollectionStats = {
   legendaryFound: 0,
   mythicFound: 0,
   limitedFound: 0,
+  phoenixFound: 0,
 }
 
 function canonicalCards(cards: Card[]) {
@@ -76,8 +78,9 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
       stats.packsOpened += 1
 
       for (const card of cards) {
-        if (card.limited && card.name === 'The Phoenix') {
-          stats.limitedFound += 1
+        if (card.limited) stats.limitedFound += 1
+        if (card.name === 'The Phoenix') {
+          stats.phoenixFound += 1
         } else if (card.rarity === 'Legendary') {
           stats.legendaryFound += 1
         } else if (card.rarity === 'Mythic') {

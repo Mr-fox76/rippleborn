@@ -23,13 +23,22 @@ export function RarityOdds({
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
     { label: 'Limited', value: stats.limitedFound, className: 'rarity-limited' },
+    ...(setId === 'ledgerborn'
+      ? [{ label: 'The Phoenix', value: stats.phoenixFound, className: 'text-gold', featured: true }]
+      : []),
   ]
 
   return (
     <section aria-label={countersOnly ? 'All-set collection totals' : 'Card categories'} className="flex flex-col gap-5">
-      <dl aria-label={countersOnly ? 'All-set collection totals' : 'Set collection totals'} className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <dl
+        aria-label={countersOnly ? 'All-set collection totals' : 'Set collection totals'}
+        className={`grid grid-cols-2 gap-2 ${setId === 'ledgerborn' ? 'sm:grid-cols-5' : 'sm:grid-cols-4'}`}
+      >
         {counters.map((counter) => (
-          <div key={counter.label} className="rounded-lg border border-border bg-card/55 p-3 text-center">
+          <div
+            key={counter.label}
+            className={`rounded-lg border p-3 text-center ${counter.featured ? 'border-gold bg-gold/10 shadow-[0_0_20px_color-mix(in_oklch,var(--gold)_18%,transparent)]' : 'border-border bg-card/55'}`}
+          >
             <dd className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}>
               {counter.value.toLocaleString()}
             </dd>
@@ -39,6 +48,12 @@ export function RarityOdds({
           </div>
         ))}
       </dl>
+
+      {setId === 'ledgerborn' ? (
+        <p className="text-center text-sm font-medium leading-relaxed text-gold">
+          Hunt The Phoenix — only five editions can ever rise from a pack.
+        </p>
+      ) : null}
 
       {!countersOnly ? (
         <div className="flex flex-col gap-3 border-t border-border pt-4">
