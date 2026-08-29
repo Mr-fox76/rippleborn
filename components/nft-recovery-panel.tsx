@@ -95,7 +95,7 @@ export function NftRecoveryPanel() {
   return (
     <details className="group border border-border bg-card text-card-foreground">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors marker:content-none hover:text-gold sm:px-5">
-        <span>Wallet repair</span>
+        <span>Recover NFTs</span>
         <span aria-hidden="true" className="text-gold transition-transform group-open:rotate-45">+</span>
       </summary>
       <section className="border-t border-border p-5 sm:p-6" aria-labelledby="recovery-title">
