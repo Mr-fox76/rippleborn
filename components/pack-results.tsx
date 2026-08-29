@@ -53,7 +53,15 @@ function CardDetails({ card }: { card: FulfilledCard }) {
   return null
 }
 
-function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => void }) {
+function FaceDownCard({
+  index,
+  isChaseSlot = false,
+  onReveal,
+}: {
+  index: number
+  isChaseSlot?: boolean
+  onReveal?: () => void
+}) {
   const content = (
     <div className="tarot-back-inner">
       <span className="celestial-orbit" aria-hidden="true">
@@ -76,11 +84,10 @@ function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => voi
   return (
     <button
       type="button"
-      className={`tarot-card tarot-back tarot-reveal-button ${index === 0 ? 'is-first-card' : ''}`}
-      aria-label={index === 0 ? 'Open the middle card first' : `Reveal card ${index + 1}`}
+      className={`tarot-card tarot-back tarot-reveal-button ${isChaseSlot ? 'is-chase-slot' : ''}`}
+      aria-label={`Reveal card ${index + 1}${isChaseSlot ? ', enhanced Mythic chance' : ''}`}
       onClick={onReveal}
     >
-      {index === 0 ? <span className="first-card-prompt">Open first</span> : null}
       {content}
     </button>
   )
@@ -105,7 +112,7 @@ function RevealedSpread({
     claimableCards.every((card) => card.nftId && claimed.has(card.nftId))
 
   function revealCard(index: number) {
-    if (revealing !== null || index !== revealed.size) return
+    if (revealing !== null || revealed.has(index)) return
     setRevealing(index)
   }
 
@@ -140,19 +147,30 @@ function RevealedSpread({
                 className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
               >
                 <div
-                  className="group/wisdom relative aspect-[2/3] overflow-hidden bg-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   tabIndex={0}
                   aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
                 >
-                  <Image
-                    src={card.image}
-                    alt={`${card.name}, ${card.rarity} card`}
-                    width={640}
-                    height={960}
-                    priority
-                    sizes="(max-width: 640px) 30vw, 320px"
-                    className="h-full w-full object-cover"
-                  />
+                  <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
+                    <Image
+                      src={card.image}
+                      alt=""
+                      aria-hidden="true"
+                      fill
+                      priority
+                      sizes="(max-width: 640px) 30vw, 320px"
+                      className="scale-110 object-cover opacity-45 blur-xl"
+                    />
+                    <div className="absolute inset-0 bg-card/20" aria-hidden="true" />
+                    <Image
+                      src={card.image}
+                      alt={`${card.name}, ${card.rarity} card`}
+                      fill
+                      priority
+                      sizes="(max-width: 640px) 30vw, 320px"
+                      className="relative z-[1] object-contain"
+                    />
+                  </div>
                   {card.limited && card.edition && card.maxSupply ? (
                     <span className="phoenix-edition absolute right-2 top-2 z-10 rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:right-3 sm:top-3 sm:text-xs">
                       Edition {card.edition}/{card.maxSupply}
@@ -187,7 +205,8 @@ function RevealedSpread({
             ) : (
               <FaceDownCard
                 index={index}
-                onReveal={card && index === revealed.size && revealing === null ? () => revealCard(index) : undefined}
+                isChaseSlot={card?.slot === 3}
+                onReveal={card && revealing === null ? () => revealCard(index) : undefined}
               />
             )}
           </li>
@@ -238,7 +257,7 @@ export function TarotCards({
       )}
       {cards ? (
         <p className="mt-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
-          Reveal the cards in order. Each one carries its own fate.
+          Reveal the cards in any order. The distinct glow marks the slot with a Mythic chance.
         </p>
       ) : null}
     </section>

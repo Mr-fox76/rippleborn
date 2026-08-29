@@ -23,42 +23,47 @@ const PHASE_COPY: Record<OpeningPhase, string> = {
   spreading: 'Three fates await your reveal',
 }
 
-function playMythicalOpeningSound() {
+function playPackOpeningSound() {
   const AudioContextClass = window.AudioContext
   const context = new AudioContextClass()
   const now = context.currentTime
   const master = context.createGain()
-  master.gain.setValueAtTime(0.0001, now)
-  master.gain.exponentialRampToValueAtTime(0.2, now + 0.08)
-  master.gain.exponentialRampToValueAtTime(0.0001, now + 2.4)
+  master.gain.setValueAtTime(0.65, now)
+  master.gain.exponentialRampToValueAtTime(0.0001, now + 1.35)
   master.connect(context.destination)
 
-  const shimmer = context.createOscillator()
-  const shimmerGain = context.createGain()
-  shimmer.type = 'sine'
-  shimmer.frequency.setValueAtTime(174, now)
-  shimmer.frequency.exponentialRampToValueAtTime(696, now + 1.35)
-  shimmerGain.gain.setValueAtTime(0.0001, now)
-  shimmerGain.gain.exponentialRampToValueAtTime(0.28, now + 0.3)
-  shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8)
-  shimmer.connect(shimmerGain).connect(master)
-  shimmer.start(now)
-  shimmer.stop(now + 1.85)
+  const noiseBuffer = context.createBuffer(1, Math.ceil(context.sampleRate * 1.4), context.sampleRate)
+  const noise = noiseBuffer.getChannelData(0)
+  for (let index = 0; index < noise.length; index += 1) {
+    noise[index] = Math.random() * 2 - 1
+  }
 
-  ;[261.63, 329.63, 392, 523.25].forEach((frequency, index) => {
-    const voice = context.createOscillator()
+  const addTear = (start: number, duration: number, frequency: number, volume: number) => {
+    const source = context.createBufferSource()
+    const filter = context.createBiquadFilter()
     const gain = context.createGain()
-    voice.type = index % 2 === 0 ? 'sine' : 'triangle'
-    voice.frequency.value = frequency
-    gain.gain.setValueAtTime(0.0001, now + index * 0.14)
-    gain.gain.exponentialRampToValueAtTime(0.12, now + 0.18 + index * 0.14)
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.45 + index * 0.16)
-    voice.connect(gain).connect(master)
-    voice.start(now + index * 0.14)
-    voice.stop(now + 1.6 + index * 0.16)
-  })
+    source.buffer = noiseBuffer
+    filter.type = 'bandpass'
+    filter.frequency.setValueAtTime(frequency, now + start)
+    filter.frequency.exponentialRampToValueAtTime(frequency * 1.8, now + start + duration)
+    filter.Q.value = 0.7
+    gain.gain.setValueAtTime(0.0001, now + start)
+    gain.gain.linearRampToValueAtTime(volume, now + start + 0.025)
+    gain.gain.setValueAtTime(volume * 0.72, now + start + duration * 0.72)
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + start + duration)
+    source.connect(filter).connect(gain).connect(master)
+    source.start(now + start, Math.random() * 0.2, duration)
+  }
 
-  window.setTimeout(() => void context.close(), 2600)
+  // Short foil crinkles lead into one continuous seam tear and a final opening snap.
+  addTear(0, 0.09, 2800, 0.28)
+  addTear(0.1, 0.1, 3400, 0.24)
+  addTear(0.22, 0.72, 1250, 0.5)
+  addTear(0.31, 0.58, 3800, 0.2)
+  addTear(0.91, 0.16, 700, 0.58)
+  addTear(1.05, 0.22, 2400, 0.2)
+
+  window.setTimeout(() => void context.close(), 1500)
 }
 
 export function PackOpening({
@@ -110,7 +115,7 @@ export function PackOpening({
         disabled={opening}
         onClick={() => {
           if (!canOpen) return
-          playMythicalOpeningSound()
+          playPackOpeningSound()
           setPhase('flipping')
         }}
       >
