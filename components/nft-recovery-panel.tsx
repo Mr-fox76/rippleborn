@@ -93,21 +93,25 @@ export function NftRecoveryPanel() {
   if (account && !error && replacements.length === 0) return null
 
   return (
-    <section className="border border-border bg-card p-5 text-card-foreground sm:p-6" aria-labelledby="recovery-title">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-col gap-1">
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.22em] text-gold">Wallet repair</p>
-          <h2 id="recovery-title" className="font-serif text-xl text-balance">Recover NFTs with invalid metadata</h2>
-          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            Earlier claims reached your wallet with metadata rejected by explorers. Claim standards-compliant replacements here; the originals remain untouched.
-          </p>
+    <details className="group border border-border bg-card text-card-foreground">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors marker:content-none hover:text-gold sm:px-5">
+        <span>Wallet repair</span>
+        <span aria-hidden="true" className="text-gold transition-transform group-open:rotate-45">+</span>
+      </summary>
+      <section className="border-t border-border p-5 sm:p-6" aria-labelledby="recovery-title">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-1">
+            <h2 id="recovery-title" className="font-serif text-xl text-balance">Recover NFTs with invalid metadata</h2>
+            <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              Earlier claims reached your wallet with metadata rejected by explorers. Claim standards-compliant replacements here; the originals remain untouched.
+            </p>
+          </div>
+          {!account ? (
+            <button className="border border-gold px-4 py-2 font-mono text-xs uppercase tracking-wider text-gold" onClick={() => void connect()}>
+              Connect Xaman
+            </button>
+          ) : null}
         </div>
-        {!account ? (
-          <button className="border border-gold px-4 py-2 font-mono text-xs uppercase tracking-wider text-gold" onClick={() => void connect()}>
-            Connect Xaman
-          </button>
-        ) : null}
-      </div>
 
       {account ? (
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -142,8 +146,9 @@ export function NftRecoveryPanel() {
           <p className="text-sm text-muted-foreground">{claimStatus?.status === 'pending' ? 'Waiting for your signature…' : 'Scan or open Xaman to continue.'}</p>
         </div>
       ) : null}
-      {message ? <p className="mt-4 text-sm leading-relaxed text-muted-foreground" role="status">{message}</p> : null}
-      {error ? <p className="mt-4 text-sm text-destructive" role="alert">{error.message}</p> : null}
-    </section>
+        {message ? <p className="mt-4 text-sm leading-relaxed text-muted-foreground" role="status">{message}</p> : null}
+        {error ? <p className="mt-4 text-sm text-destructive" role="alert">{error.message}</p> : null}
+      </section>
+    </details>
   )
 }
