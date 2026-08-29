@@ -18,7 +18,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     kicker: 'Mythical Set',
     description: 'Mythical characters, legendary beings, and ancient powers drawn from the ledger.',
     href: '/packs/ledgerborn',
-    cardCount: 21,
+    cardCount: 25,
     cardsPerPack: 3,
     priceXrp: 5,
   },
