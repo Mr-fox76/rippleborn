@@ -9,6 +9,8 @@ export type MintedPackCard = Card & {
   mintStatus: 'minted' | 'skipped' | 'failed'
   nftId?: string
   offerId?: string
+  mintedAt?: string
+  claimExpiresAt?: string
   reason?: string
 }
 

@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { NextResponse } from 'next/server'
+import { start } from 'workflow/api'
 import type { Client, TransactionMetadata } from 'xrpl'
 import {
   CYBORG_COWBOY_NFT_TAXON,
@@ -23,6 +24,8 @@ import {
   saveMintResults,
   type MintedPackCard,
 } from '@/lib/pack-results'
+import { getClaimTtlHours, registerClaimOffers } from '@/lib/nft-claim-lifecycle'
+import { cleanupUnclaimedOffer } from '@/lib/workflows/cleanup-unclaimed-offer'
 import {
   getPhoenixReservation,
   markPhoenixFailed,
@@ -81,6 +84,12 @@ function getTransactionResult(meta: unknown): string | null {
   if (typeof meta !== 'object' || meta === null) return null
   const result = (meta as { TransactionResult?: unknown }).TransactionResult
   return typeof result === 'string' ? result : null
+}
+
+function claimWindow() {
+  const mintedAt = new Date()
+  const claimExpiresAt = new Date(mintedAt.getTime() + getClaimTtlHours() * 60 * 60 * 1000)
+  return { mintedAt: mintedAt.toISOString(), claimExpiresAt: claimExpiresAt.toISOString() }
 }
 
 function verifyPaymentTransaction(
@@ -317,6 +326,7 @@ export async function POST(request: Request) {
             mintStatus: 'minted',
             nftId: phoenixReservation.nftId,
             offerId: phoenixReservation.offerId,
+            ...claimWindow(),
           })
           continue
         }
@@ -353,7 +363,12 @@ export async function POST(request: Request) {
           if (card.limited) {
             await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
           }
-          fulfilledCards.push({ ...cardToMint, ...minted, mintStatus: 'minted' })
+          fulfilledCards.push({
+            ...cardToMint,
+            ...minted,
+            ...claimWindow(),
+            mintStatus: 'minted',
+          })
         } catch (error) {
           const reason = error instanceof Error ? error.message : 'XRPL minting failed.'
           if (card.limited) {
@@ -364,6 +379,31 @@ export async function POST(request: Request) {
       }
 
       await saveMintResults(destinationTag, fulfilledCards)
+
+      const claimOffers = fulfilledCards.flatMap((card) =>
+        card.mintStatus === 'minted' &&
+        card.nftId &&
+        card.offerId &&
+        card.mintedAt &&
+        card.claimExpiresAt
+          ? [{
+              nftId: card.nftId,
+              offerId: card.offerId,
+              mintedAt: card.mintedAt,
+              claimExpiresAt: card.claimExpiresAt,
+            }]
+          : [],
+      )
+      await registerClaimOffers({ orderId: destinationTag, buyer, offers: claimOffers })
+      await Promise.all(
+        claimOffers.map(async ({ offerId, claimExpiresAt }) => {
+          try {
+            await start(cleanupUnclaimedOffer, [{ offerId, claimExpiresAt }])
+          } catch (error) {
+            console.error(`[lifecycle] Unable to schedule cleanup for offer ${offerId}.`, error)
+          }
+        }),
+      )
 
       return NextResponse.json({
         orderId: destinationTag,

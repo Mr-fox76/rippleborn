@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { markClaimOfferClaimed } from '@/lib/nft-claim-lifecycle'
 import { confirmNftClaim, getXrplConfig, withXrplClient } from '@/lib/xrpl-server'
 import { getXamanSdk, isHex256 } from '@/lib/xaman-server'
 
@@ -17,9 +18,13 @@ export async function GET(
     const payload = await getXamanSdk().payload.get(uuid)
     if (!payload) return NextResponse.json({ error: 'Claim request not found.' }, { status: 404 })
 
-    const blob = payload.custom_meta?.blob as { buyer?: unknown; nftId?: unknown } | null | undefined
+    const blob = payload.custom_meta?.blob as
+      | { buyer?: unknown; nftId?: unknown; offerId?: unknown }
+      | null
+      | undefined
     const expectedBuyer = typeof blob?.buyer === 'string' ? blob.buyer : null
     const expectedNftId = isHex256(blob?.nftId) ? blob.nftId.toUpperCase() : null
+    const expectedOfferId = isHex256(blob?.offerId) ? blob.offerId.toUpperCase() : null
     const signedAccount = payload.response.account ?? payload.response.signer
 
     if (payload.meta.signed && expectedBuyer && signedAccount !== expectedBuyer) {
@@ -56,6 +61,10 @@ export async function GET(
           transactionHash: payload.response.txid,
           error: `XRPL rejected the validated claim with ${confirmation.result}.`,
         })
+      }
+
+      if (expectedOfferId) {
+        await markClaimOfferClaimed(expectedOfferId, payload.response.txid)
       }
 
       return NextResponse.json({

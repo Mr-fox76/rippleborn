@@ -18,9 +18,16 @@ type ClaimStatus = {
   error?: string
 }
 
-const fetcher = async (url: string): Promise<ClaimStatus> => {
+type LifecycleStatus = {
+  status: 'open' | 'claimed' | 'cancelling' | 'cancelled' | 'closed' | 'unknown'
+  claimExpiresAt?: string
+  cancelTransactionHash?: string | null
+  error?: string
+}
+
+const fetcher = async <T extends { error?: string }>(url: string): Promise<T> => {
   const response = await fetch(url)
-  const data = (await response.json()) as ClaimStatus & { error?: string }
+  const data = (await response.json()) as T
   if (!response.ok) throw new Error(data.error ?? 'Unable to check claim status.')
   return data
 }
@@ -29,17 +36,19 @@ export function ClaimNftButton({
   buyer,
   nftId,
   offerId,
+  claimExpiresAt,
   onClaimed,
 }: {
   buyer: string
   nftId: string
   offerId: string
+  claimExpiresAt?: string
   onClaimed?: (nftId: string) => void
 }) {
   const [claim, setClaim] = useState<ClaimRequest | null>(null)
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { data: status, error: statusError } = useSWR(
+  const { data: status, error: statusError } = useSWR<ClaimStatus>(
     claim ? `/api/nft/claim/${claim.uuid}` : null,
     fetcher,
     {
@@ -47,6 +56,16 @@ export function ClaimNftButton({
       revalidateOnFocus: true,
     },
   )
+  const { data: lifecycle } = useSWR<LifecycleStatus>(
+    `/api/nft/claim/status/${offerId}`,
+    fetcher,
+    { refreshInterval: 10_000, revalidateOnFocus: true },
+  )
+  const effectiveClaimBy = lifecycle?.claimExpiresAt ?? claimExpiresAt
+  const offerUnavailable =
+    lifecycle?.status === 'cancelled' ||
+    lifecycle?.status === 'closed' ||
+    lifecycle?.status === 'cancelling'
 
   useEffect(() => {
     if (status?.status === 'claimed') onClaimed?.(nftId)
@@ -71,21 +90,37 @@ export function ClaimNftButton({
     }
   }
 
-  if (status?.status === 'claimed') {
+  if (status?.status === 'claimed' || lifecycle?.status === 'claimed') {
     return (
       <div className="mt-3 border-t border-border pt-3 text-center">
         <p className="font-mono text-xs uppercase tracking-wider text-gold">Claimed &amp; verified</p>
         <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
           Ownership is confirmed on XRPL. Xaman and Bithomp may take a few minutes to index the artwork.
         </p>
-        {status.nftId ? (
+        {status?.nftId ? (
           <p className="mt-2 break-all font-mono text-[0.6rem] text-muted-foreground">
             NFT {status.nftId}
           </p>
         ) : null}
-        {status.transactionHash ? (
+        {status?.transactionHash ? (
           <p className="mt-1 break-all font-mono text-[0.6rem] text-muted-foreground">
             TX {status.transactionHash}
+          </p>
+        ) : null}
+      </div>
+    )
+  }
+
+  if (offerUnavailable) {
+    return (
+      <div className="mt-3 border-t border-border pt-3 text-center">
+        <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Claim window closed</p>
+        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+          The unclaimed sell offer is no longer available.
+        </p>
+        {lifecycle?.cancelTransactionHash ? (
+          <p className="mt-2 break-all font-mono text-[0.6rem] text-muted-foreground">
+            Cancel TX {lifecycle.cancelTransactionHash}
           </p>
         ) : null}
       </div>
@@ -104,6 +139,17 @@ export function ClaimNftButton({
 
   return (
     <div className="mt-3 border-t border-border pt-3 text-center">
+      {effectiveClaimBy ? (
+        <p className="mb-2 font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground">
+          Claim by{' '}
+          <time dateTime={effectiveClaimBy}>
+            {new Intl.DateTimeFormat(undefined, {
+              dateStyle: 'medium',
+              timeStyle: 'short',
+            }).format(new Date(effectiveClaimBy))}
+          </time>
+        </p>
+      ) : null}
       {!claim || terminalMessage ? (
         <button
           type="button"
