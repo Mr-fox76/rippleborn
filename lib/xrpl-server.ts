@@ -98,28 +98,34 @@ export function validateBuyer(value: unknown): string | null {
   return isValidClassicAddress(buyer) ? buyer : null
 }
 
+const PINATA_GATEWAY_ORIGIN = 'https://tomato-fancy-frog-92.mypinata.cloud'
+
+function toHttpsMetadataUri(uri: string): string {
+  if (uri.startsWith('ipfs://')) {
+    return `${PINATA_GATEWAY_ORIGIN}/ipfs/${uri.slice('ipfs://'.length)}`
+  }
+  return uri
+}
+
 export function encodeMetadataUri(uri: string | undefined): string | null {
   if (!uri) return null
+  const httpsUri = toHttpsMetadataUri(uri)
 
   try {
-    const metadataUrl = new URL(uri)
+    const metadataUrl = new URL(httpsUri)
     const isLedgerbornGatewayUrl =
       metadataUrl.protocol === 'https:' &&
-      metadataUrl.hostname === 'tomato-fancy-frog-92.mypinata.cloud' &&
-      /^\/ipfs\/bafybeibgaqms7fahrd5xsxd6eswei55gmrlflrphql3ovcwoxoobeo3ahy\/[a-z0-9][a-z0-9._-]*\.json$/i.test(
+      metadataUrl.origin === PINATA_GATEWAY_ORIGIN &&
+      /^\/ipfs\/(bafy|bafk|Qm)[A-Za-z0-9]+\/(?:(?:json|metadata)\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(
         metadataUrl.pathname,
       )
-    const isPinnedIpfsUrl =
-      metadataUrl.protocol === 'ipfs:' &&
-      /^(bafy|bafk|Qm)[A-Za-z0-9]+$/.test(metadataUrl.hostname) &&
-      /^\/(?:(?:json|metadata)\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(metadataUrl.pathname)
 
-    if (!isLedgerbornGatewayUrl && !isPinnedIpfsUrl) return null
+    if (!isLedgerbornGatewayUrl) return null
   } catch {
     return null
   }
 
-  const encoded = convertStringToHex(uri).toUpperCase()
+  const encoded = convertStringToHex(httpsUri).toUpperCase()
   return encoded.length <= 512 ? encoded : null
 }
 
@@ -139,7 +145,7 @@ export async function mintCardNft(
   metadataUri: string,
 ): Promise<{ nftId: string; offerId: string; mintTransactionHash: string }> {
   const uri = encodeMetadataUri(metadataUri)
-  if (!uri) throw new Error('Card metadata URI is not a valid pinned HTTPS or IPFS metadata URL.')
+  if (!uri) throw new Error('Card metadata URI is not a valid HTTPS Pinata JSON URL.')
 
   const mint: NFTokenMint = {
     TransactionType: 'NFTokenMint',
@@ -153,12 +159,12 @@ export async function mintCardNft(
   if (config.issuerAddress !== config.minterWallet.address) mint.Issuer = config.issuerAddress
 
   const mintResult = await client.submitAndWait(mint, { wallet: config.minterWallet })
-  console.info(`[v0] NFTokenMint URI: ${Buffer.from(uri, 'hex').toString('utf8')}`)
   const mintMeta = successfulMetadata(mintResult.result, 'NFTokenMint') as TransactionMetadata & {
     nftoken_id?: string
   }
   const nftId = mintMeta.nftoken_id
   if (!nftId) throw new Error('NFTokenMint succeeded but returned no token ID.')
+  console.info(`[v0] NFTokenMint succeeded. Decoded URI: ${Buffer.from(uri, 'hex').toString('utf8')}`)
 
   const offer: NFTokenCreateOffer = {
     TransactionType: 'NFTokenCreateOffer',
