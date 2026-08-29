@@ -154,12 +154,21 @@ function RevealedSpread({
                   <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
                     <Image
                       src={card.image}
-                      alt={`${card.name}, ${card.rarity} card`}
-                      width={640}
-                      height={960}
+                      alt=""
+                      aria-hidden="true"
+                      fill
                       priority
                       sizes="(max-width: 640px) 30vw, 320px"
-                      className="h-full w-full object-contain"
+                      className="scale-110 object-cover opacity-45 blur-xl"
+                    />
+                    <div className="absolute inset-0 bg-card/20" aria-hidden="true" />
+                    <Image
+                      src={card.image}
+                      alt={`${card.name}, ${card.rarity} card`}
+                      fill
+                      priority
+                      sizes="(max-width: 640px) 30vw, 320px"
+                      className="relative z-[1] object-contain"
                     />
                   </div>
                   {card.limited && card.edition && card.maxSupply ? (
