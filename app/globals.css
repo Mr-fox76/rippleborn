@@ -250,7 +250,12 @@
 }
 
 .foil-pack-kicker {
-  margin-top: 0.25rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid color-mix(in oklch, var(--gold) 32%, transparent);
+}
+
+.foil-pack-sigil {
+  margin-bottom: 0.75rem;
 }
 
 .foil-pack-count {
