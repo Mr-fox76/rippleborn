@@ -36,7 +36,7 @@ export default async function Page() {
           ) : null}
         </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Ledgerborn is an independent company and is not affiliated with, endorsed by, or sponsored by Ripple. Ledgerborn uses the open-source XRP Ledger technology.
+          Ledgerborn is an independent company and is not affiliated with, endorsed by, or sponsored by Ledger or Ripple. Ledgerborn uses the open-source XRP Ledger technology.
         </p>
       </footer>
     </div>
