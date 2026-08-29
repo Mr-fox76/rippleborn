@@ -32,11 +32,11 @@ export const CYBORG_COWBOY_POOL = {
 } satisfies Record<Rarity, Array<{ name: string; image: string; slug: string; rarity: Rarity }>>
 
 export const CYBORG_COWBOY_METADATA_CID =
-  'bafybeihv3fr7c3dyrdzidrk4gvkpwovhm4wbxeo2rzc2bbb6z2y5vrydxu'
+  'bafybeieqp3deiyodrvhojsfyepcztety4pcssx2vr3rhpmnfi52tvpr234'
 export const CYBORG_COWBOY_IMAGE_CID =
   'bafybeifvjt63capngr3fnkeb4ssz2lostypmj5jeo2dmowtz4sodcpealu'
 export const CYBORG_COWBOY_METADATA_BASE_URL =
-  `ipfs://${CYBORG_COWBOY_METADATA_CID}/metadata`
+  `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${CYBORG_COWBOY_METADATA_CID}/metadata`
 
 export function validateCyborgMetadataBaseUrl(value: string | undefined): string {
   const metadataBaseUrl = value?.trim().replace(/\/$/, '')

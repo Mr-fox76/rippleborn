@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getNftReplacement, listNftReplacements, markReplacementMinted } from '@/lib/nft-replacements'
 import { accountOwnsNft, getXrplConfig, mintCardNft, withXrplClient } from '@/lib/xrpl-server'
 import { validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
-import { RIPPLEBORN_METADATA_CID } from '@/lib/rippleborn'
+import { RIPPLEBORN_METADATA_BASE_URL } from '@/lib/rippleborn'
 
 const XRPL_ADDRESS = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
 const HEX_256 = /^[A-Fa-f0-9]{64}$/
@@ -35,7 +35,7 @@ export async function POST(request: Request) {
     const isCyborg = record.originalUri.includes('/metadata/') || record.originalUri.includes('bafybeib3whzmhi5ejq6nuljfjihocx4edutgrkbp4rgptohc2jv6zz5wg4')
     const metadataUri = isCyborg
       ? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${record.cardId}.json`
-      : `ipfs://${RIPPLEBORN_METADATA_CID}/${record.cardId}.json`
+      : `${RIPPLEBORN_METADATA_BASE_URL}/${record.cardId}.json`
     const config = getXrplConfig()
     const replacement = await withXrplClient(config.websocketUrl, async (client) => {
       const ownsOriginal = await accountOwnsNft(client, owner, originalNftId, record.originalUri)
