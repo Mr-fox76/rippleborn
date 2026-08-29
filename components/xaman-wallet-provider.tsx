@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import useSWR from 'swr'
+import { isValidClassicAddress } from 'xrpl'
 
 type WalletRequest = { uuid: string; qrUrl: string; deepLink: string }
 type WalletStatus = {
@@ -21,6 +22,7 @@ type WalletContextValue = {
 }
 
 const WalletContext = createContext<WalletContextValue | null>(null)
+const STORAGE_KEY = 'ledgerborn:xaman-account'
 
 async function fetchStatus(url: string): Promise<WalletStatus> {
   const response = await fetch(url)
@@ -34,13 +36,28 @@ export function XamanWalletProvider({ children }: { children: ReactNode }) {
   const [request, setRequest] = useState<WalletRequest | null>(null)
   const [creating, setCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const savedAccount = window.localStorage.getItem(STORAGE_KEY)
+    if (savedAccount && isValidClassicAddress(savedAccount)) {
+      setAccount(savedAccount)
+    } else if (savedAccount) {
+      window.localStorage.removeItem(STORAGE_KEY)
+    }
+  }, [])
+
   const { data: status, error: statusError } = useSWR(
     request && !account ? `/api/xaman/connect/${request.uuid}` : null,
     fetchStatus,
     {
       refreshInterval: (latest) => (latest?.status === 'pending' ? 6000 : 0),
       onSuccess: (latest) => {
-        if (latest.status === 'connected' && latest.account) {
+        if (
+          latest.status === 'connected' &&
+          latest.account &&
+          isValidClassicAddress(latest.account)
+        ) {
+          window.localStorage.setItem(STORAGE_KEY, latest.account)
           setAccount(latest.account)
           setRequest(null)
           setError(null)
@@ -65,6 +82,7 @@ export function XamanWalletProvider({ children }: { children: ReactNode }) {
   }
 
   function disconnect() {
+    window.localStorage.removeItem(STORAGE_KEY)
     setAccount(null)
     setRequest(null)
     setError(null)

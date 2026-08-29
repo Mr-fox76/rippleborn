@@ -6,7 +6,6 @@ import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
 import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { PackShop } from '@/components/pack-shop'
-import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
 import { getPack, PACK_CATALOG } from '@/lib/pack-catalog'
 import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
 
@@ -35,8 +34,7 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
   const collectionStats = await getCollectionStats(pack.id).catch(() => EMPTY_COLLECTION_STATS)
 
   return (
-    <XamanWalletProvider>
-      <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
+    <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
         <div aria-hidden="true" className="pack-theme-atmosphere" />
         <header className="pack-theme-bar relative z-10 flex items-center justify-between gap-4 border-b px-4 py-4 sm:px-6">
           <Link href="/" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
@@ -62,7 +60,6 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
             {pack.cardsPerPack} cards · {pack.priceXrp} XRP · {pack.cardCount} to collect
           </p>
         </footer>
-      </div>
-    </XamanWalletProvider>
+    </div>
   )
 }

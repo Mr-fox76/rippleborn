@@ -2,7 +2,6 @@ import { NetworkStatus } from '@/components/network-status'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
 import { SiteHero } from '@/components/site-hero'
-import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
 import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
 import { incrementHomepageVisits } from '@/lib/site-counter'
 
@@ -15,8 +14,7 @@ export default async function Page() {
   ])
 
   return (
-    <XamanWalletProvider>
-      <div className="table-surface flex min-h-svh flex-col">
+    <div className="table-surface flex min-h-svh flex-col">
       <SiteHero />
       <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-8 px-4 py-10 sm:px-6 sm:py-14">
         <PackGallery />
@@ -41,7 +39,6 @@ export default async function Page() {
           Ledgerborn is an independent company and is not affiliated with, endorsed by, or sponsored by Ripple. Ledgerborn uses the open-source XRP Ledger technology.
         </p>
       </footer>
-      </div>
-    </XamanWalletProvider>
+    </div>
   )
 }
