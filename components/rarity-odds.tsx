@@ -1,10 +1,12 @@
 import type { CollectionStats } from '@/lib/pack-results'
-import { CARD_POOL, RARITIES } from '@/lib/rippleborn'
+import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
+import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
 
-export function RarityOdds({ stats }: { stats: CollectionStats }) {
+export function RarityOdds({ stats, setId = 'ledgerborn' }: { stats: CollectionStats; setId?: PackSetId }) {
+  const pool = setId === 'cyborg-cowboy' ? CYBORG_COWBOY_POOL : CARD_POOL
   const categoryCounts = RARITIES.map((rarity) => ({
     label: rarity,
-    count: CARD_POOL[rarity].length + (rarity === 'Mythic' ? 1 : 0),
+    count: pool[rarity].length + (setId === 'ledgerborn' && rarity === 'Mythic' ? 1 : 0),
   }))
   const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
 
@@ -49,7 +51,9 @@ export function RarityOdds({ stats }: { stats: CollectionStats }) {
           ))}
         </dl>
         <p className="text-center text-xs leading-relaxed text-muted-foreground">
-          Includes The Phoenix, a five-edition limited Mythic card.
+          {setId === 'ledgerborn'
+            ? 'Includes The Phoenix, a five-edition limited Mythic card.'
+            : 'Twenty-one unique frontier characters across five collectible rarities.'}
         </p>
       </div>
     </section>

@@ -10,11 +10,13 @@ import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 import type { CollectionStats } from '@/lib/pack-results'
+import type { PackSetId } from '@/lib/rippleborn'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
 type Order = {
   orderId: number
+  setId: PackSetId
   buyer: string
   destinationAddress: string
   destinationTag: number
@@ -25,6 +27,7 @@ type Order = {
 export function PackShop({ collectionStats }: { collectionStats: CollectionStats }) {
   const router = useRouter()
   const { account } = useXamanWallet()
+  const [selectedSet, setSelectedSet] = useState<PackSetId>('ledgerborn')
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [packOpened, setPackOpened] = useState(false)
@@ -54,7 +57,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
       const response = await fetch('/api/pack/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ buyer: account }),
+        body: JSON.stringify({ buyer: account, setId: selectedSet }),
       })
       const data = await response.json()
 
@@ -66,6 +69,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
 
       setOrder({
         orderId: data.orderId,
+        setId: data.setId,
         buyer: account,
         destinationAddress: data.destinationAddress,
         destinationTag: data.destinationTag,
@@ -99,6 +103,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
         body: JSON.stringify({
           orderId: order.orderId,
           buyer: order.buyer,
+          setId: order.setId,
           transactionHash,
         }),
       })
@@ -164,10 +169,40 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
         </p>
       </div>
 
+      {!order && !cards ? (
+        <section aria-label="Choose a card set" className="mx-auto grid w-full max-w-2xl grid-cols-2 gap-3">
+          {([
+            { id: 'ledgerborn', name: 'Ledgerborn', kicker: 'Mythical Set' },
+            { id: 'cyborg-cowboy', name: 'Cyborg Cowboy', kicker: 'Frontier Set' },
+          ] as const).map((pack) => (
+            <button
+              key={pack.id}
+              type="button"
+              aria-pressed={selectedSet === pack.id}
+              onClick={() => setSelectedSet(pack.id)}
+              className={`group flex flex-col overflow-hidden border text-left transition-colors ${selectedSet === pack.id ? 'border-primary bg-primary/10' : 'border-border bg-card/70 hover:border-primary/60'}`}
+            >
+              <div className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-muted">
+                <span className="foil-pack-sigil scale-125 transition-transform duration-300 group-hover:scale-[1.35]" aria-hidden="true">
+                  <span />
+                </span>
+              </div>
+              <span className="flex flex-col gap-1 p-3">
+                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-gold">{pack.kicker}</span>
+                <span className="font-sans text-base font-semibold text-foreground">{pack.name}</span>
+                <span className="text-xs text-muted-foreground">21 cards · 3 per pack · 5 XRP</span>
+              </span>
+            </button>
+          ))}
+        </section>
+      ) : null}
+
       {!cards ? (
-        <PackOpening canOpen={false} />
+        <PackOpening canOpen={false} packName={selectedSet === 'cyborg-cowboy' ? 'Cyborg Cowboy' : 'Ledgerborn'} packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'} />
       ) : !packOpened ? (
         <PackOpening
+          packName={order?.setId === 'cyborg-cowboy' ? 'Cyborg Cowboy' : 'Ledgerborn'}
+          packKicker={order?.setId === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'}
           onComplete={() => {
             setPackOpened(true)
             setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
@@ -224,7 +259,7 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
       </section>
 
       <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">
-          <RarityOdds stats={collectionStats} />
+          <RarityOdds stats={collectionStats} setId={selectedSet} />
       </aside>
     </div>
   )
