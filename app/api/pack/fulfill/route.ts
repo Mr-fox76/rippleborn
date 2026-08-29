@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { NextResponse } from 'next/server'
 import type { Client, TransactionMetadata } from 'xrpl'
-import { rollCyborgCowboyCard } from '@/lib/cyborg-cowboy'
+import { rollCyborgCowboyCard, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
 import { createPhoenixCard, isPackSetId, rollPack, rollRarity, SLOT_ODDS } from '@/lib/rippleborn'
 import {
   commitPackResult,
@@ -254,10 +254,12 @@ export async function POST(request: Request) {
   let cards = existingResult?.cards
   if (!cards) {
     if (setId === 'cyborg-cowboy') {
-      const metadataBaseUrl = process.env.CYBORG_COWBOY_METADATA_BASE_URL
+      const metadataBaseUrl = validateCyborgMetadataBaseUrl(
+        process.env.CYBORG_COWBOY_METADATA_BASE_URL,
+      )
       if (!metadataBaseUrl) {
         return NextResponse.json(
-          { error: 'The Cyborg Cowboy Pinata metadata URL has not been configured yet.' },
+          { error: 'The Cyborg Cowboy metadata URL must use the corrected immutable IPFS bundle.' },
           { status: 503 },
         )
       }

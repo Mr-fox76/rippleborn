@@ -14,6 +14,7 @@ type ClaimRequest = {
 type ClaimStatus = {
   status: 'pending' | 'claimed' | 'failed' | 'rejected' | 'expired'
   transactionHash?: string | null
+  nftId?: string
   error?: string
 }
 
@@ -73,7 +74,15 @@ export function ClaimNftButton({
   if (status?.status === 'claimed') {
     return (
       <div className="mt-3 border-t border-border pt-3 text-center">
-        <p className="font-mono text-xs uppercase tracking-wider text-gold">Claimed</p>
+        <p className="font-mono text-xs uppercase tracking-wider text-gold">Claimed &amp; verified</p>
+        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+          Ownership is confirmed on XRPL. Xaman and Bithomp may take a few minutes to index the artwork.
+        </p>
+        {status.nftId ? (
+          <p className="mt-2 break-all font-mono text-[0.6rem] text-muted-foreground">
+            NFT {status.nftId}
+          </p>
+        ) : null}
         {status.transactionHash ? (
           <p className="mt-1 break-all font-mono text-[0.6rem] text-muted-foreground">
             TX {status.transactionHash}
