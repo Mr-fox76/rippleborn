@@ -28,6 +28,20 @@ export const packResults = pgTable(
   ],
 )
 
+export const nftReplacements = pgTable('nft_replacements', {
+  originalNftId: text('original_nft_id').primaryKey(),
+  ownerAddress: text('owner_address').notNull(),
+  cardId: text('card_id').notNull(),
+  originalUri: text('original_uri').notNull(),
+  replacementNftId: text('replacement_nft_id'),
+  replacementOfferId: text('replacement_offer_id'),
+  replacementMintTxHash: text('replacement_mint_tx_hash'),
+  replacementClaimTxHash: text('replacement_claim_tx_hash'),
+  status: text('status').notNull().default('eligible'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
 export const phoenixEditions = pgTable(
   'phoenix_editions',
   {

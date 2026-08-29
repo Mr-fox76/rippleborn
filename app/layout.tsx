@@ -1,6 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { JetBrains_Mono, Space_Grotesk } from 'next/font/google'
+import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
 import './globals.css'
 
 const _spaceGrotesk = Space_Grotesk({ subsets: ['latin'] })
@@ -43,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="bg-background">
       <body className="antialiased">
-        {children}
+        <XamanWalletProvider>{children}</XamanWalletProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

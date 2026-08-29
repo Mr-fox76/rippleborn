@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
-import { getXamanSdk } from '@/lib/xaman-server'
+import { confirmNftClaim, getXrplConfig, withXrplClient } from '@/lib/xrpl-server'
+import { getXamanSdk, isHex256 } from '@/lib/xaman-server'
 
 export const runtime = 'nodejs'
 
@@ -16,8 +17,9 @@ export async function GET(
     const payload = await getXamanSdk().payload.get(uuid)
     if (!payload) return NextResponse.json({ error: 'Claim request not found.' }, { status: 404 })
 
-    const blob = payload.custom_meta?.blob as { buyer?: unknown } | null | undefined
+    const blob = payload.custom_meta?.blob as { buyer?: unknown; nftId?: unknown } | null | undefined
     const expectedBuyer = typeof blob?.buyer === 'string' ? blob.buyer : null
+    const expectedNftId = isHex256(blob?.nftId) ? blob.nftId.toUpperCase() : null
     const signedAccount = payload.response.account ?? payload.response.signer
 
     if (payload.meta.signed && expectedBuyer && signedAccount !== expectedBuyer) {
@@ -30,11 +32,36 @@ export async function GET(
         return NextResponse.json({ status: 'pending' })
       }
 
-      const successful = dispatched === 'tesSUCCESS'
+      if (dispatched !== 'tesSUCCESS') {
+        return NextResponse.json({
+          status: 'failed',
+          transactionHash: payload.response.txid,
+          error: `XRPL rejected the claim with ${dispatched}.`,
+        })
+      }
+      if (!expectedBuyer || !expectedNftId) {
+        return NextResponse.json({ status: 'failed', error: 'Claim verification data is incomplete.' })
+      }
+
+      const config = getXrplConfig()
+      const confirmation = await withXrplClient(config.websocketUrl, (client) =>
+        confirmNftClaim(client, payload.response.txid as string, expectedBuyer, expectedNftId),
+      )
+      if (confirmation.status === 'pending') {
+        return NextResponse.json({ status: 'pending', transactionHash: payload.response.txid })
+      }
+      if (confirmation.status === 'failed') {
+        return NextResponse.json({
+          status: 'failed',
+          transactionHash: payload.response.txid,
+          error: `XRPL rejected the validated claim with ${confirmation.result}.`,
+        })
+      }
+
       return NextResponse.json({
-        status: successful ? 'claimed' : 'failed',
+        status: 'claimed',
         transactionHash: payload.response.txid,
-        error: successful ? undefined : `XRPL rejected the claim with ${dispatched}.`,
+        nftId: confirmation.nftId,
       })
     }
 

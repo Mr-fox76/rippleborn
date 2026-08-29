@@ -112,7 +112,7 @@ export function encodeMetadataUri(uri: string | undefined): string | null {
     const isPinnedIpfsUrl =
       metadataUrl.protocol === 'ipfs:' &&
       /^(bafy|bafk|Qm)[A-Za-z0-9]+$/.test(metadataUrl.hostname) &&
-      /^\/(?:json\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(metadataUrl.pathname)
+      /^\/(?:(?:json|metadata)\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(metadataUrl.pathname)
 
     if (!isLedgerbornGatewayUrl && !isPinnedIpfsUrl) return null
   } catch {
@@ -137,7 +137,7 @@ export async function mintCardNft(
   config: XrplConfig,
   buyer: string,
   metadataUri: string,
-): Promise<{ nftId: string; offerId: string }> {
+): Promise<{ nftId: string; offerId: string; mintTransactionHash: string }> {
   const uri = encodeMetadataUri(metadataUri)
   if (!uri) throw new Error('Card metadata URI is not a valid pinned HTTPS or IPFS metadata URL.')
 
@@ -175,7 +175,73 @@ export async function mintCardNft(
   const offerId = offerMeta.offer_id
   if (!offerId) throw new Error('NFTokenCreateOffer succeeded but returned no offer ID.')
 
-  return { nftId, offerId }
+  return { nftId, offerId, mintTransactionHash: mintResult.result.hash }
+}
+
+export async function accountOwnsNft(
+  client: Client,
+  account: string,
+  nftId: string,
+  expectedUri?: string,
+): Promise<boolean> {
+  const response = await client.request({
+    command: 'account_nfts',
+    account,
+    ledger_index: 'validated',
+    limit: 400,
+  })
+  return response.result.account_nfts.some((token) => {
+    if (token.NFTokenID.toUpperCase() !== nftId.toUpperCase()) return false
+    return expectedUri ? token.URI === Buffer.from(expectedUri, 'utf8').toString('hex').toUpperCase() : true
+  })
+}
+
+export type ConfirmedNftClaim =
+  | { status: 'pending' }
+  | { status: 'failed'; result: string }
+  | { status: 'confirmed'; nftId: string }
+
+export async function confirmNftClaim(
+  client: Client,
+  transactionHash: string,
+  buyer: string,
+  expectedNftId: string,
+): Promise<ConfirmedNftClaim> {
+  let transaction
+  try {
+    transaction = await client.request({
+      command: 'tx',
+      transaction: transactionHash,
+      binary: false,
+    })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    if (/txnNotFound|transaction not found/i.test(message)) return { status: 'pending' }
+    throw error
+  }
+
+  const result = transaction.result as typeof transaction.result & {
+    validated?: boolean
+    meta?: TransactionMetadata | string
+  }
+  if (!result.validated || !result.meta || typeof result.meta === 'string') {
+    return { status: 'pending' }
+  }
+  if (result.meta.TransactionResult !== 'tesSUCCESS') {
+    return { status: 'failed', result: result.meta.TransactionResult }
+  }
+
+  const accountNfts = await client.request({
+    command: 'account_nfts',
+    account: buyer,
+    ledger_index: 'validated',
+    limit: 400,
+  })
+  const owned = accountNfts.result.account_nfts.some(
+    (token) => token.NFTokenID.toUpperCase() === expectedNftId.toUpperCase(),
+  )
+
+  return owned ? { status: 'confirmed', nftId: expectedNftId.toUpperCase() } : { status: 'pending' }
 }
 
 export async function withXrplClient<T>(
