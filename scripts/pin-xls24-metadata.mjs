@@ -5,6 +5,7 @@ const jwt = process.env.PINATA_JWT?.trim()
 if (!jwt) throw new Error('PINATA_JWT is required.')
 
 const root = process.cwd()
+const publicGateway = 'https://tomato-fancy-frog-92.mypinata.cloud/ipfs'
 
 async function pinFiles(files, name) {
   const form = new FormData()
@@ -51,7 +52,7 @@ async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, metadat
       nftType: 'collectible',
       name: source.name,
       description: source.description,
-      image: `ipfs://${imageCid}/images/${imageName}`,
+      image: `${publicGateway}/${imageCid}/images/${imageName}`,
       external_url: source.external_url ?? 'https://ledgerborn.com',
       attributes: source.attributes ?? [],
     }, null, 2)),
@@ -59,7 +60,11 @@ async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, metadat
 
   const metadataCid = await pinPreparedFiles(metadataFiles, `${id} NFT metadata XLS-24`)
 
-  return { imageCid, metadataCid, metadataBaseUri: `ipfs://${metadataCid}/${metadataPrefix.replace(/\/$/, '')}`.replace(/\/$/, '') }
+  return {
+    imageCid,
+    metadataCid,
+    metadataBaseUri: `${publicGateway}/${metadataCid}/${metadataPrefix.replace(/\/$/, '')}`.replace(/\/$/, ''),
+  }
 }
 
 async function pinPreparedFiles(files, name) {
