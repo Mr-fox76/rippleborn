@@ -158,7 +158,7 @@ function RevealedSpread({
                     height={960}
                     priority
                     sizes="(max-width: 640px) 30vw, 320px"
-                    className="h-full w-full object-cover"
+                    className="h-full w-full scale-110 object-cover"
                   />
                   {card.limited && card.edition && card.maxSupply ? (
                     <span className="phoenix-edition absolute right-2 top-2 z-10 rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:right-3 sm:top-3 sm:text-xs">
