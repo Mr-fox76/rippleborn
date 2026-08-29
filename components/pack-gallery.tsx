@@ -20,18 +20,18 @@ export function PackGallery() {
           <Link
             key={pack.id}
             href={pack.href}
-            className="group flex min-h-80 flex-col justify-between overflow-hidden border border-border bg-card/80 p-5 shadow-xl transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-7"
+            className={`pack-set-card pack-set-card-${pack.theme.id} group flex min-h-80 flex-col justify-between overflow-hidden border p-5 shadow-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-7`}
           >
             <div className="flex items-start justify-between gap-4">
               <span className="foil-pack-sigil scale-110 transition-transform duration-300 group-hover:scale-125" aria-hidden="true">
                 <span />
               </span>
-              <ArrowUpRight className="size-5 text-muted-foreground transition-colors group-hover:text-primary" aria-hidden="true" />
+              <ArrowUpRight className="pack-set-accent size-5 text-muted-foreground transition-colors" aria-hidden="true" />
             </div>
 
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-2">
-                <p className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold">{pack.kicker}</p>
+                <p className="pack-set-accent font-mono text-[0.65rem] uppercase tracking-[0.24em]">{pack.kicker}</p>
                 <h2 className="font-sans text-3xl font-semibold tracking-tight text-foreground">{pack.name}</h2>
                 <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{pack.description}</p>
               </div>
@@ -51,7 +51,7 @@ export function PackGallery() {
                 </div>
               </dl>
 
-              <span className="inline-flex items-center justify-between gap-4 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+              <span className="pack-set-accent inline-flex items-center justify-between gap-4 font-mono text-xs font-semibold uppercase tracking-[0.16em]">
                 <span className="inline-flex items-center gap-2"><WalletCards className="size-4" aria-hidden="true" />Open pack</span>
                 <span className="inline-flex items-center gap-2 text-muted-foreground"><Layers3 className="size-4" aria-hidden="true" />Five rarities</span>
               </span>

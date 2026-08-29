@@ -212,6 +212,76 @@
   color: var(--pack-accent);
 }
 
+.pack-set-card {
+  --set-card-accent: var(--primary);
+  position: relative;
+  isolation: isolate;
+  border-color: color-mix(in oklch, var(--set-card-accent) 32%, var(--border));
+  background: var(--card);
+}
+
+.pack-set-card::before,
+.pack-set-card::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.pack-set-card::before {
+  z-index: -2;
+  background-image: var(--set-card-image);
+  background-position: center;
+  background-size: cover;
+  opacity: 0.28;
+  filter: saturate(0.8) contrast(1.08);
+  transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
+}
+
+.pack-set-card::after {
+  z-index: -1;
+  background:
+    linear-gradient(180deg, color-mix(in oklch, var(--card) 48%, transparent), var(--card) 88%),
+    linear-gradient(90deg, color-mix(in oklch, var(--set-card-accent) 8%, transparent), transparent 55%);
+}
+
+.pack-set-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pack-set-card:hover {
+  border-color: var(--set-card-accent);
+}
+
+.pack-set-accent {
+  color: var(--set-card-accent);
+}
+
+.pack-set-card .pack-set-accent.text-muted-foreground {
+  color: var(--muted-foreground);
+}
+
+.pack-set-card:hover .pack-set-accent.text-muted-foreground {
+  color: var(--set-card-accent);
+}
+
+.pack-set-card:hover::before {
+  opacity: 0.38;
+  filter: saturate(1) contrast(1.1);
+  transform: scale(1.025);
+}
+
+.pack-set-card-mythic {
+  --set-card-accent: var(--phoenix);
+  --set-card-image: url('/images/ledgerborn-page-bg.png');
+}
+
+.pack-set-card-cyborg {
+  --set-card-accent: oklch(0.8 0.13 195);
+  --set-card-image: url('/images/cyborg-cowboy-page-bg.png');
+}
+
 .reading-panel {
   position: relative;
   border-radius: var(--radius);
