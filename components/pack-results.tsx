@@ -24,6 +24,53 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
   Mythic: 'rarity-mythic',
 }
 
+function playCardFlipSound() {
+  try {
+    const context = new AudioContext()
+    const now = context.currentTime
+    const master = context.createGain()
+    master.gain.setValueAtTime(0.32, now)
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 0.34)
+    master.connect(context.destination)
+
+    const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * 0.3), context.sampleRate)
+    const samples = buffer.getChannelData(0)
+    for (let index = 0; index < samples.length; index += 1) {
+      samples[index] = Math.random() * 2 - 1
+    }
+
+    const paper = context.createBufferSource()
+    const paperFilter = context.createBiquadFilter()
+    const paperGain = context.createGain()
+    paper.buffer = buffer
+    paperFilter.type = 'bandpass'
+    paperFilter.frequency.setValueAtTime(1800, now)
+    paperFilter.frequency.exponentialRampToValueAtTime(5200, now + 0.13)
+    paperFilter.Q.value = 0.8
+    paperGain.gain.setValueAtTime(0.0001, now)
+    paperGain.gain.linearRampToValueAtTime(0.65, now + 0.018)
+    paperGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18)
+    paper.connect(paperFilter).connect(paperGain).connect(master)
+    paper.start(now, Math.random() * 0.08, 0.2)
+
+    const landing = context.createOscillator()
+    const landingGain = context.createGain()
+    landing.type = 'triangle'
+    landing.frequency.setValueAtTime(170, now + 0.13)
+    landing.frequency.exponentialRampToValueAtTime(85, now + 0.2)
+    landingGain.gain.setValueAtTime(0.0001, now)
+    landingGain.gain.setValueAtTime(0.48, now + 0.13)
+    landingGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22)
+    landing.connect(landingGain).connect(master)
+    landing.start(now + 0.13)
+    landing.stop(now + 0.23)
+
+    window.setTimeout(() => void context.close(), 450)
+  } catch {
+    // Audio is an enhancement; revealing must still work if playback is unavailable.
+  }
+}
+
 function CardDetails({ card }: { card: FulfilledCard }) {
   if (card.mintStatus === 'minted') {
     return (
@@ -115,6 +162,7 @@ function RevealedSpread({
 
   function revealCard(index: number) {
     if (revealing !== null || revealed.has(index)) return
+    playCardFlipSound()
     setRevealing(index)
   }
 
