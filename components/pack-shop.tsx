@@ -175,10 +175,10 @@ export function PackShop({
       </div>
 
       {!cards ? (
-        <PackOpening canOpen={false} packName={selectedSet === 'cyborg-cowboy' ? 'Cyborg Cowboy' : 'Ledgerborn'} packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'} />
+        <PackOpening canOpen={false} packName={selectedSet === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'} packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'} />
       ) : !packOpened ? (
         <PackOpening
-          packName={order?.setId === 'cyborg-cowboy' ? 'Cyborg Cowboy' : 'Ledgerborn'}
+          packName={order?.setId === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'}
           packKicker={order?.setId === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'}
           onComplete={() => {
             setPackOpened(true)

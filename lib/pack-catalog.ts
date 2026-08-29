@@ -14,7 +14,7 @@ export type PackCatalogEntry = {
 export const PACK_CATALOG: readonly PackCatalogEntry[] = [
   {
     id: 'ledgerborn',
-    name: 'Ledgerborn',
+    name: 'Ledgerborn - Mythic',
     kicker: 'Mythical Set',
     description: 'Mythical characters, legendary beings, and ancient powers drawn from the ledger.',
     href: '/packs/ledgerborn',
@@ -24,7 +24,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
   },
   {
     id: 'cyborg-cowboy',
-    name: 'Cyborg Cowboy',
+    name: 'Ledgerborn - Cyborg',
     kicker: 'Frontier Set',
     description: 'Cinematic outlaws, marshals, and machine legends from a far-future frontier.',
     href: '/packs/cyborg-cowboy',

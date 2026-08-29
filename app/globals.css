@@ -249,6 +249,10 @@
   color: var(--gold);
 }
 
+.foil-pack-kicker {
+  margin-top: 0.25rem;
+}
+
 .foil-pack-count {
   display: flex;
   flex-direction: column;
