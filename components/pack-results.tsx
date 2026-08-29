@@ -53,7 +53,15 @@ function CardDetails({ card }: { card: FulfilledCard }) {
   return null
 }
 
-function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => void }) {
+function FaceDownCard({
+  index,
+  isChaseSlot = false,
+  onReveal,
+}: {
+  index: number
+  isChaseSlot?: boolean
+  onReveal?: () => void
+}) {
   const content = (
     <div className="tarot-back-inner">
       <span className="celestial-orbit" aria-hidden="true">
@@ -76,11 +84,10 @@ function FaceDownCard({ index, onReveal }: { index: number; onReveal?: () => voi
   return (
     <button
       type="button"
-      className={`tarot-card tarot-back tarot-reveal-button ${index === 0 ? 'is-first-card' : ''}`}
-      aria-label={index === 0 ? 'Open the middle card first' : `Reveal card ${index + 1}`}
+      className={`tarot-card tarot-back tarot-reveal-button ${isChaseSlot ? 'is-chase-slot' : ''}`}
+      aria-label={`Reveal card ${index + 1}${isChaseSlot ? ', enhanced Mythic chance' : ''}`}
       onClick={onReveal}
     >
-      {index === 0 ? <span className="first-card-prompt">Open first</span> : null}
       {content}
     </button>
   )
@@ -105,7 +112,7 @@ function RevealedSpread({
     claimableCards.every((card) => card.nftId && claimed.has(card.nftId))
 
   function revealCard(index: number) {
-    if (revealing !== null || index !== revealed.size) return
+    if (revealing !== null || revealed.has(index)) return
     setRevealing(index)
   }
 
@@ -187,7 +194,8 @@ function RevealedSpread({
             ) : (
               <FaceDownCard
                 index={index}
-                onReveal={card && index === revealed.size && revealing === null ? () => revealCard(index) : undefined}
+                isChaseSlot={card?.slot === 3}
+                onReveal={card && revealing === null ? () => revealCard(index) : undefined}
               />
             )}
           </li>
@@ -238,7 +246,7 @@ export function TarotCards({
       )}
       {cards ? (
         <p className="mt-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
-          Reveal the cards in order. Each one carries its own fate.
+          Reveal the cards in any order. The distinct glow marks the slot with a Mythic chance.
         </p>
       ) : null}
     </section>

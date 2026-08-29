@@ -617,37 +617,23 @@
   outline-offset: 0.3rem;
 }
 
-.tarot-reveal-button.is-first-card {
+.tarot-reveal-button.is-chase-slot {
   border-color: var(--gold);
-  animation: first-card-glow 1.8s ease-in-out infinite;
+  animation: chase-slot-glow 1.8s ease-in-out infinite;
 }
 
-.first-card-prompt {
-  position: absolute;
-  left: 50%;
-  top: -0.9rem;
-  z-index: 6;
-  transform: translateX(-50%);
-  border: 1px solid var(--gold);
-  border-radius: 9999px;
-  padding: 0.35rem 0.65rem;
-  background: var(--card);
-  color: var(--gold);
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-@keyframes first-card-glow {
+@keyframes chase-slot-glow {
   0%, 100% {
-    box-shadow: 0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%), 0 0 1rem color-mix(in oklch, var(--gold) 35%, transparent);
+    box-shadow:
+      0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+      0 0 1.25rem color-mix(in oklch, var(--gold) 42%, transparent),
+      inset 0 0 1rem color-mix(in oklch, var(--gold) 8%, transparent);
   }
   50% {
-    box-shadow: 0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%), 0 0 2.5rem color-mix(in oklch, var(--gold) 72%, transparent);
+    box-shadow:
+      0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+      0 0 3rem color-mix(in oklch, var(--gold) 82%, transparent),
+      inset 0 0 1.5rem color-mix(in oklch, var(--gold) 14%, transparent);
   }
 }
 
@@ -950,7 +936,7 @@
   .foil-pack,
   .pack-radiance,
   .opening-card,
-  .tarot-reveal-button.is-first-card,
+  .tarot-reveal-button.is-chase-slot,
   .table-surface::before,
   .table-surface::after,
   .tarot-slot.is-revealing .tarot-back,
