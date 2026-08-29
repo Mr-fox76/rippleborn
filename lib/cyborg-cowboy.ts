@@ -31,19 +31,18 @@ export const CYBORG_COWBOY_POOL = {
   ]),
 } satisfies Record<Rarity, Array<{ name: string; image: string; slug: string; rarity: Rarity }>>
 
-const LEGACY_METADATA_CID = 'bafybeib3whzmhi5ejq6nuljfjihocx4edutgrkbp4rgptohc2jv6zz5wg4'
+export const CYBORG_COWBOY_METADATA_CID =
+  'bafybeicfmxu3wstvxowgwkjyasdx432kcsvtstljsngda4re2o7vdn4ru4'
+export const CYBORG_COWBOY_IMAGE_CID =
+  'bafybeifvjt63capngr3fnkeb4ssz2lostypmj5jeo2dmowtz4sodcpealu'
 export const CYBORG_COWBOY_METADATA_BASE_URL =
-  'ipfs://bafybeicfmxu3wstvxowgwkjyasdx432kcsvtstljsngda4re2o7vdn4ru4/metadata'
+  `ipfs://${CYBORG_COWBOY_METADATA_CID}/metadata`
 
 export function validateCyborgMetadataBaseUrl(value: string | undefined): string {
   const metadataBaseUrl = value?.trim().replace(/\/$/, '')
-  if (
-    metadataBaseUrl?.startsWith('ipfs://') &&
-    !metadataBaseUrl.includes(LEGACY_METADATA_CID)
-  ) {
-    return metadataBaseUrl
-  }
-  return CYBORG_COWBOY_METADATA_BASE_URL
+  return metadataBaseUrl === CYBORG_COWBOY_METADATA_BASE_URL
+    ? metadataBaseUrl
+    : CYBORG_COWBOY_METADATA_BASE_URL
 }
 
 export function rollCyborgCowboyCard(rarity: Rarity, slot: number, metadataBaseUrl: string): Card {

@@ -112,7 +112,7 @@ export function encodeMetadataUri(uri: string | undefined): string | null {
     const isPinnedIpfsUrl =
       metadataUrl.protocol === 'ipfs:' &&
       /^(bafy|bafk|Qm)[A-Za-z0-9]+$/.test(metadataUrl.hostname) &&
-      /^\/(?:json\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(metadataUrl.pathname)
+      /^\/(?:(?:json|metadata)\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(metadataUrl.pathname)
 
     if (!isLedgerbornGatewayUrl && !isPinnedIpfsUrl) return null
   } catch {
