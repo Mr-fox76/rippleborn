@@ -2,7 +2,15 @@ import type { CollectionStats } from '@/lib/pack-results'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
 
-export function RarityOdds({ stats, setId = 'ledgerborn' }: { stats: CollectionStats; setId?: PackSetId }) {
+export function RarityOdds({
+  stats,
+  setId = 'ledgerborn',
+  countersOnly = false,
+}: {
+  stats: CollectionStats
+  setId?: PackSetId
+  countersOnly?: boolean
+}) {
   const pool = setId === 'cyborg-cowboy' ? CYBORG_COWBOY_POOL : CARD_POOL
   const categoryCounts = RARITIES.map((rarity) => ({
     label: rarity,
@@ -18,8 +26,8 @@ export function RarityOdds({ stats, setId = 'ledgerborn' }: { stats: CollectionS
   ]
 
   return (
-    <section aria-label="Card categories" className="flex flex-col gap-5">
-      <dl aria-label="Global collection totals" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+    <section aria-label={countersOnly ? 'All-set collection totals' : 'Card categories'} className="flex flex-col gap-5">
+      <dl aria-label={countersOnly ? 'All-set collection totals' : 'Set collection totals'} className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {counters.map((counter) => (
           <div key={counter.label} className="rounded-lg border border-border bg-card/55 p-3 text-center">
             <dd className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}>
@@ -32,30 +40,32 @@ export function RarityOdds({ stats, setId = 'ledgerborn' }: { stats: CollectionS
         ))}
       </dl>
 
-      <div className="flex flex-col gap-3 border-t border-border pt-4">
-        <div className="flex items-baseline justify-between gap-4">
-          <h2 className="font-sans text-sm font-semibold uppercase tracking-wider text-foreground">
-            Cards to collect
-          </h2>
-          <p className="font-mono text-sm font-semibold text-gold">{totalCards} card set</p>
+      {!countersOnly ? (
+        <div className="flex flex-col gap-3 border-t border-border pt-4">
+          <div className="flex items-baseline justify-between gap-4">
+            <h2 className="font-sans text-sm font-semibold uppercase tracking-wider text-foreground">
+              Cards to collect
+            </h2>
+            <p className="font-mono text-sm font-semibold text-gold">{totalCards} card set</p>
+          </div>
+          <dl className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+            {categoryCounts.map((category) => (
+              <div
+                key={category.label}
+                className={`collection-category rarity-${category.label.toLowerCase()} border px-3 py-2 text-center`}
+              >
+                <dd className="font-mono text-lg font-semibold tabular-nums">{category.count}</dd>
+                <dt className="text-[0.65rem] font-medium uppercase tracking-wider">{category.label}</dt>
+              </div>
+            ))}
+          </dl>
+          <p className="text-center text-xs leading-relaxed text-muted-foreground">
+            {setId === 'ledgerborn'
+              ? 'Includes The Phoenix, a five-edition limited Mythic card.'
+              : 'Twenty-one unique frontier characters across five collectible rarities.'}
+          </p>
         </div>
-        <dl className="grid grid-cols-2 gap-2 sm:grid-cols-5">
-          {categoryCounts.map((category) => (
-            <div
-              key={category.label}
-              className={`collection-category rarity-${category.label.toLowerCase()} border px-3 py-2 text-center`}
-            >
-              <dd className="font-mono text-lg font-semibold tabular-nums">{category.count}</dd>
-              <dt className="text-[0.65rem] font-medium uppercase tracking-wider">{category.label}</dt>
-            </div>
-          ))}
-        </dl>
-        <p className="text-center text-xs leading-relaxed text-muted-foreground">
-          {setId === 'ledgerborn'
-            ? 'Includes The Phoenix, a five-edition limited Mythic card.'
-            : 'Twenty-one unique frontier characters across five collectible rarities.'}
-        </p>
-      </div>
+      ) : null}
     </section>
   )
 }

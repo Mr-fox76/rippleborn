@@ -30,7 +30,7 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
   const pack = getPack(setId)
   if (!pack) notFound()
 
-  const collectionStats = await getCollectionStats().catch(() => EMPTY_COLLECTION_STATS)
+  const collectionStats = await getCollectionStats(pack.id).catch(() => EMPTY_COLLECTION_STATS)
 
   return (
     <XamanWalletProvider>
