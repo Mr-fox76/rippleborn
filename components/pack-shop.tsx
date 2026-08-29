@@ -170,25 +170,38 @@ export function PackShop({
         </p>
       </div>
 
-      {!cards ? (
-        <PackOpening canOpen={false} packName={selectedSet === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'} packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'} />
-      ) : !packOpened ? (
-        <PackOpening
-          packName={order?.setId === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'}
-          packKicker={order?.setId === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'}
-          onComplete={() => {
-            setPackOpened(true)
-            setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
-          }}
-        />
-      ) : (
-        <TarotCards cards={cards} buyer={order?.buyer ?? null} onReset={resetDeck} />
-      )}
+      <div className="stable-opening-stage">
+        <div className="stable-opening-visual">
+          <div
+            className={`stable-opening-layer ${packOpened ? 'is-hidden' : 'is-active'}`}
+            aria-hidden={packOpened}
+          >
+            <PackOpening
+              canOpen={Boolean(cards)}
+              packName={selectedSet === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'}
+              packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'}
+              onComplete={() => {
+                setPackOpened(true)
+                setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
+              }}
+            />
+          </div>
+          <div
+            className={`stable-opening-layer stable-card-layer ${packOpened ? 'is-active' : 'is-hidden'}`}
+            aria-hidden={!packOpened}
+          >
+            <TarotCards
+              cards={packOpened ? cards : null}
+              buyer={order?.buyer ?? null}
+              onReset={resetDeck}
+            />
+          </div>
+        </div>
 
-      <section
-        aria-label="Open a pack"
-        className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
-      >
+        <section
+          aria-label="Open a pack"
+          className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
+        >
         <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
           <Button
             onClick={createOrder}
@@ -197,7 +210,7 @@ export function PackShop({
             className="primary-action h-16 w-full flex-1 rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            Prepare pack
+            {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
           </Button>
 
           {order && account === order.buyer && !cards ? (
@@ -229,7 +242,8 @@ export function PackShop({
             {status.message || (account ? 'Prepare your pack, then open it securely with Xaman.' : 'Connect Xaman to begin.')}
           </p>
         </div>
-      </section>
+        </section>
+      </div>
 
       <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">
           <RarityOdds stats={collectionStats} setId={selectedSet} />
