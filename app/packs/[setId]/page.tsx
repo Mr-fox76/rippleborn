@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
 import { PackShop } from '@/components/pack-shop'
 import { XamanWalletProvider } from '@/components/xaman-wallet-provider'
@@ -41,7 +42,12 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
             <ArrowLeft className="size-4" aria-hidden="true" />
             All packs
           </Link>
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold">{pack.kicker}</p>
+          <div className="flex items-center gap-3 sm:gap-5">
+            <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold md:block">
+              {pack.kicker}
+            </p>
+            <ConnectWalletButton />
+          </div>
         </header>
 
         <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 items-center px-4 py-10 sm:px-6 sm:py-14">
