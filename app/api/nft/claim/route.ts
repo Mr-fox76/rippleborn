@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { getClaimOffer } from '@/lib/nft-claim-lifecycle'
 import { getXrplConfig, validateBuyer, withXrplClient } from '@/lib/xrpl-server'
 import { getXamanSdk, isHex256 } from '@/lib/xaman-server'
 
@@ -13,6 +14,17 @@ export async function POST(request: Request) {
 
     if (!buyer || !nftId || !offerId) {
       return NextResponse.json({ error: 'A valid buyer, NFT ID, and offer ID are required.' }, { status: 400 })
+    }
+
+    const lifecycle = await getClaimOffer(offerId)
+    if (
+      lifecycle &&
+      (lifecycle.nftId !== nftId || lifecycle.buyer !== buyer || lifecycle.status !== 'open')
+    ) {
+      return NextResponse.json({ error: 'This NFT claim is no longer available.' }, { status: 409 })
+    }
+    if (lifecycle && lifecycle.claimExpiresAt.getTime() <= Date.now()) {
+      return NextResponse.json({ error: 'The claim window has closed.' }, { status: 410 })
     }
 
     const config = getXrplConfig()

@@ -5,6 +5,7 @@ import {
   Wallet,
   convertStringToHex,
   isValidClassicAddress,
+  type NFTokenCancelOffer,
   type NFTokenCreateOffer,
   type NFTokenMint,
   type TransactionMetadata,
@@ -183,6 +184,53 @@ export async function mintCardNft(
   if (!offerId) throw new Error('NFTokenCreateOffer succeeded but returned no offer ID.')
 
   return { nftId, offerId, mintTransactionHash: mintResult.result.hash }
+}
+
+export async function cancelUnclaimedSellOffer(
+  client: Client,
+  config: XrplConfig,
+  input: { buyer: string; nftId: string; offerId: string },
+): Promise<
+  | { status: 'cancelled'; transactionHash: string }
+  | { status: 'skip'; reason: 'claimed-or-transferred' | 'offer-not-open' | 'offer-mismatch' }
+> {
+  const issuerStillOwns = await accountOwnsNft(client, config.minterWallet.address, input.nftId)
+  if (!issuerStillOwns) return { status: 'skip', reason: 'claimed-or-transferred' }
+
+  let offers
+  try {
+    offers = await client.request({
+      command: 'nft_sell_offers',
+      nft_id: input.nftId,
+      ledger_index: 'validated',
+      limit: 100,
+    })
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error)
+    if (/objectNotFound|not found/i.test(message)) return { status: 'skip', reason: 'offer-not-open' }
+    throw error
+  }
+
+  const offer = offers.result.offers.find(
+    (candidate) => candidate.nft_offer_index.toUpperCase() === input.offerId.toUpperCase(),
+  )
+  if (!offer) return { status: 'skip', reason: 'offer-not-open' }
+  if (
+    offer.owner !== config.minterWallet.address ||
+    offer.amount !== '0' ||
+    offer.destination !== input.buyer
+  ) {
+    return { status: 'skip', reason: 'offer-mismatch' }
+  }
+
+  const cancellation: NFTokenCancelOffer = {
+    TransactionType: 'NFTokenCancelOffer',
+    Account: config.minterWallet.address,
+    NFTokenOffers: [input.offerId],
+  }
+  const result = await client.submitAndWait(cancellation, { wallet: config.minterWallet })
+  successfulMetadata(result.result, 'NFTokenCancelOffer')
+  return { status: 'cancelled', transactionHash: result.result.hash }
 }
 
 export async function accountOwnsNft(

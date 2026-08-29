@@ -62,3 +62,21 @@ export const phoenixEditions = pgTable(
     uniqueIndex('phoenix_editions_edition_key').on(table.edition),
   ],
 )
+
+export const nftClaimOffers = pgTable(
+  'nft_claim_offers',
+  {
+    offerId: text('offer_id').primaryKey(),
+    nftId: text('nft_id').notNull(),
+    orderId: bigint('order_id', { mode: 'number' }).notNull(),
+    buyer: text('buyer').notNull(),
+    mintedAt: timestamp('minted_at', { withTimezone: true }).notNull(),
+    claimExpiresAt: timestamp('claim_expires_at', { withTimezone: true }).notNull(),
+    status: text('status').notNull().default('open'),
+    claimTxHash: text('claim_tx_hash'),
+    cancelTxHash: text('cancel_tx_hash'),
+    cancelledAt: timestamp('cancelled_at', { withTimezone: true }),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [uniqueIndex('nft_claim_offers_nft_id_key').on(table.nftId)],
+)

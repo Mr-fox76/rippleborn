@@ -11,6 +11,8 @@ export type FulfilledCard = Card & {
   mintStatus?: 'minted' | 'skipped' | 'failed'
   nftId?: string
   offerId?: string
+  mintedAt?: string
+  claimExpiresAt?: string
   reason?: string
 }
 
@@ -197,6 +199,7 @@ function RevealedSpread({
                       buyer={buyer}
                       nftId={card.nftId}
                       offerId={card.offerId}
+                      claimExpiresAt={card.claimExpiresAt}
                       onClaimed={markClaimed}
                     />
                   ) : null}
