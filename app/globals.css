@@ -296,7 +296,7 @@
 
 .stable-opening-stage {
   display: flex;
-  min-height: 46rem;
+  min-height: 54rem;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.5rem;
@@ -304,20 +304,24 @@
 
 .stable-opening-visual {
   position: relative;
-  min-height: 36rem;
-  contain: layout paint;
+  min-height: 44rem;
+  contain: layout;
 }
 
 .stable-opening-layer {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
   transform: translateY(0.75rem);
   transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+
+.stable-opening-layer:not(.stable-card-layer) {
+  align-items: center;
 }
 
 .stable-opening-layer.is-active {
