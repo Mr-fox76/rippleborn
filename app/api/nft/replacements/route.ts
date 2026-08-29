@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getNftReplacement, listNftReplacements, markReplacementMinted } from '@/lib/nft-replacements'
 import { accountOwnsNft, getXrplConfig, mintCardNft, withXrplClient } from '@/lib/xrpl-server'
-import { validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
+import { CYBORG_COWBOY_NFT_TAXON, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
 import { RIPPLEBORN_METADATA_BASE_URL } from '@/lib/rippleborn'
 
 const XRPL_ADDRESS = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
@@ -40,7 +40,13 @@ export async function POST(request: Request) {
     const replacement = await withXrplClient(config.websocketUrl, async (client) => {
       const ownsOriginal = await accountOwnsNft(client, owner, originalNftId, record.originalUri)
       if (!ownsOriginal) throw new Error('The connected wallet no longer owns the eligible original NFT.')
-      return mintCardNft(client, config, owner, metadataUri)
+      return mintCardNft(
+        client,
+        config,
+        owner,
+        metadataUri,
+        isCyborg ? CYBORG_COWBOY_NFT_TAXON : config.nftTaxon,
+      )
     })
 
     const updated = await markReplacementMinted(originalNftId, owner, replacement)

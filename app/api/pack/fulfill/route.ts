@@ -3,6 +3,7 @@ import path from 'node:path'
 import { NextResponse } from 'next/server'
 import type { Client, TransactionMetadata } from 'xrpl'
 import {
+  CYBORG_COWBOY_NFT_TAXON,
   CYBORG_COWBOY_POOL,
   rollCyborgCowboyCard,
   validateCyborgMetadataBaseUrl,
@@ -342,7 +343,13 @@ export async function POST(request: Request) {
         }
 
         try {
-          const minted = await mintCardNft(client, config, buyer, cardToMint.uri as string)
+          const minted = await mintCardNft(
+            client,
+            config,
+            buyer,
+            cardToMint.uri as string,
+            setId === 'cyborg-cowboy' ? CYBORG_COWBOY_NFT_TAXON : config.nftTaxon,
+          )
           if (card.limited) {
             await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
           }

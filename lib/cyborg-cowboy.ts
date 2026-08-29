@@ -31,6 +31,8 @@ export const CYBORG_COWBOY_POOL = {
   ]),
 } satisfies Record<Rarity, Array<{ name: string; image: string; slug: string; rarity: Rarity }>>
 
+export const CYBORG_COWBOY_NFT_TAXON = 20260827
+
 export const CYBORG_COWBOY_METADATA_CID =
   'bafybeieqp3deiyodrvhojsfyepcztety4pcssx2vr3rhpmnfi52tvpr234'
 export const CYBORG_COWBOY_IMAGE_CID =

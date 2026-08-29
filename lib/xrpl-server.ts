@@ -143,6 +143,7 @@ export async function mintCardNft(
   config: XrplConfig,
   buyer: string,
   metadataUri: string,
+  nftTaxon = config.nftTaxon,
 ): Promise<{ nftId: string; offerId: string; mintTransactionHash: string }> {
   const uri = encodeMetadataUri(metadataUri)
   if (!uri) throw new Error('Card metadata URI is not a valid HTTPS Pinata JSON URL.')
@@ -150,7 +151,7 @@ export async function mintCardNft(
   const mint: NFTokenMint = {
     TransactionType: 'NFTokenMint',
     Account: config.minterWallet.address,
-    NFTokenTaxon: config.nftTaxon,
+    NFTokenTaxon: nftTaxon,
     URI: uri,
     Flags: 8,
   }
