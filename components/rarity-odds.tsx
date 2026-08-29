@@ -38,10 +38,16 @@ export function RarityOdds({
             key={counter.label}
             className={`rounded-lg border p-3 text-center ${counter.featured ? 'border-gold bg-gold/10 shadow-[0_0_20px_color-mix(in_oklch,var(--gold)_18%,transparent)]' : 'border-border bg-card/55'}`}
           >
-            <dd className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}>
+            <dd
+              className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}
+              style={counter.className.startsWith('rarity-') ? { color: 'var(--rarity-color)' } : undefined}
+            >
               {counter.value.toLocaleString()}
             </dd>
-            <dt className="mt-1 text-[0.7rem] font-medium uppercase tracking-wider text-muted-foreground">
+            <dt
+              className={`mt-1 text-[0.7rem] font-medium uppercase tracking-wider ${counter.className.startsWith('rarity-') ? counter.className : 'text-muted-foreground'}`}
+              style={counter.className.startsWith('rarity-') ? { color: 'var(--rarity-color)' } : undefined}
+            >
               {counter.label}
             </dt>
           </div>
