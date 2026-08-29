@@ -125,7 +125,7 @@ function RevealedSpread({
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
+      <ol className="tarot-spread mx-auto flex w-full max-w-6xl items-start justify-center gap-3 sm:gap-7">
         {[1, 0, 2].map((index) => {
         const card = cards[index]
         const isRevealed = revealed.has(index)
@@ -227,7 +227,7 @@ export function TarotCards({
           onReset={onReset}
         />
       ) : (
-        <ol className="tarot-spread mx-auto flex w-full max-w-4xl items-start justify-center gap-3 sm:gap-7">
+        <ol className="tarot-spread mx-auto flex w-full max-w-6xl items-start justify-center gap-3 sm:gap-7">
           {[0, 1, 2].map((index) => (
             <li key={index} className="tarot-slot min-w-0 flex-1">
               <FaceDownCard index={index} />

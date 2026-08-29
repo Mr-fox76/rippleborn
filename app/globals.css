@@ -503,7 +503,7 @@
 
 .opening-card.tarot-card {
   position: absolute;
-  width: min(16rem, 29vw);
+  width: min(20rem, 29vw);
   opacity: 0;
   transform: scale(0.94);
   will-change: transform, opacity;
@@ -525,7 +525,7 @@
 .tarot-card {
   aspect-ratio: 2 / 3;
   width: 100%;
-  max-width: 16rem;
+  max-width: 20rem;
   margin-inline: auto;
   border-radius: 0.5rem;
 }
