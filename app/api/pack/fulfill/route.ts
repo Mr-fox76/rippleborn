@@ -2,8 +2,19 @@ import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { NextResponse } from 'next/server'
 import type { Client, TransactionMetadata } from 'xrpl'
-import { rollCyborgCowboyCard, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
-import { createPhoenixCard, isPackSetId, rollPack, rollRarity, SLOT_ODDS } from '@/lib/rippleborn'
+import {
+  CYBORG_COWBOY_POOL,
+  rollCyborgCowboyCard,
+  validateCyborgMetadataBaseUrl,
+} from '@/lib/cyborg-cowboy'
+import {
+  CARD_POOL,
+  createPhoenixCard,
+  isPackSetId,
+  rollPack,
+  rollRarity,
+  SLOT_ODDS,
+} from '@/lib/rippleborn'
 import {
   commitPackResult,
   getPackResult,
@@ -307,19 +318,34 @@ export async function POST(request: Request) {
           })
           continue
         }
-        const metadataError = await validateCardMetadata(card)
+        const currentUri = card.limited
+          ? card.uri
+          : setId === 'cyborg-cowboy'
+            ? (() => {
+                const currentCard = Object.values(CYBORG_COWBOY_POOL)
+                  .flat()
+                  .find((candidate) => candidate.name === card.name)
+                return currentCard
+                  ? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${currentCard.slug}.json`
+                  : card.uri
+              })()
+            : Object.values(CARD_POOL)
+                .flat()
+                .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
+        const cardToMint = { ...card, uri: currentUri }
+        const metadataError = await validateCardMetadata(cardToMint)
         if (metadataError) {
           console.error(`[v0] Skipping ${card.name}: ${metadataError}`)
-          fulfilledCards.push({ ...card, mintStatus: 'skipped', reason: metadataError })
+          fulfilledCards.push({ ...cardToMint, mintStatus: 'skipped', reason: metadataError })
           continue
         }
 
         try {
-          const minted = await mintCardNft(client, config, buyer, card.uri as string)
+          const minted = await mintCardNft(client, config, buyer, cardToMint.uri as string)
           if (card.limited) {
             await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
           }
-          fulfilledCards.push({ ...card, ...minted, mintStatus: 'minted' })
+          fulfilledCards.push({ ...cardToMint, ...minted, mintStatus: 'minted' })
         } catch (error) {
           const reason = error instanceof Error ? error.message : 'XRPL minting failed.'
           if (card.limited) {
