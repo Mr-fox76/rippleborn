@@ -1,5 +1,6 @@
 import type { CollectionStats } from '@/lib/pack-results'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
+import { PHOENIX_MAX_SUPPLY } from '@/lib/phoenix-editions'
 import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
 
 export function RarityOdds({
@@ -17,7 +18,7 @@ export function RarityOdds({
       label: rarity,
       count: pool[rarity].length,
     })),
-    ...(setId === 'ledgerborn' ? [{ label: 'Phoenix', count: 1 }] : []),
+    ...(setId === 'ledgerborn' ? [{ label: 'Phoenix', count: PHOENIX_MAX_SUPPLY }] : []),
   ]
   const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
 
