@@ -24,10 +24,15 @@ type Order = {
   priceXrp: string
 }
 
-export function PackShop({ collectionStats }: { collectionStats: CollectionStats }) {
+export function PackShop({
+  collectionStats,
+  selectedSet,
+}: {
+  collectionStats: CollectionStats
+  selectedSet: PackSetId
+}) {
   const router = useRouter()
   const { account } = useXamanWallet()
-  const [selectedSet, setSelectedSet] = useState<PackSetId>('ledgerborn')
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [packOpened, setPackOpened] = useState(false)
@@ -168,34 +173,6 @@ export function PackShop({ collectionStats }: { collectionStats: CollectionStats
           Three collectible NFTs · One immersive opening · 5 XRP
         </p>
       </div>
-
-      {!order && !cards ? (
-        <section aria-label="Choose a card set" className="mx-auto grid w-full max-w-2xl grid-cols-2 gap-3">
-          {([
-            { id: 'ledgerborn', name: 'Ledgerborn', kicker: 'Mythical Set' },
-            { id: 'cyborg-cowboy', name: 'Cyborg Cowboy', kicker: 'Frontier Set' },
-          ] as const).map((pack) => (
-            <button
-              key={pack.id}
-              type="button"
-              aria-pressed={selectedSet === pack.id}
-              onClick={() => setSelectedSet(pack.id)}
-              className={`group flex flex-col overflow-hidden border text-left transition-colors ${selectedSet === pack.id ? 'border-primary bg-primary/10' : 'border-border bg-card/70 hover:border-primary/60'}`}
-            >
-              <div className="flex aspect-[4/3] w-full items-center justify-center overflow-hidden bg-muted">
-                <span className="foil-pack-sigil scale-125 transition-transform duration-300 group-hover:scale-[1.35]" aria-hidden="true">
-                  <span />
-                </span>
-              </div>
-              <span className="flex flex-col gap-1 p-3">
-                <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-gold">{pack.kicker}</span>
-                <span className="font-sans text-base font-semibold text-foreground">{pack.name}</span>
-                <span className="text-xs text-muted-foreground">21 cards · 3 per pack · 5 XRP</span>
-              </span>
-            </button>
-          ))}
-        </section>
-      ) : null}
 
       {!cards ? (
         <PackOpening canOpen={false} packName={selectedSet === 'cyborg-cowboy' ? 'Cyborg Cowboy' : 'Ledgerborn'} packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'} />
