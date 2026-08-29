@@ -12,10 +12,13 @@ export function RarityOdds({
   countersOnly?: boolean
 }) {
   const pool = setId === 'cyborg-cowboy' ? CYBORG_COWBOY_POOL : CARD_POOL
-  const categoryCounts = RARITIES.map((rarity) => ({
-    label: rarity,
-    count: pool[rarity].length + (setId === 'ledgerborn' && rarity === 'Mythic' ? 1 : 0),
-  }))
+  const categoryCounts = [
+    ...RARITIES.map((rarity) => ({
+      label: rarity,
+      count: pool[rarity].length,
+    })),
+    ...(setId === 'ledgerborn' ? [{ label: 'Phoenix', count: 1 }] : []),
+  ]
   const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
 
   const counters = [
@@ -68,7 +71,7 @@ export function RarityOdds({
             </h2>
             <p className="font-mono text-sm font-semibold text-gold">{totalCards} card set</p>
           </div>
-          <dl className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+          <dl className={`grid grid-cols-2 gap-2 ${setId === 'ledgerborn' ? 'sm:grid-cols-3 lg:grid-cols-6' : 'sm:grid-cols-5'}`}>
             {categoryCounts.map((category) => (
               <div
                 key={category.label}

@@ -541,8 +541,9 @@
   --rarity-color: oklch(0.7 0.19 45);
 }
 
-.rarity-limited {
-  --rarity-color: oklch(0.62 0.23 25);
+.rarity-limited,
+.rarity-phoenix {
+  --rarity-color: var(--phoenix);
 }
 
 .rarity-common,
@@ -550,7 +551,8 @@
 .rarity-epic,
 .rarity-legendary,
 .rarity-mythic,
-.rarity-limited {
+.rarity-limited,
+.rarity-phoenix {
   border-color: color-mix(in oklch, var(--rarity-color) 70%, transparent);
   box-shadow:
     0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%),
