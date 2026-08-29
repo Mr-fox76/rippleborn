@@ -51,14 +51,15 @@ type AccountTransaction = {
 }
 
 async function validateCardMetadata(card: { name: string; uri?: string; limited?: boolean }): Promise<string | null> {
-  if (!encodeMetadataUri(card.uri)) return 'No valid pinned HTTPS or IPFS metadata URL is configured for this card.'
+  if (!encodeMetadataUri(card.uri)) return 'No valid HTTPS Pinata metadata URL is configured for this card.'
   if (card.limited) return null
 
   const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
   if (!filename) return 'The card metadata URL must reference a JSON file in the pinned folder.'
-  const metadataFolder = card.uri?.includes('/json/')
-    ? path.join(process.cwd(), 'public', 'sets', 'cyborg-cowboy', 'json')
-    : path.join(process.cwd(), 'public', 'cards')
+  const metadataFolder =
+    card.uri?.includes('/sets/cyborg-cowboy/json/') || card.uri?.includes('/metadata/')
+      ? path.join(process.cwd(), 'public', 'sets', 'cyborg-cowboy', 'json')
+      : path.join(process.cwd(), 'public', 'cards')
 
   try {
     const raw = await readFile(path.join(metadataFolder, filename), 'utf8')
