@@ -71,37 +71,6 @@ function playCardFlipSound() {
   }
 }
 
-function CardDetails({ card }: { card: FulfilledCard }) {
-  if (card.mintStatus === 'minted') {
-    return (
-      <details className="mt-2 text-left font-mono text-[0.65rem] text-muted-foreground">
-        <summary className="cursor-pointer uppercase tracking-wider">On-chain details</summary>
-        <dl className="mt-2 flex flex-col gap-2 border-t border-border pt-2">
-          <div>
-            <dt>NFT</dt>
-            <dd className="break-all">{card.nftId}</dd>
-          </div>
-          <div>
-            <dt>Offer</dt>
-            <dd className="break-all">{card.offerId}</dd>
-          </div>
-        </dl>
-      </details>
-    )
-  }
-
-  if (card.mintStatus) {
-    return (
-      <p className="mt-2 border-t border-border pt-2 text-xs leading-relaxed text-muted-foreground">
-        {card.mintStatus === 'skipped' ? 'Mint skipped: ' : 'Mint failed: '}
-        {card.reason}
-      </p>
-    )
-  }
-
-  return null
-}
-
 function FaceDownCard({
   index,
   isChaseSlot = false,
@@ -194,7 +163,7 @@ function RevealedSpread({
           >
             {card && isRevealed ? (
               <article
-                className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
+                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
               >
                 <div
                   className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -240,9 +209,8 @@ function RevealedSpread({
                     </blockquote>
                   </div>
                 </div>
-                <div className="flex flex-col gap-3 p-3">
-                  <CardDetails card={card} />
-                  {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
+                {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
+                  <div className="absolute inset-x-3 bottom-3 z-30">
                     <ClaimNftButton
                       buyer={buyer}
                       nftId={card.nftId}
@@ -250,8 +218,8 @@ function RevealedSpread({
                       claimExpiresAt={card.claimExpiresAt}
                       onClaimed={markClaimed}
                     />
-                  ) : null}
-                </div>
+                  </div>
+                ) : null}
               </article>
             ) : (
               <FaceDownCard
