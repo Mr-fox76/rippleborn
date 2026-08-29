@@ -332,6 +332,7 @@
 }
 
 .stable-card-layer.is-hidden {
+  align-items: center;
   opacity: 0.14;
   transform: translateY(0);
 }
@@ -749,13 +750,13 @@
   --rarity-color: var(--phoenix);
 }
 
-.rarity-common,
-.rarity-rare,
-.rarity-epic,
-.rarity-legendary,
-.rarity-mythic,
-.rarity-limited,
-.rarity-phoenix {
+.tarot-card.rarity-common,
+.tarot-card.rarity-rare,
+.tarot-card.rarity-epic,
+.tarot-card.rarity-legendary,
+.tarot-card.rarity-mythic,
+.tarot-card.rarity-limited,
+.tarot-card.rarity-phoenix {
   border-color: var(--rarity-color);
   box-shadow:
     0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%),
