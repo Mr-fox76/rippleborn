@@ -416,7 +416,7 @@
 .card-style-preview {
   display: flex;
   width: 100%;
-  max-width: 72rem;
+  max-width: 88rem;
   margin-inline: auto;
   align-items: center;
   justify-content: space-between;
@@ -439,17 +439,17 @@
 
 .card-style-preview-deck {
   display: flex;
-  min-width: 27rem;
+  min-width: 46rem;
   align-items: center;
   justify-content: center;
-  gap: 0;
-  padding: 1rem 2rem;
+  gap: 1.25rem;
+  padding: 1.5rem 2rem;
   perspective: 70rem;
 }
 
 .concept-card {
   position: relative;
-  width: 9.5rem;
+  width: 13rem;
   aspect-ratio: 2 / 3;
   flex: none;
   padding: 0.32rem;
@@ -469,7 +469,7 @@
 }
 
 .concept-card + .concept-card {
-  margin-left: -1.15rem;
+  margin-left: 0;
 }
 
 .concept-card-frame {
@@ -512,23 +512,11 @@
   position: absolute;
   inset: 0;
   content: '';
-  background-image: var(--concept-art-image);
+  background-image: var(--concept-card-art);
   background-position: center;
   background-size: cover;
   filter: saturate(1.18) contrast(1.06);
-  transform: scale(1.04);
-}
-
-.concept-card:nth-child(1) .concept-card-art::before {
-  background-position: 18% center;
-}
-
-.concept-card:nth-child(2) .concept-card-art::before {
-  background-position: 50% center;
-}
-
-.concept-card:nth-child(3) .concept-card-art::before {
-  background-position: 82% center;
+  transform: scale(1.02);
 }
 
 .concept-card-art::after {
@@ -647,15 +635,18 @@
 
   .card-style-preview-deck {
     min-width: 0;
-    padding: 0.75rem 0.5rem;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 1rem 0.5rem 1.5rem;
+    scrollbar-color: var(--pack-accent) transparent;
   }
 
   .concept-card {
-    width: min(7.5rem, 31vw);
+    width: 11rem;
   }
 
   .concept-card + .concept-card {
-    margin-left: -1.35rem;
+    margin-left: 0;
   }
 }
 
