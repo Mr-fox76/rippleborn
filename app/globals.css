@@ -763,7 +763,7 @@
   }
 
   .rarity-art-frame {
-    background: var(--card);
+    background: color-mix(in oklch, var(--rarity-color) 22%, var(--card));
   }
 
   .rarity-action-footer {

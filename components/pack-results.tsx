@@ -170,7 +170,7 @@ function RevealedSpread({
                   tabIndex={0}
                   aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
                 >
-                  <div className="absolute inset-0 overflow-hidden bg-card">
+                  <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
                     <Image
                       src={card.image}
                       alt=""
