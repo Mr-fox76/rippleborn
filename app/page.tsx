@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { NetworkStatus } from '@/components/network-status'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
 import { SiteHero } from '@/components/site-hero'
@@ -27,7 +26,6 @@ export default async function Page() {
         </section>
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
-        <NetworkStatus />
         <div className="flex flex-wrap items-center justify-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
           <p>3 cards · 5 XRP</p>
           {visitCount !== null ? (

@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
+import { NetworkStatus } from '@/components/network-status'
 
 export function SiteHero() {
   return (
@@ -25,7 +26,10 @@ export function SiteHero() {
             <span className="font-mono text-[0.58rem] uppercase tracking-[0.24em] text-muted-foreground">Collectibles on XRPL</span>
           </span>
         </a>
-        <ConnectWalletButton />
+        <div className="flex items-center gap-2 sm:gap-3">
+          <NetworkStatus />
+          <ConnectWalletButton />
+        </div>
       </div>
     </header>
   )

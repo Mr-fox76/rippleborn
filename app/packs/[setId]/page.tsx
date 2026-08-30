@@ -55,10 +55,11 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
               <Image src="/images/ledgerborn-symbol.png" alt="" width={48} height={42} className="h-9 w-10 object-contain" />
               <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
             </Link>
-            <div className="flex items-center justify-end gap-3 sm:gap-5">
-              <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold lg:block">
+            <div className="flex items-center justify-end gap-2 sm:gap-3">
+              <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold xl:block">
                 {pack.kicker}
               </p>
+              <NetworkStatus />
               <ConnectWalletButton />
             </div>
           </div>
@@ -70,7 +71,6 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
         </main>
 
         <footer className="pack-theme-bar relative z-10 flex flex-col items-center gap-3 border-t px-6 py-6 text-center">
-          <NetworkStatus />
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
             {pack.cardsPerPack} cards · {pack.priceXrp} XRP · {pack.cardCount} to collect
           </p>
