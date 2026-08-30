@@ -26,7 +26,6 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
 
 const ARTWORK_PRESENTATION: Partial<Record<Card['name'], string>> = {
   'Thought Diver': 'scale-125',
-  'The Phoenix': 'scale-125',
 }
 
 function getArtworkClass(card: Card) {
