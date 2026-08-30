@@ -319,21 +319,55 @@
 }
 
 .pack-set-card:hover::before {
-  opacity: 0.38;
-  filter: saturate(1) contrast(1.1);
+  opacity: 0.74;
+  filter: saturate(1.4) contrast(1.16);
   transform: scale(1.025);
 }
 
 .pack-set-card-mythic {
   --set-card-accent: var(--phoenix);
-  --set-card-surface: color-mix(in oklch, var(--card) 88%, oklch(0.3 0.09 28));
+  --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.31 0.13 20));
   --set-card-image: url('/images/ledgerborn-page-bg.png');
+  border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.74 0.16 292));
+  box-shadow:
+    0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
+    0 0 2.5rem color-mix(in oklch, var(--phoenix) 24%, transparent),
+    inset 0 1px 0 oklch(0.74 0.16 292 / 38%);
+}
+
+.pack-set-card-mythic::before {
+  opacity: 0.72;
+  filter: saturate(1.4) contrast(1.16);
+}
+
+.pack-set-card-mythic::after {
+  background:
+    radial-gradient(circle at 18% 20%, color-mix(in oklch, var(--phoenix) 38%, transparent), transparent 35%),
+    radial-gradient(circle at 84% 26%, oklch(0.74 0.16 292 / 28%), transparent 38%),
+    linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 18%, transparent), var(--set-card-surface) 74%);
 }
 
 .pack-set-card-cyborg {
-  --set-card-accent: oklch(0.79 0.16 64);
-  --set-card-surface: color-mix(in oklch, var(--card) 82%, oklch(0.31 0.08 58));
+  --set-card-accent: oklch(0.82 0.17 64);
+  --set-card-surface: color-mix(in oklch, var(--card) 64%, oklch(0.34 0.11 58));
   --set-card-image: url('/images/cyborg-cowboy-page-bg.png');
+  border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.76 0.13 195));
+  box-shadow:
+    0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
+    0 0 2.5rem oklch(0.79 0.16 64 / 22%),
+    inset 0 1px 0 oklch(0.76 0.13 195 / 34%);
+}
+
+.pack-set-card-cyborg::before {
+  opacity: 0.72;
+  filter: saturate(1.42) contrast(1.16);
+}
+
+.pack-set-card-cyborg::after {
+  background:
+    radial-gradient(circle at 16% 22%, oklch(0.82 0.17 64 / 36%), transparent 36%),
+    radial-gradient(circle at 84% 28%, oklch(0.76 0.13 195 / 28%), transparent 38%),
+    linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 18%, transparent), var(--set-card-surface) 74%);
 }
 
 .pack-set-card-chromatic {
