@@ -26,6 +26,8 @@ export function RarityOdds({
 
   const counters = [
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
+    { label: 'Rare', value: stats.rareFound, className: 'rarity-rare' },
+    { label: 'Epic', value: stats.epicFound, className: 'rarity-epic' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
     { label: 'The Phoenix', value: stats.phoenixFound, className: 'text-phoenix', featured: true },
@@ -35,7 +37,7 @@ export function RarityOdds({
     <section aria-label={countersOnly ? 'All-set collection totals' : 'Card categories'} className="flex flex-col gap-5">
       <dl
         aria-label={countersOnly ? 'All-set collection totals' : 'Set collection totals'}
-        className="grid grid-cols-2 gap-2 sm:grid-cols-4"
+        className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6"
       >
         {counters.map((counter) => (
           <div

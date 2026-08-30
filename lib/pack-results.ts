@@ -24,6 +24,8 @@ export type PackResultRecord = {
 
 export type CollectionStats = {
   packsOpened: number
+  rareFound: number
+  epicFound: number
   legendaryFound: number
   mythicFound: number
   limitedFound: number
@@ -32,6 +34,8 @@ export type CollectionStats = {
 
 export const EMPTY_COLLECTION_STATS: CollectionStats = {
   packsOpened: 0,
+  rareFound: 0,
+  epicFound: 0,
   legendaryFound: 0,
   mythicFound: 0,
   limitedFound: 0,
@@ -90,6 +94,10 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
         if (card.limited) stats.limitedFound += 1
         if (card.name === 'The Phoenix') {
           stats.phoenixFound += 1
+        } else if (card.rarity === 'Rare') {
+          stats.rareFound += 1
+        } else if (card.rarity === 'Epic') {
+          stats.epicFound += 1
         } else if (card.rarity === 'Legendary') {
           stats.legendaryFound += 1
         } else if (card.rarity === 'Mythic') {
