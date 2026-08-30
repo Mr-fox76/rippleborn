@@ -27,9 +27,9 @@ type Order = {
 }
 
 const READING_STAGES = [
-  'Confirming your payment on the XRP Ledger',
-  'Drawing three cards from the collection',
-  'Preparing your collectible offers',
+  'Payment approved — starting your pack',
+  'Selecting three cards from the collection',
+  'Creating your collectible offers',
 ] as const
 
 function ReadingProgress() {
@@ -66,7 +66,7 @@ function ReadingProgress() {
         ))}
       </div>
       <p className="text-center text-xs leading-relaxed text-muted-foreground">
-        Keep this page open. Ledger confirmation and NFT preparation can take a little while.
+        Keep this page open. Your cards are being prepared and will appear here automatically.
       </p>
     </div>
   )
@@ -148,7 +148,7 @@ export function PackShop({
     }
 
     setPending('fulfill')
-    setStatus({ tone: 'pending', message: 'Reading the ledger…' })
+    setStatus({ tone: 'pending', message: 'Preparing your cards…' })
 
     try {
       const response = await fetch('/api/pack/fulfill', {
@@ -271,7 +271,7 @@ export function PackShop({
               label={pending === 'fulfill' ? 'Opening pack…' : 'Open pack'}
               disabled={pending !== null}
               onSubmitted={(transactionHash) => {
-                setStatus({ tone: 'pending', message: 'Payment received. Reading the ledger…' })
+                setStatus({ tone: 'pending', message: 'Payment approved. Preparing your cards…' })
                 void fulfillOrder(transactionHash)
               }}
             />
