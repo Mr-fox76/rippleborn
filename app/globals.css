@@ -726,15 +726,15 @@
 }
 
 .rarity-common {
-  --rarity-color: oklch(0.78 0.045 215);
+  --rarity-color: oklch(0.82 0.035 230);
 }
 
 .rarity-rare {
-  --rarity-color: oklch(0.76 0.18 205);
+  --rarity-color: oklch(0.76 0.18 220);
 }
 
 .rarity-epic {
-  --rarity-color: oklch(0.68 0.2 250);
+  --rarity-color: oklch(0.7 0.2 300);
 }
 
 .rarity-legendary {
@@ -742,7 +742,7 @@
 }
 
 .rarity-mythic {
-  --rarity-color: oklch(0.75 0.24 45);
+  --rarity-color: oklch(0.72 0.23 28);
 }
 
 .rarity-limited,
@@ -763,26 +763,18 @@
   }
 
   .rarity-art-frame {
-    background: color-mix(in oklch, var(--rarity-color) 48%, var(--card));
-  }
-
-  .rarity-action-footer {
-    background: color-mix(in oklch, var(--rarity-color) 34%, var(--card));
-  }
-
-  .rarity-legendary .rarity-art-frame {
     background: color-mix(in srgb, var(--rarity-color) 58%, var(--card));
   }
 
-  .rarity-legendary .rarity-action-footer {
+  .rarity-action-footer {
     background: color-mix(in srgb, var(--rarity-color) 42%, var(--card));
   }
 
 .rarity-badge {
-  border-color: color-mix(in oklch, var(--rarity-color) 78%, transparent);
-  color: color-mix(in oklch, var(--rarity-color) 82%, var(--foreground));
-  background: color-mix(in oklch, var(--rarity-color) 30%, var(--card));
-  box-shadow: 0 0 1rem color-mix(in oklch, var(--rarity-color) 24%, transparent);
+  border-color: color-mix(in srgb, var(--rarity-color) 78%, transparent);
+  color: color-mix(in srgb, var(--rarity-color) 82%, var(--foreground));
+  background: color-mix(in srgb, var(--rarity-color) 30%, var(--card));
+  box-shadow: 0 0 1rem color-mix(in srgb, var(--rarity-color) 24%, transparent);
 }
 
 .collection-category {
