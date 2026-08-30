@@ -54,12 +54,12 @@ function ChainDetails({
   cancelTransactionHash?: string | null
 }) {
   return (
-    <details className="rounded-lg border border-border bg-muted/40">
+    <details className="rounded-lg bg-muted/40">
       <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
         On-chain details
         <ChevronDown aria-hidden="true" />
       </summary>
-      <dl className="flex flex-col gap-3 border-t border-border px-3 py-3 font-mono text-xs">
+      <dl className="flex flex-col gap-3 px-3 pb-3 font-mono text-xs">
         <div className="flex flex-col gap-1">
           <dt className="uppercase tracking-wider text-muted-foreground">NFT ID</dt>
           <dd className="break-all text-foreground">{nftId}</dd>

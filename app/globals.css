@@ -750,23 +750,20 @@
   --rarity-color: var(--phoenix);
 }
 
-.tarot-card.rarity-common,
-.tarot-card.rarity-rare,
-.tarot-card.rarity-epic,
-.tarot-card.rarity-legendary,
-.tarot-card.rarity-mythic,
-.tarot-card.rarity-limited,
-.tarot-card.rarity-phoenix {
-  border-color: var(--rarity-color);
-  box-shadow:
-    0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%),
-    0 0 2.25rem color-mix(in oklch, var(--rarity-color) 52%, transparent),
-    0 0 0 2px color-mix(in oklch, var(--rarity-color) 72%, transparent);
-}
+  .tarot-card.rarity-common,
+  .tarot-card.rarity-rare,
+  .tarot-card.rarity-epic,
+  .tarot-card.rarity-legendary,
+  .tarot-card.rarity-mythic,
+  .tarot-card.rarity-limited,
+  .tarot-card.rarity-phoenix {
+    box-shadow:
+      0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%),
+      0 0 2.25rem color-mix(in oklch, var(--rarity-color) 38%, transparent);
+  }
 
-.rarity-art-frame {
-  border: 2px solid var(--rarity-color);
-  background:
+  .rarity-art-frame {
+    background:
     linear-gradient(145deg,
       var(--rarity-color),
       color-mix(in oklch, var(--rarity-color) 62%, var(--card)) 36%,
