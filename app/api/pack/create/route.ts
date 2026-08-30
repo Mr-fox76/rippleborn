@@ -40,6 +40,12 @@ export async function POST(request: Request) {
     }
 
     const config = getXrplConfig()
+    if (buyer === config.treasuryAddress) {
+      return NextResponse.json(
+        { error: 'The connected wallet is the treasury wallet. Connect a different Mainnet wallet to buy a pack.' },
+        { status: 400 },
+      )
+    }
     const randomTag = createDestinationTag()
     const setRemainder = setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : 2
     const destinationTag = randomTag - (randomTag % 3) + setRemainder
