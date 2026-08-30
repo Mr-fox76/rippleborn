@@ -86,8 +86,8 @@
   overflow: hidden;
   background-color: var(--background);
   background-image:
-    linear-gradient(180deg, oklch(0.055 0.02 225 / 82%), oklch(0.055 0.02 225 / 7%) 38%, oklch(0.055 0.02 225 / 88%)),
-    linear-gradient(90deg, oklch(0.055 0.02 225 / 68%), transparent 28%, transparent 72%, oklch(0.055 0.02 225 / 68%)),
+    linear-gradient(180deg, oklch(0.055 0.02 225 / 64%), oklch(0.055 0.02 225 / 2%) 38%, oklch(0.055 0.02 225 / 72%)),
+    linear-gradient(90deg, oklch(0.055 0.02 225 / 48%), transparent 24%, transparent 76%, oklch(0.055 0.02 225 / 48%)),
     url('/images/ledgerborn-cyberpunk-background.png');
   background-position: center, center, center top;
   background-size: cover, cover, cover;
@@ -109,13 +109,13 @@
 
 .table-surface::after {
   background:
-    linear-gradient(180deg, transparent 12%, oklch(0.055 0.02 225 / 72%)),
-    radial-gradient(circle at 24% 28%, var(--primary) 0 1px, transparent 1.5px),
+    linear-gradient(180deg, transparent 12%, oklch(0.055 0.02 225 / 54%)),
+    radial-gradient(circle at 24% 28%, var(--primary) 0 1.5px, transparent 2px),
     radial-gradient(circle at 72% 16%, var(--foreground) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 82% 76%, var(--gold) 0 1px, transparent 1.5px);
+    radial-gradient(circle at 82% 76%, var(--gold) 0 1.5px, transparent 2px);
   background-size: auto, 23rem 23rem, 31rem 31rem, 29rem 29rem;
-  box-shadow: inset 0 0 16rem oklch(0.055 0.02 225 / 86%);
-  opacity: 0.56;
+  box-shadow: inset 0 0 12rem oklch(0.055 0.02 225 / 66%);
+  opacity: 0.72;
   animation: galaxy-drift-near 120s linear infinite;
 }
 
@@ -154,12 +154,15 @@
 
 .pack-theme-chromatic {
   --pack-accent: oklch(0.82 0.16 190);
-  --pack-accent-strong: oklch(0.78 0.18 25);
-  --pack-surface: oklch(0.095 0.04 260 / 90%);
+  --pack-accent-strong: oklch(0.73 0.2 335);
+  --pack-surface: oklch(0.095 0.04 260 / 82%);
   background-image:
-    linear-gradient(180deg, oklch(0.045 0.035 260 / 45%), oklch(0.055 0.05 285 / 82%) 66%, oklch(0.035 0.025 255 / 97%)),
-    linear-gradient(90deg, oklch(0.035 0.025 255 / 72%), transparent 36%, transparent 64%, oklch(0.035 0.025 255 / 72%)),
+    radial-gradient(circle at 20% 18%, oklch(0.78 0.18 190 / 22%), transparent 34%),
+    radial-gradient(circle at 82% 30%, oklch(0.7 0.22 335 / 22%), transparent 38%),
+    linear-gradient(180deg, oklch(0.045 0.035 260 / 24%), oklch(0.055 0.05 285 / 54%) 68%, oklch(0.035 0.025 255 / 82%)),
     url('/sets/chromatic-abyss/background.png');
+  background-position: center, center, center, center top;
+  background-size: cover, cover, cover, cover;
 }
 
 .pack-theme.table-surface::after {
@@ -189,9 +192,12 @@
 
 .pack-theme-chromatic .pack-theme-atmosphere {
   background:
-    repeating-radial-gradient(circle at 50% 18%, color-mix(in oklch, var(--pack-accent) 10%, transparent) 0 1px, transparent 2px 2.8rem),
-    radial-gradient(ellipse at 50% 24%, color-mix(in oklch, var(--pack-accent-strong) 13%, transparent), transparent 52%);
-  mask-image: linear-gradient(to bottom, black, transparent 88%);
+    repeating-radial-gradient(circle at 50% 18%, color-mix(in oklch, var(--pack-accent) 24%, transparent) 0 1px, transparent 2px 2.6rem),
+    conic-gradient(from 210deg at 50% 24%, oklch(0.78 0.18 190 / 13%), oklch(0.72 0.2 335 / 16%), oklch(0.7 0.18 285 / 12%), oklch(0.78 0.18 190 / 13%)),
+    radial-gradient(ellipse at 50% 24%, color-mix(in oklch, var(--pack-accent-strong) 28%, transparent), transparent 54%);
+  background-size: auto, 140% 140%, auto;
+  mask-image: linear-gradient(to bottom, black, black 58%, transparent 96%);
+  opacity: 0.9;
 }
 
 .pack-theme-bar {
@@ -274,16 +280,16 @@
   background-image: var(--set-card-image);
   background-position: center;
   background-size: cover;
-  opacity: 0.34;
-  filter: saturate(0.9) contrast(1.08);
+  opacity: 0.58;
+  filter: saturate(1.18) contrast(1.12);
   transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
 }
 
 .pack-set-card::after {
   z-index: -1;
   background:
-    linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 48%, transparent), var(--set-card-surface) 88%),
-    linear-gradient(90deg, color-mix(in oklch, var(--set-card-accent) 12%, transparent), transparent 55%);
+    linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 32%, transparent), var(--set-card-surface) 76%),
+    linear-gradient(90deg, color-mix(in oklch, var(--set-card-accent) 22%, transparent), transparent 62%);
 }
 
 .pack-set-card > * {
@@ -331,9 +337,27 @@
 }
 
 .pack-set-card-chromatic {
-  --set-card-accent: oklch(0.79 0.16 190);
-  --set-card-surface: color-mix(in oklch, var(--card) 82%, oklch(0.29 0.09 205));
+  --set-card-accent: oklch(0.8 0.18 190);
+  --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.29 0.12 285));
   --set-card-image: url('/sets/chromatic-abyss/background.png');
+  border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.72 0.2 335));
+  box-shadow:
+    0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
+    0 0 2.5rem oklch(0.76 0.18 190 / 18%),
+    inset 0 1px 0 oklch(0.78 0.19 335 / 34%);
+}
+
+.pack-set-card-chromatic::before {
+  opacity: 0.72;
+  filter: saturate(1.45) contrast(1.15);
+}
+
+.pack-set-card-chromatic::after {
+  background:
+    radial-gradient(circle at 14% 20%, oklch(0.8 0.18 190 / 34%), transparent 34%),
+    radial-gradient(circle at 86% 22%, oklch(0.72 0.2 335 / 32%), transparent 36%),
+    conic-gradient(from 225deg at 50% 50%, transparent, oklch(0.7 0.2 285 / 18%), transparent 44%, oklch(0.8 0.18 190 / 16%), transparent 78%),
+    linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 18%, transparent), var(--set-card-surface) 74%);
 }
 
 .reading-panel {
@@ -832,10 +856,13 @@
 }
 
 .collection-category {
-  border-color: color-mix(in oklch, var(--rarity-color) 60%, transparent);
+  border-color: color-mix(in oklch, var(--rarity-color) 74%, transparent);
   color: var(--rarity-color);
-  background: color-mix(in oklch, var(--rarity-color) 12%, var(--card));
-  box-shadow: inset 0 0 1.25rem color-mix(in oklch, var(--rarity-color) 7%, transparent);
+  background:
+    linear-gradient(145deg, color-mix(in oklch, var(--rarity-color) 28%, var(--card)), color-mix(in oklch, var(--rarity-color) 14%, var(--card)));
+  box-shadow:
+    inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 16%, transparent),
+    0 0.5rem 1.5rem color-mix(in oklch, var(--rarity-color) 9%, transparent);
 }
 
 .collection-category dt {
