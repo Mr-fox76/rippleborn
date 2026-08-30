@@ -45,6 +45,12 @@ export async function reservePhoenixSlot(setId: PackSetId, orderId: number): Pro
   return false
 }
 
+export async function releasePhoenixSlot(orderId: number) {
+  await db
+    .delete(phoenixCollectionSlots)
+    .where(and(eq(phoenixCollectionSlots.orderId, orderId), eq(phoenixCollectionSlots.status, 'reserved')))
+}
+
 export async function markCollectionPhoenixMinted(
   orderId: number,
   nftId: string,

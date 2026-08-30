@@ -23,7 +23,11 @@ import {
   saveMintResults,
   type MintedPackCard,
 } from '@/lib/pack-results'
-import { markCollectionPhoenixMinted, reservePhoenixSlot } from '@/lib/phoenix-supply'
+import {
+  markCollectionPhoenixMinted,
+  releasePhoenixSlot,
+  reservePhoenixSlot,
+} from '@/lib/phoenix-supply'
 import { getClaimTtlHours, registerClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { cleanupUnclaimedOffer } from '@/lib/workflows/cleanup-unclaimed-offer'
 import {
@@ -283,8 +287,9 @@ export async function POST(request: Request) {
           { status: 503 },
         )
       }
+      const cyborgMetadataBaseUrl = metadataBaseUrl
       cards = SLOT_ODDS.map(({ slot }) =>
-        rollCyborgCowboyCard(rollRarity(slot), slot, metadataBaseUrl),
+        rollCyborgCowboyCard(rollRarity(slot), slot, cyborgMetadataBaseUrl),
       )
     } else {
       cards = rollPack()
@@ -360,6 +365,9 @@ export async function POST(request: Request) {
         const metadataError = await validateCardMetadata(cardToMint)
         if (metadataError) {
           console.error(`[v0] Skipping ${card.name}: ${metadataError}`)
+          if (card.name === 'The Phoenix') {
+            await releasePhoenixSlot(destinationTag)
+          }
           fulfilledCards.push({ ...cardToMint, mintStatus: 'skipped', reason: metadataError })
           continue
         }
@@ -388,6 +396,9 @@ export async function POST(request: Request) {
           const reason = error instanceof Error ? error.message : 'XRPL minting failed.'
           if (card.limited) {
             await markPhoenixFailed(destinationTag, reason)
+          }
+          if (card.name === 'The Phoenix') {
+            await releasePhoenixSlot(destinationTag)
           }
           fulfilledCards.push({ ...card, mintStatus: 'failed', reason })
         }
