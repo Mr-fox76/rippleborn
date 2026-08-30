@@ -90,7 +90,7 @@ export function XamanPaymentButton({
   }
 
   return (
-    <div className="flex flex-1 flex-col items-center gap-3 text-center">
+    <div className="mx-auto flex w-full max-w-md flex-col items-center gap-3 text-center">
       {!payment || terminalMessage ? (
         <Button
           type="button"
@@ -104,7 +104,9 @@ export function XamanPaymentButton({
         </Button>
       ) : (
         <>
-          <Image src={payment.qrUrl} alt="Scan to pay for this pack in Xaman" width={152} height={152} unoptimized />
+          <div className="mx-auto rounded-md bg-foreground p-2 shadow-lg">
+            <Image src={payment.qrUrl} alt="Scan to pay for this pack in Xaman" width={152} height={152} unoptimized />
+          </div>
           <a
             href={payment.deepLink}
             target="_blank"

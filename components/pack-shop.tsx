@@ -253,16 +253,18 @@ export function PackShop({
           aria-label="Open a pack"
           className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
-        <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
-          <Button
-            onClick={createOrder}
-            disabled={!account || pending !== null || order !== null}
-            size="lg"
-            className="primary-action h-16 w-full flex-1 rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-          >
-            {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
-          </Button>
+        <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-3">
+          {!order ? (
+            <Button
+              onClick={createOrder}
+              disabled={!account || pending !== null}
+              size="lg"
+              className="primary-action h-16 w-full rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+            >
+              {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+              {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
+            </Button>
+          ) : null}
 
           {order && account === order.buyer && !cards ? (
             <XamanPaymentButton
