@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
@@ -12,6 +12,7 @@ import { useXamanWallet } from '@/components/xaman-wallet-provider'
 import type { PackCatalogEntry } from '@/lib/pack-catalog'
 import type { CollectionStats } from '@/lib/pack-results'
 import type { PackSetId } from '@/lib/rippleborn'
+import { cn } from '@/lib/utils'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
@@ -23,6 +24,52 @@ type Order = {
   destinationTag: number
   amountDrops: string
   priceXrp: string
+}
+
+const READING_STAGES = [
+  'Confirming your payment on the XRP Ledger',
+  'Drawing three cards from the collection',
+  'Preparing your collectible offers',
+] as const
+
+function ReadingProgress() {
+  const [stage, setStage] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setStage((current) => Math.min(current + 1, READING_STAGES.length - 1))
+    }, 6000)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
+  return (
+    <div className="flex flex-col gap-3 rounded-md bg-muted/50 px-4 py-4" role="status" aria-live="polite">
+      <div className="flex items-center justify-center gap-3 text-center">
+        <Loader2 className="size-5 shrink-0 animate-spin text-gold" aria-hidden="true" />
+        <div className="flex flex-col gap-1">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-foreground">
+            Preparing your reading
+          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{READING_STAGES[stage]}…</p>
+        </div>
+      </div>
+      <div className="mx-auto flex w-full max-w-md gap-2" aria-hidden="true">
+        {READING_STAGES.map((label, index) => (
+          <span
+            key={label}
+            className={cn(
+              'h-1 flex-1 rounded-full transition-colors duration-500',
+              index <= stage ? 'bg-gold' : 'bg-border',
+            )}
+          />
+        ))}
+      </div>
+      <p className="text-center text-xs leading-relaxed text-muted-foreground">
+        Keep this page open. Ledger confirmation and NFT preparation can take a little while.
+      </p>
+    </div>
+  )
 }
 
 export function PackShop({
@@ -241,11 +288,15 @@ export function PackShop({
           )}
         </div>
 
-        <div role="status" aria-live="polite" className="min-h-5 text-center">
-          <p className={`text-sm leading-relaxed ${statusColor}`}>
-            {status.message || (account ? 'Prepare your pack, then open it securely with Xaman.' : 'Connect Xaman to begin.')}
-          </p>
-        </div>
+        {pending === 'fulfill' ? (
+          <ReadingProgress />
+        ) : (
+          <div role="status" aria-live="polite" className="min-h-5 text-center">
+            <p className={`text-sm leading-relaxed ${statusColor}`}>
+              {status.message || (account ? 'Prepare your pack, then open it securely with Xaman.' : 'Connect Xaman to begin.')}
+            </p>
+          </div>
+        )}
         </section>
       </div>
 
