@@ -514,7 +514,7 @@
   background-position: center;
   background-size: cover;
   filter: saturate(1.18) contrast(1.06);
-  transform: scale(1.02);
+  transform: scale(1.16);
 }
 
 .concept-card-art::after {
