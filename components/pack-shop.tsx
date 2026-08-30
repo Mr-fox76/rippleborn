@@ -85,7 +85,7 @@ export function PackShop({
       })
       setStatus({
         tone: 'success',
-        message: `Send exactly ${data.priceXrp} XRP with the destination tag below.`,
+        message: 'Your pack is ready. Scan the Xaman QR code or open Xaman to approve the payment.',
       })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
@@ -140,34 +140,38 @@ export function PackShop({
         : 'text-muted-foreground'
 
   return (
-    <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
-      <div className="pack-theme-intro mx-auto flex max-w-3xl flex-col items-center gap-3 px-4 py-5 text-center sm:px-8 sm:py-7">
-        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
-          {pack.theme.eyebrow}
-        </p>
-        <h1 className="max-w-2xl font-sans text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          {pack.theme.title}
-        </h1>
-        <p className="max-w-2xl font-sans text-lg font-medium text-pretty text-foreground sm:text-xl">
-          {pack.theme.tagline}
-        </p>
-        <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          {pack.theme.introduction}
-        </p>
-        <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
-          {pack.theme.features.map((feature, index) => {
-            const Icon = [Sparkles, Gem, ShieldCheck][index]
-            return (
-              <span key={feature} className="inline-flex items-center gap-2 interface-chip rounded-full border px-3 py-1.5 text-xs text-foreground">
-                <Icon className="pack-theme-accent size-3.5" aria-hidden="true" />
-                {feature}
-              </span>
-            )
-          })}
+    <div id="reading-table" className="mx-auto flex w-full flex-col gap-5 sm:gap-6">
+      <div className="pack-theme-intro mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-5 sm:px-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-6">
+        <div className="flex min-w-0 flex-1 flex-col gap-2 text-center lg:text-left">
+          <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
+            {pack.theme.eyebrow}
+          </p>
+          <h1 className="font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            {pack.theme.title}
+          </h1>
+          <p className="font-sans text-base font-medium text-pretty text-foreground sm:text-lg">
+            {pack.theme.tagline}
+          </p>
+          <p className="max-w-3xl text-pretty text-sm leading-relaxed text-muted-foreground">
+            {pack.theme.introduction}
+          </p>
         </div>
-        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.22em]">
-          Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
-        </p>
+        <div className="flex shrink-0 flex-col items-center gap-3 lg:items-end">
+          <div className="flex max-w-xl flex-wrap justify-center gap-2 lg:justify-end">
+            {pack.theme.features.map((feature, index) => {
+              const Icon = [Sparkles, Gem, ShieldCheck][index]
+              return (
+                <span key={feature} className="inline-flex items-center gap-2 interface-chip rounded-full border px-3 py-1.5 text-xs text-foreground">
+                  <Icon className="pack-theme-accent size-3.5" aria-hidden="true" />
+                  {feature}
+                </span>
+              )
+            })}
+          </div>
+          <p className="pack-theme-accent text-center font-mono text-[0.65rem] uppercase tracking-[0.22em] lg:text-right">
+            Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
+          </p>
+        </div>
       </div>
 
       <div className="stable-opening-stage">
@@ -200,7 +204,7 @@ export function PackShop({
 
         <section
           aria-label="Open a pack"
-          className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
+          className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
         <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
           <Button
@@ -245,7 +249,7 @@ export function PackShop({
         </section>
       </div>
 
-      <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">
+      <aside className="reading-panel mx-auto w-full max-w-6xl border border-border p-4 backdrop-blur-md sm:p-5">
           <RarityOdds stats={collectionStats} setId={selectedSet} />
       </aside>
     </div>

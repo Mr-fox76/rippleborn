@@ -296,15 +296,15 @@
 
 .stable-opening-stage {
   display: flex;
-  min-height: 54rem;
+  min-height: 48rem;
   flex-direction: column;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .stable-opening-visual {
   position: relative;
-  min-height: 44rem;
+  min-height: 38rem;
   contain: layout;
 }
 
@@ -919,11 +919,11 @@
   }
 
   .stable-opening-stage {
-    min-height: 40rem;
+    min-height: 37rem;
   }
 
   .stable-opening-visual {
-    min-height: 30rem;
+    min-height: 28rem;
   }
 
   .pack-opening-stage {
