@@ -67,7 +67,7 @@ export const phoenixCollectionSlots = pgTable(
   'phoenix_collection_slots',
   {
     id: bigserial('id', { mode: 'number' }).primaryKey(),
-    setId: text('set_id').notNull(),
+    setId: text('set_id').notNull(), // ledgerborn | cyborg-cowboy | chromatic-abyss
     slot: smallint('slot').notNull(),
     orderId: bigint('order_id', { mode: 'number' }).notNull(),
     status: text('status').notNull().default('reserved'),

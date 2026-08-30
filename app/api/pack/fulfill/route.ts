@@ -4,6 +4,12 @@ import { NextResponse } from 'next/server'
 import { start } from 'workflow/api'
 import type { Client, TransactionMetadata } from 'xrpl'
 import {
+  CHROMATIC_ABYSS_METADATA_BASE_URL,
+  CHROMATIC_ABYSS_NFT_TAXON,
+  CHROMATIC_ABYSS_POOL,
+  rollChromaticAbyssCard,
+} from '@/lib/chromatic-abyss'
+import {
   CYBORG_COWBOY_NFT_TAXON,
   CYBORG_COWBOY_POOL,
   rollCyborgCowboyCard,
@@ -61,8 +67,9 @@ async function validateCardMetadata(card: { name: string; uri?: string; limited?
 
   const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
   if (!filename) return 'The card metadata URL must reference a JSON file in the pinned folder.'
-  const metadataFolder =
-    card.uri?.includes('/sets/cyborg-cowboy/json/') || card.uri?.includes('/metadata/')
+  const metadataFolder = card.uri?.includes('/sets/chromatic-abyss/json/')
+    ? path.join(process.cwd(), 'public', 'sets', 'chromatic-abyss', 'json')
+    : card.uri?.includes('/sets/cyborg-cowboy/json/') || card.uri?.includes('/metadata/')
       ? path.join(process.cwd(), 'public', 'sets', 'cyborg-cowboy', 'json')
       : path.join(process.cwd(), 'public', 'cards')
 
@@ -222,8 +229,8 @@ export async function POST(request: Request) {
   if (destinationTag === null) {
     return NextResponse.json({ error: 'A valid destination tag is required.' }, { status: 400 })
   }
-  const expectedCowboyTag = setId === 'cyborg-cowboy'
-  if ((destinationTag % 2 === 1) !== expectedCowboyTag) {
+  const expectedRemainder = setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : 2
+  if (destinationTag % 3 !== expectedRemainder) {
     return NextResponse.json({ error: 'The selected card set does not match this pack order.' }, { status: 400 })
   }
   if (!buyer) {
@@ -291,6 +298,11 @@ export async function POST(request: Request) {
       cards = SLOT_ODDS.map(({ slot }) =>
         rollCyborgCowboyCard(rollRarity(slot), slot, cyborgMetadataBaseUrl),
       )
+    } else if (setId === 'chromatic-abyss') {
+      metadataBaseUrl = CHROMATIC_ABYSS_METADATA_BASE_URL
+      cards = SLOT_ODDS.map(({ slot }) =>
+        rollChromaticAbyssCard(rollRarity(slot), slot, CHROMATIC_ABYSS_METADATA_BASE_URL),
+      )
     } else {
       cards = rollPack()
     }
@@ -302,6 +314,12 @@ export async function POST(request: Request) {
         let replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
         while (replacement.name === 'The Phoenix') {
           replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
+        }
+        cards[phoenixIndex] = replacement
+      } else if (setId === 'chromatic-abyss') {
+        let replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot, CHROMATIC_ABYSS_METADATA_BASE_URL)
+        while (replacement.name === 'The Phoenix') {
+          replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot, CHROMATIC_ABYSS_METADATA_BASE_URL)
         }
         cards[phoenixIndex] = replacement
       } else {
@@ -358,9 +376,13 @@ export async function POST(request: Request) {
                   ? currentCard.uri ?? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${currentCard.slug}.json`
                   : card.uri
               })()
-            : Object.values(CARD_POOL)
-                .flat()
-                .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
+            : setId === 'chromatic-abyss'
+              ? Object.values(CHROMATIC_ABYSS_POOL)
+                  .flat()
+                  .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
+              : Object.values(CARD_POOL)
+                  .flat()
+                  .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
         const cardToMint = { ...card, uri: currentUri }
         const metadataError = await validateCardMetadata(cardToMint)
         if (metadataError) {
@@ -378,7 +400,11 @@ export async function POST(request: Request) {
             config,
             buyer,
             cardToMint.uri as string,
-            setId === 'cyborg-cowboy' ? CYBORG_COWBOY_NFT_TAXON : config.nftTaxon,
+            setId === 'cyborg-cowboy'
+              ? CYBORG_COWBOY_NFT_TAXON
+              : setId === 'chromatic-abyss'
+                ? CHROMATIC_ABYSS_NFT_TAXON
+                : config.nftTaxon,
           )
           if (card.limited) {
             await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
