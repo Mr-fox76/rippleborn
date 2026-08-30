@@ -508,6 +508,36 @@
   border: 1px solid color-mix(in oklch, var(--pack-accent) 34%, transparent);
 }
 
+.concept-card-art::before {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background-image: var(--concept-art-image);
+  background-position: center;
+  background-size: cover;
+  filter: saturate(1.18) contrast(1.06);
+  transform: scale(1.04);
+}
+
+.concept-card:nth-child(1) .concept-card-art::before {
+  background-position: 18% center;
+}
+
+.concept-card:nth-child(2) .concept-card-art::before {
+  background-position: 50% center;
+}
+
+.concept-card:nth-child(3) .concept-card-art::before {
+  background-position: 82% center;
+}
+
+.concept-card-art::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  background: linear-gradient(180deg, transparent 48%, color-mix(in oklch, var(--pack-surface) 62%, transparent));
+}
+
 .concept-art-core,
 .concept-art-detail {
   position: absolute;
@@ -532,6 +562,10 @@
   letter-spacing: 0.14em;
 }
 
+.card-style-preview-mythic {
+  --concept-art-image: url('/images/mythic-card-style-sample.png');
+}
+
 .card-style-preview-mythic .concept-card-art {
   background:
     linear-gradient(135deg, transparent 46%, color-mix(in oklch, var(--pack-accent-strong) 22%, transparent) 47% 49%, transparent 50%),
@@ -551,6 +585,10 @@
   aspect-ratio: 1;
   border: 1px solid var(--pack-accent);
   transform: rotate(45deg);
+}
+
+.card-style-preview-cyborg {
+  --concept-art-image: url('/images/cyborg-card-style-sample.png');
 }
 
 .card-style-preview-cyborg .concept-card-art {
@@ -574,6 +612,10 @@
   height: 1px;
   background: var(--pack-accent);
   box-shadow: 0 -1.3rem 0 var(--pack-accent), 0 1.3rem 0 var(--pack-accent);
+}
+
+.card-style-preview-chromatic {
+  --concept-art-image: url('/images/chromatic-card-style-sample.png');
 }
 
 .card-style-preview-chromatic .concept-card-art {
