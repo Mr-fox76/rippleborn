@@ -47,7 +47,7 @@ export function ConnectWalletButton() {
       </Button>
 
       {request ? (
-        <div className="qr-panel absolute right-0 top-14 z-50 flex w-56 flex-col items-center gap-3 p-4 text-center">
+        <div className="qr-panel fixed inset-x-4 top-24 z-50 mx-auto flex max-h-[calc(100dvh-7rem)] w-auto max-w-56 flex-col items-center gap-3 overflow-y-auto p-4 text-center sm:absolute sm:inset-x-auto sm:right-0 sm:top-14 sm:mx-0 sm:w-56">
           <Image
             src={request.qrUrl}
             alt="Scan to connect your wallet in Xaman"

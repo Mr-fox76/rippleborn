@@ -104,8 +104,8 @@ export function XamanPaymentButton({
         </Button>
       ) : (
         <>
-          <div className="mx-auto rounded-md bg-foreground p-2 shadow-lg">
-            <Image src={payment.qrUrl} alt="Scan to pay for this pack in Xaman" width={152} height={152} unoptimized />
+          <div className="mx-auto w-full max-w-44 rounded-md bg-foreground p-2 shadow-lg">
+            <Image src={payment.qrUrl} alt="Scan to pay for this pack in Xaman" width={152} height={152} className="h-auto w-full" unoptimized />
           </div>
           <a
             href={payment.deepLink}
