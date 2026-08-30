@@ -763,27 +763,12 @@
   }
 
   .rarity-art-frame {
-    background:
-    linear-gradient(145deg,
-      var(--rarity-color),
-      color-mix(in oklch, var(--rarity-color) 62%, var(--card)) 36%,
-      var(--rarity-color) 68%,
-      color-mix(in oklch, var(--rarity-color) 55%, var(--card)));
-  box-shadow:
-    inset 0 0 0 1px color-mix(in oklch, var(--foreground) 38%, transparent),
-    inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 58%, transparent),
-    0 0 1.25rem color-mix(in oklch, var(--rarity-color) 38%, transparent);
-}
+    background: var(--card);
+  }
 
-.rarity-art-frame::before {
-  position: absolute;
-  inset: 0.25rem;
-  z-index: 1;
-  border: 2px solid color-mix(in oklch, var(--rarity-color) 88%, var(--foreground));
-  border-radius: 0.2rem;
-  content: '';
-  pointer-events: none;
-}
+  .rarity-action-footer {
+    background: color-mix(in oklch, var(--rarity-color) 18%, var(--card));
+  }
 
 .rarity-badge {
   border-color: color-mix(in oklch, var(--rarity-color) 65%, transparent);

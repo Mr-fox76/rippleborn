@@ -170,7 +170,7 @@ function RevealedSpread({
                   tabIndex={0}
                   aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
                 >
-                  <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
+                  <div className="absolute inset-0 overflow-hidden bg-card">
                     <Image
                       src={card.image}
                       alt=""
@@ -212,7 +212,7 @@ function RevealedSpread({
                   </div>
                 </div>
                 {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
-                  <div className="p-3 pt-0">
+                  <div className="rarity-action-footer p-3">
                     <ClaimNftButton
                       buyer={buyer}
                       nftId={card.nftId}
