@@ -1,20 +1,21 @@
+import type { CSSProperties } from 'react'
 import type { PackCatalogEntry } from '@/lib/pack-catalog'
 
 const sampleDetails = {
   mythic: [
-    { mark: 'I', caption: 'Emberbound' },
-    { mark: 'II', caption: 'Elder Sigil' },
-    { mark: 'III', caption: 'Astral Forge' },
+    { mark: 'I', caption: 'Emberbound', art: '/images/sample-mythic-emberbound.png' },
+    { mark: 'II', caption: 'Elder Sigil', art: '/images/sample-mythic-elder-sigil.png' },
+    { mark: 'III', caption: 'Astral Forge', art: '/images/sample-mythic-astral-forge.png' },
   ],
   cyborg: [
-    { mark: 'A7', caption: 'Dust Circuit' },
-    { mark: 'K2', caption: 'Neon Range' },
-    { mark: 'X9', caption: 'Steel Horizon' },
+    { mark: 'A7', caption: 'Dust Circuit', art: '/images/sample-cyborg-dust-circuit.png' },
+    { mark: 'K2', caption: 'Neon Range', art: '/images/sample-cyborg-neon-range.png' },
+    { mark: 'X9', caption: 'Steel Horizon', art: '/images/sample-cyborg-steel-horizon.png' },
   ],
   chromatic: [
-    { mark: 'α', caption: 'Lucid Bloom' },
-    { mark: 'β', caption: 'Prism Echo' },
-    { mark: 'γ', caption: 'Abyssal Form' },
+    { mark: 'α', caption: 'Lucid Bloom', art: '/images/sample-chromatic-lucid-bloom.png' },
+    { mark: 'β', caption: 'Prism Echo', art: '/images/sample-chromatic-prism-echo.png' },
+    { mark: 'γ', caption: 'Abyssal Form', art: '/images/sample-chromatic-abyssal-form.png' },
   ],
 } as const
 
@@ -36,7 +37,10 @@ export function CardStylePreview({ theme }: { theme: PackCatalogEntry['theme']['
           <div className="concept-card" key={sample.caption}>
             <div className="concept-card-frame" aria-hidden="true">
               <span className="concept-card-index">{sample.mark}</span>
-              <div className="concept-card-art">
+              <div
+                className="concept-card-art"
+                style={{ '--concept-card-art': `url(${sample.art})` } as CSSProperties}
+              >
                 <i className="concept-art-core" />
                 <i className="concept-art-detail" />
               </div>

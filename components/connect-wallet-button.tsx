@@ -36,7 +36,7 @@ export function ConnectWalletButton() {
         size="lg"
         onClick={connect}
         disabled={creating || status?.status === 'pending'}
-        className="primary-action min-h-12 px-6 font-mono text-xs font-semibold uppercase tracking-[0.14em] sm:min-w-52"
+        className="primary-action min-h-11 px-4 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.1em] sm:min-h-12 sm:min-w-52 sm:px-6 sm:text-xs sm:tracking-[0.14em]"
       >
         {creating || status?.status === 'pending' ? (
           <Loader2 className="size-5 animate-spin" aria-hidden="true" />
@@ -47,7 +47,7 @@ export function ConnectWalletButton() {
       </Button>
 
       {request ? (
-        <div className="qr-panel absolute right-0 top-14 z-50 flex w-56 flex-col items-center gap-3 p-4 text-center">
+        <div className="qr-panel fixed inset-x-4 top-24 z-50 mx-auto flex max-h-[calc(100dvh-7rem)] w-auto max-w-56 flex-col items-center gap-3 overflow-y-auto p-4 text-center sm:absolute sm:inset-x-auto sm:right-0 sm:top-14 sm:mx-0 sm:w-56">
           <Image
             src={request.qrUrl}
             alt="Scan to connect your wallet in Xaman"

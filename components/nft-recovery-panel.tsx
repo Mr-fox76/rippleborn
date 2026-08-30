@@ -139,7 +139,7 @@ export function NftRecoveryPanel() {
 
       {claim ? (
         <div className="mt-5 flex flex-col items-center gap-3 border border-border p-4 text-center">
-          <img src={claim.qrPng} alt="Xaman QR code for the corrected replacement NFT" className="size-44" />
+          <img src={claim.qrPng} alt="Xaman QR code for the corrected replacement NFT" className="h-auto w-full max-w-44" />
           <a href={claim.nextUrl} target="_blank" rel="noreferrer" className="font-mono text-xs uppercase tracking-wider text-gold underline">
             Open replacement claim in Xaman
           </a>

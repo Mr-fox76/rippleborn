@@ -16,6 +16,12 @@ export async function POST(request: Request) {
 
     const destinationTag = Number(orderId)
     const config = getXrplConfig()
+    if (buyer === config.treasuryAddress) {
+      return NextResponse.json(
+        { error: 'The connected wallet is the treasury wallet. Connect a different Mainnet wallet to buy a pack.' },
+        { status: 400 },
+      )
+    }
     const payload = await getXamanSdk().payload.create({
       txjson: {
         TransactionType: 'Payment',
@@ -24,7 +30,7 @@ export async function POST(request: Request) {
         DestinationTag: destinationTag,
         Amount: config.packPriceDrops,
       },
-      options: { submit: true, expire: 5, force_network: 'TESTNET' },
+      options: { submit: true, expire: 5, force_network: 'MAINNET' },
       custom_meta: {
         identifier: `rippleborn-pack-${destinationTag}`,
         instruction: `Pay ${config.packPriceDrops} drops for Ledgerborn pack ${destinationTag}.`,

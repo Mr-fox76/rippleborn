@@ -24,15 +24,6 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
   Mythic: 'rarity-mythic',
 }
 
-const ARTWORK_PRESENTATION: Partial<Record<Card['name'], string>> = {
-  'Thought Diver': 'scale-125',
-  'The Phoenix': 'scale-125',
-}
-
-function getArtworkClass(card: Card) {
-  return ARTWORK_PRESENTATION[card.name] ?? ''
-}
-
 function playCardFlipSound() {
   try {
     const context = new AudioContext()
@@ -168,7 +159,7 @@ function RevealedSpread({
         return (
           <li
             key={card?.id ?? index}
-            className={`tarot-slot min-w-0 flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
+            className={`tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
           >
             {card && isRevealed ? (
               <article
@@ -186,7 +177,7 @@ function RevealedSpread({
                       aria-hidden="true"
                       fill
                       priority
-                      sizes="(max-width: 640px) 30vw, 320px"
+                      sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
                       className="scale-110 object-cover opacity-45 blur-xl"
                     />
                     <div className="absolute inset-0 bg-card/20" aria-hidden="true" />
@@ -195,8 +186,8 @@ function RevealedSpread({
                       alt={`${card.name}, ${card.rarity} card`}
                       fill
                       priority
-                      sizes="(max-width: 640px) 30vw, 320px"
-                      className={`relative z-[1] object-cover object-center ${getArtworkClass(card)}`}
+                      sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
+                      className="relative z-[1] object-cover object-center"
                     />
                   </div>
                   <div className="absolute right-2 top-2 z-30 flex flex-col items-end gap-1 sm:right-3 sm:top-3">
@@ -277,7 +268,7 @@ export function TarotCards({
           onReset={onReset}
         />
       ) : (
-        <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
+      <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
           {[0, 1, 2].map((index) => (
             <li key={index} className="tarot-slot min-w-0 flex-1">
               <FaceDownCard index={index} />

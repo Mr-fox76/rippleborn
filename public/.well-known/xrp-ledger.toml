@@ -1,0 +1,4 @@
+NETWORK = "mainnet"
+
+[[ISSUERS]]
+address = "rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv"

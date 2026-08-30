@@ -27,7 +27,7 @@ export async function POST(request: Request) {
         Account: owner,
         NFTokenSellOffer: record.replacementOfferId,
       },
-      options: { submit: true, expire: 5, force_network: 'TESTNET' },
+      options: { submit: true, expire: 5, force_network: 'MAINNET' },
       custom_meta: {
         identifier: `ledgerborn-replacement-${originalNftId}`,
         instruction: 'Accept your corrected Ledgerborn NFT replacement.',

@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { NetworkStatus } from '@/components/network-status'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
 import { SiteHero } from '@/components/site-hero'
@@ -27,7 +26,6 @@ export default async function Page() {
         </section>
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
-        <NetworkStatus />
         <div className="flex flex-wrap items-center justify-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
           <p>3 cards · 5 XRP</p>
           {visitCount !== null ? (
@@ -39,7 +37,8 @@ export default async function Page() {
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Ledgerborn is an independent company and is not affiliated with, endorsed by, or sponsored by Ledger or Ripple. Ledgerborn uses the open-source XRP Ledger technology.
         </p>
-        <nav aria-label="Legal" className="flex items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
+        <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
+          <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
           <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy policy</Link>
           <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
         </nav>
