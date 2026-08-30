@@ -251,6 +251,7 @@
 
 .pack-set-card {
   --set-card-accent: var(--primary);
+  --set-card-surface: var(--card);
   position: relative;
   isolation: isolate;
   border-color: color-mix(in oklch, var(--set-card-accent) 38%, var(--border));
@@ -281,8 +282,8 @@
 .pack-set-card::after {
   z-index: -1;
   background:
-    linear-gradient(180deg, color-mix(in oklch, var(--card) 48%, transparent), var(--card) 88%),
-    linear-gradient(90deg, color-mix(in oklch, var(--set-card-accent) 8%, transparent), transparent 55%);
+    linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 48%, transparent), var(--set-card-surface) 88%),
+    linear-gradient(90deg, color-mix(in oklch, var(--set-card-accent) 12%, transparent), transparent 55%);
 }
 
 .pack-set-card > * {
@@ -319,16 +320,19 @@
 
 .pack-set-card-mythic {
   --set-card-accent: var(--phoenix);
+  --set-card-surface: color-mix(in oklch, var(--card) 88%, oklch(0.3 0.09 28));
   --set-card-image: url('/images/ledgerborn-page-bg.png');
 }
 
 .pack-set-card-cyborg {
-  --set-card-accent: oklch(0.8 0.13 195);
+  --set-card-accent: oklch(0.79 0.16 64);
+  --set-card-surface: color-mix(in oklch, var(--card) 82%, oklch(0.31 0.08 58));
   --set-card-image: url('/images/cyborg-cowboy-page-bg.png');
 }
 
 .pack-set-card-chromatic {
-  --set-card-accent: oklch(0.82 0.16 190);
+  --set-card-accent: oklch(0.79 0.16 190);
+  --set-card-surface: color-mix(in oklch, var(--card) 82%, oklch(0.29 0.09 205));
   --set-card-image: url('/sets/chromatic-abyss/background.png');
 }
 
