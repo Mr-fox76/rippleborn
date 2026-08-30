@@ -10,7 +10,7 @@ export type PackCatalogEntry = {
   cardsPerPack: number
   priceXrp: number
   theme: {
-    id: 'mythic' | 'cyborg'
+    id: 'mythic' | 'cyborg' | 'chromatic'
     eyebrow: string
     title: string
     tagline: string
@@ -56,6 +56,25 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       introduction:
         'Cross into a dust-choked future where cybernetic marshals, machine outlaws, and hardened drifters rule the frontier. Every pack deals three collectible characters ready to claim on the XRP Ledger.',
       features: ['High-voltage reveals', 'Twenty-two frontier legends', 'Bounties claimed on XRPL'],
+    },
+  },
+  {
+    id: 'chromatic-abyss',
+    name: 'Ledgerborn - Chromatic',
+    kicker: 'Visionary Set',
+    description: 'Impossible beings, recursive gardens, and lucid entities from beyond the visible spectrum.',
+    href: '/packs/chromatic-abyss',
+    cardCount: 22,
+    cardsPerPack: 3,
+    priceXrp: 5,
+    theme: {
+      id: 'chromatic',
+      eyebrow: 'Lucid visions. On-ledger ownership.',
+      title: 'Stare into the Chromatic Abyss.',
+      tagline: 'Break the spectrum. Meet what looks back.',
+      introduction:
+        'Slip beyond ordinary perception into a living spectrum of impossible creatures, recursive temples, and lucid cosmic entities. This collection closes permanently when its third Phoenix is successfully minted.',
+      features: ['Prismatic one-by-one reveals', 'Three Phoenix discoveries', 'Visions claimed on XRPL'],
     },
   },
 ]

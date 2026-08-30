@@ -1,4 +1,5 @@
 import type { CollectionStats } from '@/lib/pack-results'
+import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
 
@@ -11,7 +12,12 @@ export function RarityOdds({
   setId?: PackSetId
   countersOnly?: boolean
 }) {
-  const pool = setId === 'cyborg-cowboy' ? CYBORG_COWBOY_POOL : CARD_POOL
+  const pool =
+    setId === 'cyborg-cowboy'
+      ? CYBORG_COWBOY_POOL
+      : setId === 'chromatic-abyss'
+        ? CHROMATIC_ABYSS_POOL
+        : CARD_POOL
   const categoryCounts = RARITIES.map((rarity) => ({
     label: rarity,
     count: pool[rarity].length,

@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { eq } from 'drizzle-orm'
+import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { db } from '@/lib/db'
 import { packResults } from '@/lib/db/schema'
@@ -66,7 +67,13 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
     .where(eq(packResults.status, 'fulfilled'))
   const setCardNames = setId
     ? new Set(
-        Object.values(setId === 'cyborg-cowboy' ? CYBORG_COWBOY_POOL : CARD_POOL)
+        Object.values(
+          setId === 'cyborg-cowboy'
+            ? CYBORG_COWBOY_POOL
+            : setId === 'chromatic-abyss'
+              ? CHROMATIC_ABYSS_POOL
+              : CARD_POOL,
+        )
           .flat()
           .map((card) => card.name),
       )

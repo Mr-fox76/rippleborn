@@ -232,8 +232,8 @@ export function PackShop({
           >
             <PackOpening
               canOpen={Boolean(cards)}
-              packName={selectedSet === 'cyborg-cowboy' ? 'Ledgerborn - Cyborg' : 'Ledgerborn - Mythic'}
-              packKicker={selectedSet === 'cyborg-cowboy' ? 'Frontier Set' : 'Mythical Set'}
+              packName={pack.name}
+              packKicker={pack.kicker}
               onComplete={() => {
                 setPackOpened(true)
                 setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })

@@ -41,8 +41,8 @@ export async function POST(request: Request) {
 
     const config = getXrplConfig()
     const randomTag = createDestinationTag()
-    const destinationTag =
-      setId === 'cyborg-cowboy' ? (randomTag % 2 === 0 ? randomTag + 1 : randomTag) : randomTag - (randomTag % 2)
+    const setRemainder = setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : 2
+    const destinationTag = randomTag - (randomTag % 3) + setRemainder
 
     return NextResponse.json({
       orderId: destinationTag,
