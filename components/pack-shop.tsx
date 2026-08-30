@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
+import { CardStylePreview } from '@/components/card-style-preview'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { RarityOdds } from '@/components/rarity-odds'
@@ -223,6 +224,8 @@ export function PackShop({
           </p>
         </div>
       </div>
+
+      <CardStylePreview theme={pack.theme.id} />
 
       <div className="stable-opening-stage">
         <div className="stable-opening-visual">

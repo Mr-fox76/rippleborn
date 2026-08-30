@@ -413,6 +413,210 @@
     linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 18%, transparent), var(--set-card-surface) 74%);
 }
 
+.card-style-preview {
+  display: flex;
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  border: 1px solid color-mix(in oklch, var(--pack-accent) 34%, var(--border));
+  background: color-mix(in oklch, var(--pack-surface) 88%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--pack-accent) 14%, transparent);
+  backdrop-filter: blur(0.75rem);
+}
+
+.card-style-preview-copy {
+  display: flex;
+  max-width: 29rem;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.card-style-preview-deck {
+  display: flex;
+  min-width: 27rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 1rem 2rem;
+  perspective: 70rem;
+}
+
+.concept-card {
+  position: relative;
+  width: 9.5rem;
+  aspect-ratio: 2 / 3;
+  flex: none;
+  padding: 0.32rem;
+  border: 1px solid color-mix(in oklch, var(--pack-accent) 72%, var(--pack-accent-strong));
+  background: color-mix(in oklch, var(--pack-accent) 18%, var(--card));
+  box-shadow: 0 1rem 2rem oklch(0.03 0.02 225 / 48%);
+  transform: rotate(-7deg) translateY(0.4rem);
+}
+
+.concept-card:nth-child(2) {
+  z-index: 2;
+  transform: translateY(-0.5rem);
+}
+
+.concept-card:nth-child(3) {
+  transform: rotate(7deg) translateY(0.4rem);
+}
+
+.concept-card + .concept-card {
+  margin-left: -1.15rem;
+}
+
+.concept-card-frame {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: 0.45rem;
+  overflow: hidden;
+  padding: 0.6rem;
+  border: 1px solid color-mix(in oklch, var(--pack-accent) 42%, transparent);
+  background: color-mix(in oklch, var(--pack-surface) 86%, var(--card));
+}
+
+.concept-card-index,
+.concept-card-code,
+.concept-card-caption {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.concept-card-index {
+  color: var(--pack-accent-strong);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+}
+
+.concept-card-art {
+  position: relative;
+  display: grid;
+  flex: 1;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--pack-accent) 34%, transparent);
+}
+
+.concept-art-core,
+.concept-art-detail {
+  position: absolute;
+  display: block;
+}
+
+.concept-card-rule {
+  height: 1px;
+  background: color-mix(in oklch, var(--pack-accent) 52%, transparent);
+}
+
+.concept-card-caption {
+  color: var(--foreground);
+  font-size: 0.58rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+
+.concept-card-code {
+  color: var(--muted-foreground);
+  font-size: 0.48rem;
+  letter-spacing: 0.14em;
+}
+
+.card-style-preview-mythic .concept-card-art {
+  background:
+    linear-gradient(135deg, transparent 46%, color-mix(in oklch, var(--pack-accent-strong) 22%, transparent) 47% 49%, transparent 50%),
+    color-mix(in oklch, var(--pack-accent) 10%, var(--card));
+}
+
+.card-style-preview-mythic .concept-art-core {
+  width: 58%;
+  aspect-ratio: 1;
+  border: 1px solid var(--pack-accent-strong);
+  transform: rotate(45deg);
+  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--pack-accent-strong) 28%, transparent);
+}
+
+.card-style-preview-mythic .concept-art-detail {
+  width: 28%;
+  aspect-ratio: 1;
+  border: 1px solid var(--pack-accent);
+  transform: rotate(45deg);
+}
+
+.card-style-preview-cyborg .concept-card-art {
+  background:
+    linear-gradient(color-mix(in oklch, var(--pack-accent) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--pack-accent) 14%, transparent) 1px, transparent 1px),
+    color-mix(in oklch, var(--pack-accent-strong) 9%, var(--card));
+  background-size: 1rem 1rem;
+}
+
+.card-style-preview-cyborg .concept-art-core {
+  width: 64%;
+  height: 42%;
+  border: 1px solid var(--pack-accent-strong);
+  background: color-mix(in oklch, var(--pack-accent-strong) 16%, transparent);
+  clip-path: polygon(14% 0, 100% 0, 100% 72%, 82% 100%, 0 100%, 0 18%);
+}
+
+.card-style-preview-cyborg .concept-art-detail {
+  width: 76%;
+  height: 1px;
+  background: var(--pack-accent);
+  box-shadow: 0 -1.3rem 0 var(--pack-accent), 0 1.3rem 0 var(--pack-accent);
+}
+
+.card-style-preview-chromatic .concept-card-art {
+  background: conic-gradient(from 210deg, color-mix(in oklch, var(--pack-accent) 42%, var(--card)), color-mix(in oklch, var(--pack-accent-strong) 38%, var(--card)), var(--card), color-mix(in oklch, var(--pack-accent) 42%, var(--card)));
+}
+
+.card-style-preview-chromatic .concept-art-core {
+  width: 68%;
+  aspect-ratio: 1;
+  border: 1px solid var(--pack-accent);
+  border-radius: 42% 58% 36% 64% / 62% 38% 62% 38%;
+  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--pack-accent-strong) 36%, transparent);
+  transform: rotate(22deg);
+}
+
+.card-style-preview-chromatic .concept-art-detail {
+  width: 34%;
+  aspect-ratio: 1;
+  border: 1px solid var(--pack-accent-strong);
+  border-radius: 50%;
+}
+
+@media (max-width: 767px) {
+  .card-style-preview {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 1.25rem;
+  }
+
+  .card-style-preview-deck {
+    min-width: 0;
+    padding: 0.75rem 0.5rem;
+  }
+
+  .concept-card {
+    width: min(7.5rem, 31vw);
+  }
+
+  .concept-card + .concept-card {
+    margin-left: -1.35rem;
+  }
+}
+
 .reading-panel {
   position: relative;
   border-radius: var(--radius);
