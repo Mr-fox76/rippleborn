@@ -92,9 +92,9 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
 
       for (const card of cards) {
         if (card.limited) stats.limitedFound += 1
-        if (card.name === 'The Phoenix') {
-          stats.phoenixFound += 1
-        } else if (card.rarity === 'Rare') {
+        if (card.name === 'The Phoenix') stats.phoenixFound += 1
+
+        if (card.rarity === 'Rare') {
           stats.rareFound += 1
         } else if (card.rarity === 'Epic') {
           stats.epicFound += 1

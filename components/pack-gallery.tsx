@@ -29,23 +29,23 @@ export function PackGallery() {
               <ArrowUpRight className="pack-set-accent size-5 text-muted-foreground transition-colors" aria-hidden="true" />
             </div>
 
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-5 text-center">
+              <div className="flex flex-col items-center gap-2">
                 <p className="pack-set-accent font-mono text-[0.65rem] uppercase tracking-[0.24em]">{pack.kicker}</p>
                 <h2 className="font-sans text-3xl font-semibold tracking-tight text-foreground">{pack.name}</h2>
-                <p className="max-w-md text-sm leading-relaxed text-muted-foreground">{pack.description}</p>
+                <p className="mx-auto max-w-md text-pretty text-sm leading-relaxed text-muted-foreground">{pack.description}</p>
               </div>
 
-              <dl className="grid grid-cols-3 gap-2 border-y border-border py-4">
-                <div className="flex flex-col gap-1">
+              <dl className="grid grid-cols-3 gap-2 border-y border-border py-4 text-center">
+                <div className="flex flex-col items-center gap-1">
                   <dt className="text-xs text-muted-foreground">Set size</dt>
                   <dd className="font-mono text-sm font-semibold text-foreground">{pack.cardCount} cards</dd>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col items-center gap-1">
                   <dt className="text-xs text-muted-foreground">Inside</dt>
                   <dd className="font-mono text-sm font-semibold text-foreground">{pack.cardsPerPack} cards</dd>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col items-center gap-1">
                   <dt className="text-xs text-muted-foreground">Price</dt>
                   <dd className="font-mono text-sm font-semibold text-foreground">{pack.priceXrp} XRP</dd>
                 </div>
