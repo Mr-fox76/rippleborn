@@ -17,9 +17,9 @@ export default async function Page() {
   return (
     <div className="table-surface flex min-h-svh flex-col">
       <SiteHero />
-      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-8 px-4 py-10 sm:px-6 sm:py-14">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <PackGallery />
-        <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-3xl flex-col gap-3">
+        <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-4xl flex-col gap-3">
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             All-set collection totals
           </h2>

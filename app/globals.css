@@ -212,12 +212,35 @@
   color: var(--pack-accent);
 }
 
+.collection-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.collection-eyebrow::before,
+.collection-eyebrow::after {
+  width: 2.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+  content: '';
+  opacity: 0.65;
+}
+
+.collection-eyebrow::after {
+  transform: rotate(180deg);
+}
+
 .pack-set-card {
   --set-card-accent: var(--primary);
   position: relative;
   isolation: isolate;
-  border-color: color-mix(in oklch, var(--set-card-accent) 32%, var(--border));
+  border-color: color-mix(in oklch, var(--set-card-accent) 38%, var(--border));
   background: var(--card);
+  box-shadow:
+    0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
+    inset 0 1px 0 color-mix(in oklch, var(--set-card-accent) 14%, transparent);
 }
 
 .pack-set-card::before,
@@ -233,8 +256,8 @@
   background-image: var(--set-card-image);
   background-position: center;
   background-size: cover;
-  opacity: 0.28;
-  filter: saturate(0.8) contrast(1.08);
+  opacity: 0.34;
+  filter: saturate(0.9) contrast(1.08);
   transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
 }
 
@@ -252,6 +275,11 @@
 
 .pack-set-card:hover {
   border-color: var(--set-card-accent);
+  box-shadow:
+    0 2rem 5rem oklch(0.03 0.02 225 / 62%),
+    0 0 2.5rem color-mix(in oklch, var(--set-card-accent) 18%, transparent),
+    inset 0 1px 0 color-mix(in oklch, var(--set-card-accent) 24%, transparent);
+  transform: translateY(-0.35rem);
 }
 
 .pack-set-accent {

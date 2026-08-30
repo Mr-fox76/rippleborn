@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
@@ -36,16 +37,22 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
   return (
     <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
         <div aria-hidden="true" className="pack-theme-atmosphere" />
-        <header className="pack-theme-bar relative z-10 flex items-center justify-between gap-4 border-b px-4 py-4 sm:px-6">
-          <Link href="/" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            All packs
-          </Link>
-          <div className="flex items-center gap-3 sm:gap-5">
-            <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold md:block">
-              {pack.kicker}
-            </p>
-            <ConnectWalletButton />
+        <header className="pack-theme-bar relative z-10 border-b px-4 py-3 sm:px-6">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3">
+            <Link href="/" className="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
+              <ArrowLeft className="size-4" aria-hidden="true" />
+              <span className="hidden sm:inline">All packs</span>
+            </Link>
+            <Link href="/" aria-label="Ledgerborn home" className="inline-flex items-center gap-2">
+              <Image src="/images/ledgerborn-symbol.png" alt="" width={48} height={42} className="h-9 w-10 object-contain" />
+              <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
+            </Link>
+            <div className="flex items-center justify-end gap-3 sm:gap-5">
+              <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold lg:block">
+                {pack.kicker}
+              </p>
+              <ConnectWalletButton />
+            </div>
           </div>
         </header>
 
