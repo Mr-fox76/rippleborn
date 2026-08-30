@@ -11,7 +11,6 @@ import {
 } from '@/lib/cyborg-cowboy'
 import {
   CARD_POOL,
-  createPhoenixCard,
   isPackSetId,
   rollPack,
   rollRarity,
@@ -30,9 +29,6 @@ import {
   getPhoenixReservation,
   markPhoenixFailed,
   markPhoenixMinted,
-  PHOENIX_DROP_CHANCE,
-  phoenixMetadataReady,
-  reservePhoenixEdition,
 } from '@/lib/phoenix-editions'
 import {
   encodeMetadataUri,
@@ -290,16 +286,6 @@ export async function POST(request: Request) {
       )
     } else {
       cards = rollPack()
-      const existingPhoenix = await getPhoenixReservation(destinationTag)
-      const phoenixReservation =
-        existingPhoenix ??
-        (phoenixMetadataReady() && Math.random() < PHOENIX_DROP_CHANCE
-          ? await reservePhoenixEdition(destinationTag, buyer)
-          : null)
-
-      if (phoenixReservation) {
-        cards[2] = createPhoenixCard(phoenixReservation.edition, phoenixReservation.metadataUri)
-      }
     }
   }
 
