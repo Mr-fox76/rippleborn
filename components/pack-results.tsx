@@ -187,7 +187,7 @@ function RevealedSpread({
                       fill
                       priority
                       sizes="(max-width: 640px) 30vw, 320px"
-                      className="relative z-[1] object-cover"
+                      className={`relative z-[1] object-cover ${card.name === 'Thought Diver' ? 'scale-125' : ''}`}
                     />
                   </div>
                   <div className="absolute right-2 top-2 z-30 flex flex-col items-end gap-1 sm:right-3 sm:top-3">
@@ -200,7 +200,7 @@ function RevealedSpread({
                       </span>
                     ) : null}
                   </div>
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
+                  <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
                     <p className="text-center font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
                       “{card.name}”
                     </p>
