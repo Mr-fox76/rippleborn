@@ -212,7 +212,7 @@ function RevealedSpread({
                   </div>
                 </div>
                 {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
-                  <div className="absolute inset-x-3 bottom-3 z-30">
+                  <div className="p-3 pt-0">
                     <ClaimNftButton
                       buyer={buyer}
                       nftId={card.nftId}
