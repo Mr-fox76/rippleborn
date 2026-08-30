@@ -30,7 +30,7 @@ const ARTWORK_PRESENTATION: Partial<Record<Card['name'], string>> = {
 }
 
 function getArtworkClass(card: Card) {
-  return ARTWORK_PRESENTATION[card.name] ?? ''
+  return ARTWORK_PRESENTATION[card.name] ?? 'scale-[1.16]'
 }
 
 function playCardFlipSound() {
