@@ -74,7 +74,8 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
             {pack.cardsPerPack} cards · {pack.priceXrp} XRP · {pack.cardCount} to collect
           </p>
-          <nav aria-label="Legal" className="flex items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
+          <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
+            <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
             <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy policy</Link>
             <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
           </nav>

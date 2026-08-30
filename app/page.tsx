@@ -39,7 +39,8 @@ export default async function Page() {
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
           Ledgerborn is an independent company and is not affiliated with, endorsed by, or sponsored by Ledger or Ripple. Ledgerborn uses the open-source XRP Ledger technology.
         </p>
-        <nav aria-label="Legal" className="flex items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
+        <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
+          <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
           <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy policy</Link>
           <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
         </nav>

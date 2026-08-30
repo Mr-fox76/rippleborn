@@ -1397,3 +1397,21 @@
     0 0 0 1px oklch(0.72 0.12 205 / 10%),
     0 0 1.5rem color-mix(in oklch, var(--rarity-color) 14%, transparent);
 }
+
+.support-faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.support-faq-icon {
+  transition: transform 180ms ease;
+}
+
+.support-faq[open] .support-faq-icon {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .support-faq-icon {
+    transition: none;
+  }
+}
