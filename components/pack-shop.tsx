@@ -268,24 +268,14 @@ export function PackShop({
             <XamanPaymentButton
               buyer={order.buyer}
               orderId={order.orderId}
-              label={pending === 'fulfill' ? 'Opening pack…' : 'Open pack'}
+              label={pending === 'fulfill' ? 'Preparing cards…' : 'Pay with Xaman'}
               disabled={pending !== null}
               onSubmitted={(transactionHash) => {
                 setStatus({ tone: 'pending', message: 'Payment approved. Preparing your cards…' })
                 void fulfillOrder(transactionHash)
               }}
             />
-          ) : (
-            <Button
-              disabled
-              variant="outline"
-              size="lg"
-              className="ghost-action h-16 w-full flex-1 rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-            >
-              <Sparkles className="size-4" aria-hidden="true" />
-              Open pack
-            </Button>
-          )}
+          ) : null}
         </div>
 
         {pending === 'fulfill' ? (
@@ -293,7 +283,7 @@ export function PackShop({
         ) : (
           <div role="status" aria-live="polite" className="min-h-5 text-center">
             <p className={`text-sm leading-relaxed ${statusColor}`}>
-              {status.message || (account ? 'Prepare your pack, then open it securely with Xaman.' : 'Connect Xaman to begin.')}
+              {status.message || (account ? 'Prepare your pack and approve payment with Xaman. Once ready, click the pack itself to open it.' : 'Connect Xaman to begin.')}
             </p>
           </div>
         )}
