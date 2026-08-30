@@ -24,14 +24,6 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
   Mythic: 'rarity-mythic',
 }
 
-const ARTWORK_PRESENTATION: Partial<Record<Card['name'], string>> = {
-  'Thought Diver': 'scale-125',
-}
-
-function getArtworkClass(card: Card) {
-  return ARTWORK_PRESENTATION[card.name] ?? 'scale-[1.16]'
-}
-
 function playCardFlipSound() {
   try {
     const context = new AudioContext()
@@ -195,7 +187,7 @@ function RevealedSpread({
                       fill
                       priority
                       sizes="(max-width: 640px) 30vw, 320px"
-                      className={`relative z-[1] object-cover object-center ${getArtworkClass(card)}`}
+                      className="relative z-[1] object-cover object-center"
                     />
                   </div>
                   <div className="absolute right-2 top-2 z-30 flex flex-col items-end gap-1 sm:right-3 sm:top-3">
