@@ -3,7 +3,15 @@ import type { Card, Rarity } from '@/lib/rippleborn'
 export const CYBORG_COWBOY_SET_ID = 'cyborg-cowboy' as const
 
 const IMAGE_ROOT = '/sets/cyborg-cowboy/images'
-const cards = (rarity: Rarity, entries: Array<[string, string]>) =>
+type CyborgCowboyCard = {
+  name: string
+  image: string
+  slug: string
+  rarity: Rarity
+  uri?: string
+}
+
+const cards = (rarity: Rarity, entries: Array<[string, string]>): CyborgCowboyCard[] =>
   entries.map(([name, slug]) => ({ name, image: `${IMAGE_ROOT}/${slug}.png`, slug, rarity }))
 
 export const CYBORG_COWBOY_POOL = {
@@ -25,11 +33,20 @@ export const CYBORG_COWBOY_POOL = {
     ['Sovereign of Sixguns', 'sovereign-of-sixguns'], ['Sunforge Desperado', 'sunforge-desperado'],
     ['Last Rail Baron', 'last-rail-baron'], ['Warden of Red Orbit', 'warden-of-red-orbit'],
   ]),
-  Mythic: cards('Mythic', [
-    ['Gunslinger Zero', 'gunslinger-zero'], ['The Eternity Kid', 'the-eternity-kid'],
-    ['Chrome Stampede', 'chrome-stampede'],
-  ]),
-} satisfies Record<Rarity, Array<{ name: string; image: string; slug: string; rarity: Rarity }>>
+  Mythic: [
+    ...cards('Mythic', [
+      ['Gunslinger Zero', 'gunslinger-zero'], ['The Eternity Kid', 'the-eternity-kid'],
+      ['Chrome Stampede', 'chrome-stampede'],
+    ]),
+    {
+      name: 'The Phoenix',
+      image: '/cards/the-phoenix.png',
+      slug: 'the-phoenix',
+      rarity: 'Mythic',
+      uri: 'https://ledgerborn.com/cards/the-phoenix.json',
+    },
+  ],
+} satisfies Record<Rarity, CyborgCowboyCard[]>
 
 export const CYBORG_COWBOY_NFT_TAXON = 20260827
 
@@ -56,6 +73,6 @@ export function rollCyborgCowboyCard(rarity: Rarity, slot: number, metadataBaseU
     rarity,
     slot,
     image: card.image,
-    uri: `${metadataBaseUrl.replace(/\/$/, '')}/${card.slug}.json`,
+    uri: card.uri ?? `${metadataBaseUrl.replace(/\/$/, '')}/${card.slug}.json`,
   }
 }

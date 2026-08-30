@@ -23,6 +23,11 @@ import {
   saveMintResults,
   type MintedPackCard,
 } from '@/lib/pack-results'
+import {
+  markCollectionPhoenixMinted,
+  releasePhoenixSlot,
+  reservePhoenixSlot,
+} from '@/lib/phoenix-supply'
 import { getClaimTtlHours, registerClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { cleanupUnclaimedOffer } from '@/lib/workflows/cleanup-unclaimed-offer'
 import {
@@ -271,8 +276,9 @@ export async function POST(request: Request) {
 
   let cards = existingResult?.cards
   if (!cards) {
+    let metadataBaseUrl: string | undefined
     if (setId === 'cyborg-cowboy') {
-      const metadataBaseUrl = validateCyborgMetadataBaseUrl(
+      metadataBaseUrl = validateCyborgMetadataBaseUrl(
         process.env.CYBORG_COWBOY_METADATA_BASE_URL,
       )
       if (!metadataBaseUrl) {
@@ -281,12 +287,37 @@ export async function POST(request: Request) {
           { status: 503 },
         )
       }
+      const cyborgMetadataBaseUrl = metadataBaseUrl
       cards = SLOT_ODDS.map(({ slot }) =>
-        rollCyborgCowboyCard(rollRarity(slot), slot, metadataBaseUrl),
+        rollCyborgCowboyCard(rollRarity(slot), slot, cyborgMetadataBaseUrl),
       )
     } else {
       cards = rollPack()
     }
+
+    const phoenixIndex = cards.findIndex((card) => card.name === 'The Phoenix')
+    if (phoenixIndex >= 0 && !(await reservePhoenixSlot(setId, destinationTag))) {
+      const phoenixCard = cards[phoenixIndex]
+      if (setId === 'cyborg-cowboy' && metadataBaseUrl) {
+        let replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
+        while (replacement.name === 'The Phoenix') {
+          replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
+        }
+        cards[phoenixIndex] = replacement
+      } else {
+        const alternatives = CARD_POOL.Mythic.filter((card) => card.name !== 'The Phoenix')
+        const replacement = alternatives[Math.floor(Math.random() * alternatives.length)]
+        cards[phoenixIndex] = {
+          id: `${phoenixCard.slot}-${Math.random().toString(36).slice(2, 10)}`,
+          ...replacement,
+          rarity: 'Mythic',
+          slot: phoenixCard.slot,
+        }
+      }
+    }
+  } else if (cards.some((card) => card.name === 'The Phoenix')) {
+    const reserved = await reservePhoenixSlot(setId, destinationTag)
+    if (!reserved) throw new Error('The Phoenix supply for this collection has already been allocated.')
   }
 
       const committed = await commitPackResult({
@@ -324,7 +355,7 @@ export async function POST(request: Request) {
                   .flat()
                   .find((candidate) => candidate.name === card.name)
                 return currentCard
-                  ? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${currentCard.slug}.json`
+                  ? currentCard.uri ?? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${currentCard.slug}.json`
                   : card.uri
               })()
             : Object.values(CARD_POOL)
@@ -334,6 +365,9 @@ export async function POST(request: Request) {
         const metadataError = await validateCardMetadata(cardToMint)
         if (metadataError) {
           console.error(`[v0] Skipping ${card.name}: ${metadataError}`)
+          if (card.name === 'The Phoenix') {
+            await releasePhoenixSlot(destinationTag)
+          }
           fulfilledCards.push({ ...cardToMint, mintStatus: 'skipped', reason: metadataError })
           continue
         }
@@ -349,6 +383,9 @@ export async function POST(request: Request) {
           if (card.limited) {
             await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
           }
+          if (card.name === 'The Phoenix') {
+            await markCollectionPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
+          }
           fulfilledCards.push({
             ...cardToMint,
             ...minted,
@@ -359,6 +396,9 @@ export async function POST(request: Request) {
           const reason = error instanceof Error ? error.message : 'XRPL minting failed.'
           if (card.limited) {
             await markPhoenixFailed(destinationTag, reason)
+          }
+          if (card.name === 'The Phoenix') {
+            await releasePhoenixSlot(destinationTag)
           }
           fulfilledCards.push({ ...card, mintStatus: 'failed', reason })
         }

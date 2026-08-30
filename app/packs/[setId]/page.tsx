@@ -9,6 +9,7 @@ import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { PackShop } from '@/components/pack-shop'
 import { getPack, PACK_CATALOG } from '@/lib/pack-catalog'
 import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
+import { getPhoenixSupply, PHOENIX_CAP_PER_COLLECTION } from '@/lib/phoenix-supply'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,7 +33,14 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
   const pack = getPack(setId)
   if (!pack) notFound()
 
-  const collectionStats = await getCollectionStats(pack.id).catch(() => EMPTY_COLLECTION_STATS)
+  const [collectionStats, phoenixSupply] = await Promise.all([
+    getCollectionStats(pack.id).catch(() => EMPTY_COLLECTION_STATS),
+    getPhoenixSupply(pack.id).catch(() => ({
+      minted: 0,
+      remaining: PHOENIX_CAP_PER_COLLECTION,
+      soldOut: false,
+    })),
+  ])
 
   return (
     <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
@@ -58,7 +66,7 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
 
         <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-4 py-6 sm:px-6 sm:py-8">
           <NftRecoveryPanel />
-          <PackShop collectionStats={collectionStats} pack={pack} />
+          <PackShop collectionStats={collectionStats} pack={pack} phoenixSupply={phoenixSupply} />
         </main>
 
         <footer className="pack-theme-bar relative z-10 flex flex-col items-center gap-3 border-t px-6 py-6 text-center">

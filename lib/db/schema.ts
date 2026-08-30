@@ -63,6 +63,25 @@ export const phoenixEditions = pgTable(
   ],
 )
 
+export const phoenixCollectionSlots = pgTable(
+  'phoenix_collection_slots',
+  {
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    setId: text('set_id').notNull(),
+    slot: smallint('slot').notNull(),
+    orderId: bigint('order_id', { mode: 'number' }).notNull(),
+    status: text('status').notNull().default('reserved'),
+    nftId: text('nft_id'),
+    offerId: text('offer_id'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('phoenix_collection_slots_set_slot_key').on(table.setId, table.slot),
+    uniqueIndex('phoenix_collection_slots_order_id_key').on(table.orderId),
+  ],
+)
+
 export const nftClaimOffers = pgTable(
   'nft_claim_offers',
   {

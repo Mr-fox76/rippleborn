@@ -26,7 +26,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     kicker: 'Mythical Set',
     description: 'Mythical characters, legendary beings, and ancient powers drawn from the ledger.',
     href: '/packs/ledgerborn',
-    cardCount: 25,
+    cardCount: 21,
     cardsPerPack: 3,
     priceXrp: 5,
     theme: {
@@ -35,8 +35,8 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Become Ledgerborn.',
       tagline: 'Chase legends. Awaken The Phoenix.',
       introduction:
-        'Enter a realm of mythical characters, legendary beings, and ancient powers. Every reveal draws you deeper into a collection crowned by five uniquely numbered Phoenix editions.',
-      features: ['Arcane one-by-one reveals', 'Five Phoenix editions', 'Forged and claimed on XRPL'],
+        'Enter a realm of mythical characters, legendary beings, and ancient powers. This collection closes permanently when its third Phoenix is successfully minted.',
+      features: ['Arcane one-by-one reveals', 'Three Phoenix discoveries', 'Forged and claimed on XRPL'],
     },
   },
   {
@@ -45,7 +45,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     kicker: 'Frontier Set',
     description: 'Cinematic outlaws, marshals, and machine legends from a far-future frontier.',
     href: '/packs/cyborg-cowboy',
-    cardCount: 21,
+    cardCount: 22,
     cardsPerPack: 3,
     priceXrp: 5,
     theme: {
@@ -55,7 +55,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       tagline: 'Deal the cards. Find the legend. Claim the bounty.',
       introduction:
         'Cross into a dust-choked future where cybernetic marshals, machine outlaws, and hardened drifters rule the frontier. Every pack deals three collectible characters ready to claim on the XRP Ledger.',
-      features: ['High-voltage reveals', 'Twenty-one frontier legends', 'Bounties claimed on XRPL'],
+      features: ['High-voltage reveals', 'Twenty-two frontier legends', 'Bounties claimed on XRPL'],
     },
   },
 ]

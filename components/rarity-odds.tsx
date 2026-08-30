@@ -1,6 +1,6 @@
 import type { CollectionStats } from '@/lib/pack-results'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
-import { CARD_POOL, PHOENIX_MAX_SUPPLY, RARITIES, type PackSetId } from '@/lib/rippleborn'
+import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
 
 export function RarityOdds({
   stats,
@@ -12,29 +12,24 @@ export function RarityOdds({
   countersOnly?: boolean
 }) {
   const pool = setId === 'cyborg-cowboy' ? CYBORG_COWBOY_POOL : CARD_POOL
-  const categoryCounts = [
-    ...RARITIES.map((rarity) => ({
-      label: rarity,
-      count: pool[rarity].length,
-    })),
-    ...(setId === 'ledgerborn' ? [{ label: 'Phoenix', count: PHOENIX_MAX_SUPPLY }] : []),
-  ]
+  const categoryCounts = RARITIES.map((rarity) => ({
+    label: rarity,
+    count: pool[rarity].length,
+  }))
   const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
 
   const counters = [
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
-    ...(setId === 'ledgerborn'
-      ? [{ label: 'The Phoenix', value: stats.phoenixFound, className: 'text-phoenix', featured: true }]
-      : []),
+    { label: 'The Phoenix', value: stats.phoenixFound, className: 'text-phoenix', featured: true },
   ]
 
   return (
     <section aria-label={countersOnly ? 'All-set collection totals' : 'Card categories'} className="flex flex-col gap-5">
       <dl
         aria-label={countersOnly ? 'All-set collection totals' : 'Set collection totals'}
-        className={`grid grid-cols-2 gap-2 ${setId === 'ledgerborn' ? 'sm:grid-cols-4' : 'sm:grid-cols-3'}`}
+        className="grid grid-cols-2 gap-2 sm:grid-cols-4"
       >
         {counters.map((counter) => (
           <div
@@ -57,11 +52,9 @@ export function RarityOdds({
         ))}
       </dl>
 
-      {setId === 'ledgerborn' ? (
-        <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
-          Hunt The Phoenix — only five editions can ever rise from a pack.
-        </p>
-      ) : null}
+      <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
+        Hunt The Phoenix — this collection closes when its third Phoenix is successfully minted.
+      </p>
 
       {!countersOnly ? (
         <div className="flex flex-col gap-3 border-t border-border pt-4">
@@ -83,9 +76,7 @@ export function RarityOdds({
             ))}
           </dl>
           <p className="text-center text-xs leading-relaxed text-muted-foreground">
-            {setId === 'ledgerborn'
-              ? 'Includes The Phoenix, a five-edition limited Mythic card.'
-              : 'Twenty-one unique frontier characters across five collectible rarities.'}
+            Includes The Phoenix as a Mythic discovery. A maximum of three can be successfully minted from this collection.
           </p>
         </div>
       ) : null}
