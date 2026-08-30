@@ -68,7 +68,7 @@ async function validateCardMetadata(card: { name: string; uri?: string; limited?
   const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
   if (!filename) return 'The card metadata URL must reference a JSON file in the pinned folder.'
   const isChromaticAbyss = card.uri?.includes(
-    'bafybeici4kr3zewvbxaygvo5e2xauqz2w3dchhw7icpxafhbcwlwn7l4x4/metadata/',
+    'bafybeid74vziobs6hygeknebvm5endcfhhlp4z25cqww3qtjg42if55o74/metadata/',
   )
   const metadataFolder = isChromaticAbyss
     ? path.join(process.cwd(), 'public', 'sets', 'chromatic-abyss', 'json')
