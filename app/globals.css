@@ -738,7 +738,7 @@
 }
 
 .rarity-legendary {
-  --rarity-color: oklch(0.84 0.18 83);
+  --rarity-color: oklch(0.82 0.19 68);
 }
 
 .rarity-mythic {
@@ -768,6 +768,14 @@
 
   .rarity-action-footer {
     background: color-mix(in oklch, var(--rarity-color) 34%, var(--card));
+  }
+
+  .rarity-legendary .rarity-art-frame {
+    background: color-mix(in srgb, var(--rarity-color) 58%, var(--card));
+  }
+
+  .rarity-legendary .rarity-action-footer {
+    background: color-mix(in srgb, var(--rarity-color) 42%, var(--card));
   }
 
 .rarity-badge {
