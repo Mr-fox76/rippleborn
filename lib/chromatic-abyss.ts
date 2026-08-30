@@ -2,7 +2,8 @@ import type { Card, Rarity } from '@/lib/rippleborn'
 
 export const CHROMATIC_ABYSS_SET_ID = 'chromatic-abyss' as const
 export const CHROMATIC_ABYSS_NFT_TAXON = 20260830
-export const CHROMATIC_ABYSS_METADATA_BASE_URL = 'https://ledgerborn.com/sets/chromatic-abyss/json'
+export const CHROMATIC_ABYSS_METADATA_BASE_URL =
+  'ipfs://bafybeici4kr3zewvbxaygvo5e2xauqz2w3dchhw7icpxafhbcwlwn7l4x4/metadata'
 
 const IMAGE_ROOT = '/sets/chromatic-abyss/images'
 

@@ -301,7 +301,7 @@ export async function POST(request: Request) {
     } else if (setId === 'chromatic-abyss') {
       metadataBaseUrl = CHROMATIC_ABYSS_METADATA_BASE_URL
       cards = SLOT_ODDS.map(({ slot }) =>
-        rollChromaticAbyssCard(rollRarity(slot), slot, CHROMATIC_ABYSS_METADATA_BASE_URL),
+        rollChromaticAbyssCard(rollRarity(slot), slot),
       )
     } else {
       cards = rollPack()
@@ -317,9 +317,9 @@ export async function POST(request: Request) {
         }
         cards[phoenixIndex] = replacement
       } else if (setId === 'chromatic-abyss') {
-        let replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot, CHROMATIC_ABYSS_METADATA_BASE_URL)
+        let replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot)
         while (replacement.name === 'The Phoenix') {
-          replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot, CHROMATIC_ABYSS_METADATA_BASE_URL)
+          replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot)
         }
         cards[phoenixIndex] = replacement
       } else {
