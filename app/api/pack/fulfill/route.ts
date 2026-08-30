@@ -324,7 +324,7 @@ export async function POST(request: Request) {
                   .flat()
                   .find((candidate) => candidate.name === card.name)
                 return currentCard
-                  ? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${currentCard.slug}.json`
+                  ? currentCard.uri ?? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${currentCard.slug}.json`
                   : card.uri
               })()
             : Object.values(CARD_POOL)
