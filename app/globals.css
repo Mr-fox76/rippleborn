@@ -406,8 +406,8 @@
 .pack-opening-stage {
   position: relative;
   display: flex;
-  width: min(100%, 58rem);
-  min-height: 32rem;
+  width: min(100%, 76rem);
+  min-height: 38rem;
   margin-inline: auto;
   align-items: center;
   justify-content: center;
@@ -419,8 +419,8 @@
   position: relative;
   z-index: 2;
   display: flex;
-  width: min(17rem, 72vw);
-  aspect-ratio: 0.68;
+  width: min(23rem, 82vw);
+  aspect-ratio: 2 / 3;
   cursor: pointer;
   flex-direction: column;
   overflow: visible;
@@ -634,7 +634,7 @@
 .tarot-card {
   aspect-ratio: 2 / 3;
   width: 100%;
-  max-width: 20rem;
+  max-width: 23rem;
   margin-inline: auto;
   border-radius: 0.5rem;
 }
