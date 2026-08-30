@@ -416,7 +416,7 @@
 .card-style-preview {
   display: flex;
   width: 100%;
-  max-width: 88rem;
+  max-width: 72rem;
   margin-inline: auto;
   align-items: center;
   justify-content: space-between;
