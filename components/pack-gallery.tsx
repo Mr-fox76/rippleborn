@@ -4,11 +4,11 @@ import { PACK_CATALOG } from '@/lib/pack-catalog'
 
 export function PackGallery() {
   return (
-    <section aria-labelledby="pack-gallery-title" className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-      <div className="flex flex-col gap-3 text-center">
-        <p className="font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">Choose your collection</p>
-        <h1 id="pack-gallery-title" className="font-sans text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          Open a world. Own what you reveal.
+    <section aria-labelledby="pack-gallery-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8">
+      <div className="mx-auto flex max-w-3xl flex-col gap-4 text-center">
+        <p className="collection-eyebrow font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">Choose your collection</p>
+        <h1 id="pack-gallery-title" className="font-sans text-4xl font-semibold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl">
+          Open a world. <span className="text-gold">Own what you reveal.</span>
         </h1>
         <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
           Every pack contains three collectible cards with real rarity and optional XRP Ledger ownership. Select a set to begin its opening ritual.
@@ -20,7 +20,7 @@ export function PackGallery() {
           <Link
             key={pack.id}
             href={pack.href}
-            className={`pack-set-card pack-set-card-${pack.theme.id} group flex min-h-80 flex-col justify-between overflow-hidden border p-5 shadow-xl transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-7`}
+            className={`pack-set-card pack-set-card-${pack.theme.id} group flex min-h-96 flex-col justify-between overflow-hidden border p-6 shadow-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:p-8 lg:min-h-[27rem]`}
           >
             <div className="flex items-start justify-between gap-4">
               <span className="foil-pack-sigil scale-110 transition-transform duration-300 group-hover:scale-125" aria-hidden="true">

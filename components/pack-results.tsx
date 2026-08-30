@@ -24,35 +24,51 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
   Mythic: 'rarity-mythic',
 }
 
-function CardDetails({ card }: { card: FulfilledCard }) {
-  if (card.mintStatus === 'minted') {
-    return (
-      <details className="mt-2 text-left font-mono text-[0.65rem] text-muted-foreground">
-        <summary className="cursor-pointer uppercase tracking-wider">On-chain details</summary>
-        <dl className="mt-2 flex flex-col gap-2 border-t border-border pt-2">
-          <div>
-            <dt>NFT</dt>
-            <dd className="break-all">{card.nftId}</dd>
-          </div>
-          <div>
-            <dt>Offer</dt>
-            <dd className="break-all">{card.offerId}</dd>
-          </div>
-        </dl>
-      </details>
-    )
-  }
+function playCardFlipSound() {
+  try {
+    const context = new AudioContext()
+    const now = context.currentTime
+    const master = context.createGain()
+    master.gain.setValueAtTime(0.32, now)
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 0.34)
+    master.connect(context.destination)
 
-  if (card.mintStatus) {
-    return (
-      <p className="mt-2 border-t border-border pt-2 text-xs leading-relaxed text-muted-foreground">
-        {card.mintStatus === 'skipped' ? 'Mint skipped: ' : 'Mint failed: '}
-        {card.reason}
-      </p>
-    )
-  }
+    const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * 0.3), context.sampleRate)
+    const samples = buffer.getChannelData(0)
+    for (let index = 0; index < samples.length; index += 1) {
+      samples[index] = Math.random() * 2 - 1
+    }
 
-  return null
+    const paper = context.createBufferSource()
+    const paperFilter = context.createBiquadFilter()
+    const paperGain = context.createGain()
+    paper.buffer = buffer
+    paperFilter.type = 'bandpass'
+    paperFilter.frequency.setValueAtTime(1800, now)
+    paperFilter.frequency.exponentialRampToValueAtTime(5200, now + 0.13)
+    paperFilter.Q.value = 0.8
+    paperGain.gain.setValueAtTime(0.0001, now)
+    paperGain.gain.linearRampToValueAtTime(0.65, now + 0.018)
+    paperGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18)
+    paper.connect(paperFilter).connect(paperGain).connect(master)
+    paper.start(now, Math.random() * 0.08, 0.2)
+
+    const landing = context.createOscillator()
+    const landingGain = context.createGain()
+    landing.type = 'triangle'
+    landing.frequency.setValueAtTime(170, now + 0.13)
+    landing.frequency.exponentialRampToValueAtTime(85, now + 0.2)
+    landingGain.gain.setValueAtTime(0.0001, now)
+    landingGain.gain.setValueAtTime(0.48, now + 0.13)
+    landingGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22)
+    landing.connect(landingGain).connect(master)
+    landing.start(now + 0.13)
+    landing.stop(now + 0.23)
+
+    window.setTimeout(() => void context.close(), 450)
+  } catch {
+    // Audio is an enhancement; revealing must still work if playback is unavailable.
+  }
 }
 
 function FaceDownCard({
@@ -115,6 +131,7 @@ function RevealedSpread({
 
   function revealCard(index: number) {
     if (revealing !== null || revealed.has(index)) return
+    playCardFlipSound()
     setRevealing(index)
   }
 
@@ -146,7 +163,7 @@ function RevealedSpread({
           >
             {card && isRevealed ? (
               <article
-                className={`tarot-card tarot-reveal ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden border bg-card shadow-2xl`}
+                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
               >
                 <div
                   className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -173,17 +190,19 @@ function RevealedSpread({
                       className="relative z-[1] object-contain"
                     />
                   </div>
-                  {card.limited && card.edition && card.maxSupply ? (
-                    <span className="phoenix-edition absolute right-2 top-2 z-10 rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:right-3 sm:top-3 sm:text-xs">
-                      Edition {card.edition}/{card.maxSupply}
-                    </span>
-                  ) : null}
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
-                    <p className="font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
-                      {card.name}
-                    </p>
-                    <p className="rarity-badge mt-2 inline-flex rounded-full border px-2 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] sm:text-xs">
+                  <div className="absolute right-2 top-2 z-30 flex flex-col items-end gap-1 sm:right-3 sm:top-3">
+                    <p className="rarity-badge inline-flex rounded-full border px-2 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] sm:text-xs">
                       {card.rarity}
+                    </p>
+                    {card.limited && card.edition && card.maxSupply ? (
+                      <span className="phoenix-edition rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:text-xs">
+                        Edition {card.edition}/{card.maxSupply}
+                      </span>
+                    ) : null}
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
+                    <p className="text-center font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
+                      “{card.name}”
                     </p>
                   </div>
                   <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
@@ -192,9 +211,8 @@ function RevealedSpread({
                     </blockquote>
                   </div>
                 </div>
-                <div className="flex flex-col gap-3 p-3">
-                  <CardDetails card={card} />
-                  {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
+                {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
+                  <div className="rarity-action-footer p-3">
                     <ClaimNftButton
                       buyer={buyer}
                       nftId={card.nftId}
@@ -202,8 +220,8 @@ function RevealedSpread({
                       claimExpiresAt={card.claimExpiresAt}
                       onClaimed={markClaimed}
                     />
-                  ) : null}
-                </div>
+                  </div>
+                ) : null}
               </article>
             ) : (
               <FaceDownCard

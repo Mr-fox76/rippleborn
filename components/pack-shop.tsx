@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
@@ -12,6 +12,7 @@ import { useXamanWallet } from '@/components/xaman-wallet-provider'
 import type { PackCatalogEntry } from '@/lib/pack-catalog'
 import type { CollectionStats } from '@/lib/pack-results'
 import type { PackSetId } from '@/lib/rippleborn'
+import { cn } from '@/lib/utils'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
 
@@ -23,6 +24,52 @@ type Order = {
   destinationTag: number
   amountDrops: string
   priceXrp: string
+}
+
+const READING_STAGES = [
+  'Payment approved — starting your pack',
+  'Selecting three cards from the collection',
+  'Creating your collectible offers',
+] as const
+
+function ReadingProgress() {
+  const [stage, setStage] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setStage((current) => Math.min(current + 1, READING_STAGES.length - 1))
+    }, 6000)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
+  return (
+    <div className="flex flex-col gap-3 rounded-md bg-muted/50 px-4 py-4" role="status" aria-live="polite">
+      <div className="flex items-center justify-center gap-3 text-center">
+        <Loader2 className="size-5 shrink-0 animate-spin text-gold" aria-hidden="true" />
+        <div className="flex flex-col gap-1">
+          <p className="font-mono text-xs font-semibold uppercase tracking-[0.16em] text-foreground">
+            Preparing your reading
+          </p>
+          <p className="text-sm leading-relaxed text-muted-foreground">{READING_STAGES[stage]}…</p>
+        </div>
+      </div>
+      <div className="mx-auto flex w-full max-w-md gap-2" aria-hidden="true">
+        {READING_STAGES.map((label, index) => (
+          <span
+            key={label}
+            className={cn(
+              'h-1 flex-1 rounded-full transition-colors duration-500',
+              index <= stage ? 'bg-gold' : 'bg-border',
+            )}
+          />
+        ))}
+      </div>
+      <p className="text-center text-xs leading-relaxed text-muted-foreground">
+        Keep this page open. Your cards are being prepared and will appear here automatically.
+      </p>
+    </div>
+  )
 }
 
 export function PackShop({
@@ -85,7 +132,7 @@ export function PackShop({
       })
       setStatus({
         tone: 'success',
-        message: `Send exactly ${data.priceXrp} XRP with the destination tag below.`,
+        message: 'Your pack is ready. Scan the Xaman QR code or open Xaman to approve the payment.',
       })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
@@ -101,7 +148,7 @@ export function PackShop({
     }
 
     setPending('fulfill')
-    setStatus({ tone: 'pending', message: 'Reading the ledger…' })
+    setStatus({ tone: 'pending', message: 'Preparing your cards…' })
 
     try {
       const response = await fetch('/api/pack/fulfill', {
@@ -140,34 +187,38 @@ export function PackShop({
         : 'text-muted-foreground'
 
   return (
-    <div id="reading-table" className="mx-auto flex w-full flex-col gap-7 sm:gap-9">
-      <div className="pack-theme-intro mx-auto flex max-w-3xl flex-col items-center gap-3 px-4 py-5 text-center sm:px-8 sm:py-7">
-        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
-          {pack.theme.eyebrow}
-        </p>
-        <h1 className="max-w-2xl font-sans text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          {pack.theme.title}
-        </h1>
-        <p className="max-w-2xl font-sans text-lg font-medium text-pretty text-foreground sm:text-xl">
-          {pack.theme.tagline}
-        </p>
-        <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          {pack.theme.introduction}
-        </p>
-        <div className="flex max-w-2xl flex-wrap justify-center gap-2 pt-1">
-          {pack.theme.features.map((feature, index) => {
-            const Icon = [Sparkles, Gem, ShieldCheck][index]
-            return (
-              <span key={feature} className="inline-flex items-center gap-2 interface-chip rounded-full border px-3 py-1.5 text-xs text-foreground">
-                <Icon className="pack-theme-accent size-3.5" aria-hidden="true" />
-                {feature}
-              </span>
-            )
-          })}
+    <div id="reading-table" className="mx-auto flex w-full flex-col gap-5 sm:gap-6">
+      <div className="pack-theme-intro mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-5 sm:px-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-6">
+        <div className="flex min-w-0 flex-1 flex-col gap-2 text-center lg:text-left">
+          <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
+            {pack.theme.eyebrow}
+          </p>
+          <h1 className="font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+            {pack.theme.title}
+          </h1>
+          <p className="font-sans text-base font-medium text-pretty text-foreground sm:text-lg">
+            {pack.theme.tagline}
+          </p>
+          <p className="max-w-3xl text-pretty text-sm leading-relaxed text-muted-foreground">
+            {pack.theme.introduction}
+          </p>
         </div>
-        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.22em]">
-          Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
-        </p>
+        <div className="flex shrink-0 flex-col items-center gap-3 lg:items-end">
+          <div className="flex max-w-xl flex-wrap justify-center gap-2 lg:justify-end">
+            {pack.theme.features.map((feature, index) => {
+              const Icon = [Sparkles, Gem, ShieldCheck][index]
+              return (
+                <span key={feature} className="inline-flex items-center gap-2 interface-chip rounded-full border px-3 py-1.5 text-xs text-foreground">
+                  <Icon className="pack-theme-accent size-3.5" aria-hidden="true" />
+                  {feature}
+                </span>
+              )
+            })}
+          </div>
+          <p className="pack-theme-accent text-center font-mono text-[0.65rem] uppercase tracking-[0.22em] lg:text-right">
+            Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
+          </p>
+        </div>
       </div>
 
       <div className="stable-opening-stage">
@@ -200,52 +251,48 @@ export function PackShop({
 
         <section
           aria-label="Open a pack"
-          className="reading-panel mx-auto flex w-full max-w-xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
+          className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
-        <div className="flex flex-col gap-3 sm:flex-row sm:gap-2">
-          <Button
-            onClick={createOrder}
-            disabled={!account || pending !== null || order !== null}
-            size="lg"
-            className="primary-action h-16 w-full flex-1 rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-          >
-            {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
-          </Button>
+        <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-3">
+          {!order ? (
+            <Button
+              onClick={createOrder}
+              disabled={!account || pending !== null}
+              size="lg"
+              className="primary-action h-16 w-full rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+            >
+              {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+              {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
+            </Button>
+          ) : null}
 
           {order && account === order.buyer && !cards ? (
             <XamanPaymentButton
               buyer={order.buyer}
               orderId={order.orderId}
-              label={pending === 'fulfill' ? 'Opening pack…' : 'Open pack'}
+              label={pending === 'fulfill' ? 'Preparing cards…' : 'Pay with Xaman'}
               disabled={pending !== null}
               onSubmitted={(transactionHash) => {
-                setStatus({ tone: 'pending', message: 'Payment received. Reading the ledger…' })
+                setStatus({ tone: 'pending', message: 'Payment approved. Preparing your cards…' })
                 void fulfillOrder(transactionHash)
               }}
             />
-          ) : (
-            <Button
-              disabled
-              variant="outline"
-              size="lg"
-              className="ghost-action h-16 w-full flex-1 rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-            >
-              <Sparkles className="size-4" aria-hidden="true" />
-              Open pack
-            </Button>
-          )}
+          ) : null}
         </div>
 
-        <div role="status" aria-live="polite" className="min-h-5 text-center">
-          <p className={`text-sm leading-relaxed ${statusColor}`}>
-            {status.message || (account ? 'Prepare your pack, then open it securely with Xaman.' : 'Connect Xaman to begin.')}
-          </p>
-        </div>
+        {pending === 'fulfill' ? (
+          <ReadingProgress />
+        ) : (
+          <div role="status" aria-live="polite" className="min-h-5 text-center">
+            <p className={`text-sm leading-relaxed ${statusColor}`}>
+              {status.message || (account ? 'Prepare your pack and approve payment with Xaman. Once ready, click the pack itself to open it.' : 'Connect Xaman to begin.')}
+            </p>
+          </div>
+        )}
         </section>
       </div>
 
-      <aside className="reading-panel mx-auto w-full max-w-xl border border-border p-4 backdrop-blur-md sm:p-5">
+      <aside className="reading-panel mx-auto w-full max-w-6xl border border-border p-4 backdrop-blur-md sm:p-5">
           <RarityOdds stats={collectionStats} setId={selectedSet} />
       </aside>
     </div>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
@@ -36,20 +37,26 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
   return (
     <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
         <div aria-hidden="true" className="pack-theme-atmosphere" />
-        <header className="pack-theme-bar relative z-10 flex items-center justify-between gap-4 border-b px-4 py-4 sm:px-6">
-          <Link href="/" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            All packs
-          </Link>
-          <div className="flex items-center gap-3 sm:gap-5">
-            <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold md:block">
-              {pack.kicker}
-            </p>
-            <ConnectWalletButton />
+        <header className="pack-theme-bar relative z-10 border-b px-4 py-3 sm:px-6">
+          <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3">
+            <Link href="/" className="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
+              <ArrowLeft className="size-4" aria-hidden="true" />
+              <span className="hidden sm:inline">All packs</span>
+            </Link>
+            <Link href="/" aria-label="Ledgerborn home" className="inline-flex items-center gap-2">
+              <Image src="/images/ledgerborn-symbol.png" alt="" width={48} height={42} className="h-9 w-10 object-contain" />
+              <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
+            </Link>
+            <div className="flex items-center justify-end gap-3 sm:gap-5">
+              <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold lg:block">
+                {pack.kicker}
+              </p>
+              <ConnectWalletButton />
+            </div>
           </div>
         </header>
 
-        <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center gap-6 px-4 py-10 sm:px-6 sm:py-14">
+        <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 px-4 py-6 sm:px-6 sm:py-8">
           <NftRecoveryPanel />
           <PackShop collectionStats={collectionStats} pack={pack} />
         </main>
@@ -59,6 +66,10 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
             {pack.cardsPerPack} cards · {pack.priceXrp} XRP · {pack.cardCount} to collect
           </p>
+          <nav aria-label="Legal" className="flex items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
+            <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy policy</Link>
+            <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
+          </nav>
         </footer>
     </div>
   )

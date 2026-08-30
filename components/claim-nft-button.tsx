@@ -3,6 +3,16 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
+import { CheckCircle2, ChevronDown, ExternalLink, LockKeyhole, ScanLine } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 type ClaimRequest = {
   uuid: string
@@ -30,6 +40,49 @@ const fetcher = async <T extends { error?: string }>(url: string): Promise<T> =>
   const data = (await response.json()) as T
   if (!response.ok) throw new Error(data.error ?? 'Unable to check claim status.')
   return data
+}
+
+function ChainDetails({
+  nftId,
+  offerId,
+  transactionHash,
+  cancelTransactionHash,
+}: {
+  nftId: string
+  offerId: string
+  transactionHash?: string | null
+  cancelTransactionHash?: string | null
+}) {
+  return (
+    <details className="rounded-lg bg-muted/40">
+      <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-2 font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+        On-chain details
+        <ChevronDown aria-hidden="true" />
+      </summary>
+      <dl className="flex flex-col gap-3 px-3 pb-3 font-mono text-xs">
+        <div className="flex flex-col gap-1">
+          <dt className="uppercase tracking-wider text-muted-foreground">NFT ID</dt>
+          <dd className="break-all text-foreground">{nftId}</dd>
+        </div>
+        <div className="flex flex-col gap-1">
+          <dt className="uppercase tracking-wider text-muted-foreground">Offer ID</dt>
+          <dd className="break-all text-foreground">{offerId}</dd>
+        </div>
+        {transactionHash ? (
+          <div className="flex flex-col gap-1">
+            <dt className="uppercase tracking-wider text-muted-foreground">Claim transaction</dt>
+            <dd className="break-all text-foreground">{transactionHash}</dd>
+          </div>
+        ) : null}
+        {cancelTransactionHash ? (
+          <div className="flex flex-col gap-1">
+            <dt className="uppercase tracking-wider text-muted-foreground">Cancel transaction</dt>
+            <dd className="break-all text-foreground">{cancelTransactionHash}</dd>
+          </div>
+        ) : null}
+      </dl>
+    </details>
+  )
 }
 
 export function ClaimNftButton({
@@ -62,6 +115,7 @@ export function ClaimNftButton({
     { refreshInterval: 10_000, revalidateOnFocus: true },
   )
   const effectiveClaimBy = lifecycle?.claimExpiresAt ?? claimExpiresAt
+  const isClaimed = status?.status === 'claimed' || lifecycle?.status === 'claimed'
   const offerUnavailable =
     lifecycle?.status === 'cancelled' ||
     lifecycle?.status === 'closed' ||
@@ -90,43 +144,6 @@ export function ClaimNftButton({
     }
   }
 
-  if (status?.status === 'claimed' || lifecycle?.status === 'claimed') {
-    return (
-      <div className="mt-3 border-t border-border pt-3 text-center">
-        <p className="font-mono text-xs uppercase tracking-wider text-gold">Claimed &amp; verified</p>
-        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-          Ownership is confirmed on XRPL. Xaman and Bithomp may take a few minutes to index the artwork.
-        </p>
-        {status?.nftId ? (
-          <p className="mt-2 break-all font-mono text-[0.6rem] text-muted-foreground">
-            NFT {status.nftId}
-          </p>
-        ) : null}
-        {status?.transactionHash ? (
-          <p className="mt-1 break-all font-mono text-[0.6rem] text-muted-foreground">
-            TX {status.transactionHash}
-          </p>
-        ) : null}
-      </div>
-    )
-  }
-
-  if (offerUnavailable) {
-    return (
-      <div className="mt-3 border-t border-border pt-3 text-center">
-        <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground">Claim window closed</p>
-        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-          The unclaimed sell offer is no longer available.
-        </p>
-        {lifecycle?.cancelTransactionHash ? (
-          <p className="mt-2 break-all font-mono text-[0.6rem] text-muted-foreground">
-            Cancel TX {lifecycle.cancelTransactionHash}
-          </p>
-        ) : null}
-      </div>
-    )
-  }
-
   const terminalMessage =
     status?.status === 'rejected'
       ? 'Claim rejected in Xaman.'
@@ -136,48 +153,86 @@ export function ClaimNftButton({
           ? status.error ?? 'The claim failed.'
           : null
   const message = error ?? statusError?.message ?? terminalMessage
+  const triggerLabel = isClaimed ? 'Claimed' : offerUnavailable ? 'Claim closed' : 'Claim NFT'
 
   return (
-    <div className="mt-3 border-t border-border pt-3 text-center">
-      {effectiveClaimBy ? (
-        <p className="mb-2 font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground">
-          Claim by{' '}
-          <time dateTime={effectiveClaimBy}>
-            {new Intl.DateTimeFormat(undefined, {
-              dateStyle: 'medium',
-              timeStyle: 'short',
-            }).format(new Date(effectiveClaimBy))}
-          </time>
-        </p>
-      ) : null}
-      {!claim || terminalMessage ? (
-        <button
-          type="button"
-          onClick={createClaim}
-          disabled={creating}
-          className="primary-action w-full px-3 py-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] transition disabled:cursor-wait disabled:opacity-60"
-        >
-          {creating ? 'Preparing Xaman…' : 'Claim NFT'}
-        </button>
-      ) : (
-        <div className="flex flex-col items-center gap-2">
-          <div className="qr-panel overflow-hidden p-2">
-            <Image src={claim.qrUrl} alt="Scan to claim this NFT in Xaman" width={144} height={144} unoptimized />
-          </div>
-          <a
-            href={claim.deepLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-sans text-sm font-semibold text-gold underline underline-offset-4"
-          >
-            Open in Xaman
-          </a>
-          <p className="font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">
-            {status?.status === 'pending' ? 'Waiting for signature' : 'Open or scan to sign'}
-          </p>
+    <Dialog>
+      <DialogTrigger
+        render={
+          <Button
+            type="button"
+            size="sm"
+            variant={isClaimed ? 'secondary' : offerUnavailable ? 'outline' : 'default'}
+            className="w-full font-mono text-xs font-semibold uppercase tracking-wider"
+          />
+        }
+      >
+        {isClaimed ? <CheckCircle2 data-icon="inline-start" /> : offerUnavailable ? <LockKeyhole data-icon="inline-start" /> : <ScanLine data-icon="inline-start" />}
+        {triggerLabel}
+      </DialogTrigger>
+      <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="font-sans text-xl text-balance">
+            {isClaimed ? 'NFT claimed' : offerUnavailable ? 'Claim window closed' : 'Claim your NFT'}
+          </DialogTitle>
+          <DialogDescription className="leading-relaxed">
+            {isClaimed
+              ? 'Ownership is confirmed on XRPL. Wallet artwork indexing may take a few minutes.'
+              : offerUnavailable
+                ? 'The unclaimed sell offer is no longer available.'
+                : 'Open this request in Xaman or scan the code to accept your zero-XRP NFT offer.'}
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="flex flex-col gap-4">
+          {effectiveClaimBy && !isClaimed ? (
+            <p className="rounded-lg bg-muted px-3 py-2 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+              Claim by{' '}
+              <time dateTime={effectiveClaimBy}>
+                {new Intl.DateTimeFormat(undefined, {
+                  dateStyle: 'medium',
+                  timeStyle: 'short',
+                }).format(new Date(effectiveClaimBy))}
+              </time>
+            </p>
+          ) : null}
+
+          {!isClaimed && !offerUnavailable ? (
+            !claim || terminalMessage ? (
+              <Button type="button" size="lg" onClick={createClaim} disabled={creating}>
+                <ScanLine data-icon="inline-start" />
+                {creating ? 'Preparing Xaman…' : terminalMessage ? 'Create new Xaman request' : 'Continue with Xaman'}
+              </Button>
+            ) : (
+              <div className="flex flex-col items-center gap-3">
+                <div className="qr-panel overflow-hidden p-2">
+                  <Image src={claim.qrUrl} alt="Scan to claim this NFT in Xaman" width={176} height={176} unoptimized />
+                </div>
+                <Button render={<a href={claim.deepLink} target="_blank" rel="noopener noreferrer" />}>
+                  <ExternalLink data-icon="inline-start" />
+                  Open in Xaman
+                </Button>
+                <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground" aria-live="polite">
+                  {status?.status === 'pending' ? 'Waiting for signature' : 'Open or scan to sign'}
+                </p>
+              </div>
+            )
+          ) : null}
+
+          {message && !isClaimed ? (
+            <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm leading-relaxed text-destructive">
+              {message}
+            </p>
+          ) : null}
+
+          <ChainDetails
+            nftId={status?.nftId ?? nftId}
+            offerId={offerId}
+            transactionHash={status?.transactionHash}
+            cancelTransactionHash={lifecycle?.cancelTransactionHash}
+          />
         </div>
-      )}
-      {message ? <p role="alert" className="mt-2 text-xs leading-relaxed text-destructive">{message}</p> : null}
-    </div>
+      </DialogContent>
+    </Dialog>
   )
 }
