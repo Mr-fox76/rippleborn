@@ -199,8 +199,8 @@ function RevealedSpread({
                     </span>
                   ) : null}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
-                    <p className="font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
-                      {card.name}
+                    <p className="text-center font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
+                      “{card.name}”
                     </p>
                   </div>
                   <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
