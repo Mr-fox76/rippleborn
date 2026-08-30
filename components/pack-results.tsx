@@ -190,14 +190,16 @@ function RevealedSpread({
                       className="relative z-[1] object-contain"
                     />
                   </div>
-                  <p className="rarity-badge absolute left-2 top-2 z-10 inline-flex rounded-full border px-2 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] sm:left-3 sm:top-3 sm:text-xs">
-                    {card.rarity}
-                  </p>
-                  {card.limited && card.edition && card.maxSupply ? (
-                    <span className="phoenix-edition absolute right-2 top-2 z-10 rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:right-3 sm:top-3 sm:text-xs">
-                      Edition {card.edition}/{card.maxSupply}
-                    </span>
-                  ) : null}
+                  <div className="absolute right-2 top-2 z-30 flex flex-col items-end gap-1 sm:right-3 sm:top-3">
+                    <p className="rarity-badge inline-flex rounded-full border px-2 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] sm:text-xs">
+                      {card.rarity}
+                    </p>
+                    {card.limited && card.edition && card.maxSupply ? (
+                      <span className="phoenix-edition rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:text-xs">
+                        Edition {card.edition}/{card.maxSupply}
+                      </span>
+                    ) : null}
+                  </div>
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
                     <p className="text-center font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
                       “{card.name}”
