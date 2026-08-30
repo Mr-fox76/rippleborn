@@ -13,7 +13,7 @@ import {
 
 export type XrplNetwork = 'Testnet' | 'Mainnet'
 
-const XRPL_TESTNET_WEBSOCKET = 'wss://s.altnet.rippletest.net:51233'
+const XRPL_MAINNET_WEBSOCKET = 'wss://xrplcluster.com'
 const PACK_PRICE_DROPS = '5000000'
 
 export type XrplConfig = {
@@ -46,12 +46,12 @@ function parseUnsignedInteger(name: string, value: string, maximum: number): num
 }
 
 export function getXrplNetwork(websocketUrl = process.env.XRPL_WSS?.trim()): XrplNetwork {
-  const host = (websocketUrl || 'wss://s.altnet.rippletest.net:51233').toLowerCase()
+  const host = (websocketUrl || XRPL_MAINNET_WEBSOCKET).toLowerCase()
   return host.includes('altnet') || host.includes('testnet') ? 'Testnet' : 'Mainnet'
 }
 
 export function getXrplConfig(): XrplConfig {
-  const websocketUrl = process.env.XRPL_WSS?.trim() || 'wss://s.altnet.rippletest.net:51233'
+  const websocketUrl = process.env.XRPL_WSS?.trim() || XRPL_MAINNET_WEBSOCKET
   const treasuryAddress = requiredEnvironmentValue('TREASURY_ADDRESS')
   const issuerAddress = requiredEnvironmentValue('ISSUER_ADDRESS')
   const packPriceDrops = requiredEnvironmentValue('PACK_PRICE_DROPS')
@@ -61,14 +61,16 @@ export function getXrplConfig(): XrplConfig {
     requiredEnvironmentValue('TRANSFER_FEE'),
     50_000,
   )
-  const signingSeed = process.env.ISSUER_SEED?.trim() || requiredEnvironmentValue('MINTER_SEED')
-  const minterWallet = Wallet.fromSeed(signingSeed)
+  const minterWallet = Wallet.fromSeed(requiredEnvironmentValue('ISSUER_SEED'))
 
-  if (websocketUrl !== XRPL_TESTNET_WEBSOCKET) {
-    throw new Error(`XRPL_WSS must be ${XRPL_TESTNET_WEBSOCKET} while minting is Testnet-only.`)
+  if (websocketUrl !== XRPL_MAINNET_WEBSOCKET) {
+    throw new Error(`XRPL_WSS must be ${XRPL_MAINNET_WEBSOCKET} for Mainnet transactions.`)
   }
   if (!isValidClassicAddress(treasuryAddress)) throw new Error('TREASURY_ADDRESS is invalid.')
   if (!isValidClassicAddress(issuerAddress)) throw new Error('ISSUER_ADDRESS is invalid.')
+  if (minterWallet.address !== issuerAddress) {
+    throw new Error('ISSUER_SEED does not derive the configured ISSUER_ADDRESS.')
+  }
   if (packPriceDrops !== PACK_PRICE_DROPS) {
     throw new Error(`PACK_PRICE_DROPS must be exactly ${PACK_PRICE_DROPS} (5 XRP).`)
   }

@@ -8,7 +8,7 @@ export function SiteHero() {
         role="alert"
         className="border-b border-gold/35 bg-gold/10 px-4 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.12em] text-gold sm:px-6"
       >
-        Testnet mode — do not send real XRP. Real XRP sent here will be lost.
+        Mainnet — pack payments use real XRP and are irreversible. Verify the amount and destination in Xaman before signing.
       </div>
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 sm:py-5">
         <a href="#reading-table" aria-label="Ledgerborn home" className="group inline-flex shrink-0 items-center gap-3">

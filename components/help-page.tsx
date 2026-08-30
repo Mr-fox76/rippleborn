@@ -10,7 +10,7 @@ const faqGroups = [
       {
         question: 'What do I need before buying a pack?',
         answer:
-          'You need Xaman installed and an activated XRP Ledger account with enough XRP for the pack price and the small network fee. Make sure Xaman is using the same network shown on Ledgerborn before you connect.',
+          'You need Xaman installed and an activated XRP Ledger Mainnet account with enough real XRP for the pack price and network fee. Make sure Xaman is connected to Mainnet before you connect.',
       },
       {
         question: 'How do I connect Xaman?',
@@ -25,7 +25,7 @@ const faqGroups = [
       {
         question: 'Can I cancel or reverse a payment?',
         answer:
-          'An XRP Ledger transaction cannot be reversed after it has been validated. You can reject an unsigned request in Xaman, but always check the amount and destination before approving a payment.',
+          'An XRP Ledger Mainnet transaction cannot be reversed after validation. You can reject an unsigned request in Xaman, but always confirm that the request uses Mainnet and verify the real-XRP amount and destination before approving payment.',
       },
     ],
   },

@@ -48,11 +48,11 @@ export async function POST(request: Request) {
       options: {
         submit: true,
         expire: 5,
-        force_network: 'TESTNET',
+        force_network: 'MAINNET',
       },
       custom_meta: {
         identifier: `rippleborn-claim-${offerId.slice(0, 12)}`,
-        instruction: 'Accept your free Ledgerborn NFT offer on XRPL Testnet.',
+        instruction: 'Accept your free Ledgerborn NFT offer on XRPL Mainnet.',
         blob: { buyer, nftId, offerId },
       },
     })

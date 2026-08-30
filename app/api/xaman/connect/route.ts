@@ -7,10 +7,10 @@ export async function POST() {
   try {
     const payload = await getXamanSdk().payload.create({
       txjson: { TransactionType: 'SignIn' },
-      options: { expire: 5, force_network: 'TESTNET' },
+      options: { expire: 5, force_network: 'MAINNET' },
       custom_meta: {
         identifier: 'rippleborn-wallet-connect',
-        instruction: 'Connect your XRPL Testnet wallet to Ledgerborn.',
+        instruction: 'Connect your XRPL Mainnet wallet to Ledgerborn.',
       },
     }, true)
 
