@@ -187,7 +187,7 @@ function RevealedSpread({
                       fill
                       priority
                       sizes="(max-width: 640px) 30vw, 320px"
-                      className="relative z-[1] object-contain"
+                      className="relative z-[1] object-cover"
                     />
                   </div>
                   <div className="absolute right-2 top-2 z-30 flex flex-col items-end gap-1 sm:right-3 sm:top-3">
