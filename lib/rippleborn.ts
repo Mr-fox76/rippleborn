@@ -123,6 +123,7 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
   Mythic: [
     { name: 'Rippleborn, the Unledgered', image: '/cards/rippleborn-the-unledgered.png', uri: metadataUri('rippleborn-the-unledgered') },
     { name: 'Primordial Tidewyrm', image: '/cards/primordial-tidewyrm.png', uri: metadataUri('primordial-tidewyrm') },
+    { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: 'https://ledgerborn.com/cards/the-phoenix.json' },
   ],
 }
 
