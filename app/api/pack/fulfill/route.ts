@@ -23,6 +23,7 @@ import {
   saveMintResults,
   type MintedPackCard,
 } from '@/lib/pack-results'
+import { markCollectionPhoenixMinted, reservePhoenixSlot } from '@/lib/phoenix-supply'
 import { getClaimTtlHours, registerClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { cleanupUnclaimedOffer } from '@/lib/workflows/cleanup-unclaimed-offer'
 import {
@@ -271,8 +272,9 @@ export async function POST(request: Request) {
 
   let cards = existingResult?.cards
   if (!cards) {
+    let metadataBaseUrl: string | undefined
     if (setId === 'cyborg-cowboy') {
-      const metadataBaseUrl = validateCyborgMetadataBaseUrl(
+      metadataBaseUrl = validateCyborgMetadataBaseUrl(
         process.env.CYBORG_COWBOY_METADATA_BASE_URL,
       )
       if (!metadataBaseUrl) {
@@ -287,6 +289,30 @@ export async function POST(request: Request) {
     } else {
       cards = rollPack()
     }
+
+    const phoenixIndex = cards.findIndex((card) => card.name === 'The Phoenix')
+    if (phoenixIndex >= 0 && !(await reservePhoenixSlot(setId, destinationTag))) {
+      const phoenixCard = cards[phoenixIndex]
+      if (setId === 'cyborg-cowboy' && metadataBaseUrl) {
+        let replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
+        while (replacement.name === 'The Phoenix') {
+          replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
+        }
+        cards[phoenixIndex] = replacement
+      } else {
+        const alternatives = CARD_POOL.Mythic.filter((card) => card.name !== 'The Phoenix')
+        const replacement = alternatives[Math.floor(Math.random() * alternatives.length)]
+        cards[phoenixIndex] = {
+          id: `${phoenixCard.slot}-${Math.random().toString(36).slice(2, 10)}`,
+          ...replacement,
+          rarity: 'Mythic',
+          slot: phoenixCard.slot,
+        }
+      }
+    }
+  } else if (cards.some((card) => card.name === 'The Phoenix')) {
+    const reserved = await reservePhoenixSlot(setId, destinationTag)
+    if (!reserved) throw new Error('The Phoenix supply for this collection has already been allocated.')
   }
 
       const committed = await commitPackResult({
@@ -348,6 +374,9 @@ export async function POST(request: Request) {
           )
           if (card.limited) {
             await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
+          }
+          if (card.name === 'The Phoenix') {
+            await markCollectionPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
           }
           fulfilledCards.push({
             ...cardToMint,

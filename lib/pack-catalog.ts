@@ -35,8 +35,8 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Become Ledgerborn.',
       tagline: 'Chase legends. Awaken The Phoenix.',
       introduction:
-        'Enter a realm of mythical characters, legendary beings, and ancient powers. Every reveal draws you deeper into a collection crowned by five uniquely numbered Phoenix editions.',
-      features: ['Arcane one-by-one reveals', 'Five Phoenix editions', 'Forged and claimed on XRPL'],
+        'Enter a realm of mythical characters, legendary beings, and ancient powers. This collection closes permanently when its third Phoenix is successfully minted.',
+      features: ['Arcane one-by-one reveals', 'Three Phoenix discoveries', 'Forged and claimed on XRPL'],
     },
   },
   {
