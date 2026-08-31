@@ -1,7 +1,7 @@
 import type { CollectionStats } from '@/lib/pack-results'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
-import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
+import { CARD_POOL, RARITIES, SHARED_RARITY_ODDS, type PackSetId } from '@/lib/rippleborn'
 
 export function RarityOdds({
   stats,
@@ -70,8 +70,25 @@ export function RarityOdds({
       </p>
 
       {!countersOnly ? (
-        <div className="flex flex-col gap-3 border-t border-border pt-4">
-          <div className="flex items-baseline justify-between gap-4">
+        <div className="flex flex-col gap-4 border-t border-border pt-4">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-baseline justify-between gap-4">
+              <h2 className="font-sans text-sm font-semibold uppercase tracking-wider text-foreground">
+                Odds per card
+              </h2>
+              <p className="text-right text-xs text-muted-foreground">Same independent roll for all three positions</p>
+            </div>
+            <dl className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+              {RARITIES.map((rarity) => (
+                <div key={rarity} className={`collection-category rarity-${rarity.toLowerCase()} border px-3 py-2 text-center`}>
+                  <dd className="font-mono text-lg font-semibold tabular-nums">{SHARED_RARITY_ODDS[rarity]}%</dd>
+                  <dt className="text-[0.65rem] font-medium uppercase tracking-wider">{rarity}</dt>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div className="flex items-baseline justify-between gap-4 border-t border-border pt-4">
             <h2 className="font-sans text-sm font-semibold uppercase tracking-wider text-foreground">
               Cards to collect
             </h2>

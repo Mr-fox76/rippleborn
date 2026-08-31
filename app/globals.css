@@ -998,24 +998,24 @@
   outline-offset: 0.3rem;
 }
 
-.tarot-reveal-button.is-chase-slot {
-  border-color: var(--gold);
-  animation: chase-slot-glow 1.8s ease-in-out infinite;
+.tarot-back.rarity-common,
+.tarot-back.rarity-rare,
+.tarot-back.rarity-epic,
+.tarot-back.rarity-legendary,
+.tarot-back.rarity-mythic,
+.tarot-back.rarity-limited {
+  border-color: color-mix(in oklch, var(--rarity-color) 62%, var(--border));
+  box-shadow:
+    0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+    0 0 2.25rem color-mix(in oklch, var(--rarity-color) 64%, transparent),
+    inset 0 0 1.25rem color-mix(in oklch, var(--rarity-color) 10%, transparent);
 }
 
-@keyframes chase-slot-glow {
-  0%, 100% {
-    box-shadow:
-      0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
-      0 0 1.25rem color-mix(in oklch, var(--gold) 42%, transparent),
-      inset 0 0 1rem color-mix(in oklch, var(--gold) 8%, transparent);
-  }
-  50% {
-    box-shadow:
-      0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
-      0 0 3rem color-mix(in oklch, var(--gold) 82%, transparent),
-      inset 0 0 1.5rem color-mix(in oklch, var(--gold) 14%, transparent);
-  }
+.tarot-back.rarity-limited {
+  box-shadow:
+    0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+    0 0 3rem color-mix(in oklch, var(--rarity-color) 86%, transparent),
+    inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 18%, transparent);
 }
 
 .tarot-back::before {
@@ -1328,7 +1328,6 @@
   .foil-pack,
   .pack-radiance,
   .opening-card,
-  .tarot-reveal-button.is-chase-slot,
   .table-surface::before,
   .table-surface::after,
   .tarot-slot.is-revealing .tarot-back,

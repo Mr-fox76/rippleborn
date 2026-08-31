@@ -73,13 +73,17 @@ function playCardFlipSound() {
 
 function FaceDownCard({
   index,
-  isChaseSlot = false,
+  rarity,
+  limited = false,
   onReveal,
 }: {
   index: number
-  isChaseSlot?: boolean
+  rarity?: Card['rarity']
+  limited?: boolean
   onReveal?: () => void
 }) {
+  const rarityClass = rarity ? RARITY_CLASSES[rarity] : ''
+  const glowClass = limited ? 'rarity-limited' : rarityClass
   const content = (
     <div className="tarot-back-inner">
       <span className="celestial-orbit" aria-hidden="true">
@@ -102,8 +106,8 @@ function FaceDownCard({
   return (
     <button
       type="button"
-      className={`tarot-card tarot-back tarot-reveal-button ${isChaseSlot ? 'is-chase-slot' : ''}`}
-      aria-label={`Reveal card ${index + 1}${isChaseSlot ? ', enhanced Mythic chance' : ''}`}
+      className={`tarot-card tarot-back tarot-reveal-button ${glowClass}`}
+      aria-label={`Reveal card ${index + 1}`}
       onClick={onReveal}
     >
       {content}
@@ -227,7 +231,8 @@ function RevealedSpread({
             ) : (
               <FaceDownCard
                 index={index}
-                isChaseSlot={card?.slot === 3}
+                rarity={card?.rarity}
+                limited={card?.limited}
                 onReveal={card && revealing === null ? () => revealCard(index) : undefined}
               />
             )}
@@ -279,7 +284,7 @@ export function TarotCards({
       )}
       {cards ? (
         <p className="mt-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
-          Reveal the cards in any order. The distinct glow marks the slot with a Mythic chance.
+          Reveal the cards in any order. Each glow reflects the rarity already locked inside.
         </p>
       ) : null}
     </section>

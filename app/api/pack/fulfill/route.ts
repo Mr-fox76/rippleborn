@@ -17,10 +17,11 @@ import {
 } from '@/lib/cyborg-cowboy'
 import {
   CARD_POOL,
+  PACK_SLOTS,
   isPackSetId,
   rollPack,
   rollRarity,
-  SLOT_ODDS,
+  type Card,
 } from '@/lib/rippleborn'
 import {
   commitPackResult,
@@ -52,6 +53,26 @@ import {
 } from '@/lib/xrpl-server'
 
 export const runtime = 'nodejs'
+
+function rollUniquePack(createCard: (slot: number) => Card): Card[] {
+  const cards: Card[] = []
+  const selectedNames = new Set<string>()
+
+  for (const slot of PACK_SLOTS) {
+    let card: Card | undefined
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      const candidate = createCard(slot)
+      if (selectedNames.has(candidate.name)) continue
+      card = candidate
+      break
+    }
+    if (!card) throw new Error('Unable to create a pack with three unique cards.')
+    selectedNames.add(card.name)
+    cards.push(card)
+  }
+
+  return cards
+}
 
 type AccountTransaction = {
   validated?: boolean
@@ -298,13 +319,13 @@ export async function POST(request: Request) {
         )
       }
       const cyborgMetadataBaseUrl = metadataBaseUrl
-      cards = SLOT_ODDS.map(({ slot }) =>
-        rollCyborgCowboyCard(rollRarity(slot), slot, cyborgMetadataBaseUrl),
+      cards = rollUniquePack((slot) =>
+        rollCyborgCowboyCard(rollRarity(), slot, cyborgMetadataBaseUrl),
       )
     } else if (setId === 'chromatic-abyss') {
       metadataBaseUrl = CHROMATIC_ABYSS_METADATA_BASE_URL
-      cards = SLOT_ODDS.map(({ slot }) =>
-        rollChromaticAbyssCard(rollRarity(slot), slot),
+      cards = rollUniquePack((slot) =>
+        rollChromaticAbyssCard(rollRarity(), slot),
       )
     } else {
       cards = rollPack()
@@ -313,21 +334,35 @@ export async function POST(request: Request) {
     const phoenixIndex = cards.findIndex((card) => card.name === 'The Phoenix')
     if (phoenixIndex >= 0 && !(await reservePhoenixSlot(setId, destinationTag))) {
       const phoenixCard = cards[phoenixIndex]
+      const existingNames = new Set(cards.filter((_, index) => index !== phoenixIndex).map((card) => card.name))
       if (setId === 'cyborg-cowboy' && metadataBaseUrl) {
-        let replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
-        while (replacement.name === 'The Phoenix') {
-          replacement = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
+        let replacement: Card | undefined
+        for (let attempt = 0; attempt < 100; attempt += 1) {
+          const candidate = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
+          if (candidate.name !== 'The Phoenix' && !existingNames.has(candidate.name)) {
+            replacement = candidate
+            break
+          }
         }
+        if (!replacement) throw new Error('Unable to replace The Phoenix with a unique card.')
         cards[phoenixIndex] = replacement
       } else if (setId === 'chromatic-abyss') {
-        let replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot)
-        while (replacement.name === 'The Phoenix') {
-          replacement = rollChromaticAbyssCard('Mythic', phoenixCard.slot)
+        let replacement: Card | undefined
+        for (let attempt = 0; attempt < 100; attempt += 1) {
+          const candidate = rollChromaticAbyssCard('Mythic', phoenixCard.slot)
+          if (candidate.name !== 'The Phoenix' && !existingNames.has(candidate.name)) {
+            replacement = candidate
+            break
+          }
         }
+        if (!replacement) throw new Error('Unable to replace The Phoenix with a unique card.')
         cards[phoenixIndex] = replacement
       } else {
-        const alternatives = CARD_POOL.Mythic.filter((card) => card.name !== 'The Phoenix')
+        const alternatives = CARD_POOL.Mythic.filter(
+          (card) => card.name !== 'The Phoenix' && !existingNames.has(card.name),
+        )
         const replacement = alternatives[Math.floor(Math.random() * alternatives.length)]
+        if (!replacement) throw new Error('Unable to replace The Phoenix with a unique card.')
         cards[phoenixIndex] = {
           id: `${phoenixCard.slot}-${Math.random().toString(36).slice(2, 10)}`,
           ...replacement,
