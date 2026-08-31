@@ -87,7 +87,9 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
         </header>
 
         <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-6 sm:px-6 sm:py-8">
-          <NftRecoveryPanel />
+          <div className="mx-auto w-full max-w-6xl">
+            <NftRecoveryPanel />
+          </div>
           <PackShop collectionStats={collectionStats} pack={pack} />
         </main>
 
