@@ -1,4 +1,8 @@
 NETWORK = "mainnet"
+WEBSITE = "https://ledgerborn.app"
+
+[[ACCOUNTS]]
+address = "rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv"
 
 [[ISSUERS]]
 address = "rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv"
