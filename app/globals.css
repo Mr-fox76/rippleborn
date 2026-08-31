@@ -861,6 +861,20 @@
   animation: pack-metal-sweep 8s ease-in-out infinite;
 }
 
+.foil-pack-face::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(7deg, transparent 0 3px, oklch(0.88 0.008 225 / 5%) 3px 4px),
+    repeating-linear-gradient(97deg, transparent 0 5px, oklch(0.02 0.004 225 / 12%) 5px 6px),
+    repeating-radial-gradient(circle at 30% 40%, oklch(0.92 0.006 225 / 6%) 0 0.6px, transparent 0.8px 4px);
+  content: '';
+  mix-blend-mode: soft-light;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
 .foil-pack-face > * {
   position: relative;
   z-index: 1;
