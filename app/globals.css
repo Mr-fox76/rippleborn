@@ -701,23 +701,21 @@
   cursor: pointer;
   flex-direction: column;
   overflow: visible;
-  border: 1px solid color-mix(in oklch, var(--pack-accent) 68%, var(--pack-accent-strong));
+  border: 1px solid oklch(0.3 0.01 250);
   border-radius: 0;
   color: var(--foreground);
   background:
-    linear-gradient(108deg, transparent 16%, oklch(0.96 0.015 210 / 32%) 35%, transparent 50%),
-    linear-gradient(72deg, transparent 53%, color-mix(in oklch, var(--pack-accent-strong) 38%, transparent) 56% 59%, transparent 62%),
-    radial-gradient(circle at 50% 38%, color-mix(in oklch, var(--pack-accent-strong) 58%, transparent), transparent 49%),
-    linear-gradient(145deg, color-mix(in oklch, var(--pack-accent) 68%, oklch(0.11 0.035 235)), color-mix(in oklch, var(--pack-accent-strong) 48%, oklch(0.07 0.03 245)));
-  background-size: 220% 100%, auto, auto, auto;
+    linear-gradient(108deg, transparent 16%, oklch(0.96 0.015 210 / 24%) 35%, transparent 50%),
+    linear-gradient(72deg, transparent 53%, oklch(0.82 0.015 240 / 12%) 56% 59%, transparent 62%),
+    linear-gradient(145deg, oklch(0.1 0.008 250), oklch(0.025 0.005 250) 62%, oklch(0.075 0.008 250));
+  background-size: 220% 100%, auto, auto;
   box-shadow:
-    0 2rem 4rem oklch(0.04 0.02 225 / 72%),
-    0 0.65rem 1.2rem oklch(0.04 0.02 225 / 48%),
-    0 0 2.75rem color-mix(in oklch, var(--pack-accent) 42%, transparent),
-    0 0 0 1px color-mix(in oklch, var(--pack-accent-strong) 44%, transparent),
-    inset 1px 0 0 oklch(0.96 0.015 210 / 22%),
-    inset -1px 0 0 color-mix(in oklch, var(--pack-accent-strong) 38%, transparent);
-  filter: saturate(1.35) contrast(1.06);
+    0 2rem 4rem oklch(0.02 0.005 250 / 78%),
+    0 0.65rem 1.2rem oklch(0.02 0.005 250 / 58%),
+    0 0 2.75rem color-mix(in oklch, var(--pack-accent-strong) 44%, transparent),
+    inset 1px 0 0 oklch(0.96 0.015 210 / 16%),
+    inset -1px 0 0 oklch(0.96 0.015 210 / 8%);
+  filter: contrast(1.08);
   animation: foil-idle 6s ease-in-out infinite;
   transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
 }
@@ -753,14 +751,11 @@
   flex-direction: column;
   gap: 0.65rem;
   overflow: hidden;
-  border-inline: 1px solid color-mix(in oklch, var(--pack-accent) 38%, transparent);
+  border-inline: 1px solid oklch(0.24 0.008 250);
   background:
-    linear-gradient(100deg, transparent 18%, oklch(0.96 0.015 210 / 16%) 32%, transparent 45%),
-    radial-gradient(circle at center, color-mix(in oklch, var(--pack-accent-strong) 42%, transparent), transparent 56%),
-    repeating-radial-gradient(circle at center, transparent 0 1.35rem, color-mix(in oklch, var(--pack-accent) 22%, transparent) 1.4rem 1.45rem);
-  box-shadow:
-    inset 0 0 3rem color-mix(in oklch, var(--pack-accent) 20%, transparent),
-    inset 0 0 1rem oklch(0.04 0.02 225 / 32%);
+    linear-gradient(100deg, transparent 18%, oklch(0.96 0.015 210 / 14%) 32%, transparent 45%),
+    linear-gradient(180deg, oklch(0.08 0.006 250), oklch(0.025 0.004 250) 72%, oklch(0.065 0.006 250));
+  box-shadow: inset 0 0 2rem oklch(0.01 0.002 250 / 65%);
   text-align: center;
 }
 
@@ -770,11 +765,11 @@
   height: 1.2rem;
   flex: none;
   overflow: hidden;
-  border-block: 1px solid color-mix(in oklch, var(--pack-accent) 58%, transparent);
+  border-block: 1px solid oklch(0.3 0.008 250);
   background:
     repeating-linear-gradient(135deg, transparent 0 5px, oklch(0.93 0.018 210 / 12%) 5px 6px),
-    linear-gradient(90deg, color-mix(in oklch, var(--pack-accent) 78%, var(--card)), var(--pack-accent-strong), color-mix(in oklch, var(--pack-accent) 78%, var(--card)));
-  box-shadow: inset 0 1px 0 oklch(0.93 0.018 210 / 20%);
+    linear-gradient(90deg, oklch(0.08 0.006 250), oklch(0.28 0.01 250), oklch(0.08 0.006 250));
+  box-shadow: inset 0 1px 0 oklch(0.93 0.018 210 / 18%);
   opacity: 0.86;
 }
 
@@ -794,11 +789,12 @@
 }
 
 .foil-pack-caption {
-  color: var(--pack-accent-strong);
+  color: oklch(0.68 0.008 250);
 }
 
 .foil-pack-title {
   color: var(--pack-accent-strong);
+  text-shadow: 0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 72%, transparent);
   font-family: var(--font-sans);
   font-size: 2.35rem;
   font-weight: 650;
@@ -813,11 +809,11 @@
   margin-bottom: 1.25rem;
   rotate: 45deg;
   place-items: center;
-  border: 1px solid color-mix(in oklch, var(--pack-accent-strong) 65%, transparent);
+  border: 1px solid oklch(0.42 0.008 250);
   border-radius: 0.2rem;
-  color: var(--pack-accent-strong);
-  background: color-mix(in oklch, var(--background) 72%, transparent);
-  box-shadow: 0 0 1.75rem color-mix(in oklch, var(--pack-accent-strong) 52%, transparent);
+  color: oklch(0.72 0.008 250);
+  background: oklch(0.035 0.004 250 / 82%);
+  box-shadow: 0 0 1.75rem color-mix(in oklch, var(--pack-accent-strong) 45%, transparent);
 }
 
 .foil-pack-rune-icon {
