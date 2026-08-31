@@ -72,6 +72,36 @@ function playCardFlipSound() {
   }
 }
 
+function playPhoenixFanfare() {
+  try {
+    const context = new AudioContext()
+    const now = context.currentTime
+    const master = context.createGain()
+    master.gain.setValueAtTime(0.0001, now)
+    master.gain.exponentialRampToValueAtTime(0.24, now + 0.04)
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 1.5)
+    master.connect(context.destination)
+
+    ;[261.63, 329.63, 392, 523.25].forEach((frequency, index) => {
+      const tone = context.createOscillator()
+      const gain = context.createGain()
+      const start = now + index * 0.11
+      tone.type = index === 3 ? 'sine' : 'triangle'
+      tone.frequency.setValueAtTime(frequency, start)
+      gain.gain.setValueAtTime(0.0001, start)
+      gain.gain.exponentialRampToValueAtTime(0.6, start + 0.03)
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.7)
+      tone.connect(gain).connect(master)
+      tone.start(start)
+      tone.stop(start + 0.75)
+    })
+
+    window.setTimeout(() => void context.close(), 1800)
+  } catch {
+    // Audio is an enhancement; the Phoenix reveal must still work without it.
+  }
+}
+
 function FaceDownCard({
   index,
   rarity,
@@ -137,6 +167,9 @@ function RevealedSpread({
   function revealCard(index: number) {
     if (revealing !== null || revealed.has(index)) return
     playCardFlipSound()
+    if (cards[index]?.rarity === 'Phoenix') {
+      window.setTimeout(playPhoenixFanfare, 430)
+    }
     setRevealing(index)
   }
 
@@ -171,6 +204,12 @@ function RevealedSpread({
               <article
                 className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
               >
+                {card.rarity === 'Phoenix' ? (
+                  <div className="phoenix-victory-banner" role="status" aria-live="assertive">
+                    <span>Godlike pull</span>
+                    <strong>The Phoenix awakens</strong>
+                  </div>
+                ) : null}
                 <div
                   className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   tabIndex={0}

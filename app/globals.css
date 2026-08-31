@@ -56,7 +56,7 @@
   --ring: oklch(0.78 0.12 205);
   --gold: oklch(0.79 0.13 83);
   --gold-foreground: oklch(0.105 0.025 225);
-  --phoenix: oklch(0.72 0.2 25);
+  --phoenix: oklch(0.94 0.12 104);
   --radius: 0.65rem;
 }
 
@@ -1170,11 +1170,59 @@
 }
 
 .phoenix-reveal {
-  border-color: color-mix(in oklch, var(--primary) 48%, var(--accent));
+  z-index: 2;
+  border: 2px solid var(--phoenix);
   box-shadow:
-    0 1.5rem 4rem oklch(0.05 0.035 285 / 72%),
-    0 0 2.5rem color-mix(in oklch, var(--accent) 32%, transparent),
-    0 0 5rem color-mix(in oklch, var(--primary) 18%, transparent);
+    0 1.75rem 4.5rem oklch(0.04 0.025 225 / 78%),
+    0 0 2rem color-mix(in oklch, var(--phoenix) 92%, transparent),
+    0 0 5.5rem color-mix(in oklch, var(--phoenix) 58%, transparent),
+    inset 0 0 1.5rem color-mix(in oklch, var(--phoenix) 18%, transparent);
+  animation:
+    card-reveal 500ms ease-out both,
+    phoenix-divine-pulse 2.4s 650ms ease-in-out infinite;
+}
+
+.phoenix-reveal .rarity-art-frame {
+  background: color-mix(in oklch, var(--phoenix) 72%, var(--card));
+}
+
+.phoenix-reveal .rarity-badge {
+  color: var(--gold-foreground);
+  background: var(--phoenix);
+  box-shadow: 0 0 1.5rem color-mix(in oklch, var(--phoenix) 72%, transparent);
+}
+
+.phoenix-victory-banner {
+  position: absolute;
+  inset-inline: 50%;
+  top: -3.75rem;
+  z-index: 40;
+  display: flex;
+  width: max-content;
+  max-width: 90vw;
+  translate: -50% 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  color: var(--phoenix);
+  filter: drop-shadow(0 0 1rem color-mix(in oklch, var(--phoenix) 76%, transparent));
+  pointer-events: none;
+  text-align: center;
+  text-transform: uppercase;
+  animation: phoenix-victory-arrival 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.phoenix-victory-banner span {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+}
+
+.phoenix-victory-banner strong {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  letter-spacing: 0.08em;
 }
 
 .phoenix-edition {
@@ -1193,6 +1241,28 @@
 @keyframes card-reveal {
   from { opacity: 0; transform: translateY(0.75rem); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes phoenix-divine-pulse {
+  0%, 100% {
+    box-shadow:
+      0 1.75rem 4.5rem oklch(0.04 0.025 225 / 78%),
+      0 0 2rem color-mix(in oklch, var(--phoenix) 82%, transparent),
+      0 0 4rem color-mix(in oklch, var(--phoenix) 42%, transparent),
+      inset 0 0 1.5rem color-mix(in oklch, var(--phoenix) 14%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 1.75rem 4.5rem oklch(0.04 0.025 225 / 78%),
+      0 0 3rem color-mix(in oklch, var(--phoenix) 100%, transparent),
+      0 0 7rem color-mix(in oklch, var(--phoenix) 68%, transparent),
+      inset 0 0 2rem color-mix(in oklch, var(--phoenix) 24%, transparent);
+  }
+}
+
+@keyframes phoenix-victory-arrival {
+  from { opacity: 0; transform: translateY(1rem) scale(0.82); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* Controlled pack flip and card deal */
@@ -1334,6 +1404,7 @@
   .table-surface::after,
   .tarot-slot.is-revealing .tarot-back,
   .phoenix-reveal::before,
+  .phoenix-victory-banner,
   .tarot-reveal {
     animation: none;
   }
