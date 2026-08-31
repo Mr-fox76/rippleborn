@@ -9,14 +9,11 @@ const SET_SYMBOLS: Record<PackCatalogEntry['theme']['id'], typeof Sparkles> = {
 }
 
 function SetTitle({ name }: { name: string }) {
-  const [brand, setName] = name.split(' - ')
+  const [brand] = name.split(' - ')
 
   return (
-    <h2 className="flex flex-col items-center gap-1 text-foreground">
-      <span className="font-mono text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground sm:text-base">
-        {brand}
-      </span>
-      <span className="font-sans text-3xl font-semibold tracking-tight">{setName}</span>
+    <h2 className="font-mono text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground sm:text-base">
+      {brand}
     </h2>
   )
 }
@@ -56,7 +53,7 @@ export function PackGallery() {
                 <span className="pack-set-accent mb-5 -translate-y-2 inline-flex size-16 rotate-45 items-center justify-center rounded-sm border border-current/40 bg-background/30 shadow-[0_0_24px_currentColor] transition-transform duration-300 group-hover:rotate-[55deg]" aria-hidden="true">
                   <SetSymbol className="size-8 -rotate-45" strokeWidth={1.5} />
                 </span>
-                <p className="pack-set-accent font-mono text-[0.65rem] uppercase tracking-[0.24em]">{pack.kicker}</p>
+                <p className="pack-set-accent font-sans text-2xl font-semibold tracking-tight sm:text-3xl">{pack.kicker}</p>
                 <SetTitle name={pack.name} />
                 <p className="mx-auto max-w-md text-pretty text-sm leading-relaxed text-muted-foreground">{pack.description}</p>
               </div>
