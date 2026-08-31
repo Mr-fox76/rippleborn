@@ -43,6 +43,8 @@ export async function generateMetadata({ params }: { params: Promise<{ setId: st
       images: [
         {
           url: socialImage,
+          width: 1024,
+          height: 1024,
           alt: `${pack.name} collectible NFT card pack`,
         },
       ],
