@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
-import { getCardWisdom, type Card } from '@/lib/rippleborn'
+import { getCardWisdom, getDisplayCardName, type Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
   mintStatus?: 'minted' | 'skipped' | 'failed'
@@ -154,6 +154,7 @@ function RevealedSpread({
       <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
         {[1, 0, 2].map((index) => {
         const card = cards[index]
+        const displayName = card ? getDisplayCardName(card.name) : ''
         const isRevealed = revealed.has(index)
 
         return (
@@ -168,7 +169,7 @@ function RevealedSpread({
                 <div
                   className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   tabIndex={0}
-                  aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
+                  aria-label={`${displayName} wisdom: ${getCardWisdom(card.name)}`}
                 >
                   <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
                     <Image
@@ -183,7 +184,7 @@ function RevealedSpread({
                     <div className="absolute inset-0 bg-card/20" aria-hidden="true" />
                     <Image
                       src={card.image}
-                      alt={`${card.name}, ${card.rarity} card`}
+                      alt={`${displayName}, ${card.rarity} card`}
                       fill
                       priority
                       sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
@@ -202,7 +203,7 @@ function RevealedSpread({
                   </div>
                   <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
                     <p className="text-center font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
-                      “{card.name}”
+                      “{displayName}”
                     </p>
                   </div>
                   <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">

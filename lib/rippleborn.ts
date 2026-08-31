@@ -75,6 +75,11 @@ export function getCardWisdom(name: string): string {
   return CARD_WISDOM[name] ?? 'Carry hope into what comes next. Your light can change the path ahead.'
 }
 
+/** Converts legacy collection branding for display without changing immutable NFT metadata or mint URIs. */
+export function getDisplayCardName(name: string): string {
+  return name.replace(/ripple\s*born/gi, 'Ledgerborn')
+}
+
 /**
  * Odds per slot, expressed as weights that sum to 100.
  * Slot 1 is a guaranteed Common, slot 3 carries the chase rarities.

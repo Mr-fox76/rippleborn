@@ -4,7 +4,7 @@ import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { db } from '@/lib/db'
 import { packResults } from '@/lib/db/schema'
-import { CARD_POOL, type Card, type PackSetId } from '@/lib/rippleborn'
+import { CARD_POOL, getDisplayCardName, type Card, type PackSetId } from '@/lib/rippleborn'
 
 export type MintedPackCard = Card & {
   mintStatus: 'minted' | 'skipped' | 'failed'
@@ -130,7 +130,7 @@ export async function getLatestMintedNfts(limit = 3): Promise<LatestMintedNft[]>
     .filter((card): card is MintedPackCard & { nftId: string } => card.mintStatus === 'minted' && Boolean(card.nftId))
     .sort((a, b) => Date.parse(b.mintedAt ?? '0') - Date.parse(a.mintedAt ?? '0'))
     .slice(0, limit)
-    .map(({ nftId, name, image }) => ({ nftId, name, image }))
+    .map(({ nftId, name, image }) => ({ nftId, name: getDisplayCardName(name), image }))
 }
 
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {
