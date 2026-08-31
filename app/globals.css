@@ -970,26 +970,42 @@
   margin-top: auto;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
-  padding: 4.5rem 1rem 0.5rem;
-  background: linear-gradient(180deg, transparent, oklch(0.012 0.004 250 / 92%) 62%);
+  gap: 0.45rem;
+  padding: 5.5rem 1rem 0.55rem;
+  background: linear-gradient(180deg, transparent, oklch(0.012 0.004 250 / 94%) 68%);
+}
+
+.foil-pack-product-copy::before,
+.foil-pack-product-copy::after {
+  width: 72%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--pack-accent-strong) 64%, oklch(0.72 0.01 230)), transparent);
+  content: '';
+  opacity: 0.72;
 }
 
 .foil-pack-caption {
-  color: oklch(0.62 0.008 250);
-  font-size: 0.56rem;
-  letter-spacing: 0.18em;
+  color: oklch(0.7 0.008 250);
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
 }
 
 .foil-pack-title {
-  color: var(--pack-accent-strong);
-  text-shadow: 0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 46%, transparent);
+  max-width: 90%;
+  color: color-mix(in oklch, var(--pack-accent-strong) 76%, oklch(0.94 0.012 225));
   font-family: var(--font-sans);
-  font-size: 1.7rem;
-  font-weight: 700;
+  font-size: 1.55rem;
+  font-style: italic;
+  font-weight: 800;
   line-height: 1;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow:
+    0 1px 0 oklch(0.98 0.008 220 / 28%),
+    0 2px 0 oklch(0.02 0.004 250 / 90%),
+    0 0 1.25rem color-mix(in oklch, var(--pack-accent-strong) 38%, transparent);
   text-transform: uppercase;
+  transform: skewX(-4deg);
 }
 
 .foil-pack-rune {
