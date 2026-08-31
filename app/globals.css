@@ -851,14 +851,11 @@
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(108deg, transparent 10%, oklch(0.98 0.008 210 / 12%) 27%, oklch(0.98 0.008 210 / 22%) 45%, oklch(0.98 0.008 210 / 10%) 63%, transparent 82%),
-    linear-gradient(72deg, transparent 34%, oklch(0.78 0.025 225 / 10%) 48% 66%, transparent 80%);
-  background-position: 130% 0, center;
-  background-size: 285% 100%, 100% 100%;
+    radial-gradient(ellipse 72% 58% at 50% 42%, oklch(0.98 0.008 210 / 24%) 0%, oklch(0.82 0.018 220 / 12%) 42%, transparent 78%),
+    linear-gradient(90deg, transparent 12%, oklch(0.9 0.01 215 / 7%) 50%, transparent 88%);
   content: '';
   mix-blend-mode: screen;
   pointer-events: none;
-  animation: pack-metal-sweep 8s ease-in-out infinite;
 }
 
 .foil-pack-face::after {
@@ -878,12 +875,6 @@
 .foil-pack-face > * {
   position: relative;
   z-index: 1;
-}
-
-@keyframes pack-metal-sweep {
-  0%, 18% { background-position: 130% 0, center; opacity: 0.35; }
-  48% { background-position: -35% 0, center; opacity: 1; }
-  72%, 100% { background-position: -35% 0, center; opacity: 0.4; }
 }
 
 .foil-pack-top,
