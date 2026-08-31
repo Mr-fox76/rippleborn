@@ -39,6 +39,7 @@ export async function POST(request: Request) {
     })
 
     if (!payload) throw new Error('Xaman did not create a payment request.')
+    console.info('[xaman] Payload created', { uuid: payload.uuid })
 
     return NextResponse.json({
       uuid: payload.uuid,

@@ -168,7 +168,10 @@ export async function mintCardNft(
   }
   const nftId = mintMeta.nftoken_id
   if (!nftId) throw new Error('NFTokenMint succeeded but returned no token ID.')
-  console.info(`[v0] NFTokenMint succeeded. Decoded URI: ${Buffer.from(uri, 'hex').toString('utf8')}`)
+  console.info('[xrpl] NFT minted', {
+    transactionHash: mintResult.result.hash,
+    nftId,
+  })
 
   const offer: NFTokenCreateOffer = {
     TransactionType: 'NFTokenCreateOffer',

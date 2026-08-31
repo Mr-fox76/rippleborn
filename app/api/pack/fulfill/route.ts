@@ -389,7 +389,6 @@ export async function POST(request: Request) {
         const cardToMint = { ...card, uri: currentUri }
         const metadataError = await validateCardMetadata(cardToMint)
         if (metadataError) {
-          console.error(`[v0] Skipping ${card.name}: ${metadataError}`)
           if (card.name === 'The Phoenix') {
             await releasePhoenixSlot(destinationTag)
           }
@@ -454,8 +453,8 @@ export async function POST(request: Request) {
         claimOffers.map(async ({ offerId, claimExpiresAt }) => {
           try {
             await start(cleanupUnclaimedOffer, [{ offerId, claimExpiresAt }])
-          } catch (error) {
-            console.error(`[lifecycle] Unable to schedule cleanup for offer ${offerId}.`, error)
+          } catch {
+            // Cleanup scheduling failure is non-fatal and intentionally not logged with raw context.
           }
         }),
       )
