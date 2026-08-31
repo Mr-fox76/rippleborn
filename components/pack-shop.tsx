@@ -191,7 +191,7 @@ export function PackShop({
         : 'text-muted-foreground'
 
   return (
-    <div id="reading-table" className="mx-auto flex w-full flex-col gap-5 sm:gap-6">
+    <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-5 sm:gap-6">
       <div className="pack-theme-intro mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-5 sm:px-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-6">
         <div className="flex min-w-0 flex-1 flex-col gap-2 text-center lg:text-left">
           <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
@@ -227,7 +227,7 @@ export function PackShop({
 
       <CardStylePreview theme={pack.theme.id} />
 
-      <div className="stable-opening-stage">
+      <div className="stable-opening-stage mx-auto w-full max-w-6xl">
         <div className="stable-opening-visual">
           <div
             className={`stable-opening-layer ${packOpened ? 'is-hidden' : 'is-active'}`}
