@@ -53,7 +53,7 @@ export function PackGallery() {
 
             <div className="flex flex-col gap-5 text-center">
               <div className="flex flex-col items-center gap-2">
-                <span className="pack-set-accent mb-1 inline-flex size-14 rotate-45 items-center justify-center rounded-sm border border-current/40 bg-background/30 shadow-[0_0_24px_currentColor] transition-transform duration-300 group-hover:rotate-[55deg]" aria-hidden="true">
+                <span className="pack-set-accent mb-4 inline-flex size-14 rotate-45 items-center justify-center rounded-sm border border-current/40 bg-background/30 shadow-[0_0_24px_currentColor] transition-transform duration-300 group-hover:rotate-[55deg]" aria-hidden="true">
                   <SetSymbol className="size-7 -rotate-45" strokeWidth={1.5} />
                 </span>
                 <p className="pack-set-accent font-mono text-[0.65rem] uppercase tracking-[0.24em]">{pack.kicker}</p>
