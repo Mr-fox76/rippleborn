@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
-import { getCardWisdom, type Card } from '@/lib/rippleborn'
+import { getCardWisdom, getDisplayCardName, type Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
   mintStatus?: 'minted' | 'skipped' | 'failed'
@@ -22,6 +22,7 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
   Epic: 'rarity-epic',
   Legendary: 'rarity-legendary',
   Mythic: 'rarity-mythic',
+  Phoenix: 'rarity-phoenix',
 }
 
 function playCardFlipSound() {
@@ -71,22 +72,58 @@ function playCardFlipSound() {
   }
 }
 
+function playPhoenixFanfare() {
+  try {
+    const context = new AudioContext()
+    const now = context.currentTime
+    const master = context.createGain()
+    master.gain.setValueAtTime(0.0001, now)
+    master.gain.exponentialRampToValueAtTime(0.24, now + 0.04)
+    master.gain.exponentialRampToValueAtTime(0.0001, now + 1.5)
+    master.connect(context.destination)
+
+    ;[261.63, 329.63, 392, 523.25].forEach((frequency, index) => {
+      const tone = context.createOscillator()
+      const gain = context.createGain()
+      const start = now + index * 0.11
+      tone.type = index === 3 ? 'sine' : 'triangle'
+      tone.frequency.setValueAtTime(frequency, start)
+      gain.gain.setValueAtTime(0.0001, start)
+      gain.gain.exponentialRampToValueAtTime(0.6, start + 0.03)
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.7)
+      tone.connect(gain).connect(master)
+      tone.start(start)
+      tone.stop(start + 0.75)
+    })
+
+    window.setTimeout(() => void context.close(), 1800)
+  } catch {
+    // Audio is an enhancement; the Phoenix reveal must still work without it.
+  }
+}
+
 function FaceDownCard({
   index,
-  isChaseSlot = false,
+  setName,
+  rarity,
+  limited = false,
   onReveal,
 }: {
   index: number
-  isChaseSlot?: boolean
+  setName: string
+  rarity?: Card['rarity']
+  limited?: boolean
   onReveal?: () => void
 }) {
+  const rarityClass = rarity ? RARITY_CLASSES[rarity] : ''
+  const glowClass = limited ? 'rarity-limited' : rarityClass
   const content = (
     <div className="tarot-back-inner">
       <span className="celestial-orbit" aria-hidden="true">
         <span className="celestial-core" />
       </span>
-      <span className="celestial-card-name" aria-hidden="true">Ledgerborn</span>
-      <span className="celestial-card-motto" aria-hidden="true">Genesis Collection</span>
+      <span className="celestial-card-name" aria-hidden="true">{setName}</span>
+      <span className="celestial-card-motto" aria-hidden="true">Card collection</span>
       <span className="sr-only">Face-down card {index + 1}</span>
     </div>
   )
@@ -102,8 +139,8 @@ function FaceDownCard({
   return (
     <button
       type="button"
-      className={`tarot-card tarot-back tarot-reveal-button ${isChaseSlot ? 'is-chase-slot' : ''}`}
-      aria-label={`Reveal card ${index + 1}${isChaseSlot ? ', enhanced Mythic chance' : ''}`}
+      className={`tarot-card tarot-back tarot-reveal-button ${glowClass}`}
+      aria-label={`Reveal card ${index + 1}`}
       onClick={onReveal}
     >
       {content}
@@ -114,10 +151,12 @@ function FaceDownCard({
 function RevealedSpread({
   cards,
   buyer,
+  setName,
   onReset,
 }: {
   cards: FulfilledCard[]
   buyer: string | null
+  setName: string
   onReset?: () => void
 }) {
   const [revealed, setRevealed] = useState(() => new Set<number>())
@@ -132,6 +171,9 @@ function RevealedSpread({
   function revealCard(index: number) {
     if (revealing !== null || revealed.has(index)) return
     playCardFlipSound()
+    if (cards[index]?.rarity === 'Phoenix') {
+      window.setTimeout(playPhoenixFanfare, 430)
+    }
     setRevealing(index)
   }
 
@@ -154,6 +196,7 @@ function RevealedSpread({
       <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
         {[1, 0, 2].map((index) => {
         const card = cards[index]
+        const displayName = card ? getDisplayCardName(card.name) : ''
         const isRevealed = revealed.has(index)
 
         return (
@@ -161,14 +204,31 @@ function RevealedSpread({
             key={card?.id ?? index}
             className={`tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
           >
-            {card && isRevealed ? (
+            <div className={`tarot-slot-frame ${card && isRevealed ? 'show-face' : 'show-back'}`}>
+              <div className="tarot-slot-face tarot-slot-back">
+                <FaceDownCard
+                  index={index}
+                  setName={setName}
+                  rarity={card?.rarity}
+                  limited={card?.limited}
+                  onReveal={card && revealing === null && !isRevealed ? () => revealCard(index) : undefined}
+                />
+              </div>
+              <div className="tarot-slot-face tarot-slot-front" aria-hidden={!card || !isRevealed}>
+              {card ? (
               <article
-                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
+                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
               >
+                {card.rarity === 'Phoenix' ? (
+                  <div className="phoenix-victory-banner" role="status" aria-live="assertive">
+                    <span>Godlike pull</span>
+                    <strong>The Phoenix awakens</strong>
+                  </div>
+                ) : null}
                 <div
                   className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   tabIndex={0}
-                  aria-label={`${card.name} wisdom: ${getCardWisdom(card.name)}`}
+                  aria-label={`${displayName} wisdom: ${getCardWisdom(card.name)}`}
                 >
                   <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
                     <Image
@@ -183,7 +243,7 @@ function RevealedSpread({
                     <div className="absolute inset-0 bg-card/20" aria-hidden="true" />
                     <Image
                       src={card.image}
-                      alt={`${card.name}, ${card.rarity} card`}
+                      alt={`${displayName}, ${card.rarity} card`}
                       fill
                       priority
                       sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
@@ -202,7 +262,7 @@ function RevealedSpread({
                   </div>
                   <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
                     <p className="text-center font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
-                      “{card.name}”
+                      “{displayName}”
                     </p>
                   </div>
                   <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
@@ -223,28 +283,26 @@ function RevealedSpread({
                   </div>
                 ) : null}
               </article>
-            ) : (
-              <FaceDownCard
-                index={index}
-                isChaseSlot={card?.slot === 3}
-                onReveal={card && revealing === null ? () => revealCard(index) : undefined}
-              />
-            )}
+              ) : null}
+              </div>
+            </div>
           </li>
         )
         })}
       </ol>
-      {canReset && onReset ? (
-        <Button
-          type="button"
-          size="lg"
-          onClick={onReset}
-          className="primary-action px-6 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
-        >
-          <RotateCcw className="size-5" aria-hidden="true" />
-          Reset the deck
-        </Button>
-      ) : null}
+      <div className="tarot-control-row">
+        {canReset && onReset ? (
+          <Button
+            type="button"
+            size="lg"
+            onClick={onReset}
+            className="primary-action px-6 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+          >
+            <RotateCcw className="size-5" aria-hidden="true" />
+            Reset the deck
+          </Button>
+        ) : null}
+      </div>
     </div>
   )
 }
@@ -252,10 +310,12 @@ function RevealedSpread({
 export function TarotCards({
   cards,
   buyer,
+  setName,
   onReset,
 }: {
   cards: FulfilledCard[] | null
   buyer: string | null
+  setName: string
   onReset?: () => void
 }) {
   return (
@@ -265,22 +325,29 @@ export function TarotCards({
           key={cards.map((card) => card.id).join(':')}
           cards={cards}
           buyer={buyer}
+          setName={setName}
           onReset={onReset}
         />
       ) : (
-      <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
-          {[0, 1, 2].map((index) => (
-            <li key={index} className="tarot-slot min-w-0 flex-1">
-              <FaceDownCard index={index} />
-            </li>
-          ))}
-        </ol>
+        <div className="flex flex-col items-center gap-6">
+          <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
+            {[1, 0, 2].map((index) => (
+              <li key={index} className="tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1">
+                <div className="tarot-slot-frame show-back">
+                  <div className="tarot-slot-face tarot-slot-back">
+                    <FaceDownCard index={index} setName={setName} />
+                  </div>
+                  <div className="tarot-slot-face tarot-slot-front" aria-hidden="true" />
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className="tarot-control-row" />
+        </div>
       )}
-      {cards ? (
-        <p className="mt-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
-          Reveal the cards in any order. The distinct glow marks the slot with a Mythic chance.
-        </p>
-      ) : null}
+      <p className="tarot-instruction text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
+        {cards ? 'Reveal the cards in any order. Each glow reflects the rarity already locked inside.' : ''}
+      </p>
     </section>
   )
 }

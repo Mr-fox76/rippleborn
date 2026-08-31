@@ -1,4 +1,4 @@
-export const RARITIES = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic'] as const
+export const RARITIES = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Phoenix'] as const
 
 export type Rarity = (typeof RARITIES)[number]
 
@@ -18,7 +18,6 @@ export type Card = {
 
 export const PACK_PRICE_XRP = 5
 export const CARDS_PER_PACK = 3
-export const PHOENIX_MAX_SUPPLY = 5
 export const PACK_SET_IDS = ['ledgerborn', 'cyborg-cowboy', 'chromatic-abyss'] as const
 export type PackSetId = (typeof PACK_SET_IDS)[number]
 
@@ -75,15 +74,22 @@ export function getCardWisdom(name: string): string {
   return CARD_WISDOM[name] ?? 'Carry hope into what comes next. Your light can change the path ahead.'
 }
 
-/**
- * Odds per slot, expressed as weights that sum to 100.
- * Slot 1 is a guaranteed Common, slot 3 carries the chase rarities.
- */
-export const SLOT_ODDS: { slot: number; label: string; odds: Partial<Record<Rarity, number>> }[] = [
-  { slot: 1, label: 'Slot 1', odds: { Common: 100 } },
-  { slot: 2, label: 'Slot 2', odds: { Common: 70, Rare: 30 } },
-  { slot: 3, label: 'Slot 3', odds: { Rare: 55, Epic: 30, Legendary: 12, Mythic: 3 } },
-]
+/** Converts legacy collection branding for display without changing immutable NFT metadata or mint URIs. */
+export function getDisplayCardName(name: string): string {
+  return name.replace(/ripple\s*born/gi, 'Ledgerborn')
+}
+
+/** Every card position rolls independently from this shared distribution. */
+export const SHARED_RARITY_ODDS: Record<Rarity, number> = {
+  Common: 56.57,
+  Rare: 28.33,
+  Epic: 10,
+  Legendary: 4,
+  Mythic: 1,
+  Phoenix: 0.1,
+}
+
+export const PACK_SLOTS = [1, 2, 3] as const
 
 type CardArt = { name: string; image: string; uri: string }
 
@@ -123,24 +129,23 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
   Mythic: [
     { name: 'Rippleborn, the Unledgered', image: '/cards/rippleborn-the-unledgered.png', uri: metadataUri('rippleborn-the-unledgered') },
     { name: 'Primordial Tidewyrm', image: '/cards/primordial-tidewyrm.png', uri: metadataUri('primordial-tidewyrm') },
+  ],
+  Phoenix: [
     { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: 'https://ledgerborn.com/cards/the-phoenix.json' },
   ],
 }
 
-/** Picks a rarity for a slot using its weighted odds table. */
-export function rollRarity(slot: number): Rarity {
-  const entry = SLOT_ODDS.find((s) => s.slot === slot) ?? SLOT_ODDS[0]
-  const roll = Math.random() * 100
+/** Picks a rarity using the shared distribution used by every pack position. */
+export function rollRarity(random = Math.random): Rarity {
+  const roll = random() * 100
   let cumulative = 0
 
   for (const rarity of RARITIES) {
-    const weight = entry.odds[rarity]
-    if (!weight) continue
-    cumulative += weight
+    cumulative += SHARED_RARITY_ODDS[rarity]
     if (roll < cumulative) return rarity
   }
 
-  return 'Common'
+  return 'Mythic'
 }
 
 function pickCard(rarity: Rarity): CardArt {
@@ -148,34 +153,35 @@ function pickCard(rarity: Rarity): CardArt {
   return pool[Math.floor(Math.random() * pool.length)]
 }
 
-export function createPhoenixCard(edition: number, uri: string): Card {
-  return {
-    id: `3-phoenix-${edition}`,
-    name: 'The Phoenix',
-    rarity: 'Mythic',
-    slot: 3,
-    image: '/cards/the-phoenix.png',
-    uri,
-    edition,
-    maxSupply: 5,
-    limited: true,
-  }
-}
-
-/** Rolls a full 3-card pack, one card per slot. */
+/** Rolls and locks a duplicate-free 3-card pack before it is exposed to the client. */
 export function rollPack(): Card[] {
-  return SLOT_ODDS.map(({ slot }) => {
-    const rarity = rollRarity(slot)
-    const { name, image, uri } = pickCard(rarity)
-    return {
-      id: `${slot}-${Math.random().toString(36).slice(2, 10)}`,
-      name,
-      rarity,
-      slot,
-      image,
-      uri,
+  const cards: Card[] = []
+  const selectedNames = new Set<string>()
+
+  for (const slot of PACK_SLOTS) {
+    let selected: Card | undefined
+
+    for (let attempt = 0; attempt < 100; attempt += 1) {
+      const rarity = rollRarity()
+      const { name, image, uri } = pickCard(rarity)
+      if (selectedNames.has(name)) continue
+      selected = {
+        id: `${slot}-${Math.random().toString(36).slice(2, 10)}`,
+        name,
+        rarity,
+        slot,
+        image,
+        uri,
+      }
+      break
     }
-  })
+
+    if (!selected) throw new Error('Unable to create a pack with three unique cards.')
+    selectedNames.add(selected.name)
+    cards.push(selected)
+  }
+
+  return cards
 }
 
 /**

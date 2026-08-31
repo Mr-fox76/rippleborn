@@ -56,7 +56,7 @@
   --ring: oklch(0.78 0.12 205);
   --gold: oklch(0.79 0.13 83);
   --gold-foreground: oklch(0.105 0.025 225);
-  --phoenix: oklch(0.72 0.2 25);
+  --phoenix: oklch(0.94 0.12 104);
   --radius: 0.65rem;
 }
 
@@ -86,12 +86,13 @@
   overflow: hidden;
   background-color: var(--background);
   background-image:
-    linear-gradient(180deg, oklch(0.055 0.02 225 / 64%), oklch(0.055 0.02 225 / 2%) 38%, oklch(0.055 0.02 225 / 72%)),
-    linear-gradient(90deg, oklch(0.055 0.02 225 / 48%), transparent 24%, transparent 76%, oklch(0.055 0.02 225 / 48%)),
+    linear-gradient(180deg, oklch(0.055 0.02 225 / 42%), transparent 42%, oklch(0.055 0.02 225 / 56%)),
+    linear-gradient(90deg, oklch(0.055 0.02 225 / 30%), transparent 20%, transparent 80%, oklch(0.055 0.02 225 / 30%)),
     url('/images/ledgerborn-cyberpunk-background.png');
   background-position: center, center, center top;
   background-size: cover, cover, cover;
   background-attachment: fixed;
+  background-blend-mode: normal, normal, normal;
 }
 
 .table-surface::before,
@@ -133,13 +134,13 @@
 }
 
 .pack-theme-mythic {
-  --pack-accent: oklch(0.76 0.16 292);
-  --pack-accent-strong: var(--phoenix);
-  --pack-surface: oklch(0.095 0.045 275 / 82%);
+  --pack-accent: oklch(0.68 0.23 305);
+  --pack-accent-strong: oklch(0.84 0.19 325);
+  --pack-surface: oklch(0.095 0.055 292 / 88%);
   background-image:
-    radial-gradient(circle at 18% 20%, color-mix(in oklch, var(--phoenix) 26%, transparent), transparent 35%),
-    radial-gradient(circle at 84% 28%, oklch(0.74 0.18 292 / 24%), transparent 38%),
-    linear-gradient(180deg, oklch(0.055 0.04 275 / 28%), oklch(0.055 0.035 265 / 58%) 68%, oklch(0.045 0.025 250 / 84%)),
+    radial-gradient(circle at 18% 20%, oklch(0.72 0.22 305 / 32%), transparent 35%),
+    radial-gradient(circle at 84% 28%, oklch(0.82 0.2 325 / 28%), transparent 38%),
+    linear-gradient(180deg, oklch(0.075 0.06 295 / 34%), oklch(0.06 0.05 280 / 64%) 68%, oklch(0.04 0.03 260 / 88%)),
     url('/images/ledgerborn-page-bg.png');
   background-position: center, center, center, center top;
   background-size: cover, cover, cover, cover;
@@ -172,51 +173,11 @@
 }
 
 .pack-theme.table-surface::after {
-  background:
-    linear-gradient(180deg, transparent 10%, oklch(0.045 0.02 235 / 72%)),
-    radial-gradient(circle at 22% 28%, var(--pack-accent) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 78% 18%, var(--pack-accent-strong) 0 1px, transparent 1.5px);
-  background-size: auto, 25rem 25rem, 32rem 32rem;
-  opacity: 0.42;
+  display: none;
 }
 
 .pack-theme-atmosphere {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse at 50% 20%, color-mix(in oklch, var(--pack-accent) 14%, transparent), transparent 46%);
-}
-
-.pack-theme-mythic .pack-theme-atmosphere {
-  background:
-    linear-gradient(118deg, transparent 0 38%, color-mix(in oklch, var(--pack-accent-strong) 22%, transparent) 38.2% 38.5%, transparent 38.7% 100%),
-    linear-gradient(64deg, transparent 0 61%, color-mix(in oklch, var(--pack-accent) 20%, transparent) 61.2% 61.5%, transparent 61.7% 100%),
-    repeating-linear-gradient(104deg, transparent 0 5.5rem, color-mix(in oklch, var(--pack-accent-strong) 12%, transparent) 5.55rem 5.65rem, transparent 5.7rem 9rem),
-    radial-gradient(ellipse at 50% 16%, color-mix(in oklch, var(--pack-accent-strong) 34%, transparent), transparent 44%);
-  background-size: 120% 100%, 115% 100%, 100% 100%, auto;
-  mask-image: linear-gradient(to bottom, black, black 62%, transparent 96%);
-  opacity: 0.9;
-}
-
-.pack-theme-cyborg .pack-theme-atmosphere {
-  background-image:
-    linear-gradient(color-mix(in oklch, var(--pack-accent) 16%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklch, var(--pack-accent) 16%, transparent) 1px, transparent 1px),
-    radial-gradient(ellipse at 50% 22%, color-mix(in oklch, var(--pack-accent-strong) 28%, transparent), transparent 54%);
-  background-size: 4rem 4rem, 4rem 4rem, auto;
-  mask-image: linear-gradient(to bottom, transparent 4%, black 28%, black 68%, transparent 94%);
-  opacity: 0.88;
-}
-
-.pack-theme-chromatic .pack-theme-atmosphere {
-  background:
-    repeating-radial-gradient(circle at 50% 18%, color-mix(in oklch, var(--pack-accent) 24%, transparent) 0 1px, transparent 2px 2.6rem),
-    conic-gradient(from 210deg at 50% 24%, oklch(0.78 0.18 190 / 13%), oklch(0.72 0.2 335 / 16%), oklch(0.7 0.18 285 / 12%), oklch(0.78 0.18 190 / 13%)),
-    radial-gradient(ellipse at 50% 24%, color-mix(in oklch, var(--pack-accent-strong) 28%, transparent), transparent 54%);
-  background-size: auto, 140% 140%, auto;
-  mask-image: linear-gradient(to bottom, black, black 58%, transparent 96%);
-  opacity: 0.9;
+  display: none;
 }
 
 .pack-theme-bar {
@@ -344,14 +305,14 @@
 }
 
 .pack-set-card-mythic {
-  --set-card-accent: var(--phoenix);
-  --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.31 0.13 20));
+  --set-card-accent: oklch(0.84 0.19 325);
+  --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.24 0.13 305));
   --set-card-image: url('/images/ledgerborn-page-bg.png');
-  border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.74 0.16 292));
+  border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.68 0.23 305));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
-    0 0 2.5rem color-mix(in oklch, var(--phoenix) 24%, transparent),
-    inset 0 1px 0 oklch(0.74 0.16 292 / 38%);
+    0 0 2.5rem oklch(0.68 0.23 305 / 24%),
+    inset 0 1px 0 oklch(0.84 0.19 325 / 38%);
 }
 
 .pack-set-card-mythic::before {
@@ -361,8 +322,8 @@
 
 .pack-set-card-mythic::after {
   background:
-    radial-gradient(circle at 18% 20%, color-mix(in oklch, var(--phoenix) 38%, transparent), transparent 35%),
-    radial-gradient(circle at 84% 26%, oklch(0.74 0.16 292 / 28%), transparent 38%),
+    radial-gradient(circle at 18% 20%, oklch(0.68 0.23 305 / 38%), transparent 35%),
+    radial-gradient(circle at 84% 26%, oklch(0.84 0.19 325 / 28%), transparent 38%),
     linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 18%, transparent), var(--set-card-surface) 74%);
 }
 
@@ -414,27 +375,52 @@
 }
 
 .card-style-preview {
+  position: relative;
   display: flex;
   width: 100%;
+  min-height: 24rem;
   max-width: 72rem;
   margin-inline: auto;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
+  align-items: flex-end;
   overflow: hidden;
-  padding: 1.5rem;
+  padding: 2rem;
   border: 1px solid color-mix(in oklch, var(--pack-accent) 34%, var(--border));
-  background: color-mix(in oklch, var(--pack-surface) 88%, transparent);
+  background-image:
+    linear-gradient(90deg, oklch(0.025 0.008 250 / 96%) 0%, oklch(0.025 0.008 250 / 78%) 42%, oklch(0.025 0.008 250 / 18%) 76%),
+    linear-gradient(0deg, oklch(0.025 0.008 250 / 72%), transparent 60%),
+    var(--style-guide-art);
+  background-position: center;
+  background-size: cover;
   box-shadow: inset 0 1px 0 color-mix(in oklch, var(--pack-accent) 14%, transparent);
-  backdrop-filter: blur(0.75rem);
+}
+
+.card-style-preview-mythic {
+  min-height: 32rem;
+  background-position: center, center, center 42%;
+  background-size: cover, cover, cover;
+}
+
+.card-style-preview-cyborg {
+  min-height: 32rem;
+  background-position: center, center, center 46%;
+}
+
+.card-style-preview-chromatic {
+  min-height: 32rem;
+  background-position: center, center, center 40%;
+  background-size: cover, cover, 175%;
 }
 
 .card-style-preview-copy {
+  position: relative;
+  z-index: 1;
   display: flex;
-  max-width: 29rem;
-  flex: 1;
+  max-width: 31rem;
   flex-direction: column;
   gap: 0.65rem;
+  padding: 1rem;
+  background: oklch(0.025 0.008 250 / 56%);
+  backdrop-filter: blur(0.3rem);
 }
 
 .card-style-preview-deck {
@@ -635,9 +621,33 @@
 
 @media (max-width: 767px) {
   .card-style-preview {
-    align-items: stretch;
-    flex-direction: column;
-    padding: 1.25rem;
+    min-height: 27rem;
+    align-items: flex-end;
+    padding: 1rem;
+    background-image:
+      linear-gradient(0deg, oklch(0.025 0.008 250 / 96%) 0%, oklch(0.025 0.008 250 / 60%) 52%, transparent 82%),
+      var(--style-guide-art);
+    background-position: center;
+    background-size: cover;
+  }
+
+  .card-style-preview-mythic {
+    background-position: center, center 38%;
+    background-size: cover, cover;
+  }
+
+  .card-style-preview-cyborg {
+    background-position: center, center 46%;
+  }
+
+  .card-style-preview-chromatic {
+    background-position: center, center 32%;
+    background-size: cover, 170%;
+  }
+
+  .card-style-preview-copy {
+    max-width: none;
+    padding: 0.875rem;
   }
 
   .card-style-preview-deck {
@@ -677,10 +687,15 @@
   gap: 1.25rem;
 }
 
+.stable-opening-stage {
+  min-height: 48rem;
+}
+
 .stable-opening-visual {
   position: relative;
   min-height: 38rem;
-  contain: layout;
+  contain: layout paint;
+  isolation: isolate;
 }
 
 .stable-opening-layer {
@@ -691,8 +706,7 @@
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(0.75rem);
-  transition: opacity 500ms ease-out, transform 500ms ease-out;
+  transition: opacity 320ms ease-out;
 }
 
 .stable-opening-layer:not(.stable-card-layer) {
@@ -703,30 +717,17 @@
   z-index: 2;
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(0);
 }
 
 .stable-card-layer.is-hidden {
   align-items: center;
   opacity: 0.14;
-  transform: translateY(0);
 }
 
 .stable-card-layer > section {
   width: 100%;
 }
 
-.stable-card-layer.is-active .tarot-slot {
-  animation: slot-arrival 500ms ease-out both;
-}
-
-.stable-card-layer.is-active .tarot-slot:nth-child(2) { animation-delay: 120ms; }
-.stable-card-layer.is-active .tarot-slot:nth-child(3) { animation-delay: 240ms; }
-
-@keyframes slot-arrival {
-  from { opacity: 0; transform: translateY(0.75rem); }
-  to { opacity: 1; transform: translateY(0); }
-}
 
 .pack-opening-stage {
   position: relative;
@@ -749,34 +750,25 @@
   cursor: pointer;
   flex-direction: column;
   overflow: visible;
-  border: 1px solid color-mix(in oklch, var(--pack-accent) 68%, var(--pack-accent-strong));
+  border: 1px solid oklch(0.3 0.01 250);
   border-radius: 0;
   color: var(--foreground);
   background:
-    linear-gradient(108deg, transparent 18%, oklch(0.93 0.018 210 / 20%) 36%, transparent 49%),
-    linear-gradient(72deg, transparent 55%, color-mix(in oklch, var(--pack-accent) 20%, transparent) 56% 58%, transparent 60%),
-    radial-gradient(circle at 50% 40%, color-mix(in oklch, var(--pack-accent-strong) 34%, transparent), transparent 48%),
-    linear-gradient(145deg, color-mix(in oklch, var(--pack-accent) 42%, oklch(0.13 0.035 235)), color-mix(in oklch, var(--pack-accent-strong) 28%, oklch(0.08 0.03 245)));
-  background-size: 220% 100%, auto, auto, auto;
+    linear-gradient(108deg, transparent 16%, oklch(0.96 0.015 210 / 24%) 35%, transparent 50%),
+    linear-gradient(72deg, transparent 53%, oklch(0.82 0.015 240 / 12%) 56% 59%, transparent 62%),
+    linear-gradient(145deg, oklch(0.1 0.008 250), oklch(0.025 0.005 250) 62%, oklch(0.075 0.008 250));
+  background-size: 220% 100%, auto, auto;
   box-shadow:
-    0 2rem 4rem oklch(0.04 0.02 225 / 72%),
-    0 0.65rem 1.2rem oklch(0.04 0.02 225 / 48%),
-    0 0 1.5rem color-mix(in oklch, var(--pack-accent) 24%, transparent),
-    inset 1px 0 0 oklch(0.93 0.018 210 / 14%),
-    inset -1px 0 0 color-mix(in oklch, var(--pack-accent-strong) 24%, transparent);
-  filter: saturate(1.18);
-  animation: foil-idle 6s ease-in-out infinite;
-  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+    inset 1px 0 0 oklch(0.96 0.015 210 / 16%),
+    inset -1px 0 0 oklch(0.96 0.015 210 / 8%);
+  filter: contrast(1.08);
+  animation: foil-idle 4.8s ease-in-out infinite;
+  transition: filter 220ms ease;
 }
 
 .pack-preview .foil-pack:hover,
 .can-open.phase-sealed .foil-pack:hover {
-  box-shadow:
-    0 2.5rem 6rem oklch(0.04 0.02 225 / 82%),
-    0 0 3.5rem color-mix(in oklch, var(--primary) 30%, transparent),
-    0 0 0 1px color-mix(in oklch, var(--gold) 48%, transparent),
-    inset 0 1px 0 oklch(0.93 0.018 210 / 18%);
-  filter: brightness(1.08);
+  filter: brightness(1.06) contrast(1.08);
 }
 
 .can-open.phase-sealed .foil-pack:hover {
@@ -800,12 +792,11 @@
   flex-direction: column;
   gap: 0.65rem;
   overflow: hidden;
-  border-inline: 1px solid color-mix(in oklch, var(--pack-accent) 38%, transparent);
+  border-inline: 1px solid oklch(0.24 0.008 250);
   background:
-    linear-gradient(100deg, transparent 18%, oklch(0.93 0.018 210 / 10%) 32%, transparent 45%),
-    radial-gradient(circle at center, color-mix(in oklch, var(--pack-accent-strong) 24%, transparent), transparent 55%),
-    repeating-radial-gradient(circle at center, transparent 0 1.35rem, color-mix(in oklch, var(--pack-accent) 12%, transparent) 1.4rem 1.45rem);
-  box-shadow: inset 0 0 2rem oklch(0.04 0.02 225 / 28%);
+    linear-gradient(100deg, transparent 18%, oklch(0.96 0.015 210 / 14%) 32%, transparent 45%),
+    linear-gradient(180deg, oklch(0.08 0.006 250), oklch(0.025 0.004 250) 72%, oklch(0.065 0.006 250));
+  box-shadow: inset 0 0 2rem oklch(0.01 0.002 250 / 65%);
   text-align: center;
 }
 
@@ -815,11 +806,11 @@
   height: 1.2rem;
   flex: none;
   overflow: hidden;
-  border-block: 1px solid color-mix(in oklch, var(--pack-accent) 58%, transparent);
+  border-block: 1px solid oklch(0.3 0.008 250);
   background:
     repeating-linear-gradient(135deg, transparent 0 5px, oklch(0.93 0.018 210 / 12%) 5px 6px),
-    linear-gradient(90deg, color-mix(in oklch, var(--pack-accent) 78%, var(--card)), var(--pack-accent-strong), color-mix(in oklch, var(--pack-accent) 78%, var(--card)));
-  box-shadow: inset 0 1px 0 oklch(0.93 0.018 210 / 20%);
+    linear-gradient(90deg, oklch(0.08 0.006 250), oklch(0.28 0.01 250), oklch(0.08 0.006 250));
+  box-shadow: inset 0 1px 0 oklch(0.93 0.018 210 / 18%);
   opacity: 0.86;
 }
 
@@ -830,83 +821,54 @@
   content: '';
 }
 
-.foil-pack-kicker,
-.foil-pack-count,
-.pack-opening-prompt {
+.pack-opening-prompt,
+.foil-pack-caption {
   font-family: var(--font-mono);
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
 
-.foil-pack-kicker,
-.foil-pack-count {
-  color: var(--pack-accent-strong);
-}
-
-.foil-pack-kicker {
-  padding-top: 0.65rem;
-  border-top: 1px solid color-mix(in oklch, var(--pack-accent) 42%, transparent);
-}
-
-.foil-pack-sigil {
-  margin-bottom: 0.75rem;
-}
-
-.foil-pack-count {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-}
-
-.foil-pack-count-number {
-  font-family: var(--font-sans);
-  font-size: 2.8rem;
-  font-weight: 750;
-  line-height: 0.8;
-  letter-spacing: -0.08em;
+.foil-pack-caption {
+  color: oklch(0.68 0.008 250);
 }
 
 .foil-pack-title {
+  color: var(--pack-accent-strong);
+  text-shadow: 0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 72%, transparent);
   font-family: var(--font-sans);
-  font-size: 1.8rem;
+  font-size: 2.35rem;
   font-weight: 650;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.025em;
   text-transform: uppercase;
 }
 
-.foil-pack-sigil {
-  position: relative;
+.foil-pack-rune {
   display: grid;
-  width: 4.5rem;
+  width: 5rem;
   aspect-ratio: 1;
+  margin-bottom: 1.25rem;
+  rotate: 45deg;
   place-items: center;
-  border: 1px solid var(--pack-accent-strong);
-  border-radius: 9999px;
+  border: 1px solid oklch(0.42 0.008 250);
+  border-radius: 0.2rem;
+  color: oklch(0.72 0.008 250);
+  background: oklch(0.035 0.004 250 / 82%);
+  box-shadow: 0 0 1rem color-mix(in oklch, var(--pack-accent-strong) 28%, transparent);
+  transition: box-shadow 220ms ease, border-color 220ms ease;
 }
 
-.foil-pack-sigil::before,
-.foil-pack-sigil::after {
-  position: absolute;
-  width: 130%;
-  height: 42%;
-  border: 1px solid color-mix(in oklch, var(--pack-accent) 72%, transparent);
-  border-radius: 9999px;
-  content: '';
+.foil-pack:hover .foil-pack-rune {
+  border-color: color-mix(in oklch, var(--pack-accent-strong) 55%, oklch(0.42 0.008 250));
+  box-shadow:
+    0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 55%, transparent),
+    0 0 2.6rem color-mix(in oklch, var(--pack-accent-strong) 24%, transparent);
 }
 
-.foil-pack-sigil::after {
-  transform: rotate(60deg);
-}
-
-.foil-pack-sigil span {
-  width: 1.25rem;
-  aspect-ratio: 1;
-  border-radius: 9999px;
-  background: var(--pack-accent-strong);
-  box-shadow: inset -0.3rem 0 0 color-mix(in oklch, var(--pack-accent) 38%, var(--card));
+.foil-pack-rune-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  rotate: -45deg;
 }
 
 .pack-opening-prompt {
@@ -948,12 +910,102 @@
 .opening-card:nth-child(3) { z-index: 3; }
 
 @keyframes foil-idle {
-  0%, 100% { background-position: -8rem 0, 0 0; }
-  50% { background-position: 8rem 0, 0 0; }
+  0%, 100% { background-position: -28rem 0, 0 0, 0 0; }
+  50% { background-position: 28rem 0, 0 0, 0 0; }
+}
+
+.tarot-spread {
+  min-height: 34.5rem;
+  overflow: clip;
+  padding: 0;
+}
+
+.stable-card-layer.is-hidden .tarot-spread {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  translate: -50% -50%;
 }
 
 .tarot-slot {
+  aspect-ratio: 2 / 3;
   perspective: 75rem;
+}
+
+.tarot-slot-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 2 / 3;
+  contain: layout paint;
+  transform-style: preserve-3d;
+}
+
+.tarot-slot-face {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  border-radius: 0.5rem;
+  backface-visibility: hidden;
+  transition: opacity 240ms ease, transform 520ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.tarot-slot-back {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+
+.tarot-slot-front {
+  opacity: 0;
+  pointer-events: none;
+  transform: rotateY(180deg);
+}
+
+.tarot-slot-frame.show-face .tarot-slot-back {
+  opacity: 0;
+  pointer-events: none;
+  transform: rotateY(-180deg);
+}
+
+.tarot-slot-frame.show-face .tarot-slot-front {
+  opacity: 1;
+  pointer-events: auto;
+  transform: rotateY(0deg);
+}
+
+.tarot-slot-face > .tarot-card {
+  width: 100%;
+  height: 100%;
+}
+
+.tarot-control-row,
+.pack-opening-button-row,
+.pack-purchase-row {
+  display: flex;
+  min-height: 4rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.tarot-instruction {
+  min-height: 2.5rem;
+  margin-top: 1.25rem;
+}
+
+.pack-status-row {
+  display: grid;
+  min-height: 4.5rem;
+  place-items: center;
+  overflow: hidden;
+}
+
+.pack-status-message {
+  display: -webkit-box;
+  overflow: hidden;
+  text-align: center;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .tarot-card {
@@ -997,24 +1049,26 @@
   outline-offset: 0.3rem;
 }
 
-.tarot-reveal-button.is-chase-slot {
-  border-color: var(--gold);
-  animation: chase-slot-glow 1.8s ease-in-out infinite;
+.tarot-back.rarity-common,
+.tarot-back.rarity-rare,
+.tarot-back.rarity-epic,
+.tarot-back.rarity-legendary,
+.tarot-back.rarity-mythic,
+.tarot-back.rarity-phoenix,
+.tarot-back.rarity-limited {
+  border-color: color-mix(in oklch, var(--rarity-color) 62%, var(--border));
+  box-shadow:
+    0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+    0 0 2.25rem color-mix(in oklch, var(--rarity-color) 64%, transparent),
+    inset 0 0 1.25rem color-mix(in oklch, var(--rarity-color) 10%, transparent);
 }
 
-@keyframes chase-slot-glow {
-  0%, 100% {
-    box-shadow:
-      0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
-      0 0 1.25rem color-mix(in oklch, var(--gold) 42%, transparent),
-      inset 0 0 1rem color-mix(in oklch, var(--gold) 8%, transparent);
-  }
-  50% {
-    box-shadow:
-      0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
-      0 0 3rem color-mix(in oklch, var(--gold) 82%, transparent),
-      inset 0 0 1.5rem color-mix(in oklch, var(--gold) 14%, transparent);
-  }
+.tarot-back.rarity-phoenix,
+.tarot-back.rarity-limited {
+  box-shadow:
+    0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+    0 0 3rem color-mix(in oklch, var(--rarity-color) 86%, transparent),
+    inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 18%, transparent);
 }
 
 .tarot-back::before {
@@ -1167,11 +1221,59 @@
 }
 
 .phoenix-reveal {
-  border-color: color-mix(in oklch, var(--primary) 48%, var(--accent));
+  z-index: 2;
+  border: 2px solid var(--phoenix);
   box-shadow:
-    0 1.5rem 4rem oklch(0.05 0.035 285 / 72%),
-    0 0 2.5rem color-mix(in oklch, var(--accent) 32%, transparent),
-    0 0 5rem color-mix(in oklch, var(--primary) 18%, transparent);
+    0 1.75rem 4.5rem oklch(0.04 0.025 225 / 78%),
+    0 0 2rem color-mix(in oklch, var(--phoenix) 92%, transparent),
+    0 0 5.5rem color-mix(in oklch, var(--phoenix) 58%, transparent),
+    inset 0 0 1.5rem color-mix(in oklch, var(--phoenix) 18%, transparent);
+  animation:
+    card-reveal 500ms ease-out both,
+    phoenix-divine-pulse 2.4s 650ms ease-in-out infinite;
+}
+
+.phoenix-reveal .rarity-art-frame {
+  background: color-mix(in oklch, var(--phoenix) 72%, var(--card));
+}
+
+.phoenix-reveal .rarity-badge {
+  color: var(--gold-foreground);
+  background: var(--phoenix);
+  box-shadow: 0 0 1.5rem color-mix(in oklch, var(--phoenix) 72%, transparent);
+}
+
+.phoenix-victory-banner {
+  position: absolute;
+  inset-inline: 50%;
+  top: 0.75rem;
+  z-index: 40;
+  display: flex;
+  width: max-content;
+  max-width: 90vw;
+  translate: -50% 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  color: var(--phoenix);
+  filter: drop-shadow(0 0 1rem color-mix(in oklch, var(--phoenix) 76%, transparent));
+  pointer-events: none;
+  text-align: center;
+  text-transform: uppercase;
+  animation: phoenix-victory-arrival 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.phoenix-victory-banner span {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+}
+
+.phoenix-victory-banner strong {
+  font-family: var(--font-sans);
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  letter-spacing: 0.08em;
 }
 
 .phoenix-edition {
@@ -1182,14 +1284,36 @@
 }
 
 .tarot-reveal {
-  aspect-ratio: auto;
+  aspect-ratio: 2 / 3;
   animation: card-reveal 500ms ease-out both;
-  will-change: transform, opacity;
+  will-change: opacity;
 }
 
 @keyframes card-reveal {
   from { opacity: 0; transform: translateY(0.75rem); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes phoenix-divine-pulse {
+  0%, 100% {
+    box-shadow:
+      0 1.75rem 4.5rem oklch(0.04 0.025 225 / 78%),
+      0 0 2rem color-mix(in oklch, var(--phoenix) 82%, transparent),
+      0 0 4rem color-mix(in oklch, var(--phoenix) 42%, transparent),
+      inset 0 0 1.5rem color-mix(in oklch, var(--phoenix) 14%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 1.75rem 4.5rem oklch(0.04 0.025 225 / 78%),
+      0 0 3rem color-mix(in oklch, var(--phoenix) 100%, transparent),
+      0 0 7rem color-mix(in oklch, var(--phoenix) 68%, transparent),
+      inset 0 0 2rem color-mix(in oklch, var(--phoenix) 24%, transparent);
+  }
+}
+
+@keyframes phoenix-victory-arrival {
+  from { opacity: 0; transform: translateY(1rem) scale(0.82); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* Controlled pack flip and card deal */
@@ -1201,7 +1325,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.5rem;
+}
+
+.pack-opening-button-row {
+  width: 100%;
 }
 
 .pack-opening-prompt { position: static; }
@@ -1305,16 +1432,18 @@
   }
 
   .pack-opening-stage {
-    min-height: 29rem;
+    min-height: 28rem;
     border-radius: 0;
   }
 
   .tarot-slot {
-    min-height: 24rem;
+    min-height: 0;
   }
 
   .tarot-spread {
+    min-height: 28rem;
     gap: 0.45rem;
+    padding: 4rem 0.25rem 1rem;
   }
 
   .tarot-card {
@@ -1327,19 +1456,28 @@
   .foil-pack,
   .pack-radiance,
   .opening-card,
-  .tarot-reveal-button.is-chase-slot,
   .table-surface::before,
   .table-surface::after,
   .tarot-slot.is-revealing .tarot-back,
   .phoenix-reveal::before,
+  .phoenix-victory-banner,
   .tarot-reveal {
     animation: none;
   }
 
   .stable-opening-layer,
   .foil-pack,
-  .tarot-reveal-button {
+  .tarot-reveal-button,
+  .tarot-slot-face {
     transition: none;
+  }
+
+  .tarot-slot-frame.show-face .tarot-slot-back {
+    display: none;
+  }
+
+  .tarot-slot-frame.show-face .tarot-slot-front {
+    transform: none;
   }
 }
 

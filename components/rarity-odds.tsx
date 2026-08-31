@@ -1,7 +1,7 @@
 import type { CollectionStats } from '@/lib/pack-results'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
-import { CARD_POOL, RARITIES, type PackSetId } from '@/lib/rippleborn'
+import { CARD_POOL, RARITIES, SHARED_RARITY_ODDS, type PackSetId } from '@/lib/rippleborn'
 
 export function RarityOdds({
   stats,
@@ -19,7 +19,7 @@ export function RarityOdds({
         ? CHROMATIC_ABYSS_POOL
         : CARD_POOL
   const categoryCounts = RARITIES.map((rarity) => ({
-    label: rarity,
+    rarity,
     count: pool[rarity].length,
   }))
   const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
@@ -30,7 +30,7 @@ export function RarityOdds({
     { label: 'Epic', value: stats.epicFound, className: 'rarity-epic' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
-    { label: 'The Phoenix', value: stats.phoenixFound, className: 'text-phoenix', featured: true },
+    { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true },
   ]
 
   return (
@@ -65,34 +65,58 @@ export function RarityOdds({
         ))}
       </dl>
 
-      <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
-        Hunt The Phoenix — this collection closes when its third Phoenix is successfully minted.
-      </p>
-
-      {!countersOnly ? (
-        <div className="flex flex-col gap-3 border-t border-border pt-4">
-          <div className="flex items-baseline justify-between gap-4">
-            <h2 className="font-sans text-sm font-semibold uppercase tracking-wider text-foreground">
-              Cards to collect
-            </h2>
-            <p className="font-mono text-sm font-semibold text-gold">{totalCards} card set</p>
+      {countersOnly ? (
+        <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
+          Phoenix is the rarest pull: a 0.1% independent chance per card.
+        </p>
+      ) : (
+        <div className="flex flex-col gap-3 border-t border-border pt-5">
+          <div className="flex items-end justify-between gap-4">
+            <div className="flex flex-col gap-1">
+              <h2 className="font-sans text-sm font-semibold uppercase tracking-wider text-foreground">
+                Collection guide
+              </h2>
+              <p className="text-xs text-muted-foreground">Independent odds for each card position</p>
+            </div>
+            <p className="shrink-0 font-mono text-sm font-semibold text-gold">{totalCards} cards</p>
           </div>
-          <dl className={`grid grid-cols-2 gap-2 ${setId === 'ledgerborn' ? 'sm:grid-cols-3 lg:grid-cols-6' : 'sm:grid-cols-5'}`}>
-            {categoryCounts.map((category) => (
-              <div
-                key={category.label}
-                className={`collection-category rarity-${category.label.toLowerCase()} border px-3 py-2 text-center`}
-              >
-                <dd className="font-mono text-lg font-semibold tabular-nums">{category.count}</dd>
-                <dt className="text-[0.65rem] font-medium uppercase tracking-wider">{category.label}</dt>
-              </div>
-            ))}
-          </dl>
-          <p className="text-center text-xs leading-relaxed text-muted-foreground">
-            Includes The Phoenix as a Mythic discovery. A maximum of three can be successfully minted from this collection.
+
+          <div role="table" aria-label="Collection rarity odds and card counts" className="border-y border-border">
+            <div role="row" className="grid grid-cols-[1fr_auto_auto] gap-4 border-b border-border py-2 text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground sm:grid-cols-[minmax(10rem,1fr)_8rem_8rem]">
+              <span role="columnheader">Rarity</span>
+              <span role="columnheader" className="text-right">Pull chance</span>
+              <span role="columnheader" className="text-right">In set</span>
+            </div>
+            {categoryCounts.map((category) => {
+              const rarityClass = `rarity-${category.rarity.toLowerCase()}`
+              return (
+                <div
+                  key={category.rarity}
+                  role="row"
+                  className={`${rarityClass} grid grid-cols-[1fr_auto_auto] items-center gap-4 border-b border-border/60 py-3 last:border-0 sm:grid-cols-[minmax(10rem,1fr)_8rem_8rem]`}
+                  style={{ color: 'var(--rarity-color)' }}
+                >
+                  <span role="cell" className="flex items-center gap-3 font-medium">
+                    <span className="size-2 shrink-0 rotate-45 bg-current" aria-hidden="true" />
+                    {category.rarity}
+                  </span>
+                  <span role="cell" className="text-right font-mono font-semibold tabular-nums">
+                    {SHARED_RARITY_ODDS[category.rarity]}%
+                  </span>
+                  <span role="cell" className="text-right font-mono font-semibold tabular-nums">
+                    {category.count}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+
+          <p className="text-pretty text-center text-xs leading-relaxed text-muted-foreground">
+            <span className="font-medium text-phoenix">Phoenix is the highest rarity tier.</span>{' '}
+            Every card position has an independent 0.1% chance to reveal The Phoenix.
           </p>
         </div>
-      ) : null}
+      )}
     </section>
   )
 }

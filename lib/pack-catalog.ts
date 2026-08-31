@@ -23,7 +23,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
   {
     id: 'ledgerborn',
     name: 'Ledgerborn - Mythic',
-    kicker: 'Mythical Set',
+    kicker: 'Mythic',
     description: 'Mythical characters, legendary beings, and ancient powers drawn from the ledger.',
     href: '/packs/ledgerborn',
     cardCount: 21,
@@ -35,14 +35,14 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Become Ledgerborn.',
       tagline: 'Chase legends. Awaken The Phoenix.',
       introduction:
-        'Enter a realm of mythical characters, legendary beings, and ancient powers. This collection closes permanently when its third Phoenix is successfully minted.',
-      features: ['Arcane one-by-one reveals', 'Three Phoenix discoveries', 'Forged and claimed on XRPL'],
+        'Enter a realm of mythical characters, legendary beings, and ancient powers. The Phoenix stands above Mythic as the collection’s rarest 0.1% pull.',
+      features: ['Arcane one-by-one reveals', 'Phoenix highest rarity', 'Forged and claimed on XRPL'],
     },
   },
   {
     id: 'cyborg-cowboy',
     name: 'Ledgerborn - Cyborg',
-    kicker: 'Frontier Set',
+    kicker: 'Cyborg',
     description: 'Cinematic outlaws, marshals, and machine legends from a far-future frontier.',
     href: '/packs/cyborg-cowboy',
     cardCount: 22,
@@ -61,7 +61,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
   {
     id: 'chromatic-abyss',
     name: 'Ledgerborn - Chromatic',
-    kicker: 'Visionary Set',
+    kicker: 'Chromatic',
     description: 'Impossible beings, recursive gardens, and lucid entities from beyond the visible spectrum.',
     href: '/packs/chromatic-abyss',
     cardCount: 22,
@@ -73,8 +73,8 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Stare into the Chromatic Abyss.',
       tagline: 'Break the spectrum. Meet what looks back.',
       introduction:
-        'Slip beyond ordinary perception into a living spectrum of impossible creatures, recursive temples, and lucid cosmic entities. This collection closes permanently when its third Phoenix is successfully minted.',
-      features: ['Prismatic one-by-one reveals', 'Three Phoenix discoveries', 'Visions claimed on XRPL'],
+        'Slip beyond ordinary perception into a living spectrum of impossible creatures, recursive temples, and lucid cosmic entities. The Phoenix stands above Mythic as the collection’s rarest 0.1% pull.',
+      features: ['Prismatic one-by-one reveals', 'Phoenix highest rarity', 'Visions claimed on XRPL'],
     },
   },
 ]

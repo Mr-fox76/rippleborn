@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 import type { PackCatalogEntry } from '@/lib/pack-catalog'
-import type { PhoenixSupply } from '@/lib/phoenix-supply'
 import type { CollectionStats } from '@/lib/pack-results'
 import type { PackSetId } from '@/lib/rippleborn'
 import { cn } from '@/lib/utils'
@@ -77,11 +76,9 @@ function ReadingProgress() {
 export function PackShop({
   collectionStats,
   pack,
-  phoenixSupply,
 }: {
   collectionStats: CollectionStats
   pack: PackCatalogEntry
-  phoenixSupply: PhoenixSupply
 }) {
   const selectedSet = pack.id
   const router = useRouter()
@@ -191,7 +188,7 @@ export function PackShop({
         : 'text-muted-foreground'
 
   return (
-    <div id="reading-table" className="mx-auto flex w-full flex-col gap-5 sm:gap-6">
+    <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-5 sm:gap-6">
       <div className="pack-theme-intro mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-5 sm:px-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-6">
         <div className="flex min-w-0 flex-1 flex-col gap-2 text-center lg:text-left">
           <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
@@ -225,9 +222,7 @@ export function PackShop({
         </div>
       </div>
 
-      <CardStylePreview theme={pack.theme.id} />
-
-      <div className="stable-opening-stage">
+      <div className="stable-opening-stage mx-auto w-full max-w-6xl">
         <div className="stable-opening-visual">
           <div
             className={`stable-opening-layer ${packOpened ? 'is-hidden' : 'is-active'}`}
@@ -250,6 +245,7 @@ export function PackShop({
             <TarotCards
               cards={packOpened ? cards : null}
               buyer={order?.buyer ?? null}
+              setName={pack.kicker}
               onReset={resetDeck}
             />
           </div>
@@ -259,16 +255,16 @@ export function PackShop({
           aria-label="Open a pack"
           className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
-        <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-3">
+        <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
           {!order ? (
           <Button
             onClick={createOrder}
-            disabled={!account || pending !== null || phoenixSupply.soldOut}
+            disabled={!account || pending !== null}
             size="lg"
             className="primary-action h-16 w-full rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            {phoenixSupply.soldOut ? 'Collection sold out' : pending === 'create' ? 'Preparing…' : 'Prepare pack'}
+            {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
           </Button>
           ) : null}
 
@@ -286,21 +282,21 @@ export function PackShop({
           ) : null}
         </div>
 
-        {pending === 'fulfill' ? (
-          <ReadingProgress />
-        ) : (
-          <div role="status" aria-live="polite" className="min-h-5 text-center">
-            <p className={`text-sm leading-relaxed ${statusColor}`}>
-              {status.message || (phoenixSupply.soldOut
-              ? 'This collection is closed because all three Phoenix cards have been found.'
-              : account
+        <div className="pack-status-row" role="status" aria-live="polite">
+          {pending === 'fulfill' ? (
+            <ReadingProgress />
+          ) : (
+            <p className={`pack-status-message text-sm leading-relaxed ${statusColor}`}>
+              {status.message || (account
                 ? 'Prepare your pack and approve payment with Xaman. Once ready, click the pack itself to open it.'
                 : 'Connect Xaman to begin.')}
             </p>
-          </div>
-        )}
+          )}
+        </div>
         </section>
       </div>
+
+      <CardStylePreview theme={pack.theme.id} />
 
       <aside className="reading-panel mx-auto w-full max-w-6xl border border-border p-4 backdrop-blur-md sm:p-5">
           <RarityOdds stats={collectionStats} setId={selectedSet} />

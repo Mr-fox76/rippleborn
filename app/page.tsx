@@ -1,16 +1,18 @@
 import Link from 'next/link'
+import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
 import { SiteHero } from '@/components/site-hero'
-import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
+import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
 import { incrementHomepageVisits } from '@/lib/site-counter'
 
 export const dynamic = 'force-dynamic'
 
 export default async function Page() {
-  const [collectionStats, visitCount] = await Promise.all([
+  const [collectionStats, visitCount, latestNfts] = await Promise.all([
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
     incrementHomepageVisits(),
+    getLatestMintedNfts().catch(() => []),
   ])
 
   return (
@@ -18,6 +20,7 @@ export default async function Page() {
       <SiteHero />
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <PackGallery />
+        <IssuerTrustNotice latestNfts={latestNfts} />
         <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-4xl flex-col gap-3">
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             Cards discovered from opened packs

@@ -1,10 +1,10 @@
 import { createHash } from 'node:crypto'
-import { eq } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { db } from '@/lib/db'
 import { packResults } from '@/lib/db/schema'
-import { CARD_POOL, type Card, type PackSetId } from '@/lib/rippleborn'
+import { CARD_POOL, getDisplayCardName, type Card, type PackSetId } from '@/lib/rippleborn'
 
 export type MintedPackCard = Card & {
   mintStatus: 'minted' | 'skipped' | 'failed'
@@ -92,7 +92,10 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
 
       for (const card of cards) {
         if (card.limited) stats.limitedFound += 1
-        if (card.name === 'The Phoenix') stats.phoenixFound += 1
+        if (card.name === 'The Phoenix' || card.rarity === 'Phoenix') {
+          stats.phoenixFound += 1
+          continue
+        }
 
         if (card.rarity === 'Rare') {
           stats.rareFound += 1
@@ -109,6 +112,28 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
     },
     { ...EMPTY_COLLECTION_STATS },
   )
+}
+
+export type LatestMintedNft = {
+  nftId: string
+  name: string
+  image: string
+}
+
+export async function getLatestMintedNfts(limit = 3): Promise<LatestMintedNft[]> {
+  const recentPacks = await db
+    .select({ mintResults: packResults.mintResultsJson })
+    .from(packResults)
+    .where(eq(packResults.status, 'fulfilled'))
+    .orderBy(desc(packResults.updatedAt))
+    .limit(Math.max(limit, 12))
+
+  return recentPacks
+    .flatMap((record) => (record.mintResults ?? []) as MintedPackCard[])
+    .filter((card): card is MintedPackCard & { nftId: string } => card.mintStatus === 'minted' && Boolean(card.nftId))
+    .sort((a, b) => Date.parse(b.mintedAt ?? '0') - Date.parse(a.mintedAt ?? '0'))
+    .slice(0, limit)
+    .map(({ nftId, name, image }) => ({ nftId, name: getDisplayCardName(name), image }))
 }
 
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {

@@ -45,17 +45,17 @@ export const CHROMATIC_ABYSS_POOL = {
     ['Infinity Gardener', 'infinity-gardener'],
     ['The Moon Inside', 'moon-inside'],
   ]),
-  Mythic: [
-    ...cards('Mythic', [
-      ['The Color Thief', 'color-thief'],
-      ['Dream Architect', 'dream-architect'],
-      ['The Thousand-Petaled Mind', 'thousand-petaled-mind'],
-    ]),
+  Mythic: cards('Mythic', [
+    ['The Color Thief', 'color-thief'],
+    ['Dream Architect', 'dream-architect'],
+    ['The Thousand-Petaled Mind', 'thousand-petaled-mind'],
+  ]),
+  Phoenix: [
     {
       name: 'The Phoenix',
       image: '/cards/the-phoenix.png',
       slug: 'the-phoenix',
-      rarity: 'Mythic' as const,
+      rarity: 'Phoenix' as const,
       uri: 'https://ledgerborn.com/cards/the-phoenix.json',
     },
   ],

@@ -33,16 +33,16 @@ export const CYBORG_COWBOY_POOL = {
     ['Sovereign of Sixguns', 'sovereign-of-sixguns'], ['Sunforge Desperado', 'sunforge-desperado'],
     ['Last Rail Baron', 'last-rail-baron'], ['Warden of Red Orbit', 'warden-of-red-orbit'],
   ]),
-  Mythic: [
-    ...cards('Mythic', [
-      ['Gunslinger Zero', 'gunslinger-zero'], ['The Eternity Kid', 'the-eternity-kid'],
-      ['Chrome Stampede', 'chrome-stampede'],
-    ]),
+  Mythic: cards('Mythic', [
+    ['Gunslinger Zero', 'gunslinger-zero'], ['The Eternity Kid', 'the-eternity-kid'],
+    ['Chrome Stampede', 'chrome-stampede'],
+  ]),
+  Phoenix: [
     {
       name: 'The Phoenix',
       image: '/cards/the-phoenix.png',
       slug: 'the-phoenix',
-      rarity: 'Mythic',
+      rarity: 'Phoenix',
       uri: 'https://ledgerborn.com/cards/the-phoenix.json',
     },
   ],
