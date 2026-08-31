@@ -710,24 +710,16 @@
     linear-gradient(145deg, oklch(0.1 0.008 250), oklch(0.025 0.005 250) 62%, oklch(0.075 0.008 250));
   background-size: 220% 100%, auto, auto;
   box-shadow:
-    0 2rem 4rem oklch(0.02 0.005 250 / 78%),
-    0 0.65rem 1.2rem oklch(0.02 0.005 250 / 58%),
-    0 0 2.75rem color-mix(in oklch, var(--pack-accent-strong) 44%, transparent),
     inset 1px 0 0 oklch(0.96 0.015 210 / 16%),
     inset -1px 0 0 oklch(0.96 0.015 210 / 8%);
   filter: contrast(1.08);
-  animation: foil-idle 6s ease-in-out infinite;
-  transition: transform 220ms ease, box-shadow 220ms ease, filter 220ms ease;
+  animation: foil-idle 4.8s ease-in-out infinite;
+  transition: filter 220ms ease;
 }
 
 .pack-preview .foil-pack:hover,
 .can-open.phase-sealed .foil-pack:hover {
-  box-shadow:
-    0 2.5rem 6rem oklch(0.04 0.02 225 / 82%),
-    0 0 3.5rem color-mix(in oklch, var(--primary) 30%, transparent),
-    0 0 0 1px color-mix(in oklch, var(--gold) 48%, transparent),
-    inset 0 1px 0 oklch(0.93 0.018 210 / 18%);
-  filter: brightness(1.08);
+  filter: brightness(1.06) contrast(1.08);
 }
 
 .can-open.phase-sealed .foil-pack:hover {
@@ -813,7 +805,15 @@
   border-radius: 0.2rem;
   color: oklch(0.72 0.008 250);
   background: oklch(0.035 0.004 250 / 82%);
-  box-shadow: 0 0 1.75rem color-mix(in oklch, var(--pack-accent-strong) 45%, transparent);
+  box-shadow: 0 0 1rem color-mix(in oklch, var(--pack-accent-strong) 28%, transparent);
+  transition: box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.foil-pack:hover .foil-pack-rune {
+  border-color: color-mix(in oklch, var(--pack-accent-strong) 55%, oklch(0.42 0.008 250));
+  box-shadow:
+    0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 55%, transparent),
+    0 0 2.6rem color-mix(in oklch, var(--pack-accent-strong) 24%, transparent);
 }
 
 .foil-pack-rune-icon {
@@ -861,8 +861,8 @@
 .opening-card:nth-child(3) { z-index: 3; }
 
 @keyframes foil-idle {
-  0%, 100% { background-position: -8rem 0, 0 0; }
-  50% { background-position: 8rem 0, 0 0; }
+  0%, 100% { background-position: -28rem 0, 0 0, 0 0; }
+  50% { background-position: 28rem 0, 0 0, 0 0; }
 }
 
 .tarot-spread {
