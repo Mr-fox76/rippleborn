@@ -104,11 +104,13 @@ function playPhoenixFanfare() {
 
 function FaceDownCard({
   index,
+  setName,
   rarity,
   limited = false,
   onReveal,
 }: {
   index: number
+  setName: string
   rarity?: Card['rarity']
   limited?: boolean
   onReveal?: () => void
@@ -120,8 +122,8 @@ function FaceDownCard({
       <span className="celestial-orbit" aria-hidden="true">
         <span className="celestial-core" />
       </span>
-      <span className="celestial-card-name" aria-hidden="true">Ledgerborn</span>
-      <span className="celestial-card-motto" aria-hidden="true">Genesis Collection</span>
+      <span className="celestial-card-name" aria-hidden="true">{setName}</span>
+      <span className="celestial-card-motto" aria-hidden="true">Card collection</span>
       <span className="sr-only">Face-down card {index + 1}</span>
     </div>
   )
@@ -149,10 +151,12 @@ function FaceDownCard({
 function RevealedSpread({
   cards,
   buyer,
+  setName,
   onReset,
 }: {
   cards: FulfilledCard[]
   buyer: string | null
+  setName: string
   onReset?: () => void
 }) {
   const [revealed, setRevealed] = useState(() => new Set<number>())
@@ -204,6 +208,7 @@ function RevealedSpread({
               <div className="tarot-slot-face tarot-slot-back">
                 <FaceDownCard
                   index={index}
+                  setName={setName}
                   rarity={card?.rarity}
                   limited={card?.limited}
                   onReveal={card && revealing === null && !isRevealed ? () => revealCard(index) : undefined}
@@ -305,10 +310,12 @@ function RevealedSpread({
 export function TarotCards({
   cards,
   buyer,
+  setName,
   onReset,
 }: {
   cards: FulfilledCard[] | null
   buyer: string | null
+  setName: string
   onReset?: () => void
 }) {
   return (
@@ -318,6 +325,7 @@ export function TarotCards({
           key={cards.map((card) => card.id).join(':')}
           cards={cards}
           buyer={buyer}
+          setName={setName}
           onReset={onReset}
         />
       ) : (
@@ -327,7 +335,7 @@ export function TarotCards({
               <li key={index} className="tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1">
                 <div className="tarot-slot-frame show-back">
                   <div className="tarot-slot-face tarot-slot-back">
-                    <FaceDownCard index={index} />
+                    <FaceDownCard index={index} setName={setName} />
                   </div>
                   <div className="tarot-slot-face tarot-slot-front" aria-hidden="true" />
                 </div>
