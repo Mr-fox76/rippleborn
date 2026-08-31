@@ -858,7 +858,7 @@
   content: '';
   mix-blend-mode: screen;
   pointer-events: none;
-  animation: pack-metal-sweep 4.8s ease-in-out infinite;
+  animation: pack-metal-sweep 8s ease-in-out infinite;
 }
 
 .foil-pack-face > * {
