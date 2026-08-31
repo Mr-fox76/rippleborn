@@ -910,9 +910,17 @@
 }
 
 .tarot-spread {
-  min-height: 34rem;
+  min-height: 34.5rem;
   overflow: clip;
-  padding: 4rem 1.5rem 2rem;
+  padding: 0;
+}
+
+.stable-card-layer.is-hidden .tarot-spread {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  translate: -50% -50%;
 }
 
 .tarot-slot {
