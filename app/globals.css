@@ -851,10 +851,10 @@
   inset: 0;
   z-index: 0;
   background:
-    linear-gradient(108deg, transparent 22%, oklch(0.98 0.008 210 / 34%) 38%, transparent 53%),
-    linear-gradient(72deg, transparent 48%, oklch(0.78 0.025 225 / 18%) 54% 58%, transparent 64%);
+    linear-gradient(108deg, transparent 10%, oklch(0.98 0.008 210 / 12%) 27%, oklch(0.98 0.008 210 / 22%) 45%, oklch(0.98 0.008 210 / 10%) 63%, transparent 82%),
+    linear-gradient(72deg, transparent 34%, oklch(0.78 0.025 225 / 10%) 48% 66%, transparent 80%);
   background-position: 130% 0, center;
-  background-size: 240% 100%, 100% 100%;
+  background-size: 285% 100%, 100% 100%;
   content: '';
   mix-blend-mode: screen;
   pointer-events: none;
