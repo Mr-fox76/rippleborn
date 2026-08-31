@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Aperture, CircuitBoard, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -9,6 +10,8 @@ type PackOpeningProps = {
   canOpen?: boolean
   packName?: string
   packKicker?: string
+  packImage?: string
+  packCount?: number
   preparationAction?: React.ReactNode
   preparationHint?: string
 }
@@ -80,6 +83,8 @@ export function PackOpening({
   canOpen = true,
   packName = 'Ledgerborn',
   packKicker = 'Mythical Set',
+  packImage = '/images/mythic-card-style-sample.png',
+  packCount = 3,
   preparationAction,
   preparationHint,
 }: PackOpeningProps) {
@@ -134,11 +139,32 @@ export function PackOpening({
       >
         <span className="foil-pack-top" aria-hidden="true" />
         <span className="foil-pack-face">
-          <span className="foil-pack-rune" aria-hidden="true">
-            <PackRune className="foil-pack-rune-icon" strokeWidth={1.5} />
+          <span className="foil-pack-brand">
+            <span>Ledgerborn</span>
+            <span className="foil-pack-edition">Digital collectible pack</span>
           </span>
-          <span className="foil-pack-title">{packLabel}</span>
-          <span className="foil-pack-caption">Three card pack</span>
+          <span className="foil-pack-art-window">
+            <Image
+              src={packImage}
+              alt=""
+              fill
+              priority
+              sizes="(max-width: 640px) 70vw, 19rem"
+              className="foil-pack-art"
+            />
+            <span className="foil-pack-art-shade" aria-hidden="true" />
+            <span className="foil-pack-rune" aria-hidden="true">
+              <PackRune className="foil-pack-rune-icon" strokeWidth={1.5} />
+            </span>
+          </span>
+          <span className="foil-pack-product-copy">
+            <span className="foil-pack-title">{packLabel}</span>
+            <span className="foil-pack-caption">{packCount} card pack · XRPL edition</span>
+          </span>
+          <span className="foil-pack-authenticity" aria-hidden="true">
+            <span>LB</span>
+            <span>Sealed on ledger</span>
+          </span>
         </span>
         <span className="foil-pack-bottom" aria-hidden="true" />
       </button>

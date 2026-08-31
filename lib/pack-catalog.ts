@@ -9,6 +9,7 @@ export type PackCatalogEntry = {
   cardCount: number
   cardsPerPack: number
   priceXrp: number
+  packImage: string
   theme: {
     id: 'mythic' | 'cyborg' | 'chromatic'
     eyebrow: string
@@ -29,6 +30,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardCount: 21,
     cardsPerPack: 3,
     priceXrp: 5,
+    packImage: '/images/mythic-card-style-sample.png',
     theme: {
       id: 'mythic',
       eyebrow: 'Ancient powers. Real NFT ownership.',
@@ -48,6 +50,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardCount: 22,
     cardsPerPack: 3,
     priceXrp: 5,
+    packImage: '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png',
     theme: {
       id: 'cyborg',
       eyebrow: 'Frontier outlaws. On-ledger ownership.',
@@ -67,6 +70,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardCount: 22,
     cardsPerPack: 3,
     priceXrp: 5,
+    packImage: '/sets/chromatic-abyss/pack.png',
     theme: {
       id: 'chromatic',
       eyebrow: 'Lucid visions. On-ledger ownership.',

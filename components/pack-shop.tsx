@@ -232,6 +232,8 @@ export function PackShop({
               canOpen={Boolean(cards)}
               packName={pack.name}
               packKicker={pack.kicker}
+              packImage={pack.packImage}
+              packCount={pack.cardsPerPack}
               preparationHint={!account ? 'Connect Xaman to begin' : 'Ready for your wallet approval'}
               preparationAction={!order ? (
                 <Button
