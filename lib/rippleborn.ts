@@ -1,4 +1,4 @@
-export const RARITIES = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic'] as const
+export const RARITIES = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Phoenix'] as const
 
 export type Rarity = (typeof RARITIES)[number]
 
@@ -18,7 +18,6 @@ export type Card = {
 
 export const PACK_PRICE_XRP = 5
 export const CARDS_PER_PACK = 3
-export const PHOENIX_MAX_SUPPLY = 5
 export const PACK_SET_IDS = ['ledgerborn', 'cyborg-cowboy', 'chromatic-abyss'] as const
 export type PackSetId = (typeof PACK_SET_IDS)[number]
 
@@ -82,11 +81,12 @@ export function getDisplayCardName(name: string): string {
 
 /** Every card position rolls independently from this shared distribution. */
 export const SHARED_RARITY_ODDS: Record<Rarity, number> = {
-  Common: 56.67,
+  Common: 56.57,
   Rare: 28.33,
   Epic: 10,
   Legendary: 4,
   Mythic: 1,
+  Phoenix: 0.1,
 }
 
 export const PACK_SLOTS = [1, 2, 3] as const
@@ -129,6 +129,8 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
   Mythic: [
     { name: 'Rippleborn, the Unledgered', image: '/cards/rippleborn-the-unledgered.png', uri: metadataUri('rippleborn-the-unledgered') },
     { name: 'Primordial Tidewyrm', image: '/cards/primordial-tidewyrm.png', uri: metadataUri('primordial-tidewyrm') },
+  ],
+  Phoenix: [
     { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: 'https://ledgerborn.com/cards/the-phoenix.json' },
   ],
 }
@@ -149,20 +151,6 @@ export function rollRarity(random = Math.random): Rarity {
 function pickCard(rarity: Rarity): CardArt {
   const pool = CARD_POOL[rarity]
   return pool[Math.floor(Math.random() * pool.length)]
-}
-
-export function createPhoenixCard(edition: number, uri: string): Card {
-  return {
-    id: `3-phoenix-${edition}`,
-    name: 'The Phoenix',
-    rarity: 'Mythic',
-    slot: 3,
-    image: '/cards/the-phoenix.png',
-    uri,
-    edition,
-    maxSupply: 5,
-    limited: true,
-  }
 }
 
 /** Rolls and locks a duplicate-free 3-card pack before it is exposed to the client. */

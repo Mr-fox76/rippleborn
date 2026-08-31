@@ -30,18 +30,8 @@ import {
   saveMintResults,
   type MintedPackCard,
 } from '@/lib/pack-results'
-import {
-  markCollectionPhoenixMinted,
-  releasePhoenixSlot,
-  reservePhoenixSlot,
-} from '@/lib/phoenix-supply'
 import { getClaimTtlHours, registerClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { cleanupUnclaimedOffer } from '@/lib/workflows/cleanup-unclaimed-offer'
-import {
-  getPhoenixReservation,
-  markPhoenixFailed,
-  markPhoenixMinted,
-} from '@/lib/phoenix-editions'
 import {
   encodeMetadataUri,
   getXrplConfig,
@@ -84,7 +74,7 @@ type AccountTransaction = {
 
 async function validateCardMetadata(card: { name: string; uri?: string; limited?: boolean }): Promise<string | null> {
   if (!encodeMetadataUri(card.uri)) return 'No valid HTTPS Pinata metadata URL is configured for this card.'
-  if (card.limited) return null
+  if (card.name === 'The Phoenix') return null
 
   const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
   if (!filename) return 'The card metadata URL must reference a JSON file in the pinned folder.'
@@ -330,50 +320,6 @@ export async function POST(request: Request) {
     } else {
       cards = rollPack()
     }
-
-    const phoenixIndex = cards.findIndex((card) => card.name === 'The Phoenix')
-    if (phoenixIndex >= 0 && !(await reservePhoenixSlot(setId, destinationTag))) {
-      const phoenixCard = cards[phoenixIndex]
-      const existingNames = new Set(cards.filter((_, index) => index !== phoenixIndex).map((card) => card.name))
-      if (setId === 'cyborg-cowboy' && metadataBaseUrl) {
-        let replacement: Card | undefined
-        for (let attempt = 0; attempt < 100; attempt += 1) {
-          const candidate = rollCyborgCowboyCard('Mythic', phoenixCard.slot, metadataBaseUrl)
-          if (candidate.name !== 'The Phoenix' && !existingNames.has(candidate.name)) {
-            replacement = candidate
-            break
-          }
-        }
-        if (!replacement) throw new Error('Unable to replace The Phoenix with a unique card.')
-        cards[phoenixIndex] = replacement
-      } else if (setId === 'chromatic-abyss') {
-        let replacement: Card | undefined
-        for (let attempt = 0; attempt < 100; attempt += 1) {
-          const candidate = rollChromaticAbyssCard('Mythic', phoenixCard.slot)
-          if (candidate.name !== 'The Phoenix' && !existingNames.has(candidate.name)) {
-            replacement = candidate
-            break
-          }
-        }
-        if (!replacement) throw new Error('Unable to replace The Phoenix with a unique card.')
-        cards[phoenixIndex] = replacement
-      } else {
-        const alternatives = CARD_POOL.Mythic.filter(
-          (card) => card.name !== 'The Phoenix' && !existingNames.has(card.name),
-        )
-        const replacement = alternatives[Math.floor(Math.random() * alternatives.length)]
-        if (!replacement) throw new Error('Unable to replace The Phoenix with a unique card.')
-        cards[phoenixIndex] = {
-          id: `${phoenixCard.slot}-${Math.random().toString(36).slice(2, 10)}`,
-          ...replacement,
-          rarity: 'Mythic',
-          slot: phoenixCard.slot,
-        }
-      }
-    }
-  } else if (cards.some((card) => card.name === 'The Phoenix')) {
-    const reserved = await reservePhoenixSlot(setId, destinationTag)
-    if (!reserved) throw new Error('The Phoenix supply for this collection has already been allocated.')
   }
 
       const committed = await commitPackResult({
@@ -384,29 +330,11 @@ export async function POST(request: Request) {
       })
       cards = committed.cards
 
-      const phoenixReservation = await getPhoenixReservation(destinationTag)
       const fulfilledCards: MintedPackCard[] = []
 
       for (const card of cards) {
-        if (
-          card.limited &&
-          phoenixReservation?.status === 'minted' &&
-          phoenixReservation.nftId &&
-          phoenixReservation.offerId
-        ) {
-          fulfilledCards.push({
-            ...card,
-            mintStatus: 'minted',
-            nftId: phoenixReservation.nftId,
-            offerId: phoenixReservation.offerId,
-            ...claimWindow(),
-          })
-          continue
-        }
-        const currentUri = card.limited
-          ? card.uri
-          : setId === 'cyborg-cowboy'
-            ? (() => {
+        const currentUri = setId === 'cyborg-cowboy'
+          ? (() => {
                 const currentCard = Object.values(CYBORG_COWBOY_POOL)
                   .flat()
                   .find((candidate) => candidate.name === card.name)
@@ -424,9 +352,6 @@ export async function POST(request: Request) {
         const cardToMint = { ...card, uri: currentUri }
         const metadataError = await validateCardMetadata(cardToMint)
         if (metadataError) {
-          if (card.name === 'The Phoenix') {
-            await releasePhoenixSlot(destinationTag)
-          }
           fulfilledCards.push({ ...cardToMint, mintStatus: 'skipped', reason: metadataError })
           continue
         }
@@ -443,12 +368,6 @@ export async function POST(request: Request) {
                 ? CHROMATIC_ABYSS_NFT_TAXON
                 : config.nftTaxon,
           )
-          if (card.limited) {
-            await markPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
-          }
-          if (card.name === 'The Phoenix') {
-            await markCollectionPhoenixMinted(destinationTag, minted.nftId, minted.offerId)
-          }
           fulfilledCards.push({
             ...cardToMint,
             ...minted,
@@ -457,13 +376,7 @@ export async function POST(request: Request) {
           })
         } catch (error) {
           const reason = error instanceof Error ? error.message : 'XRPL minting failed.'
-          if (card.limited) {
-            await markPhoenixFailed(destinationTag, reason)
-          }
-          if (card.name === 'The Phoenix') {
-            await releasePhoenixSlot(destinationTag)
-          }
-          fulfilledCards.push({ ...card, mintStatus: 'failed', reason })
+          fulfilledCards.push({ ...cardToMint, mintStatus: 'failed', reason })
         }
       }
 

@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 import type { PackCatalogEntry } from '@/lib/pack-catalog'
-import type { PhoenixSupply } from '@/lib/phoenix-supply'
 import type { CollectionStats } from '@/lib/pack-results'
 import type { PackSetId } from '@/lib/rippleborn'
 import { cn } from '@/lib/utils'
@@ -77,11 +76,9 @@ function ReadingProgress() {
 export function PackShop({
   collectionStats,
   pack,
-  phoenixSupply,
 }: {
   collectionStats: CollectionStats
   pack: PackCatalogEntry
-  phoenixSupply: PhoenixSupply
 }) {
   const selectedSet = pack.id
   const router = useRouter()
@@ -263,12 +260,12 @@ export function PackShop({
           {!order ? (
           <Button
             onClick={createOrder}
-            disabled={!account || pending !== null || phoenixSupply.soldOut}
+            disabled={!account || pending !== null}
             size="lg"
             className="primary-action h-16 w-full rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
           >
             {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            {phoenixSupply.soldOut ? 'Collection sold out' : pending === 'create' ? 'Preparing…' : 'Prepare pack'}
+            {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
           </Button>
           ) : null}
 
@@ -291,9 +288,7 @@ export function PackShop({
         ) : (
           <div role="status" aria-live="polite" className="min-h-5 text-center">
             <p className={`text-sm leading-relaxed ${statusColor}`}>
-              {status.message || (phoenixSupply.soldOut
-              ? 'This collection is closed because all three Phoenix cards have been found.'
-              : account
+              {status.message || (account
                 ? 'Prepare your pack and approve payment with Xaman. Once ready, click the pack itself to open it.'
                 : 'Connect Xaman to begin.')}
             </p>

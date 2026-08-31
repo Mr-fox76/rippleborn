@@ -30,7 +30,7 @@ export function RarityOdds({
     { label: 'Epic', value: stats.epicFound, className: 'rarity-epic' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
-    { label: 'The Phoenix', value: stats.phoenixFound, className: 'text-phoenix', featured: true },
+    { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true },
   ]
 
   return (
@@ -67,7 +67,7 @@ export function RarityOdds({
 
       {countersOnly ? (
         <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
-          Hunt The Phoenix — this collection closes when its third Phoenix is successfully minted.
+          Phoenix is the rarest pull: a 0.1% independent chance per card.
         </p>
       ) : (
         <div className="flex flex-col gap-3 border-t border-border pt-5">
@@ -112,8 +112,8 @@ export function RarityOdds({
           </div>
 
           <p className="text-pretty text-center text-xs leading-relaxed text-muted-foreground">
-            <span className="font-medium text-phoenix">The Phoenix is included among Mythic cards.</span>{' '}
-            A maximum of three can be minted; the collection closes after the third successful mint.
+            <span className="font-medium text-phoenix">Phoenix is the highest rarity tier.</span>{' '}
+            Every card position has an independent 0.1% chance to reveal The Phoenix.
           </p>
         </div>
       )}

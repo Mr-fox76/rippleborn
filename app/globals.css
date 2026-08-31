@@ -1003,6 +1003,7 @@
 .tarot-back.rarity-epic,
 .tarot-back.rarity-legendary,
 .tarot-back.rarity-mythic,
+.tarot-back.rarity-phoenix,
 .tarot-back.rarity-limited {
   border-color: color-mix(in oklch, var(--rarity-color) 62%, var(--border));
   box-shadow:
@@ -1011,6 +1012,7 @@
     inset 0 0 1.25rem color-mix(in oklch, var(--rarity-color) 10%, transparent);
 }
 
+.tarot-back.rarity-phoenix,
 .tarot-back.rarity-limited {
   box-shadow:
     0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),

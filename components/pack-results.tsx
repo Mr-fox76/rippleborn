@@ -22,6 +22,7 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
   Epic: 'rarity-epic',
   Legendary: 'rarity-legendary',
   Mythic: 'rarity-mythic',
+  Phoenix: 'rarity-phoenix',
 }
 
 function playCardFlipSound() {
@@ -168,7 +169,7 @@ function RevealedSpread({
           >
             {card && isRevealed ? (
               <article
-                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.limited ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
+                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
               >
                 <div
                   className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"

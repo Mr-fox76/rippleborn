@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { dropsToXrp } from 'xrpl'
-import { getPhoenixSupply } from '@/lib/phoenix-supply'
 import { CARDS_PER_PACK, isPackSetId } from '@/lib/rippleborn'
 import { createDestinationTag, getXrplConfig, validateBuyer } from '@/lib/xrpl-server'
 
@@ -31,14 +30,6 @@ export async function POST(request: Request) {
   }
 
   try {
-    const supply = await getPhoenixSupply(setId)
-    if (supply.soldOut) {
-      return NextResponse.json(
-        { error: 'This collection is closed. All three Phoenix cards have been found.' },
-        { status: 410 },
-      )
-    }
-
     const config = getXrplConfig()
     if (buyer === config.treasuryAddress) {
       return NextResponse.json(

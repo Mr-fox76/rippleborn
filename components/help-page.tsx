@@ -46,7 +46,7 @@ const faqGroups = [
       {
         question: 'Can I receive duplicate cards?',
         answer:
-          'Yes. Pack results are independent and duplicates are possible within your wider collection. A previous pull does not remove that card from future pack results unless a collection is explicitly sold out.',
+          'Yes. Pack results are independent and duplicates are possible within your wider collection. A previous pull does not remove that card from future pack results.',
       },
       {
         question: 'Where are my NFTs delivered?',
