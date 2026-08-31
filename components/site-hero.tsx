@@ -4,7 +4,7 @@ import { NetworkStatus } from '@/components/network-status'
 
 export function SiteHero() {
   return (
-    <header className="relative z-20 border-b border-border/40">
+    <header className="sticky top-0 z-[100] border-b border-border/40 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/85">
       <div
         role="alert"
         className="border-b border-gold/35 bg-gold/10 px-4 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.12em] text-gold sm:px-6"

@@ -68,7 +68,7 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
   return (
     <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
         <div aria-hidden="true" className="pack-theme-atmosphere" />
-        <header className="pack-theme-bar relative z-[100] border-b px-4 py-3 sm:px-6">
+        <header className="pack-theme-bar sticky top-0 z-[100] border-b px-4 py-3 backdrop-blur-md sm:px-6">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3">
             <Link href="/" className="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
               <ArrowLeft className="size-4" aria-hidden="true" />
