@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Aperture, CircuitBoard, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 type PackOpeningProps = {
@@ -22,6 +23,12 @@ const PHASE_COPY: Record<OpeningPhase, string> = {
   flipping: 'The first card emerges…',
   spreading: 'Three fates await your reveal',
 }
+
+const PACK_RUNES = {
+  Mythic: Sparkles,
+  Cyborg: CircuitBoard,
+  Chromatic: Aperture,
+} as const
 
 function playPackOpeningSound() {
   const AudioContextClass = window.AudioContext
@@ -74,6 +81,8 @@ export function PackOpening({
 }: PackOpeningProps) {
   const [phase, setPhase] = useState<OpeningPhase>('sealed')
   const completed = useRef(false)
+  const packLabel = packKicker in PACK_RUNES ? packKicker as keyof typeof PACK_RUNES : 'Mythic'
+  const PackRune = PACK_RUNES[packLabel]
 
   const finish = useCallback(() => {
     if (completed.current) return
@@ -121,13 +130,11 @@ export function PackOpening({
       >
         <span className="foil-pack-top" aria-hidden="true" />
         <span className="foil-pack-face">
-          <span className="foil-pack-sigil" aria-hidden="true"><span /></span>
-          <span className="foil-pack-title">{packName}</span>
-          <span className="foil-pack-count" aria-label="Three card pack">
-            <span className="foil-pack-count-number" aria-hidden="true">3</span>
-            <span aria-hidden="true">Pack</span>
+          <span className="foil-pack-rune" aria-hidden="true">
+            <PackRune className="foil-pack-rune-icon" strokeWidth={1.5} />
           </span>
-          <span className="foil-pack-kicker">{packKicker}</span>
+          <span className="foil-pack-title">{packLabel}</span>
+          <span className="foil-pack-caption">Three card pack</span>
         </span>
         <span className="foil-pack-bottom" aria-hidden="true" />
       </button>
@@ -139,8 +146,7 @@ export function PackOpening({
               <span className="celestial-orbit">
                 <span className="celestial-core" />
               </span>
-              <span className="celestial-card-name">{packName}</span>
-              <span className="celestial-card-motto">{packKicker}</span>
+              <span className="celestial-card-name">{packLabel}</span>
             </div>
           </div>
         ))}

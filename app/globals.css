@@ -822,83 +822,45 @@
   content: '';
 }
 
-.foil-pack-kicker,
-.foil-pack-count,
-.pack-opening-prompt {
+.pack-opening-prompt,
+.foil-pack-caption {
   font-family: var(--font-mono);
   font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
 
-.foil-pack-kicker,
-.foil-pack-count {
+.foil-pack-caption {
   color: var(--pack-accent-strong);
 }
 
-.foil-pack-kicker {
-  padding-top: 0.65rem;
-  border-top: 1px solid color-mix(in oklch, var(--pack-accent) 42%, transparent);
-}
-
-.foil-pack-sigil {
-  margin-bottom: 0.75rem;
-}
-
-.foil-pack-count {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-}
-
-.foil-pack-count-number {
-  font-family: var(--font-sans);
-  font-size: 2.8rem;
-  font-weight: 750;
-  line-height: 0.8;
-  letter-spacing: -0.08em;
-}
-
 .foil-pack-title {
+  color: var(--pack-accent-strong);
   font-family: var(--font-sans);
-  font-size: 1.8rem;
+  font-size: 2.35rem;
   font-weight: 650;
-  letter-spacing: 0.06em;
+  letter-spacing: -0.025em;
   text-transform: uppercase;
 }
 
-.foil-pack-sigil {
-  position: relative;
+.foil-pack-rune {
   display: grid;
-  width: 4.5rem;
+  width: 5rem;
   aspect-ratio: 1;
+  margin-bottom: 1.25rem;
+  rotate: 45deg;
   place-items: center;
-  border: 1px solid var(--pack-accent-strong);
-  border-radius: 9999px;
+  border: 1px solid color-mix(in oklch, var(--pack-accent-strong) 65%, transparent);
+  border-radius: 0.2rem;
+  color: var(--pack-accent-strong);
+  background: color-mix(in oklch, var(--background) 72%, transparent);
+  box-shadow: 0 0 1.75rem color-mix(in oklch, var(--pack-accent-strong) 52%, transparent);
 }
 
-.foil-pack-sigil::before,
-.foil-pack-sigil::after {
-  position: absolute;
-  width: 130%;
-  height: 42%;
-  border: 1px solid color-mix(in oklch, var(--pack-accent) 72%, transparent);
-  border-radius: 9999px;
-  content: '';
-}
-
-.foil-pack-sigil::after {
-  transform: rotate(60deg);
-}
-
-.foil-pack-sigil span {
-  width: 1.25rem;
-  aspect-ratio: 1;
-  border-radius: 9999px;
-  background: var(--pack-accent-strong);
-  box-shadow: inset -0.3rem 0 0 color-mix(in oklch, var(--pack-accent) 38%, var(--card));
+.foil-pack-rune-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  rotate: -45deg;
 }
 
 .pack-opening-prompt {
