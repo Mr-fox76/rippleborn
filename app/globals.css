@@ -832,6 +832,7 @@
 }
 
 .foil-pack-face {
+  position: relative;
   display: flex;
   flex: 1;
   align-items: center;
@@ -840,11 +841,35 @@
   gap: 0.65rem;
   overflow: hidden;
   border-inline: 1px solid oklch(0.24 0.008 250);
-  background:
-    linear-gradient(100deg, transparent 18%, oklch(0.96 0.015 210 / 14%) 32%, transparent 45%),
-    linear-gradient(180deg, oklch(0.08 0.006 250), oklch(0.025 0.004 250) 72%, oklch(0.065 0.006 250));
+  background: linear-gradient(180deg, oklch(0.08 0.006 250), oklch(0.025 0.004 250) 72%, oklch(0.065 0.006 250));
   box-shadow: inset 0 0 2rem oklch(0.01 0.002 250 / 65%);
   text-align: center;
+}
+
+.foil-pack-face::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(108deg, transparent 22%, oklch(0.98 0.008 210 / 34%) 38%, transparent 53%),
+    linear-gradient(72deg, transparent 48%, oklch(0.78 0.025 225 / 18%) 54% 58%, transparent 64%);
+  background-position: 130% 0, center;
+  background-size: 240% 100%, 100% 100%;
+  content: '';
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: pack-metal-sweep 4.8s ease-in-out infinite;
+}
+
+.foil-pack-face > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes pack-metal-sweep {
+  0%, 18% { background-position: 130% 0, center; opacity: 0.35; }
+  48% { background-position: -35% 0, center; opacity: 1; }
+  72%, 100% { background-position: -35% 0, center; opacity: 0.4; }
 }
 
 .foil-pack-top,
