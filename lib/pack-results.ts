@@ -114,6 +114,7 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
 export type LatestMintedNft = {
   nftId: string
   name: string
+  image: string
 }
 
 export async function getLatestMintedNfts(limit = 3): Promise<LatestMintedNft[]> {
@@ -129,7 +130,7 @@ export async function getLatestMintedNfts(limit = 3): Promise<LatestMintedNft[]>
     .filter((card): card is MintedPackCard & { nftId: string } => card.mintStatus === 'minted' && Boolean(card.nftId))
     .sort((a, b) => Date.parse(b.mintedAt ?? '0') - Date.parse(a.mintedAt ?? '0'))
     .slice(0, limit)
-    .map(({ nftId, name }) => ({ nftId, name }))
+    .map(({ nftId, name, image }) => ({ nftId, name, image }))
 }
 
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {
