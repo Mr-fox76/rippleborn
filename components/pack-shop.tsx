@@ -232,6 +232,18 @@ export function PackShop({
               canOpen={Boolean(cards)}
               packName={pack.name}
               packKicker={pack.kicker}
+              preparationHint={!account ? 'Connect Xaman to begin' : 'Ready for your wallet approval'}
+              preparationAction={!order ? (
+                <Button
+                  onClick={createOrder}
+                  disabled={!account || pending !== null}
+                  size="lg"
+                  className="primary-action min-h-12 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+                >
+                  {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+                  {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
+                </Button>
+              ) : undefined}
               onComplete={() => {
                 setPackOpened(true)
                 setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
@@ -251,24 +263,13 @@ export function PackShop({
           </div>
         </div>
 
+        {order ? (
         <section
           aria-label="Open a pack"
           className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
         <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
-          {!order ? (
-          <Button
-            onClick={createOrder}
-            disabled={!account || pending !== null}
-            size="lg"
-            className="primary-action h-16 w-full rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-          >
-            {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
-          </Button>
-          ) : null}
-
-          {order && account === order.buyer && !cards ? (
+          {account === order.buyer && !cards ? (
             <XamanPaymentButton
               buyer={order.buyer}
               orderId={order.orderId}
@@ -294,6 +295,7 @@ export function PackShop({
           )}
         </div>
         </section>
+        ) : null}
       </div>
 
       <CardStylePreview theme={pack.theme.id} />

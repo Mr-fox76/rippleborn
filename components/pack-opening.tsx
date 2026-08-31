@@ -9,6 +9,8 @@ type PackOpeningProps = {
   canOpen?: boolean
   packName?: string
   packKicker?: string
+  preparationAction?: React.ReactNode
+  preparationHint?: string
 }
 
 type OpeningPhase = 'sealed' | 'flipping' | 'spreading'
@@ -78,6 +80,8 @@ export function PackOpening({
   canOpen = true,
   packName = 'Ledgerborn',
   packKicker = 'Mythical Set',
+  preparationAction,
+  preparationHint,
 }: PackOpeningProps) {
   const [phase, setPhase] = useState<OpeningPhase>('sealed')
   const completed = useRef(false)
@@ -138,6 +142,13 @@ export function PackOpening({
         </span>
         <span className="foil-pack-bottom" aria-hidden="true" />
       </button>
+
+      {preparationAction && phase === 'sealed' ? (
+        <div className="pack-preparation-action">
+          {preparationAction}
+          {preparationHint ? <p className="pack-preparation-hint">{preparationHint}</p> : null}
+        </div>
+      ) : null}
 
       <div className="opening-card-stack" aria-hidden="true">
         {[0, 1, 2].map((index) => (
