@@ -1504,6 +1504,36 @@
   background: color-mix(in oklch, var(--gold) 88%, var(--foreground));
 }
 
+.homepage-monochrome .primary-action {
+  border-color: color-mix(in oklch, var(--foreground) 62%, var(--border));
+  color: var(--background);
+  background: var(--foreground);
+  box-shadow:
+    0 0.8rem 2.5rem oklch(0.04 0.02 225 / 45%),
+    inset 0 1px 0 color-mix(in oklch, var(--background) 14%, transparent);
+}
+
+.homepage-monochrome .primary-action:hover {
+  background: color-mix(in oklch, var(--foreground) 86%, var(--muted-foreground));
+}
+
+.homepage-monochrome .collection-eyebrow::before,
+.homepage-monochrome .collection-eyebrow::after {
+  background: linear-gradient(90deg, transparent, var(--foreground));
+}
+
+.homepage-monochrome [aria-labelledby='issuer-notice-heading'] a {
+  color: var(--foreground);
+}
+
+.homepage-monochrome [aria-labelledby='issuer-notice-heading'] a:hover {
+  color: var(--muted-foreground);
+}
+
+.homepage-monochrome [aria-labelledby='issuer-notice-heading'] a svg {
+  color: currentColor;
+}
+
 .ghost-action {
   border: 1px solid color-mix(in oklch, var(--primary) 42%, transparent);
   color: var(--primary);

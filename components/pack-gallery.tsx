@@ -22,9 +22,9 @@ export function PackGallery() {
   return (
     <section aria-labelledby="pack-gallery-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8">
       <div className="mx-auto flex max-w-3xl flex-col gap-4 text-center">
-        <p className="collection-eyebrow font-mono text-[0.65rem] uppercase tracking-[0.32em] text-gold">Choose your collection</p>
+        <p className="collection-eyebrow font-mono text-[0.65rem] uppercase tracking-[0.32em] text-foreground">Choose your collection</p>
         <h1 id="pack-gallery-title" className="font-sans text-4xl font-semibold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl">
-          Open a world. <span className="text-gold">Own what you reveal.</span>
+          Open a world. <span className="text-muted-foreground">Own what you reveal.</span>
         </h1>
         <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
           Every pack contains three collectible cards with real rarity and optional XRP Ledger ownership. Select a set to begin its opening ritual.

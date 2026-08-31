@@ -7,7 +7,7 @@ export function SiteHero() {
     <header className="sticky top-0 z-[100] border-b border-border/40 bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/85">
       <div
         role="alert"
-        className="border-b border-gold/35 bg-gold/10 px-4 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.12em] text-gold sm:px-6"
+        className="border-b border-border/60 bg-card/70 px-4 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground sm:px-6"
       >
         Mainnet — pack payments use real XRP and are irreversible. Verify the amount and destination in Xaman before signing.
       </div>
