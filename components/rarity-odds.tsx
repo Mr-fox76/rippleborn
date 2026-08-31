@@ -34,9 +34,9 @@ export function RarityOdds({
   ]
 
   return (
-    <section aria-label={countersOnly ? 'All-set collection totals' : 'Card categories'} className="flex flex-col gap-5">
+    <section aria-label={countersOnly ? 'Cards discovered from opened packs' : 'Card categories'} className="flex flex-col gap-5">
       <dl
-        aria-label={countersOnly ? 'All-set collection totals' : 'Set collection totals'}
+        aria-label={countersOnly ? 'Cards discovered from opened packs across all sets' : 'Cards discovered from opened packs in this set'}
         className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6"
       >
         {counters.map((counter) => (
