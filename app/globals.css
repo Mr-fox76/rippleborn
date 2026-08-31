@@ -1504,7 +1504,8 @@
   background: color-mix(in oklch, var(--gold) 88%, var(--foreground));
 }
 
-.homepage-monochrome .primary-action {
+.homepage-monochrome .primary-action,
+.pack-theme .wallet-connect-action {
   border-color: color-mix(in oklch, var(--foreground) 62%, var(--border));
   color: var(--background);
   background: var(--foreground);
@@ -1513,7 +1514,8 @@
     inset 0 1px 0 color-mix(in oklch, var(--background) 14%, transparent);
 }
 
-.homepage-monochrome .primary-action:hover {
+.homepage-monochrome .primary-action:hover,
+.pack-theme .wallet-connect-action:hover {
   background: color-mix(in oklch, var(--foreground) 86%, var(--muted-foreground));
 }
 

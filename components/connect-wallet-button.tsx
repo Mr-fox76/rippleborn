@@ -36,7 +36,7 @@ export function ConnectWalletButton() {
         size="lg"
         onClick={connect}
         disabled={creating || status?.status === 'pending'}
-        className="primary-action min-h-11 px-4 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.1em] sm:min-h-12 sm:min-w-52 sm:px-6 sm:text-xs sm:tracking-[0.14em]"
+        className="wallet-connect-action primary-action min-h-11 px-4 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.1em] sm:min-h-12 sm:min-w-52 sm:px-6 sm:text-xs sm:tracking-[0.14em]"
       >
         {creating || status?.status === 'pending' ? (
           <Loader2 className="size-5 animate-spin" aria-hidden="true" />
