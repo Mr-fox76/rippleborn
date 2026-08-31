@@ -222,8 +222,6 @@ export function PackShop({
         </div>
       </div>
 
-      <CardStylePreview theme={pack.theme.id} />
-
       <div className="stable-opening-stage mx-auto w-full max-w-6xl">
         <div className="stable-opening-visual">
           <div
@@ -297,6 +295,8 @@ export function PackShop({
         </div>
         </section>
       </div>
+
+      <CardStylePreview theme={pack.theme.id} />
 
       <aside className="reading-panel mx-auto w-full max-w-6xl border border-border p-4 backdrop-blur-md sm:p-5">
           <RarityOdds stats={collectionStats} setId={selectedSet} />
