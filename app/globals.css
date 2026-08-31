@@ -305,14 +305,14 @@
 }
 
 .pack-set-card-mythic {
-  --set-card-accent: var(--phoenix);
-  --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.31 0.13 20));
+  --set-card-accent: oklch(0.84 0.19 325);
+  --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.24 0.13 305));
   --set-card-image: url('/images/ledgerborn-page-bg.png');
-  border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.74 0.16 292));
+  border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.68 0.23 305));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
-    0 0 2.5rem color-mix(in oklch, var(--phoenix) 24%, transparent),
-    inset 0 1px 0 oklch(0.74 0.16 292 / 38%);
+    0 0 2.5rem oklch(0.68 0.23 305 / 24%),
+    inset 0 1px 0 oklch(0.84 0.19 325 / 38%);
 }
 
 .pack-set-card-mythic::before {
@@ -322,8 +322,8 @@
 
 .pack-set-card-mythic::after {
   background:
-    radial-gradient(circle at 18% 20%, color-mix(in oklch, var(--phoenix) 38%, transparent), transparent 35%),
-    radial-gradient(circle at 84% 26%, oklch(0.74 0.16 292 / 28%), transparent 38%),
+    radial-gradient(circle at 18% 20%, oklch(0.68 0.23 305 / 38%), transparent 35%),
+    radial-gradient(circle at 84% 26%, oklch(0.84 0.19 325 / 28%), transparent 38%),
     linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 18%, transparent), var(--set-card-surface) 74%);
 }
 
