@@ -2,9 +2,9 @@ import type { CSSProperties } from 'react'
 import type { PackCatalogEntry } from '@/lib/pack-catalog'
 
 const styleArtwork = {
-  mythic: '/images/mythic-card-style-sample.png',
+  mythic: '/images/sample-mythic-emberbound.png',
   cyborg: '/images/cyborg-card-style-sample.png',
-  chromatic: '/images/chromatic-card-style-sample.png',
+  chromatic: '/images/sample-chromatic-abyssal-form.png',
 } as const
 
 export function CardStylePreview({ theme }: { theme: PackCatalogEntry['theme']['id'] }) {

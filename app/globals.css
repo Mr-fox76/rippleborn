@@ -395,8 +395,9 @@
 }
 
 .card-style-preview-mythic {
-  background-position: center, center, center;
-  background-size: cover, cover, 112%;
+  min-height: 32rem;
+  background-position: center, center, center 42%;
+  background-size: cover, cover, cover;
 }
 
 .card-style-preview-cyborg {
@@ -406,8 +407,8 @@
 
 .card-style-preview-chromatic {
   min-height: 32rem;
-  background-position: center, center, center 48%;
-  background-size: cover, cover, 116%;
+  background-position: center, center, center 40%;
+  background-size: cover, cover, 175%;
 }
 
 .card-style-preview-copy {
@@ -631,7 +632,8 @@
   }
 
   .card-style-preview-mythic {
-    background-size: cover, 112%;
+    background-position: center, center 38%;
+    background-size: cover, cover;
   }
 
   .card-style-preview-cyborg {
@@ -639,8 +641,8 @@
   }
 
   .card-style-preview-chromatic {
-    background-position: center, center 48%;
-    background-size: cover, 116%;
+    background-position: center, center 32%;
+    background-size: cover, 170%;
   }
 
   .card-style-preview-copy {
