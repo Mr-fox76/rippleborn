@@ -86,12 +86,13 @@
   overflow: hidden;
   background-color: var(--background);
   background-image:
-    linear-gradient(180deg, oklch(0.055 0.02 225 / 64%), oklch(0.055 0.02 225 / 2%) 38%, oklch(0.055 0.02 225 / 72%)),
-    linear-gradient(90deg, oklch(0.055 0.02 225 / 48%), transparent 24%, transparent 76%, oklch(0.055 0.02 225 / 48%)),
+    linear-gradient(180deg, oklch(0.055 0.02 225 / 42%), transparent 42%, oklch(0.055 0.02 225 / 56%)),
+    linear-gradient(90deg, oklch(0.055 0.02 225 / 30%), transparent 20%, transparent 80%, oklch(0.055 0.02 225 / 30%)),
     url('/images/ledgerborn-cyberpunk-background.png');
   background-position: center, center, center top;
   background-size: cover, cover, cover;
   background-attachment: fixed;
+  background-blend-mode: normal, normal, normal;
 }
 
 .table-surface::before,
