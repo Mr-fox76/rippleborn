@@ -1,6 +1,25 @@
 import Link from 'next/link'
-import { ArrowUpRight, Layers3, WalletCards } from 'lucide-react'
-import { PACK_CATALOG } from '@/lib/pack-catalog'
+import { Aperture, ArrowUpRight, CircuitBoard, Layers3, Sparkles, WalletCards } from 'lucide-react'
+import { PACK_CATALOG, type PackCatalogEntry } from '@/lib/pack-catalog'
+
+const SET_SYMBOLS: Record<PackCatalogEntry['theme']['id'], typeof Sparkles> = {
+  mythic: Sparkles,
+  cyborg: CircuitBoard,
+  chromatic: Aperture,
+}
+
+function SetTitle({ name }: { name: string }) {
+  const [brand, setName] = name.split(' - ')
+
+  return (
+    <h2 className="flex flex-col items-center gap-1 text-foreground">
+      <span className="font-mono text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground sm:text-base">
+        {brand}
+      </span>
+      <span className="font-sans text-3xl font-semibold tracking-tight">{setName}</span>
+    </h2>
+  )
+}
 
 export function PackGallery() {
   return (
@@ -16,7 +35,10 @@ export function PackGallery() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-        {PACK_CATALOG.map((pack) => (
+        {PACK_CATALOG.map((pack) => {
+          const SetSymbol = SET_SYMBOLS[pack.theme.id]
+
+          return (
           <Link
             key={pack.id}
             href={pack.href}
@@ -31,8 +53,11 @@ export function PackGallery() {
 
             <div className="flex flex-col gap-5 text-center">
               <div className="flex flex-col items-center gap-2">
+                <span className="pack-set-accent mb-1 inline-flex size-14 rotate-45 items-center justify-center rounded-sm border border-current/40 bg-background/30 shadow-[0_0_24px_currentColor] transition-transform duration-300 group-hover:rotate-[55deg]" aria-hidden="true">
+                  <SetSymbol className="size-7 -rotate-45" strokeWidth={1.5} />
+                </span>
                 <p className="pack-set-accent font-mono text-[0.65rem] uppercase tracking-[0.24em]">{pack.kicker}</p>
-                <h2 className="font-sans text-3xl font-semibold tracking-tight text-foreground">{pack.name}</h2>
+                <SetTitle name={pack.name} />
                 <p className="mx-auto max-w-md text-pretty text-sm leading-relaxed text-muted-foreground">{pack.description}</p>
               </div>
 
@@ -57,7 +82,8 @@ export function PackGallery() {
               </span>
             </div>
           </Link>
-        ))}
+          )
+        })}
       </div>
     </section>
   )
