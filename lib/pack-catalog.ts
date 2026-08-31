@@ -23,7 +23,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
   {
     id: 'ledgerborn',
     name: 'Ledgerborn - Mythic',
-    kicker: 'Mythic Set',
+    kicker: 'Mythic',
     description: 'Mythical characters, legendary beings, and ancient powers drawn from the ledger.',
     href: '/packs/ledgerborn',
     cardCount: 21,
@@ -42,7 +42,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
   {
     id: 'cyborg-cowboy',
     name: 'Ledgerborn - Cyborg',
-    kicker: 'Cyborg Cowboy',
+    kicker: 'Cyborg',
     description: 'Cinematic outlaws, marshals, and machine legends from a far-future frontier.',
     href: '/packs/cyborg-cowboy',
     cardCount: 22,
@@ -61,7 +61,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
   {
     id: 'chromatic-abyss',
     name: 'Ledgerborn - Chromatic',
-    kicker: 'Chromatic Abyss',
+    kicker: 'Chromatic',
     description: 'Impossible beings, recursive gardens, and lucid entities from beyond the visible spectrum.',
     href: '/packs/chromatic-abyss',
     cardCount: 22,
