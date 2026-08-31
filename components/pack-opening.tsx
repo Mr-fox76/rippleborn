@@ -139,30 +139,27 @@ export function PackOpening({
       >
         <span className="foil-pack-top" aria-hidden="true" />
         <span className="foil-pack-face">
+          <Image
+            src={packImage}
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 640px) 70vw, 19rem"
+            className="foil-pack-art"
+          />
+          <span className="foil-pack-art-shade" aria-hidden="true" />
           <span className="foil-pack-brand">
             <span>Ledgerborn</span>
             <span className="foil-pack-edition">Digital collectible pack</span>
-          </span>
-          <span className="foil-pack-art-window">
-            <Image
-              src={packImage}
-              alt=""
-              fill
-              priority
-              sizes="(max-width: 640px) 70vw, 19rem"
-              className="foil-pack-art"
-            />
-            <span className="foil-pack-art-shade" aria-hidden="true" />
-            <span className="foil-pack-rune" aria-hidden="true">
-              <PackRune className="foil-pack-rune-icon" strokeWidth={1.5} />
-            </span>
           </span>
           <span className="foil-pack-product-copy">
             <span className="foil-pack-title">{packLabel}</span>
             <span className="foil-pack-caption">{packCount} card pack · XRPL edition</span>
           </span>
           <span className="foil-pack-authenticity" aria-hidden="true">
-            <span>LB</span>
+            <span className="foil-pack-rune">
+              <PackRune className="foil-pack-rune-icon" strokeWidth={1.5} />
+            </span>
             <span>Sealed on ledger</span>
           </span>
         </span>
