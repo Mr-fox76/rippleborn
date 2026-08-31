@@ -394,6 +394,22 @@
   box-shadow: inset 0 1px 0 color-mix(in oklch, var(--pack-accent) 14%, transparent);
 }
 
+.card-style-preview-mythic {
+  background-position: center, center, center;
+  background-size: cover, cover, 112%;
+}
+
+.card-style-preview-cyborg {
+  min-height: 32rem;
+  background-position: center, center, center 46%;
+}
+
+.card-style-preview-chromatic {
+  min-height: 32rem;
+  background-position: center, center, center 48%;
+  background-size: cover, cover, 116%;
+}
+
 .card-style-preview-copy {
   position: relative;
   z-index: 1;
@@ -611,6 +627,20 @@
       linear-gradient(0deg, oklch(0.025 0.008 250 / 96%) 0%, oklch(0.025 0.008 250 / 60%) 52%, transparent 82%),
       var(--style-guide-art);
     background-position: center;
+    background-size: cover;
+  }
+
+  .card-style-preview-mythic {
+    background-size: cover, 112%;
+  }
+
+  .card-style-preview-cyborg {
+    background-position: center, center 46%;
+  }
+
+  .card-style-preview-chromatic {
+    background-position: center, center 48%;
+    background-size: cover, 116%;
   }
 
   .card-style-preview-copy {
