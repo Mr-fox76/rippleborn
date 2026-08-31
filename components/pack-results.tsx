@@ -200,7 +200,17 @@ function RevealedSpread({
             key={card?.id ?? index}
             className={`tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
           >
-            {card && isRevealed ? (
+            <div className={`tarot-slot-frame ${card && isRevealed ? 'show-face' : 'show-back'}`}>
+              <div className="tarot-slot-face tarot-slot-back">
+                <FaceDownCard
+                  index={index}
+                  rarity={card?.rarity}
+                  limited={card?.limited}
+                  onReveal={card && revealing === null && !isRevealed ? () => revealCard(index) : undefined}
+                />
+              </div>
+              <div className="tarot-slot-face tarot-slot-front" aria-hidden={!card || !isRevealed}>
+              {card ? (
               <article
                 className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
               >
@@ -268,29 +278,26 @@ function RevealedSpread({
                   </div>
                 ) : null}
               </article>
-            ) : (
-              <FaceDownCard
-                index={index}
-                rarity={card?.rarity}
-                limited={card?.limited}
-                onReveal={card && revealing === null ? () => revealCard(index) : undefined}
-              />
-            )}
+              ) : null}
+              </div>
+            </div>
           </li>
         )
         })}
       </ol>
-      {canReset && onReset ? (
-        <Button
-          type="button"
-          size="lg"
-          onClick={onReset}
-          className="primary-action px-6 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
-        >
-          <RotateCcw className="size-5" aria-hidden="true" />
-          Reset the deck
-        </Button>
-      ) : null}
+      <div className="tarot-control-row">
+        {canReset && onReset ? (
+          <Button
+            type="button"
+            size="lg"
+            onClick={onReset}
+            className="primary-action px-6 font-mono text-xs font-semibold uppercase tracking-[0.14em]"
+          >
+            <RotateCcw className="size-5" aria-hidden="true" />
+            Reset the deck
+          </Button>
+        ) : null}
+      </div>
     </div>
   )
 }
@@ -314,19 +321,25 @@ export function TarotCards({
           onReset={onReset}
         />
       ) : (
-      <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
-          {[0, 1, 2].map((index) => (
-            <li key={index} className="tarot-slot min-w-0 flex-1">
-              <FaceDownCard index={index} />
-            </li>
-          ))}
-        </ol>
+        <div className="flex flex-col items-center gap-6">
+          <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
+            {[1, 0, 2].map((index) => (
+              <li key={index} className="tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1">
+                <div className="tarot-slot-frame show-back">
+                  <div className="tarot-slot-face tarot-slot-back">
+                    <FaceDownCard index={index} />
+                  </div>
+                  <div className="tarot-slot-face tarot-slot-front" aria-hidden="true" />
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className="tarot-control-row" />
+        </div>
       )}
-      {cards ? (
-        <p className="mt-5 text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
-          Reveal the cards in any order. Each glow reflects the rarity already locked inside.
-        </p>
-      ) : null}
+      <p className="tarot-instruction text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
+        {cards ? 'Reveal the cards in any order. Each glow reflects the rarity already locked inside.' : ''}
+      </p>
     </section>
   )
 }

@@ -256,7 +256,7 @@ export function PackShop({
           aria-label="Open a pack"
           className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
-        <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-3">
+        <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
           {!order ? (
           <Button
             onClick={createOrder}
@@ -283,17 +283,17 @@ export function PackShop({
           ) : null}
         </div>
 
-        {pending === 'fulfill' ? (
-          <ReadingProgress />
-        ) : (
-          <div role="status" aria-live="polite" className="min-h-5 text-center">
-            <p className={`text-sm leading-relaxed ${statusColor}`}>
+        <div className="pack-status-row" role="status" aria-live="polite">
+          {pending === 'fulfill' ? (
+            <ReadingProgress />
+          ) : (
+            <p className={`pack-status-message text-sm leading-relaxed ${statusColor}`}>
               {status.message || (account
                 ? 'Prepare your pack and approve payment with Xaman. Once ready, click the pack itself to open it.'
                 : 'Connect Xaman to begin.')}
             </p>
-          </div>
-        )}
+          )}
+        </div>
         </section>
       </div>
 

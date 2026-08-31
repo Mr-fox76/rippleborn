@@ -150,11 +150,13 @@ export function PackOpening({
         <p className="pack-opening-prompt" role="status" aria-live="polite">
           {!canOpen && phase === 'sealed' ? 'Purchase a pack to break the seal' : PHASE_COPY[phase]}
         </p>
-        {opening ? (
-          <Button type="button" variant="ghost" size="sm" onClick={finish} className="pack-skip">
-            Skip animation
-          </Button>
-        ) : null}
+        <div className="pack-opening-button-row">
+          {opening ? (
+            <Button type="button" variant="ghost" size="sm" onClick={finish} className="pack-skip">
+              Skip animation
+            </Button>
+          ) : null}
+        </div>
       </div>
     </section>
   )
