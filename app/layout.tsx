@@ -8,10 +8,41 @@ const _spaceGrotesk = Space_Grotesk({ subsets: ['latin'] })
 const _jetBrainsMono = JetBrains_Mono({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ledgerborn.app'),
-  title: 'Ledgerborn — XRPL NFT Card Packs',
+  metadataBase: new URL('https://ledgerborn.com'),
+  title: {
+    default: 'Ledgerborn | XRP Ledger NFT Card Packs',
+    template: '%s | Ledgerborn',
+  },
   description:
-    'Open the ledger. Pull the myth. Ledgerborn booster packs deliver 3 XRPL NFTs per pack for 5 XRP.',
+    'Open Ledgerborn digital collectible card packs and claim three original NFTs on the XRP Ledger for 5 XRP using Xaman.',
+  applicationName: 'Ledgerborn',
+  category: 'Digital collectibles',
+  keywords: [
+    'Ledgerborn',
+    'XRPL NFTs',
+    'XRP Ledger NFT',
+    'NFT card packs',
+    'digital collectible cards',
+    'Xaman NFT',
+    'XRP collectibles',
+  ],
+  authors: [{ name: 'Ledgerborn', url: 'https://ledgerborn.com' }],
+  creator: 'Ledgerborn',
+  publisher: 'Ledgerborn',
+  alternates: {
+    canonical: '/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   generator: 'v0.app',
   openGraph: {
     type: 'website',

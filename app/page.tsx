@@ -20,7 +20,7 @@ export default async function Page() {
         <PackGallery />
         <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-4xl flex-col gap-3">
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            All-set collection totals
+            Cards discovered from opened packs
           </h2>
           <RarityOdds stats={collectionStats} countersOnly />
         </section>

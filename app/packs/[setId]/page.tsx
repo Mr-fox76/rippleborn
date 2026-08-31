@@ -22,9 +22,38 @@ export async function generateMetadata({ params }: { params: Promise<{ setId: st
   const pack = getPack(setId)
   if (!pack) return {}
 
+  const title = `${pack.name} XRPL NFT Card Pack`
+  const description = `${pack.description} Open a pack for ${pack.priceXrp} XRP and claim ${pack.cardsPerPack} original collectible NFTs on the XRP Ledger.`
+  const socialImage = {
+    ledgerborn: '/images/mythic-card-style-sample.png',
+    'cyborg-cowboy': '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png',
+    'chromatic-abyss': '/sets/chromatic-abyss/pack.png',
+  }[pack.id]
+
   return {
-    title: `${pack.name} Pack | Ledgerborn`,
-    description: `Open a ${pack.name} pack and reveal three collectible XRP Ledger cards.`,
+    title,
+    description,
+    alternates: {
+      canonical: pack.href,
+    },
+    openGraph: {
+      type: 'website',
+      url: pack.href,
+      title,
+      description,
+      images: [
+        {
+          url: socialImage,
+          alt: `${pack.name} collectible NFT card pack`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [socialImage],
+    },
   }
 }
 

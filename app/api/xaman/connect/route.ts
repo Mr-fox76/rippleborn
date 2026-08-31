@@ -15,6 +15,7 @@ export async function POST() {
     }, true)
 
     if (!payload) throw new Error('Xaman did not create a connection request.')
+    console.info('[xaman] Payload created', { uuid: payload.uuid })
 
     return NextResponse.json({
       uuid: payload.uuid,

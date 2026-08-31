@@ -39,7 +39,7 @@ async function cancelIfStillUnclaimed(offerId: string) {
 
     if (result.status === 'cancelled') {
       await markClaimOfferCancelled(offerId, result.transactionHash)
-      console.info(`[lifecycle] Cancelled offer ${offerId}; tx ${result.transactionHash}`)
+      console.info('[xrpl] Offer cancelled', { transactionHash: result.transactionHash })
       return result
     }
 
