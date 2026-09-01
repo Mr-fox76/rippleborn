@@ -21,7 +21,7 @@ export default async function Page() {
         <IssuerTrustNotice latestNfts={latestNfts} />
         <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-4xl flex-col gap-3">
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Cards discovered from opened packs
+The collection taking shape, one reveal at a time
           </h2>
           <RarityOdds stats={collectionStats} countersOnly />
         </section>
@@ -36,7 +36,7 @@ export default async function Page() {
           ) : null}
         </div>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Independent project. Not affiliated with Ledger or Xaman. Ledgerborn uses the open-source XRP Ledger technology.
+Ledgerborn is a new independent project built on open-source XRP Ledger technology. We are not affiliated with Ledger or Xaman, and we encourage every collector to review the details before signing.
         </p>
         <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
           <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>

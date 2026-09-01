@@ -23,12 +23,12 @@ export function PackGallery() {
   return (
     <section aria-labelledby="pack-gallery-title" className="mx-auto flex w-full max-w-7xl flex-col gap-8">
       <div className="mx-auto flex max-w-3xl flex-col gap-4 text-center">
-        <p className="collection-eyebrow font-mono text-[0.65rem] uppercase tracking-[0.32em] text-foreground">Choose your collection</p>
+        <p className="collection-eyebrow font-mono text-[0.65rem] uppercase tracking-[0.32em] text-foreground">A new digital card-opening experience</p>
         <h1 id="pack-gallery-title" className="font-sans text-4xl font-semibold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl">
-          Open a world. <span className="text-muted-foreground">Own what you reveal.</span>
+          The thrill of opening cards. <span className="text-muted-foreground">Reborn for the internet.</span>
         </h1>
         <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Every pack contains three collectible cards with real rarity and optional XRP Ledger ownership. Select a set to begin its opening ritual.
+          Ledgerborn is a new independent collectible experience built with care, transparency, and genuine excitement for what digital cards can become. Open three-card packs, discover real rarities, and choose whether to collect your pulls on the public XRP Ledger.
         </p>
       </div>
 

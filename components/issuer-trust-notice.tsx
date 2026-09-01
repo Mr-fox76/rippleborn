@@ -61,10 +61,10 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
         <ShieldCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-muted-foreground sm:mt-0" />
         <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-2">
           <h2 id="issuer-notice-heading" className="shrink-0 font-sans text-sm font-medium text-foreground">
-            A note about our new XRPL issuer
+            Built openly as we grow
           </h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            While its transaction history grows, Xaman may display an automated notice. You can review Ledgerborn&apos;s on-ledger activity anytime on{' '}
+            Ledgerborn and our XRPL issuer are new. We want to earn your trust through visible on-ledger activity, clear signing details, and no hidden promises. Xaman may show an automated notice while our transaction history grows; you can independently review every issuer transaction on{' '}
             <a
               href={`https://bithomp.com/explorer/${ISSUER_ADDRESS}`}
               target="_blank"
