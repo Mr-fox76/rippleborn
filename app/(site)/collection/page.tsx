@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { WalletCollection } from '@/components/wallet-collection'
+import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 
 export const metadata: Metadata = {
   title: 'Collection | Ledgerborn',
@@ -10,8 +11,9 @@ export const metadata: Metadata = {
 export default function CollectionPage() {
   return (
     <>
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <WalletCollection />
+        <NftRecoveryPanel />
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">

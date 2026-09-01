@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
 import useSWR from 'swr'
-import { useMemo, useState, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import { COLLECTION_REFRESH_EVENT } from '@/lib/collection-refresh'
 
 type CollectionCard = {
   tokenId: string
@@ -78,12 +79,37 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
   const key = hydrated && account ? `/api/collection?owner=${encodeURIComponent(account)}` : null
   const { data, error, isLoading, isValidating, mutate } = useSWR(key, fetchCollection, {
     fallbackData: hydrated && account ? { cards: readCachedCards(account) ?? [] } : undefined,
-    revalidateOnFocus: false,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
     onSuccess: (freshData) => {
       if (!account || !freshData.cards.every(isCollectionCard)) return
       window.localStorage.setItem(`${CACHE_PREFIX}${account}`, JSON.stringify(freshData.cards))
     },
   })
+
+  useEffect(() => {
+    if (!account) return
+
+    const retries: number[] = []
+    function refreshAfterClaim(event: Event) {
+      const detail = (event as CustomEvent<{ account?: string }>).detail
+      if (detail?.account !== account) return
+
+      void mutate()
+      retries.push(
+        ...[2500, 6000, 12000].map((delay) =>
+          window.setTimeout(() => void mutate(), delay),
+        ),
+      )
+    }
+
+    window.addEventListener(COLLECTION_REFRESH_EVENT, refreshAfterClaim)
+    return () => {
+      window.removeEventListener(COLLECTION_REFRESH_EVENT, refreshAfterClaim)
+      retries.forEach(window.clearTimeout)
+    }
+  }, [account, mutate])
+
   const cards = data?.cards ?? []
   const [rarityFilter, setRarityFilter] = useState('all')
   const rarityOptions = useMemo(() => {

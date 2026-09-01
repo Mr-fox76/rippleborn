@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { CheckCircle2, ChevronDown, ExternalLink, LockKeyhole, ScanLine } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { requestCollectionRefresh } from '@/lib/collection-refresh'
 import {
   Dialog,
   DialogContent,
@@ -122,8 +123,10 @@ export function ClaimNftButton({
     lifecycle?.status === 'cancelling'
 
   useEffect(() => {
-    if (status?.status === 'claimed') onClaimed?.(nftId)
-  }, [nftId, onClaimed, status?.status])
+    if (status?.status !== 'claimed') return
+    onClaimed?.(nftId)
+    requestCollectionRefresh(buyer)
+  }, [buyer, nftId, onClaimed, status?.status])
 
   async function createClaim() {
     setCreating(true)

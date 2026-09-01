@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { WalletCollection } from '@/components/wallet-collection'
+import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 
 export function CollectionOverlay() {
   const router = useRouter()
@@ -31,8 +32,9 @@ export function CollectionOverlay() {
             Browse your cards without leaving what you were doing.
           </DialogDescription>
         </DialogHeader>
-        <div className="collection-overlay-scroll flex-1 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 sm:py-7">
+        <div className="collection-overlay-scroll flex flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 sm:py-7">
           <WalletCollection compact />
+          <NftRecoveryPanel />
         </div>
       </DialogContent>
     </Dialog>

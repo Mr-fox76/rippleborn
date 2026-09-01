@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import useSWR from 'swr'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import { requestCollectionRefresh } from '@/lib/collection-refresh'
 
 type Replacement = {
   originalNftId: string
@@ -48,8 +49,9 @@ export function NftRecoveryPanel() {
       refreshInterval: (latest) => (latest?.status === 'pending' ? 4000 : 0),
       onSuccess: (latest) => {
         if (latest.status === 'claimed') {
-          setMessage('Replacement ownership confirmed on XRPL. Xaman may take a few minutes to index it.')
+          setMessage('Replacement ownership confirmed on XRPL. Refreshing your collection now.')
           setClaim(null)
+          if (account) requestCollectionRefresh(account)
           void mutate()
         } else if (['failed', 'rejected'].includes(latest.status)) {
           setMessage(latest.error ?? 'The replacement claim was not completed.')
@@ -90,7 +92,6 @@ export function NftRecoveryPanel() {
   }
 
   const replacements = data?.replacements ?? []
-  if (account && !error && replacements.length === 0) return null
 
   return (
     <details className="group border border-border bg-card text-card-foreground">
@@ -114,6 +115,7 @@ export function NftRecoveryPanel() {
         </div>
 
       {account ? (
+        replacements.length > 0 ? (
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {replacements.map((item) => (
             <article key={item.originalNftId} className="flex items-center justify-between gap-4 border border-border p-4">
@@ -135,6 +137,11 @@ export function NftRecoveryPanel() {
             </article>
           ))}
         </div>
+        ) : (
+          <p className="mt-5 border border-border p-4 text-sm leading-relaxed text-muted-foreground">
+            No recoverable NFTs were found for this wallet. Only earlier claims with invalid metadata appear here.
+          </p>
+        )
       ) : null}
 
       {claim ? (
