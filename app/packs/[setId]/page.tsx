@@ -7,6 +7,7 @@ import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
 import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { PackShop } from '@/components/pack-shop'
+import { SiteNavigation } from '@/components/site-navigation'
 import { getPack, PACK_CATALOG } from '@/lib/pack-catalog'
 import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
 
@@ -82,6 +83,7 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
               <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold xl:block">
                 {pack.kicker}
               </p>
+              <SiteNavigation />
               <NetworkStatus />
               <ConnectWalletButton />
             </div>

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
+import { SiteNavigation } from '@/components/site-navigation'
 
 type LegalSection = {
   title: string
@@ -22,7 +23,10 @@ export function LegalPage({ title, summary, updated, sections }: LegalPageProps)
             <ArrowLeft className="size-4" aria-hidden="true" />
             Ledgerborn
           </Link>
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">Legal</p>
+          <div className="flex items-center gap-3">
+            <SiteNavigation />
+            <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground sm:block">Legal</p>
+          </div>
         </div>
       </header>
       <main className="relative z-10 mx-auto flex w-full max-w-4xl flex-col gap-10 px-4 py-10 sm:px-6 sm:py-16">

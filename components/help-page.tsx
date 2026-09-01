@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle2, ChevronDown, ShieldCheck } from 'lucide-react'
+import { SiteNavigation } from '@/components/site-navigation'
 
 const faqGroups = [
   {
@@ -109,7 +110,10 @@ export function HelpPage() {
             <Image src="/images/ledgerborn-symbol.png" alt="" width={48} height={42} className="h-9 w-10 object-contain" />
             <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
           </Link>
-          <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-gold">Support</p>
+          <div className="flex items-center gap-3">
+            <SiteNavigation />
+            <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.2em] text-gold sm:block">Support</p>
+          </div>
         </div>
       </header>
 
