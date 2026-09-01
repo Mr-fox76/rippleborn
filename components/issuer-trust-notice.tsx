@@ -6,31 +6,9 @@ const ISSUER_ADDRESS = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
 
 export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[] }) {
   return (
-    <aside aria-labelledby="issuer-notice-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-4 rounded-lg border border-gold/35 bg-card/70 p-4 backdrop-blur-md sm:p-5">
-      <div className="flex items-start gap-3">
-        <ShieldCheck aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-gold" />
-        <div className="flex min-w-0 flex-col gap-1">
-          <h2 id="issuer-notice-heading" className="font-sans text-sm font-semibold text-foreground">
-            New XRPL issuer
-          </h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Xaman may show a warning while the issuer builds transaction history. Verify Ledgerborn and its activity independently on{' '}
-            <a
-              href={`https://bithomp.com/explorer/${ISSUER_ADDRESS}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-gold underline underline-offset-4 transition-colors hover:text-foreground"
-            >
-              Bithomp
-              <ExternalLink aria-hidden="true" className="ml-1 inline size-3.5" />
-            </a>
-            .
-          </p>
-        </div>
-      </div>
-
+    <aside aria-labelledby="issuer-notice-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-5">
       {latestNfts.length > 0 ? (
-        <div className="flex flex-col gap-3 border-t border-border/70 pt-4">
+        <div className="flex flex-col gap-3">
           <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
             Latest NFTs on-ledger
           </p>
@@ -78,6 +56,28 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
           </ul>
         </div>
       ) : null}
+
+      <div className="mx-auto flex max-w-3xl items-start gap-3 px-2 text-left sm:items-center sm:text-center">
+        <ShieldCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-muted-foreground sm:mt-0" />
+        <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-2">
+          <h2 id="issuer-notice-heading" className="shrink-0 font-sans text-sm font-medium text-foreground">
+            A note about our new XRPL issuer
+          </h2>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            While its transaction history grows, Xaman may display an automated notice. You can review Ledgerborn&apos;s on-ledger activity anytime on{' '}
+            <a
+              href={`https://bithomp.com/explorer/${ISSUER_ADDRESS}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-muted-foreground"
+            >
+              Bithomp
+              <ExternalLink aria-hidden="true" className="ml-1 inline size-3.5" />
+            </a>
+            .
+          </p>
+        </div>
+      </div>
     </aside>
   )
 }
