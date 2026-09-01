@@ -2119,14 +2119,12 @@
   width: auto;
   max-width: none;
   transform: none;
-  border: 1px solid color-mix(in oklch, var(--gold) 28%, var(--border));
+  border: 0;
   color: var(--popover-foreground);
   background:
-    linear-gradient(135deg, color-mix(in oklch, var(--primary) 7%, transparent), transparent 42%),
-    color-mix(in oklch, var(--popover) 97%, transparent);
-  box-shadow:
-    0 2rem 6rem oklch(0.025 0.014 230 / 78%),
-    inset 0 1px 0 color-mix(in oklch, var(--foreground) 8%, transparent);
+    linear-gradient(135deg, color-mix(in oklch, var(--primary) 5%, transparent), transparent 42%),
+    color-mix(in oklch, var(--popover) 82%, transparent);
+  box-shadow: 0 2rem 6rem oklch(0.025 0.014 230 / 62%);
   backdrop-filter: blur(1.2rem) saturate(1.15);
 }
 
