@@ -128,27 +128,35 @@ export function WalletCollection() {
             </div>
             {error ? <p role="alert" className="text-sm text-destructive">Showing your saved grid. {error.message}</p> : null}
             <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
-              {cards.map((card) => (
-                <li key={card.tokenId}>
-                  <a
-                    href={`https://bithomp.com/nft/${card.tokenId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex h-full flex-col overflow-hidden border border-border/70 bg-card transition-colors hover:border-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  >
-                    <div className="relative aspect-[2/3] overflow-hidden bg-background">
-                      <Image src={card.image} alt={`${card.name} NFT artwork`} fill unoptimized sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-300 group-hover:scale-[1.025]" />
-                    </div>
-                    <div className="flex min-h-20 items-start justify-between gap-2 border-t border-border/70 p-3">
-                      <div className="flex min-w-0 flex-col gap-1">
-                        <h2 className="text-pretty text-sm font-semibold leading-snug text-foreground">{card.name}</h2>
-                        {card.rarity ? <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-gold">{card.rarity}</p> : null}
+              {cards.map((card) => {
+                const rarityClass = card.rarity
+                  ? `rarity-${card.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
+                  : 'rarity-common'
+
+                return (
+                  <li key={card.tokenId} className={rarityClass}>
+                    <a
+                      href={`https://bithomp.com/nft/${card.tokenId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="collection-display-card group flex h-full flex-col overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background">
+                        <Image src={card.image} alt={`${card.name} NFT artwork`} fill unoptimized sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.035]" />
+                        <div className="collection-display-sheen" aria-hidden="true" />
+                        {card.rarity ? <span className="collection-rarity-badge">{card.rarity}</span> : null}
                       </div>
-                      <ExternalLink className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-gold" aria-hidden="true" />
-                    </div>
-                  </a>
-                </li>
-              ))}
+                      <div className="collection-display-plaque flex min-h-20 items-start justify-between gap-2 p-3">
+                        <div className="flex min-w-0 flex-col gap-1">
+                          <h2 className="text-pretty text-sm font-semibold leading-snug text-foreground">{card.name}</h2>
+                          <p className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">Ledgerborn archive</p>
+                        </div>
+                        <ExternalLink className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
+                      </div>
+                    </a>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         )}
