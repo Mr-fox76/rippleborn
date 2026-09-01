@@ -138,7 +138,35 @@
 }
 
 .site-brand-mark {
-  filter: drop-shadow(0 0.4rem 0.85rem oklch(0.035 0.018 230 / 72%));
+  display: grid;
+  width: 2rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid color-mix(in oklch, var(--primary) 48%, var(--border));
+  border-radius: 0.2rem;
+  color: color-mix(in oklch, var(--primary) 78%, var(--foreground));
+  background: color-mix(in oklch, var(--primary) 5%, transparent);
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.site-brand-glyph {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.08em;
+  transform: translateX(-0.04em);
+}
+
+.site-brand-divider {
+  width: 1px;
+  height: 0.7rem;
+  background: color-mix(in oklch, var(--primary) 28%, var(--border));
+}
+
+.site-brand:hover .site-brand-mark {
+  border-color: color-mix(in oklch, var(--primary) 72%, var(--foreground));
+  color: var(--foreground);
 }
 
 .collection-nav-action {
