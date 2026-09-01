@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { Client, convertHexToString, isValidClassicAddress, type AccountNFToken } from 'xrpl'
+import { getDiscoveryNumbers } from '@/lib/card-discoveries'
 
 const MAINNET_WSS = 'wss://xrplcluster.com'
 const LEDGERBORN_ISSUER = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
@@ -19,6 +20,8 @@ type CollectionCard = {
   image: string
   name: string
   rarity?: string
+  discoveryNumber?: number
+  discoveredTotal?: number
 }
 
 function readIpfsPath(value: string): string | null {
@@ -165,7 +168,13 @@ export async function GET(request: Request) {
     } while (marker)
 
     const resolved = await Promise.all(owned.map(resolveCard))
-    return NextResponse.json({ cards: resolved.filter((card): card is CollectionCard => card !== null) })
+    const cards = resolved.filter((card): card is CollectionCard => card !== null)
+    const discoveries = await getDiscoveryNumbers(cards.map((card) => card.tokenId))
+    const numberedCards = cards.map((card) => {
+      const discovery = discoveries.get(card.tokenId.toUpperCase())
+      return discovery ? { ...card, ...discovery } : card
+    })
+    return NextResponse.json({ cards: numberedCards })
   } catch {
     return NextResponse.json({ error: 'Unable to read this wallet from XRP Ledger Mainnet.' }, { status: 502 })
   } finally {

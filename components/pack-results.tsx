@@ -13,6 +13,8 @@ export type FulfilledCard = Card & {
   offerId?: string
   mintedAt?: string
   claimExpiresAt?: string
+  discoveryNumber?: number
+  discoveredTotal?: number
   reason?: string
 }
 
@@ -239,6 +241,11 @@ function RevealedSpread({
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
                   />
                   <div className="collection-display-sheen" aria-hidden="true" />
+                  {card.discoveryNumber && card.discoveredTotal ? (
+                    <span className="collection-discovery-mark">
+                      {card.discoveryNumber} of {card.discoveredTotal} discovered
+                    </span>
+                  ) : null}
                   <span className="collection-edition-mark" aria-hidden="true">LB</span>
                   <div className="collection-card-caption z-10 flex items-end justify-between gap-2 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0">
                     <div className="flex min-w-0 flex-col gap-1">

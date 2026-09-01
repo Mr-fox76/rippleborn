@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { desc, eq } from 'drizzle-orm'
+import { addDiscoveryNumbers } from '@/lib/card-discoveries'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { db } from '@/lib/db'
@@ -12,6 +13,8 @@ export type MintedPackCard = Card & {
   offerId?: string
   mintedAt?: string
   claimExpiresAt?: string
+  discoveryNumber?: number
+  discoveredTotal?: number
   reason?: string
 }
 
@@ -119,6 +122,8 @@ export type LatestMintedNft = {
   name: string
   image: string
   rarity: Card['rarity']
+  discoveryNumber?: number
+  discoveredTotal?: number
 }
 
 export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]> {
@@ -129,12 +134,14 @@ export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]>
     .orderBy(desc(packResults.updatedAt))
     .limit(Math.max(limit, 12))
 
-  return recentPacks
+  const latest = recentPacks
     .flatMap((record) => (record.mintResults ?? []) as MintedPackCard[])
     .filter((card): card is MintedPackCard & { nftId: string } => card.mintStatus === 'minted' && Boolean(card.nftId))
     .sort((a, b) => Date.parse(b.mintedAt ?? '0') - Date.parse(a.mintedAt ?? '0'))
     .slice(0, limit)
     .map(({ nftId, name, image, rarity }) => ({ nftId, name: getDisplayCardName(name), image, rarity }))
+
+  return addDiscoveryNumbers(latest)
 }
 
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {

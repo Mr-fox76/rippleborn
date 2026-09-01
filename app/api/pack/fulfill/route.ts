@@ -3,6 +3,7 @@ import path from 'node:path'
 import { NextResponse } from 'next/server'
 import { start } from 'workflow/api'
 import type { Client, TransactionMetadata } from 'xrpl'
+import { addDiscoveryNumbers } from '@/lib/card-discoveries'
 import {
   CHROMATIC_ABYSS_METADATA_BASE_URL,
   CHROMATIC_ABYSS_NFT_TAXON,
@@ -381,6 +382,7 @@ export async function POST(request: Request) {
       }
 
       await saveMintResults(destinationTag, fulfilledCards)
+      const numberedCards = await addDiscoveryNumbers(fulfilledCards)
 
       const claimOffers = fulfilledCards.flatMap((card) =>
         card.mintStatus === 'minted' &&
@@ -414,7 +416,7 @@ export async function POST(request: Request) {
         paymentVerified: true,
         paymentTransaction,
         commitment: committed.commitment,
-        cards: fulfilledCards,
+        cards: numberedCards,
       })
     })
   } catch (error) {

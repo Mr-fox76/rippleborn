@@ -57,6 +57,11 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                       />
                       <div className="collection-display-sheen" aria-hidden="true" />
+                      {nft.discoveryNumber && nft.discoveredTotal ? (
+                        <span className="collection-discovery-mark">
+                          {nft.discoveryNumber} of {nft.discoveredTotal} discovered
+                        </span>
+                      ) : null}
                       <span className="collection-edition-mark" aria-hidden="true">LB</span>
                       <div className="collection-card-caption flex items-end justify-between gap-2">
                         <div className="flex min-w-0 flex-col gap-1">
