@@ -30,7 +30,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardCount: 21,
     cardsPerPack: 3,
     priceXrp: 5,
-    packImage: '/sets/ledgerborn/ledgerborn-mythic-pack.png',
+    packImage: '/sets/ledgerborn/ledgerborn-mythic-pack-v2.png',
     theme: {
       id: 'mythic',
       eyebrow: 'Ancient powers. Real NFT ownership.',
