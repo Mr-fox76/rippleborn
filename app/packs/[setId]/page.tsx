@@ -71,19 +71,18 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
         <div aria-hidden="true" className="pack-theme-atmosphere" />
         <header className="pack-theme-bar sticky top-0 z-[100] border-b px-4 py-3 backdrop-blur-md sm:px-6">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3">
-            <Link href="/" className="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
-              <ArrowLeft className="size-4" aria-hidden="true" />
-              <span className="hidden sm:inline">All packs</span>
-            </Link>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Link href="/" className="inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary">
+                <ArrowLeft className="size-4" aria-hidden="true" />
+                <span className="hidden sm:inline">All packs</span>
+              </Link>
+              <SiteNavigation />
+            </div>
             <Link href="/" aria-label="Ledgerborn home" className="inline-flex items-center gap-2">
               <Image src="/images/ledgerborn-symbol.png" alt="" width={48} height={42} className="h-9 w-10 object-contain" />
               <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
             </Link>
             <div className="flex items-center justify-end gap-2 sm:gap-3">
-              <p className="hidden font-mono text-[0.65rem] uppercase tracking-[0.24em] text-gold xl:block">
-                {pack.kicker}
-              </p>
-              <SiteNavigation />
               <NetworkStatus />
               <ConnectWalletButton />
             </div>
