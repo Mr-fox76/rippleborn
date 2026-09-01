@@ -1,3 +1,12 @@
 minimumReleaseAgeExclude:
   - '@next/*'
   - next
+
+allowBuilds:
+  '@swc/core': true
+  bufferutil: true
+  cbor-extract: true
+  es5-ext: true
+  esbuild: true
+  sharp: true
+  utf-8-validate: true
