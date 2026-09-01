@@ -41,12 +41,20 @@ export function ArtistProgramTeaser() {
       </div>
 
       <ol className="mt-10 grid list-none grid-cols-1 gap-px overflow-hidden border border-border/60 bg-border/60 sm:grid-cols-3">
-        {STAGES.map(({ icon: Icon, label, description }) => (
-          <li key={label} className="flex min-h-44 flex-col justify-between gap-8 bg-background p-6">
-            <Icon className="size-5 text-muted-foreground" strokeWidth={1.5} aria-hidden="true" />
-            <div className="flex flex-col gap-2">
-              <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-foreground">{label}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
+        {STAGES.map(({ icon: Icon, label, description }, index) => (
+          <li key={label} className="group flex min-h-56 flex-col justify-between gap-10 bg-background p-6 sm:p-7">
+            <div className="flex items-center justify-between">
+              <Icon className="size-5 text-muted-foreground transition-colors group-hover:text-foreground" strokeWidth={1.5} aria-hidden="true" />
+              <span className="font-mono text-[0.6rem] tracking-[0.22em] text-muted-foreground" aria-hidden="true">
+                0{index + 1}
+              </span>
+            </div>
+            <div className="flex flex-col gap-4">
+              <h3 className="max-w-48 font-sans text-2xl font-semibold leading-none tracking-[-0.04em] text-balance text-foreground sm:text-3xl">
+                {label}
+              </h3>
+              <span className="h-px w-10 bg-foreground transition-[width] duration-300 group-hover:w-16" aria-hidden="true" />
+              <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{description}</p>
             </div>
           </li>
         ))}
