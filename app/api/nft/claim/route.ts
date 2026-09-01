@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getClaimOffer } from '@/lib/nft-claim-lifecycle'
+import { getClaimOffer, reconcileOpenClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { getXrplWebsocketUrl, validateBuyer, withXrplClient } from '@/lib/xrpl-server'
 import { getXamanSdk, isHex256 } from '@/lib/xaman-server'
 
@@ -28,16 +28,31 @@ export async function POST(request: Request) {
     }
 
     const websocketUrl = getXrplWebsocketUrl()
-    await withXrplClient(websocketUrl, async (client) => {
-      const response = await client.request({ command: 'nft_sell_offers', nft_id: nftId, limit: 100 })
-      const offer = response.result.offers.find(
-        (candidate) => candidate.nft_offer_index.toUpperCase() === offerId,
-      )
+    try {
+      await withXrplClient(websocketUrl, async (client) => {
+        const response = await client.request({ command: 'nft_sell_offers', nft_id: nftId, limit: 100 })
+        const offer = response.result.offers.find(
+          (candidate) => candidate.nft_offer_index.toUpperCase() === offerId,
+        )
 
-      if (!offer) throw new Error('This NFT offer is no longer available.')
-      if (offer.amount !== '0') throw new Error('This NFT offer is not a free claim.')
-      if (offer.destination !== buyer) throw new Error('This NFT offer belongs to another wallet.')
-    })
+        if (!offer) throw new Error('This NFT offer is no longer available.')
+        if (offer.amount !== '0') throw new Error('This NFT offer is not a free claim.')
+        if (offer.destination !== buyer) throw new Error('This NFT offer belongs to another wallet.')
+      })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error)
+      if (/objectNotFound|requested object was not found|no longer available|not found/i.test(message)) {
+        if (lifecycle) await reconcileOpenClaimOffers([lifecycle])
+        return NextResponse.json(
+          {
+            code: 'CLAIM_UNAVAILABLE',
+            error: 'This NFT has already been claimed or is no longer available.',
+          },
+          { status: 409 },
+        )
+      }
+      throw error
+    }
 
     const payload = await getXamanSdk().payload.create({
       txjson: {

@@ -3,7 +3,7 @@ import { getNftReplacement, listNftReplacements, markReplacementMinted } from '@
 import { accountOwnsNft, getXrplConfig, mintCardNft, withXrplClient } from '@/lib/xrpl-server'
 import { CYBORG_COWBOY_NFT_TAXON, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
 import { RIPPLEBORN_METADATA_BASE_URL } from '@/lib/rippleborn'
-import { listOpenClaimOffers } from '@/lib/nft-claim-lifecycle'
+import { listOpenClaimOffers, reconcileOpenClaimOffers } from '@/lib/nft-claim-lifecycle'
 
 const XRPL_ADDRESS = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
 const HEX_256 = /^[A-Fa-f0-9]{64}$/
@@ -14,10 +14,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'A valid Xaman wallet address is required.' }, { status: 400 })
   }
 
-  const [replacements, claimOffers] = await Promise.all([
+  const [replacements, storedClaimOffers] = await Promise.all([
     listNftReplacements(owner),
     listOpenClaimOffers(owner),
   ])
+  const claimOffers = await reconcileOpenClaimOffers(storedClaimOffers)
+
   return NextResponse.json({
     replacements,
     claimOffers: claimOffers.map((offer) => ({

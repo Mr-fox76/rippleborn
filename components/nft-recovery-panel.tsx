@@ -146,6 +146,7 @@ export function NftRecoveryPanel() {
                   offerId={offer.offerId}
                   claimExpiresAt={offer.claimExpiresAt}
                   onClaimed={() => void mutate()}
+                  onUnavailable={() => void mutate()}
                 />
               </article>
             ))}
