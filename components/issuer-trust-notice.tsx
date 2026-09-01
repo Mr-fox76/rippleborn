@@ -4,13 +4,9 @@ import type { LatestMintedNft } from '@/lib/pack-results'
 
 const ISSUER_ADDRESS = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
 
-function shortenedNftId(nftId: string) {
-  return `${nftId.slice(0, 8)}…${nftId.slice(-6)}`
-}
-
 export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[] }) {
   return (
-    <aside aria-labelledby="issuer-notice-heading" className="mx-auto flex w-full max-w-4xl flex-col gap-4 rounded-lg border border-gold/35 bg-card/70 p-4 backdrop-blur-md sm:p-5">
+    <aside aria-labelledby="issuer-notice-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-4 rounded-lg border border-gold/35 bg-card/70 p-4 backdrop-blur-md sm:p-5">
       <div className="flex items-start gap-3">
         <ShieldCheck aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-gold" />
         <div className="flex min-w-0 flex-col gap-1">
@@ -38,34 +34,42 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
           <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
             Latest NFTs on-ledger
           </p>
-          <ul className="grid grid-cols-3 gap-2 sm:gap-3">
-            {latestNfts.map((nft) => (
-              <li key={nft.nftId} className="min-w-0">
-                <a
-                  href={`https://bithomp.com/nft/${nft.nftId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${nft.name} NFT ${nft.nftId} on Bithomp`}
-                  className="group flex h-full min-w-0 flex-col overflow-hidden rounded-md border border-border bg-background/40 transition-colors hover:border-gold/60"
-                >
-                  <div className="relative aspect-square overflow-hidden bg-card">
-                    <Image
-                      src={nft.image}
-                      alt={`${nft.name} NFT artwork`}
-                      fill
-                      loading="lazy"
-                      sizes="(max-width: 640px) 30vw, 240px"
-                      className="scale-[1.16] object-cover object-center transition-transform duration-300 group-hover:scale-[1.2]"
-                    />
-                  </div>
-                  <span className="flex min-w-0 items-center gap-1.5 px-2 py-2 font-mono text-[0.65rem] text-foreground sm:px-3">
-                    <span className="min-w-0 flex-1 truncate">{nft.name}</span>
-                    <span className="hidden text-muted-foreground lg:inline">{shortenedNftId(nft.nftId)}</span>
-                    <ExternalLink aria-hidden="true" className="size-3 shrink-0 text-gold" />
-                  </span>
-                </a>
-              </li>
-            ))}
+          <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-5">
+            {latestNfts.map((nft) => {
+              const rarityClass = `rarity-${nft.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
+
+              return (
+                <li key={nft.nftId} className={rarityClass}>
+                  <a
+                    href={`https://bithomp.com/nft/${nft.nftId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${nft.name} NFT ${nft.nftId} on Bithomp`}
+                    className="collection-display-card group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background">
+                      <Image
+                        src={nft.image}
+                        alt={`${nft.name} NFT artwork`}
+                        fill
+                        loading="lazy"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                      />
+                      <div className="collection-display-sheen" aria-hidden="true" />
+                      <span className="collection-edition-mark" aria-hidden="true">LB</span>
+                      <div className="collection-card-caption flex items-end justify-between gap-2">
+                        <div className="flex min-w-0 flex-col gap-1">
+                          <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground">{nft.name}</h3>
+                          <span className="collection-rarity-seal">{nft.rarity}</span>
+                        </div>
+                        <ExternalLink className="size-4 shrink-0 text-foreground/70 transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              )
+            })}
           </ul>
         </div>
       ) : null}

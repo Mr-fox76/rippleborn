@@ -118,9 +118,10 @@ export type LatestMintedNft = {
   nftId: string
   name: string
   image: string
+  rarity: Card['rarity']
 }
 
-export async function getLatestMintedNfts(limit = 3): Promise<LatestMintedNft[]> {
+export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]> {
   const recentPacks = await db
     .select({ mintResults: packResults.mintResultsJson })
     .from(packResults)
@@ -133,7 +134,7 @@ export async function getLatestMintedNfts(limit = 3): Promise<LatestMintedNft[]>
     .filter((card): card is MintedPackCard & { nftId: string } => card.mintStatus === 'minted' && Boolean(card.nftId))
     .sort((a, b) => Date.parse(b.mintedAt ?? '0') - Date.parse(a.mintedAt ?? '0'))
     .slice(0, limit)
-    .map(({ nftId, name, image }) => ({ nftId, name: getDisplayCardName(name), image }))
+    .map(({ nftId, name, image, rarity }) => ({ nftId, name: getDisplayCardName(name), image, rarity }))
 }
 
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {
