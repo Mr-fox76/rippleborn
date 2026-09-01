@@ -256,7 +256,7 @@ export function PackShop({
           >
             <TarotCards
               cards={packOpened ? cards : null}
-              buyer={order?.buyer ?? null}
+              buyer={order?.buyer ?? account}
               setName={pack.kicker}
               onReset={resetDeck}
             />
