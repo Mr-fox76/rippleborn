@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import type { PackCatalogEntry } from '@/lib/pack-catalog'
 
 const styleArtwork = {
-  mythic: '/cards/leviathan-of-the-first-ledger.png',
+  mythic: '/images/mythic-card-style-sample.png',
   cyborg: '/sets/cyborg-cowboy/images/gunslinger-zero.png',
   chromatic: '/sets/chromatic-abyss/images/thousand-petaled-mind.png',
 } as const
