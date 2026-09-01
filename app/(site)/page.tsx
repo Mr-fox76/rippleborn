@@ -27,7 +27,7 @@ export default async function Page() {
         <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
-        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">3 cards · 5 XRP</p>
+        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">3 cards · 5 XRP · Version 4.2</p>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
 Independent project. Not affiliated with Ledger or Xaman.
         </p>
