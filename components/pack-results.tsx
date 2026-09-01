@@ -196,7 +196,7 @@ function RevealedSpread({
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
+      <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
         {[1, 0, 2].map((index) => {
         const card = cards[index]
         const displayName = card ? getDisplayCardName(card.name) : ''

@@ -2023,6 +2023,22 @@
     width: min(100%, 22rem);
   }
 
+  .tarot-slot:has(.show-face) {
+    aspect-ratio: auto;
+  }
+
+  .tarot-slot-frame.show-face {
+    height: auto;
+    aspect-ratio: auto;
+    contain: layout;
+  }
+
+  .tarot-slot-frame.show-face .tarot-slot-front {
+    position: relative;
+    inset: auto;
+    overflow: visible;
+  }
+
   .tarot-card {
     border-radius: 0.45rem;
   }
