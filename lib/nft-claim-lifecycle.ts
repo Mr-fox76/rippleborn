@@ -1,6 +1,6 @@
 import 'server-only'
 
-import { and, eq } from 'drizzle-orm'
+import { and, desc, eq, gt } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { nftClaimOffers } from '@/lib/db/schema'
 
@@ -35,6 +35,20 @@ export async function registerClaimOffers(input: {
       })),
     )
     .onConflictDoNothing()
+}
+
+export async function listOpenClaimOffers(buyer: string) {
+  return db
+    .select()
+    .from(nftClaimOffers)
+    .where(
+      and(
+        eq(nftClaimOffers.buyer, buyer),
+        eq(nftClaimOffers.status, 'open'),
+        gt(nftClaimOffers.claimExpiresAt, new Date()),
+      ),
+    )
+    .orderBy(desc(nftClaimOffers.mintedAt))
 }
 
 export async function getClaimOffer(offerId: string) {

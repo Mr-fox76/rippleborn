@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import useSWR from 'swr'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import { ClaimNftButton } from '@/components/claim-nft-button'
 import { requestCollectionRefresh } from '@/lib/collection-refresh'
 
 type Replacement = {
@@ -10,6 +11,18 @@ type Replacement = {
   cardId: string
   replacementNftId: string | null
   status: string
+}
+
+type OpenClaimOffer = {
+  nftId: string
+  offerId: string
+  mintedAt: string
+  claimExpiresAt: string
+}
+
+type RecoveryData = {
+  replacements: Replacement[]
+  claimOffers: OpenClaimOffer[]
 }
 
 type ClaimRequest = { uuid: string; qrPng: string; nextUrl: string }
@@ -27,7 +40,7 @@ async function fetcher(url: string) {
   const response = await fetch(url)
   const data = await response.json()
   if (!response.ok) throw new Error(data.error ?? 'Unable to load NFT recovery status.')
-  return data as { replacements: Replacement[] }
+  return data as RecoveryData
 }
 
 export function NftRecoveryPanel() {
@@ -92,6 +105,7 @@ export function NftRecoveryPanel() {
   }
 
   const replacements = data?.replacements ?? []
+  const claimOffers = data?.claimOffers ?? []
 
   return (
     <details className="group border border-border bg-card text-card-foreground">
@@ -102,9 +116,9 @@ export function NftRecoveryPanel() {
       <section className="border-t border-border p-5 sm:p-6" aria-labelledby="recovery-title">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-1">
-            <h2 id="recovery-title" className="font-serif text-xl text-balance">Recover NFTs with invalid metadata</h2>
+            <h2 id="recovery-title" className="font-serif text-xl text-balance">Recover and claim NFTs</h2>
             <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              Earlier claims reached your wallet with metadata rejected by explorers. Claim standards-compliant replacements here; the originals remain untouched.
+              Claim open NFT offers that were missed after opening a pack, or recover eligible earlier NFTs with invalid explorer metadata.
             </p>
           </div>
           {!account ? (
@@ -113,6 +127,31 @@ export function NftRecoveryPanel() {
             </button>
           ) : null}
         </div>
+
+      {account && claimOffers.length > 0 ? (
+        <section className="mt-5" aria-labelledby="open-claims-title">
+          <h3 id="open-claims-title" className="font-mono text-xs uppercase tracking-wider text-gold">
+            Unclaimed pack NFTs
+          </h3>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {claimOffers.map((offer) => (
+              <article key={offer.offerId} className="flex flex-col gap-3 border border-border p-4">
+                <div className="min-w-0">
+                  <p className="font-serif text-base">Minted NFT awaiting claim</p>
+                  <p className="truncate font-mono text-[0.6rem] text-muted-foreground">{offer.nftId}</p>
+                </div>
+                <ClaimNftButton
+                  buyer={account}
+                  nftId={offer.nftId}
+                  offerId={offer.offerId}
+                  claimExpiresAt={offer.claimExpiresAt}
+                  onClaimed={() => void mutate()}
+                />
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       {account ? (
         replacements.length > 0 ? (
@@ -137,11 +176,11 @@ export function NftRecoveryPanel() {
             </article>
           ))}
         </div>
-        ) : (
+        ) : claimOffers.length === 0 ? (
           <p className="mt-5 border border-border p-4 text-sm leading-relaxed text-muted-foreground">
-            No recoverable NFTs were found for this wallet. Only earlier claims with invalid metadata appear here.
+            No open NFT claims or metadata replacements were found for this wallet.
           </p>
-        )
+        ) : null
       ) : null}
 
       {claim ? (
