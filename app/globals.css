@@ -1989,6 +1989,16 @@
     gap: 1.25rem;
   }
 
+  .stable-opening-visual:has(.stable-card-layer.is-active) {
+    min-height: auto;
+    contain: layout;
+  }
+
+  .stable-opening-visual:has(.stable-card-layer.is-active) .stable-card-layer {
+    position: relative;
+    inset: auto;
+  }
+
   .stable-opening-visual {
     min-height: 35rem;
   }
@@ -2003,9 +2013,14 @@
   }
 
   .tarot-spread {
-    min-height: 28rem;
-    gap: 0.45rem;
-    padding: 4rem 0.25rem 1rem;
+    min-height: 0;
+    overflow: visible;
+    gap: 1.5rem;
+    padding: 1rem 0.75rem;
+  }
+
+  .tarot-spread .tarot-slot {
+    width: min(100%, 22rem);
   }
 
   .tarot-card {

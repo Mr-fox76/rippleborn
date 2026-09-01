@@ -325,7 +325,7 @@ export function TarotCards({
         />
       ) : (
         <div className="flex flex-col items-center gap-6">
-          <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
+      <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
             {[1, 0, 2].map((index) => (
               <li key={index} className="tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1">
                 <div className="tarot-slot-frame show-back">
