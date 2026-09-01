@@ -285,15 +285,21 @@ export async function POST(request: Request) {
       }
 
       const existingResult = await getPackResult(destinationTag)
-      if (existingResult?.mintResults) {
+      const existingMintResults = existingResult?.mintResults
+      if (
+        existingMintResults?.length &&
+        existingMintResults.every(
+          (card) => card.mintStatus === 'minted' && card.nftId && card.offerId,
+        )
+      ) {
         return NextResponse.json({
           orderId: destinationTag,
           buyer,
           status: 'fulfilled',
           paymentVerified: true,
           paymentTransaction,
-          commitment: existingResult.commitment,
-          cards: existingResult.mintResults,
+          commitment: existingResult?.commitment ?? null,
+          cards: existingMintResults,
         })
       }
 
@@ -334,7 +340,17 @@ export async function POST(request: Request) {
 
       const fulfilledCards: MintedPackCard[] = []
 
-      for (const card of cards) {
+      for (const [cardIndex, card] of cards.entries()) {
+        const previousMint = existingMintResults?.[cardIndex]
+        if (
+          previousMint?.mintStatus === 'minted' &&
+          previousMint.nftId &&
+          previousMint.offerId
+        ) {
+          fulfilledCards.push(previousMint)
+          continue
+        }
+
         const currentUri = setId === 'cyborg-cowboy'
           ? (() => {
                 const currentCard = Object.values(CYBORG_COWBOY_POOL)
