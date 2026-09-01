@@ -1422,27 +1422,47 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border: 3px solid color-mix(in oklch, var(--rarity-color) 88%, var(--border));
+  border: 3px solid color-mix(in oklch, var(--rarity-color) 94%, var(--foreground));
   border-radius: 0.65rem;
   color: var(--foreground);
   background: var(--rarity-color);
   box-shadow:
     0 1.25rem 2.75rem oklch(0.04 0.02 225 / 68%),
-    0 0 1.75rem color-mix(in oklch, var(--rarity-color) 30%, transparent),
-    inset 0 0 0 1px color-mix(in oklch, var(--foreground) 25%, transparent);
-  filter: contrast(1.05) saturate(1.05);
+    0 0 2.5rem color-mix(in oklch, var(--rarity-color) 46%, transparent),
+    inset 0 0 0 1px color-mix(in oklch, var(--foreground) 42%, transparent),
+    inset 0 0 1rem color-mix(in oklch, var(--rarity-color) 38%, transparent);
+  filter: contrast(1.08) saturate(1.16);
   transition: border-color 250ms ease, box-shadow 250ms ease, translate 250ms ease, filter 250ms ease;
+}
+
+.collection-display-card::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(112deg, transparent 10%, color-mix(in oklch, var(--rarity-color) 50%, transparent) 34%, color-mix(in oklch, var(--foreground) 18%, transparent) 42%, transparent 56%);
+  background-size: 240% 100%;
+  content: '';
+  opacity: 0.7;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: background-position 600ms ease, opacity 250ms ease;
 }
 
 .collection-display-card:hover {
   translate: 0 -0.4rem;
-  border-color: color-mix(in oklch, var(--rarity-color) 96%, var(--foreground));
-  filter: brightness(1.06) contrast(1.06) saturate(1.08);
+  border-color: color-mix(in oklch, var(--rarity-color) 82%, var(--foreground));
+  filter: brightness(1.1) contrast(1.08) saturate(1.24);
   box-shadow:
     0 1.8rem 3.5rem oklch(0.04 0.02 225 / 72%),
-    0 0 3rem color-mix(in oklch, var(--rarity-color) 42%, transparent),
-    inset 1px 0 0 color-mix(in oklch, var(--foreground) 24%, transparent),
-    inset 0 0 1.75rem color-mix(in oklch, var(--rarity-color) 34%, transparent);
+    0 0 4rem color-mix(in oklch, var(--rarity-color) 62%, transparent),
+    inset 0 0 0 1px color-mix(in oklch, var(--foreground) 46%, transparent),
+    inset 0 0 2rem color-mix(in oklch, var(--rarity-color) 48%, transparent);
+}
+
+.collection-display-card:hover::after {
+  background-position: 100% 0;
+  opacity: 1;
 }
 
 .collection-display-art {
@@ -1457,9 +1477,11 @@
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(112deg, transparent 12%, color-mix(in oklch, var(--rarity-color) 22%, transparent) 34%, transparent 49%),
-    linear-gradient(135deg, color-mix(in oklch, var(--rarity-color) 15%, transparent), transparent 32% 72%, color-mix(in oklch, var(--rarity-color) 12%, transparent));
-  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 16%, transparent);
+    linear-gradient(112deg, transparent 12%, color-mix(in oklch, var(--rarity-color) 38%, transparent) 34%, transparent 49%),
+    linear-gradient(135deg, color-mix(in oklch, var(--rarity-color) 24%, transparent), transparent 32% 72%, color-mix(in oklch, var(--rarity-color) 20%, transparent));
+  box-shadow:
+    inset 0 0 2.5rem color-mix(in oklch, var(--rarity-color) 28%, transparent),
+    inset 0 0 0 1px color-mix(in oklch, var(--rarity-color) 50%, transparent);
   mix-blend-mode: screen;
 }
 

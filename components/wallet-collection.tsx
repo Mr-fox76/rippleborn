@@ -127,7 +127,7 @@ export function WalletCollection() {
               </Button>
             </div>
             {error ? <p role="alert" className="text-sm text-destructive">Showing your saved grid. {error.message}</p> : null}
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
+            <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
               {cards.map((card) => {
                 const rarityClass = card.rarity
                   ? `rarity-${card.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
