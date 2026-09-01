@@ -684,15 +684,20 @@
 }
 
 .stable-opening-stage {
+  position: relative;
   display: flex;
-  min-height: 47rem;
+  min-height: 38rem;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 1.25rem;
 }
 
 .stable-purchase-panel {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  right: 0;
+  width: min(20rem, 28%);
   min-height: 6rem;
+  translate: 0 -50%;
   transition: opacity 220ms ease, visibility 220ms ease;
 }
 
@@ -1620,6 +1625,15 @@
 
   .stable-opening-stage {
     min-height: 37rem;
+    gap: 1.25rem;
+  }
+
+  .stable-purchase-panel {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    translate: none;
   }
 
   .stable-opening-visual {
