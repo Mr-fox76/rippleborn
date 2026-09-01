@@ -415,6 +415,7 @@
   object-position: center;
   opacity: 0.58;
   filter: saturate(1.18) contrast(1.12);
+  transform: scale(1.28);
   transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
 }
 
@@ -462,7 +463,7 @@
 .pack-set-card:hover .pack-set-image {
   opacity: 0.74;
   filter: saturate(1.4) contrast(1.16);
-  transform: scale(1.025);
+  transform: scale(1.34);
 }
 
 .pack-set-card-mythic {
@@ -476,11 +477,11 @@
 }
 
 .pack-set-card-mythic .pack-set-image {
-  transform: scale(0.82);
+  transform: scale(1.28);
 }
 
 .pack-set-card-mythic:hover .pack-set-image {
-  transform: scale(0.85);
+  transform: scale(1.34);
 }
 
 .pack-set-card-mythic::before {
