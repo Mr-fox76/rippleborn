@@ -1,14 +1,14 @@
 {
   "mythical": {
-    "imageCid": "bafybeif7w5cqputzvphd6jrfmkoete53mbu5i2uxkvk7gz2fkbddm74eyi",
-    "metadataCid": "bafybeidu3usjcomy3qxnm3zlwxwqxppcmy5mj4wjr6645tmqqsfquwwd5a",
-    "metadataBaseUri": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeidu3usjcomy3qxnm3zlwxwqxppcmy5mj4wjr6645tmqqsfquwwd5a"
+    "imageCid": "bafybeih46biivmtc4yijiy7use6yu4m6d5i2nvd7x7qdnijjrkq33i2bsa",
+    "metadataCid": "bafybeie7q4575rkx7k5yhfsakoxuty5pz72oq7v3vtv3gvp4yqgbjntlsm",
+    "metadataBaseUri": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeie7q4575rkx7k5yhfsakoxuty5pz72oq7v3vtv3gvp4yqgbjntlsm"
   },
   "cyborg": {
     "imageCid": "bafybeic6jkwvqvtiqopyq7vtxychxfdsa5p4gb5tl5ai6ee2k45ip4djwy",
     "metadataCid": "bafybeiahusnio5qkjhb6yco6tvgnd6dn75bf7qw6x6itejhchus26mrpcu",
     "metadataBaseUri": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeiahusnio5qkjhb6yco6tvgnd6dn75bf7qw6x6itejhchus26mrpcu/metadata"
   },
-  "publishedAt": "2026-08-29T22:26:18.008Z",
+  "publishedAt": "2026-09-01T11:05:00.460Z",
   "standard": "XLS-24"
 }
