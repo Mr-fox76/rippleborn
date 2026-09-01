@@ -14,6 +14,7 @@ import {
 export type XrplNetwork = 'Testnet' | 'Mainnet'
 
 const XRPL_MAINNET_WEBSOCKET = 'wss://xrplcluster.com'
+const RIPPLEBORN_ISSUER_ADDRESS = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
 const PACK_PRICE_DROPS = '5000000'
 
 export type PackPaymentConfig = {
@@ -76,7 +77,7 @@ export function getPackPaymentConfig(): PackPaymentConfig {
 export function getXrplConfig(): XrplConfig {
   const websocketUrl = getXrplWebsocketUrl()
   const { treasuryAddress, packPriceDrops } = getPackPaymentConfig()
-  const issuerAddress = requiredEnvironmentValue('ISSUER_ADDRESS')
+  const issuerAddress = process.env.ISSUER_ADDRESS?.trim() || RIPPLEBORN_ISSUER_ADDRESS
   const nftTaxon = parseUnsignedInteger('NFT_TAXON', requiredEnvironmentValue('NFT_TAXON'), 0xffffffff)
   const transferFee = parseUnsignedInteger(
     'TRANSFER_FEE',
