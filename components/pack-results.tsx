@@ -219,6 +219,7 @@ function RevealedSpread({
               </div>
               <div className="tarot-slot-face tarot-slot-front" aria-hidden={!card || !isRevealed}>
               {card ? (
+              <>
               <article
                 className={`tarot-card tarot-reveal collection-display-card relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden`}
               >
@@ -266,24 +267,23 @@ function RevealedSpread({
                     </blockquote>
                   </div>
                 </div>
-                {card.nftId && card.offerId ? (
-                  <div className="rarity-action-footer shrink-0 p-3">
-                    {buyer ? (
-                      <ClaimNftButton
-                        buyer={buyer}
-                        nftId={card.nftId}
-                        offerId={card.offerId}
-                        claimExpiresAt={card.claimExpiresAt}
-                        onClaimed={markClaimed}
-                      />
-                    ) : (
-                      <Button type="button" size="sm" disabled className="w-full font-mono text-xs font-semibold uppercase tracking-wider">
-                        Reconnect Xaman to claim
-                      </Button>
-                    )}
-                  </div>
-                ) : null}
               </article>
+              <div className="rarity-action-footer shrink-0 p-3">
+                {card.nftId && card.offerId && buyer ? (
+                  <ClaimNftButton
+                    buyer={buyer}
+                    nftId={card.nftId}
+                    offerId={card.offerId}
+                    claimExpiresAt={card.claimExpiresAt}
+                    onClaimed={markClaimed}
+                  />
+                ) : (
+                  <Button type="button" size="sm" disabled className="w-full font-mono text-xs font-semibold uppercase tracking-wider">
+                    {card.nftId && card.offerId ? 'Reconnect Xaman to claim' : 'NFT claim unavailable'}
+                  </Button>
+                )}
+              </div>
+              </>
               ) : null}
               </div>
             </div>

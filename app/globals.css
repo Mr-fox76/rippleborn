@@ -1348,7 +1348,6 @@
 
 .tarot-spread:has(.rarity-action-footer) {
   overflow: visible;
-  padding-bottom: 4.5rem;
 }
 
 .tarot-slot-frame.show-face:has(.rarity-action-footer) {
@@ -1360,18 +1359,21 @@
 .tarot-slot-frame.show-face:has(.rarity-action-footer) .tarot-slot-front {
   position: relative;
   inset: auto;
+  display: flex;
+  flex-direction: column;
   overflow: visible;
 }
 
 .tarot-slot-frame.show-face:has(.rarity-action-footer) .tarot-reveal {
   height: auto;
   aspect-ratio: auto;
-  overflow: visible;
+  overflow: hidden;
 }
 
-.tarot-reveal .rarity-action-footer {
-  position: static;
+.tarot-slot-front > .rarity-action-footer {
+  position: relative;
   z-index: 30;
+  width: 100%;
   padding: 0.75rem;
   background: var(--card);
 }
