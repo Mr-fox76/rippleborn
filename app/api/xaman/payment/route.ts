@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       custom_meta: {
         identifier: `rippleborn-pack-${destinationTag}`,
         instruction: `Pay ${config.packPriceDrops} drops for Ledgerborn pack ${destinationTag}.`,
-        blob: JSON.stringify({ kind: 'pack-payment', buyer, destinationTag }),
+        blob: { kind: 'pack-payment', buyer, destinationTag },
       },
     })
 

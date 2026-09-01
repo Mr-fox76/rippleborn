@@ -30,9 +30,9 @@ export async function GET(
     const expectedBuyer = typeof blob?.buyer === 'string' ? blob.buyer : null
     const signedAccount = payload.response.account ?? payload.response.signer
 
-    if (blob?.kind !== 'pack-payment') {
-      return NextResponse.json({ status: 'failed', error: 'This is not a pack payment request.' })
-    }
+    // Xaman does not consistently return custom_meta.blob from payload.get().
+    // The payment is authoritatively verified against its order, destination,
+    // amount, tag, and signer during fulfillment after it reaches the ledger.
     if (payload.meta.signed && expectedBuyer && signedAccount !== expectedBuyer) {
       return NextResponse.json({ status: 'failed', error: 'The payment was signed by the wrong wallet.' })
     }
