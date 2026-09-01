@@ -1,20 +1,18 @@
-import { Brush, Gem, Layers3 } from 'lucide-react'
-
 const STAGES = [
   {
-    icon: Brush,
     label: 'Your artwork',
     description: 'Artists bring the vision and finished artwork for an original collection.',
+    artwork: '/sets/chromatic-abyss/images/dream-architect.png',
   },
   {
-    icon: Layers3,
     label: 'We build the set',
     description: 'Ledgerborn handles the set creation and the groundwork behind the release.',
+    artwork: '/sets/cyborg-cowboy/images/cobalt-gunsmith.png',
   },
   {
-    icon: Gem,
     label: 'Earn royalties',
     description: 'Artists receive a royalty when their collection changes hands.',
+    artwork: '/sets/chromatic-abyss/images/thousand-petaled-mind.png',
   },
 ] as const
 
@@ -41,20 +39,22 @@ export function ArtistProgramTeaser() {
       </div>
 
       <ol className="mt-10 grid list-none grid-cols-1 gap-px overflow-hidden border border-border/60 bg-border/60 sm:grid-cols-3">
-        {STAGES.map(({ icon: Icon, label, description }, index) => (
-          <li key={label} className="group flex min-h-56 flex-col justify-between gap-10 bg-background p-6 sm:p-7">
-            <div className="flex items-center justify-between">
-              <Icon className="size-5 text-muted-foreground transition-colors group-hover:text-foreground" strokeWidth={1.5} aria-hidden="true" />
+        {STAGES.map(({ label, description, artwork }, index) => (
+          <li
+            key={label}
+            className="relative isolate flex min-h-72 items-center justify-center overflow-hidden bg-background p-6 text-center sm:p-7"
+            style={{ backgroundImage: `url('${artwork}')`, backgroundPosition: 'center', backgroundSize: 'cover' }}
+          >
+            <span className="absolute inset-0 -z-10 bg-background/75" aria-hidden="true" />
+            <div className="flex max-w-sm flex-col items-center gap-5">
               <span className="font-mono text-[0.6rem] tracking-[0.22em] text-muted-foreground" aria-hidden="true">
                 0{index + 1}
               </span>
-            </div>
-            <div className="flex flex-col gap-4">
-              <h3 className="max-w-48 font-sans text-2xl font-semibold leading-none tracking-[-0.04em] text-balance text-foreground sm:text-3xl">
+              <h3 className="whitespace-nowrap font-sans text-2xl font-semibold leading-none tracking-[-0.04em] text-foreground sm:text-3xl">
                 {label}
               </h3>
-              <span className="h-px w-10 bg-foreground transition-[width] duration-300 group-hover:w-16" aria-hidden="true" />
-              <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{description}</p>
+              <span className="h-px w-12 bg-foreground" aria-hidden="true" />
+              <p className="text-sm leading-relaxed text-foreground/80">{description}</p>
             </div>
           </li>
         ))}
