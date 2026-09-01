@@ -2090,6 +2090,47 @@
   border: 0;
 }
 
+.collection-overlay-content {
+  right: max(1.5rem, calc((100vw - 80rem) / 2));
+  left: max(1.5rem, calc((100vw - 80rem) / 2));
+  width: auto;
+  max-width: none;
+  transform: none;
+  border: 1px solid color-mix(in oklch, var(--gold) 28%, var(--border));
+  color: var(--popover-foreground);
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--primary) 7%, transparent), transparent 42%),
+    color-mix(in oklch, var(--popover) 97%, transparent);
+  box-shadow:
+    0 2rem 6rem oklch(0.025 0.014 230 / 78%),
+    inset 0 1px 0 color-mix(in oklch, var(--foreground) 8%, transparent);
+  backdrop-filter: blur(1.2rem) saturate(1.15);
+}
+
+.collection-overlay-header {
+  border-bottom: 1px solid color-mix(in oklch, var(--gold) 18%, var(--border));
+  background: color-mix(in oklch, var(--background) 78%, transparent);
+}
+
+.collection-overlay-scroll {
+  scrollbar-gutter: stable;
+}
+
+@media (max-width: 40rem) {
+  .collection-overlay-content {
+    right: 1rem;
+    left: 1rem;
+  }
+}
+
+.collection-overlay-content .collection-panel {
+  min-height: 20rem;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
 .tarot-reveal {
   border-color: color-mix(in oklch, var(--primary) 58%, var(--gold));
   box-shadow:

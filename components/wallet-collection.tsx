@@ -62,7 +62,7 @@ async function fetchCollection(url: string): Promise<CollectionResponse> {
   return data
 }
 
-export function WalletCollection() {
+export function WalletCollection({ compact = false }: { compact?: boolean }) {
   const { account } = useXamanWallet()
   const hydrated = useSyncExternalStore(
     () => () => undefined,
@@ -97,15 +97,19 @@ export function WalletCollection() {
 
   return (
     <section aria-labelledby="collection-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-      <div className="flex flex-col gap-2 text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.22em] text-gold">On-ledger archive</p>
-        <h1 id="collection-heading" className="font-sans text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
-          Collection
-        </h1>
-        <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Cards currently held by your connected XRP Ledger wallet, read directly from Mainnet.
-        </p>
-      </div>
+      {compact ? (
+        <h2 id="collection-heading" className="sr-only">Your collection</h2>
+      ) : (
+        <div className="flex flex-col gap-2 text-center">
+          <p className="font-mono text-xs uppercase tracking-[0.22em] text-gold">On-ledger archive</p>
+          <h1 id="collection-heading" className="font-sans text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
+            Collection
+          </h1>
+          <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Cards currently held by your connected XRP Ledger wallet, read directly from Mainnet.
+          </p>
+        </div>
+      )}
 
       <div className="qr-panel collection-panel min-h-[28rem] p-4 sm:p-6 lg:p-8" aria-live="polite" aria-busy={isLoading || isValidating}>
         {!account ? (
