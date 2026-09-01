@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
 
@@ -12,7 +13,7 @@ export function SiteHero() {
         Mainnet — pack payments use real XRP and are irreversible. Verify the amount and destination in Xaman before signing.
       </div>
       <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:flex-nowrap sm:gap-4 sm:px-6 sm:py-5">
-        <a href="#reading-table" aria-label="Ledgerborn home" className="group inline-flex min-w-0 shrink-0 items-center gap-3">
+        <Link href="/" aria-label="Ledgerborn home" className="group inline-flex min-w-0 shrink-0 items-center gap-3">
           <Image
             src="/images/ledgerborn-symbol.png"
             alt=""
@@ -25,11 +26,17 @@ export function SiteHero() {
             <span className="font-sans text-lg font-semibold tracking-[0.08em] text-foreground">LEDGERBORN</span>
             <span className="font-mono text-[0.58rem] uppercase tracking-[0.24em] text-muted-foreground">Collectibles on XRPL</span>
           </span>
-        </a>
+        </Link>
         <div className="flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-3">
           <div className="hidden min-[430px]:block">
             <NetworkStatus />
           </div>
+          <Link
+            href="/collection"
+            className="ghost-action inline-flex min-h-9 items-center border border-border/70 px-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground sm:min-h-10 sm:px-4 sm:text-xs"
+          >
+            Collection
+          </Link>
           <ConnectWalletButton />
         </div>
         <div className="flex w-full justify-end min-[430px]:hidden">
