@@ -915,6 +915,23 @@
   isolation: isolate;
 }
 
+.stable-opening-visual:has(.stable-card-layer.is-active) {
+  min-height: auto;
+  contain: layout;
+}
+
+.stable-opening-visual:has(.stable-card-layer.is-active) .stable-card-layer {
+  position: relative;
+  inset: auto;
+  display: block;
+  overflow: visible;
+}
+
+.stable-card-layer.is-active > section {
+  min-width: 0;
+  overflow: visible;
+}
+
 .stable-opening-layer {
   position: absolute;
   inset: 0;

@@ -266,15 +266,21 @@ function RevealedSpread({
                     </blockquote>
                   </div>
                 </div>
-                {card.nftId && card.offerId && buyer ? (
+                {card.nftId && card.offerId ? (
                   <div className="rarity-action-footer shrink-0 p-3">
-                    <ClaimNftButton
-                      buyer={buyer}
-                      nftId={card.nftId}
-                      offerId={card.offerId}
-                      claimExpiresAt={card.claimExpiresAt}
-                      onClaimed={markClaimed}
-                    />
+                    {buyer ? (
+                      <ClaimNftButton
+                        buyer={buyer}
+                        nftId={card.nftId}
+                        offerId={card.offerId}
+                        claimExpiresAt={card.claimExpiresAt}
+                        onClaimed={markClaimed}
+                      />
+                    ) : (
+                      <Button type="button" size="sm" disabled className="w-full font-mono text-xs font-semibold uppercase tracking-wider">
+                        Reconnect Xaman to claim
+                      </Button>
+                    )}
                   </div>
                 ) : null}
               </article>
