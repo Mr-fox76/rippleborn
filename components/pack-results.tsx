@@ -217,7 +217,7 @@ function RevealedSpread({
               <div className="tarot-slot-face tarot-slot-front" aria-hidden={!card || !isRevealed}>
               {card ? (
               <article
-                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden bg-card shadow-2xl`}
+                className={`tarot-card tarot-reveal collection-display-card relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden`}
               >
                 {card.rarity === 'Phoenix' ? (
                   <div className="phoenix-victory-banner" role="status" aria-live="assertive">
@@ -226,44 +226,30 @@ function RevealedSpread({
                   </div>
                 ) : null}
                 <div
-                  className="rarity-art-frame group/wisdom relative aspect-[2/3] overflow-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  className="collection-display-art group/wisdom relative aspect-[2/3] overflow-hidden bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   tabIndex={0}
                   aria-label={`${displayName} wisdom: ${getCardWisdom(card.name)}`}
                 >
-                  <div className="absolute inset-2 overflow-hidden rounded-sm bg-card">
-                    <Image
-                      src={card.image}
-                      alt=""
-                      aria-hidden="true"
-                      fill
-                      loading="lazy"
-                      sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
-                      className="scale-110 object-cover object-center opacity-45 blur-xl"
-                    />
-                    <div className="absolute inset-0 bg-card/20" aria-hidden="true" />
-                    <Image
-                      src={card.image}
-                      alt={`${displayName}, ${card.rarity} card`}
-                      fill
-                      priority
-                      sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
-                      className="relative z-[1] object-cover object-center"
-                    />
-                  </div>
-                  <div className="absolute right-2 top-2 z-30 flex flex-col items-end gap-1 sm:right-3 sm:top-3">
-                    <p className="rarity-badge inline-flex rounded-full border px-2 py-1 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] sm:text-xs">
-                      {card.rarity}
-                    </p>
+                  <Image
+                    src={card.image}
+                    alt={`${displayName}, ${card.rarity} card`}
+                    fill
+                    priority
+                    sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
+                  />
+                  <div className="collection-display-sheen" aria-hidden="true" />
+                  <span className="collection-edition-mark" aria-hidden="true">LB</span>
+                  <div className="collection-card-caption z-10 flex items-end justify-between gap-2 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0">
+                    <div className="flex min-w-0 flex-col gap-1">
+                      <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground sm:text-base">{displayName}</h3>
+                      <span className="collection-rarity-seal">{card.rarity}</span>
+                    </div>
                     {card.limited && card.edition && card.maxSupply ? (
                       <span className="phoenix-edition rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:text-xs">
-                        Edition {card.edition}/{card.maxSupply}
+                        {card.edition}/{card.maxSupply}
                       </span>
                     ) : null}
-                  </div>
-                  <div className="absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-card via-card/85 to-transparent px-3 pb-3 pt-10 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0 sm:px-4 sm:pb-4">
-                    <p className="text-center font-sans text-sm font-semibold leading-tight text-card-foreground text-pretty sm:text-base">
-                      “{displayName}”
-                    </p>
                   </div>
                   <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
                     <blockquote className="text-center font-sans text-sm italic leading-relaxed text-card-foreground text-pretty sm:text-base">
