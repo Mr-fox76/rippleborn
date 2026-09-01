@@ -1645,7 +1645,7 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  border: 3px solid color-mix(in oklch, var(--rarity-color) 94%, var(--foreground));
+  border: 5px solid color-mix(in oklch, var(--rarity-color) 94%, var(--foreground));
   border-radius: 0.65rem;
   color: var(--foreground);
   background: var(--rarity-color);
@@ -1659,7 +1659,7 @@
 
 .collection-display-card:hover {
   translate: 0 -0.55rem;
-  border-color: transparent;
+  border-color: color-mix(in oklch, var(--rarity-color) 100%, var(--foreground));
   box-shadow:
     0 2rem 4rem oklch(0.04 0.02 225 / 68%),
     0 0 3.5rem color-mix(in oklch, var(--rarity-color) 42%, transparent);
