@@ -52,13 +52,28 @@ const faqGroups = [
       {
         question: 'Where are my NFTs delivered?',
         answer:
-          'Cards are delivered to the XRP Ledger wallet connected when you bought the pack. You may need to accept the NFT offers shown after the reveal. Review each offer in Xaman and accept it before it expires.',
+          'Cards are delivered to the XRP Ledger wallet connected when you bought the pack. After each card is minted, use its Claim NFT button to review and accept the destination-restricted offer in Xaman. A revealed card is not in your wallet until its offer has been accepted.',
+      },
+      {
+        question: 'How do I claim a card on mobile?',
+        answer:
+          'After flipping a card, tap Claim NFT. Ledgerborn will hand the offer to Xaman. Approve the correct NFT offer there, then return to your browser so the claim status and collection can refresh. If the handoff does not open, return to Ledgerborn and use Claim NFT again rather than paying for another pack.',
+      },
+      {
+        question: 'Why does a card say mint skipped or claim unavailable?',
+        answer:
+          'Minting, metadata preparation, and offer creation are separate steps and one may be temporarily delayed. Keep the payment hash, reconnect the same wallet, and use the retry or recovery action. A retry resumes the existing paid order; it does not require another pack payment.',
+      },
+      {
+        question: 'What happens if an NFT offer expires?',
+        answer:
+          'An expired offer cannot be accepted. Reconnect the wallet that purchased the pack and use the card claim retry or recovery panel to request a fresh eligible offer. Always confirm the destination wallet and NFT details in Xaman.',
       },
       {
         question: 'I paid, but my cards did not appear. What should I do?',
         answer:
-          'Return with the same wallet and use the recovery panel on a pack page. It can locate eligible paid orders and resume outstanding NFT claims. Check Xaman for pending offers as well as your wallet collection before trying another purchase.',
-      },
+          'Return with the same wallet and use the recovery panel on a pack page. It can locate eligible paid orders, resume incomplete minting, and restore outstanding claim offers. Check Xaman for pending offers and refresh your wallet collection before trying another purchase.',
+      }
     ],
   },
   {
@@ -81,6 +96,16 @@ const faqGroups = [
           'No. Ledgerborn only uses your public wallet address and public transaction information needed to provide the service. Never enter a private key, family seed, or recovery phrase into this site—or share it with anyone claiming to provide support.',
       },
       {
+        question: 'Why is a newly claimed card missing from Collection?',
+        answer:
+          'First confirm in Xaman that the NFT offer was accepted and validated. The Collection view reads public XRP Ledger holdings and may briefly show cached results while the ledger or index updates. Reopen Collection or clear Ledgerborn site data if an older browser cache persists; this cannot remove an on-ledger NFT.',
+      },
+      {
+        question: 'What information is stored in my browser?',
+        answer:
+          'Ledgerborn may temporarily cache collection display data against your public wallet address so repeat visits load faster. Clearing browser site data removes only that local display cache. Pack delivery and NFT ownership are recorded separately in operational records and on the public XRP Ledger.',
+      },
+      {
         question: 'How can I verify a transaction?',
         answer:
           'Open the transaction in Xaman and confirm that it is validated, then note its transaction hash, destination, amount, and timestamp. Public XRP Ledger explorers can also display the same on-ledger details.',
@@ -90,11 +115,12 @@ const faqGroups = [
 ]
 
 const retryItems = [
-  'Confirm the connected public wallet address.',
-  'Check whether the transaction is validated in Xaman.',
+  'Confirm that you reconnected the same public wallet used for payment.',
+  'Check whether the payment or claim transaction is validated in Xaman.',
   'Save the transaction hash and approximate transaction time.',
-  'Note the pack or set name you attempted to open.',
-  'Check for pending NFT offers before paying again.',
+  'Note the pack, set, and card whose mint or claim is incomplete.',
+  'Check for pending or expired NFT offers before paying again.',
+  'On mobile, return to the Ledgerborn browser tab after approving in Xaman.',
 ]
 
 export function HelpPage() {
