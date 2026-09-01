@@ -86,18 +86,49 @@ async function publish(options) {
   return publishSet(options)
 }
 
-const mythical = await publish({
+const phoenixMetadata = JSON.parse(await readFile(join(root, 'public/cards/the-phoenix.json'), 'utf8'))
+
+async function publishWithPhoenix(options) {
+  const sourcePath = join(options.metadataDir, 'the-phoenix.json')
+  let addedPhoenix = false
+  try {
+    await readFile(sourcePath)
+  } catch {
+    await writeFile(sourcePath, `${JSON.stringify(phoenixMetadata, null, 2)}\n`)
+    addedPhoenix = true
+  }
+
+  try {
+    return await publish(options)
+  } finally {
+    if (addedPhoenix) await import('node:fs/promises').then(({ unlink }) => unlink(sourcePath))
+  }
+}
+
+const mythical = await publishWithPhoenix({
   id: 'Rippleborn Genesis',
   metadataDir: join(root, 'public/cards'),
   imageDir: join(root, 'public/cards'),
-  imageNameForSlug: (slug) => slug.startsWith('the-phoenix-') ? 'the-phoenix.png' : `${slug === 'archon-flowing-ledgers' ? 'archon-of-flowing-ledgers' : slug}.png`,
+  imageNameForSlug: (slug) => slug.startsWith('the-phoenix') ? 'the-phoenix.png' : `${slug === 'archon-flowing-ledgers' ? 'archon-of-flowing-ledgers' : slug}.png`,
 })
-const previousResult = JSON.parse(
-  await readFile(join(root, 'scripts/xls24-metadata-result.json'), 'utf8'),
-)
+const cyborg = await publishWithPhoenix({
+  id: 'Cyborg Cowboy',
+  metadataDir: join(root, 'public/sets/cyborg-cowboy/json'),
+  imageDir: join(root, 'public/sets/cyborg-cowboy/images'),
+  imageNameForSlug: (slug) => slug === 'the-phoenix' ? '../../../cards/the-phoenix.png' : `${slug}.png`,
+  metadataPrefix: 'metadata/',
+})
+const chromatic = await publishWithPhoenix({
+  id: 'Chromatic Abyss',
+  metadataDir: join(root, 'public/sets/chromatic-abyss/json'),
+  imageDir: join(root, 'public/sets/chromatic-abyss/images'),
+  imageNameForSlug: (slug) => slug === 'the-phoenix' ? '../../../cards/the-phoenix.png' : `${slug}.png`,
+  metadataPrefix: 'metadata/',
+})
 const result = {
-  ...previousResult,
   mythical,
+  cyborg,
+  chromatic,
   publishedAt: new Date().toISOString(),
   standard: 'XLS-24',
 }
