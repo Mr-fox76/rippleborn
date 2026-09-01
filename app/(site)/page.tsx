@@ -23,18 +23,8 @@ export default async function Page() {
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             The collection taking shape, one reveal at a time
           </h2>
-          <RarityOdds stats={collectionStats} countersOnly />
+          <RarityOdds stats={collectionStats} countersOnly visitCount={visitCount} />
         </section>
-
-        {visitCount !== null ? (
-          <section aria-label="Ledgerborn community growth" className="mx-auto flex flex-col items-center gap-2 text-center">
-            <p className="font-mono text-xs uppercase tracking-[0.24em] text-muted-foreground">A new community is taking shape</p>
-            <p className="font-sans text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              {visitCount.toLocaleString('en-GB')}
-              <span className="ml-2 text-base font-normal text-muted-foreground sm:text-lg">site visits and growing</span>
-            </p>
-          </section>
-        ) : null}
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">3 cards · 5 XRP</p>
