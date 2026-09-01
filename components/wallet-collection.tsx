@@ -107,7 +107,7 @@ export function WalletCollection() {
         </p>
       </div>
 
-      <div className="qr-panel min-h-[28rem] p-4 sm:p-6 lg:p-8" aria-live="polite" aria-busy={isLoading || isValidating}>
+      <div className="qr-panel collection-panel min-h-[28rem] p-4 sm:p-6 lg:p-8" aria-live="polite" aria-busy={isLoading || isValidating}>
         {!account ? (
           <div className="flex min-h-[24rem] flex-col items-center justify-center gap-6 text-center">
             <div className="flex max-w-lg flex-col gap-2">

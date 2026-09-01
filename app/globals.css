@@ -2084,6 +2084,10 @@
   backdrop-filter: blur(1rem);
 }
 
+.collection-panel {
+  border: 0;
+}
+
 .tarot-reveal {
   border-color: color-mix(in oklch, var(--primary) 58%, var(--gold));
   box-shadow:
