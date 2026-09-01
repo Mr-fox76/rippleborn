@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { ArtistProgramTeaser } from '@/components/artist-program-teaser'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
@@ -19,6 +20,7 @@ export default async function Page() {
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <PackGallery />
         <IssuerTrustNotice latestNfts={latestNfts} />
+        <ArtistProgramTeaser />
         <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-4xl flex-col gap-3">
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             The collection taking shape, one reveal at a time
