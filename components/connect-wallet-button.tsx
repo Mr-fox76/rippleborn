@@ -1,8 +1,25 @@
 'use client'
 
 import Image from 'next/image'
-import { Loader2, LogOut, Wallet } from 'lucide-react'
+import { ChevronDown, ExternalLink, Loader2, LogOut, Wallet } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 
 function shortAddress(address: string) {
@@ -14,62 +31,77 @@ export function ConnectWalletButton() {
 
   if (account) {
     return (
-      <div className="flex items-center gap-2">
-        <span className="hidden font-mono text-xs text-gold sm:inline">{shortAddress(account)}</span>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={disconnect}
-          className="ghost-action font-mono text-xs uppercase tracking-[0.14em]"
-          aria-label={`Disconnect wallet ${account}`}
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <button
+              type="button"
+              className="wallet-chip inline-flex min-h-10 items-center gap-2 px-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.1em]"
+              aria-label={`Wallet ${shortAddress(account)}. Open wallet menu`}
+            />
+          }
         >
-          <LogOut className="size-4" aria-hidden="true" />
-          Disconnect
-        </Button>
-      </div>
+          <span className="wallet-status-dot" aria-hidden="true" />
+          <span className="hidden sm:inline">{shortAddress(account)}</span>
+          <span className="sm:hidden">Wallet</span>
+          <ChevronDown aria-hidden="true" />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" sideOffset={10} className="wallet-menu w-64">
+          <DropdownMenuGroup>
+            <DropdownMenuLabel className="flex flex-col gap-1 p-2">
+              <span className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-gold">Xaman connected</span>
+              <span className="break-all font-mono text-[0.65rem] font-normal leading-relaxed text-foreground">{account}</span>
+            </DropdownMenuLabel>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem variant="destructive" onClick={disconnect} className="min-h-10 px-2.5 font-mono text-xs uppercase tracking-[0.1em]">
+              <LogOut aria-hidden="true" />
+              Disconnect wallet
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
     )
   }
 
+  const pending = creating || status?.status === 'pending'
+
   return (
-    <div className="relative flex flex-col items-end gap-1">
-      <Button
-        size="lg"
-        onClick={connect}
-        disabled={creating || status?.status === 'pending'}
-        className="wallet-connect-action primary-action min-h-11 px-4 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.1em] sm:min-h-12 sm:min-w-52 sm:px-6 sm:text-xs sm:tracking-[0.14em]"
-      >
-        {creating || status?.status === 'pending' ? (
-          <Loader2 className="size-5 animate-spin" aria-hidden="true" />
-        ) : (
-          <Wallet className="size-5" aria-hidden="true" />
-        )}
-        {status?.status === 'pending' ? 'Waiting for Xaman' : 'Connect Xaman'}
-      </Button>
-
-      {request ? (
-        <div className="qr-panel fixed inset-x-4 top-24 z-50 mx-auto flex max-h-[calc(100dvh-7rem)] w-auto max-w-56 flex-col items-center gap-3 overflow-y-auto p-4 text-center sm:absolute sm:inset-x-auto sm:right-0 sm:top-14 sm:mx-0 sm:w-56">
-          <Image
-            src={request.qrUrl}
-            alt="Scan to connect your wallet in Xaman"
-            width={160}
-            height={160}
-            unoptimized
-          />
-          <a
-            href={request.deepLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-semibold text-gold underline underline-offset-4"
-          >
-            Open in Xaman
-          </a>
-          <p className="font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground">
-            Scan or open to connect
-          </p>
-        </div>
-      ) : null}
-
-      {error ? <p role="alert" className="max-w-64 text-right text-xs text-destructive">{error}</p> : null}
+    <div className="relative flex items-center">
+      <Popover open={Boolean(request)}>
+        <PopoverTrigger
+          render={
+            <Button
+              type="button"
+              size="sm"
+              onClick={connect}
+              disabled={pending}
+              className="wallet-connect-action primary-action min-h-10 px-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.1em] sm:px-4"
+            />
+          }
+        >
+          {pending ? <Loader2 data-icon="inline-start" className="animate-spin" aria-hidden="true" /> : <Wallet data-icon="inline-start" aria-hidden="true" />}
+          <span className="hidden sm:inline">{status?.status === 'pending' ? 'Waiting for Xaman' : 'Connect Xaman'}</span>
+          <span className="sm:hidden">{pending ? 'Waiting' : 'Connect'}</span>
+        </PopoverTrigger>
+        {request ? (
+          <PopoverContent align="end" sideOffset={12} className="wallet-connect-popover w-64 p-4">
+            <PopoverHeader className="items-center text-center">
+              <PopoverTitle className="font-sans text-base">Connect Xaman</PopoverTitle>
+              <PopoverDescription className="font-mono text-[0.6rem] uppercase tracking-[0.12em]">Scan or open on this device</PopoverDescription>
+            </PopoverHeader>
+            <div className="wallet-qr-frame mx-auto p-2">
+              <Image src={request.qrUrl} alt="Scan to connect your wallet in Xaman" width={176} height={176} unoptimized />
+            </div>
+            <Button render={<a href={request.deepLink} target="_blank" rel="noopener noreferrer" />} variant="outline" size="sm" className="ghost-action w-full font-mono text-xs uppercase tracking-[0.1em]">
+              Open in Xaman
+              <ExternalLink data-icon="inline-end" aria-hidden="true" />
+            </Button>
+          </PopoverContent>
+        ) : null}
+      </Popover>
+      {error ? <p role="alert" className="wallet-error absolute right-0 top-[calc(100%+0.75rem)] w-64 text-right text-xs text-destructive">{error}</p> : null}
     </div>
   )
 }
