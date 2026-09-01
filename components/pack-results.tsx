@@ -266,8 +266,8 @@ function RevealedSpread({
                     </blockquote>
                   </div>
                 </div>
-                {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
-                  <div className="rarity-action-footer p-3">
+                {card.nftId && card.offerId && buyer ? (
+                  <div className="rarity-action-footer shrink-0 p-3">
                     <ClaimNftButton
                       buyer={buyer}
                       nftId={card.nftId}

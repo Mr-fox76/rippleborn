@@ -1329,18 +1329,34 @@
   height: 100%;
 }
 
-.tarot-reveal .rarity-action-footer {
-  position: absolute;
-  z-index: 30;
-  right: 0.75rem;
-  bottom: 0.75rem;
-  left: 0.75rem;
-  padding: 0;
-  background: transparent;
+.tarot-spread:has(.rarity-action-footer) {
+  overflow: visible;
+  padding-bottom: 4.5rem;
 }
 
-.tarot-reveal:has(.rarity-action-footer) .collection-card-caption {
-  padding-bottom: 4.5rem;
+.tarot-slot-frame.show-face:has(.rarity-action-footer) {
+  height: auto;
+  aspect-ratio: auto;
+  contain: layout;
+}
+
+.tarot-slot-frame.show-face:has(.rarity-action-footer) .tarot-slot-front {
+  position: relative;
+  inset: auto;
+  overflow: visible;
+}
+
+.tarot-slot-frame.show-face:has(.rarity-action-footer) .tarot-reveal {
+  height: auto;
+  aspect-ratio: auto;
+  overflow: visible;
+}
+
+.tarot-reveal .rarity-action-footer {
+  position: static;
+  z-index: 30;
+  padding: 0.75rem;
+  background: var(--card);
 }
 
 .tarot-control-row,
