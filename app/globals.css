@@ -846,7 +846,7 @@
 .stable-opening-stage {
   position: relative;
   display: flex;
-  min-height: 46rem;
+  min-height: 50rem;
   flex-direction: column;
   gap: 1.25rem;
 }
@@ -910,7 +910,7 @@
 
 .stable-opening-visual {
   position: relative;
-  min-height: 38rem;
+  min-height: 42rem;
   contain: layout paint;
   isolation: isolate;
 }
@@ -1985,12 +1985,12 @@
   }
 
   .stable-opening-stage {
-    min-height: 42rem;
+    min-height: 44rem;
     gap: 1.25rem;
   }
 
   .stable-opening-visual {
-    min-height: 33rem;
+    min-height: 35rem;
   }
 
   .pack-opening-stage {
