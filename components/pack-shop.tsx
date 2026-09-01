@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import { CardStylePreview } from '@/components/card-style-preview'
@@ -88,6 +88,15 @@ export function PackShop({
   const [packOpened, setPackOpened] = useState(false)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
+  const purchasePanelRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!order) return
+    const frame = window.requestAnimationFrame(() => {
+      purchasePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [order])
 
   function resetDeck() {
     setOrder(null)
@@ -133,7 +142,7 @@ export function PackShop({
       })
       setStatus({
         tone: 'success',
-        message: 'Your pack is ready. Scan the Xaman QR code or open Xaman to approve the payment.',
+        message: 'Pack prepared successfully. Continue below to approve the 5 XRP payment in Xaman.',
       })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
@@ -266,6 +275,7 @@ export function PackShop({
         </div>
 
         <section
+          ref={purchasePanelRef}
           aria-label="Open a pack"
           aria-hidden={!order}
           className={`reading-panel stable-purchase-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5 ${order ? 'is-visible' : 'is-reserved'}`}
