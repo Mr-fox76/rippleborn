@@ -21,20 +21,23 @@ export default async function Page() {
         <IssuerTrustNotice latestNfts={latestNfts} />
         <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-4xl flex-col gap-3">
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-The collection taking shape, one reveal at a time
+            The collection taking shape, one reveal at a time
           </h2>
           <RarityOdds stats={collectionStats} countersOnly />
         </section>
+
+        {visitCount !== null ? (
+          <section aria-label="Ledgerborn community growth" className="mx-auto flex flex-col items-center gap-2 text-center">
+            <p className="font-mono text-xs uppercase tracking-[0.24em] text-muted-foreground">A new community is taking shape</p>
+            <p className="font-sans text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              {visitCount.toLocaleString('en-GB')}
+              <span className="ml-2 text-base font-normal text-muted-foreground sm:text-lg">site visits and growing</span>
+            </p>
+          </section>
+        ) : null}
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
-        <div className="flex flex-wrap items-center justify-center gap-3 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-          <p>3 cards · 5 XRP</p>
-          {visitCount !== null ? (
-            <p aria-label={`${visitCount.toLocaleString('en-GB')} site visits`}>
-              Site visits · {visitCount.toLocaleString('en-GB')}
-            </p>
-          ) : null}
-        </div>
+        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">3 cards · 5 XRP</p>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
 Ledgerborn is a new independent project built on open-source XRP Ledger technology. We are not affiliated with Ledger or Xaman, and we encourage every collector to review the details before signing.
         </p>
