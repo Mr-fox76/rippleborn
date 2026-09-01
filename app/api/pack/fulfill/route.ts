@@ -24,6 +24,7 @@ import {
   rollPack,
   rollRarity,
   type Card,
+  type PackSetId,
 } from '@/lib/rippleborn'
 import {
   commitPackResult,
@@ -74,20 +75,21 @@ type AccountTransaction = {
   tx_json?: Record<string, unknown>
 }
 
-async function validateCardMetadata(card: { name: string; uri?: string; limited?: boolean }): Promise<string | null> {
+async function validateCardMetadata(
+  card: { name: string; uri?: string; limited?: boolean },
+  setId: PackSetId,
+): Promise<string | null> {
   if (!encodeMetadataUri(card.uri)) return 'No valid HTTPS Pinata metadata URL is configured for this card.'
   if (card.name === 'The Phoenix') return null
 
   const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
   if (!filename) return 'The card metadata URL must reference a JSON file in the pinned folder.'
-  const isChromaticAbyss = card.uri?.includes(
-    'bafybeid74vziobs6hygeknebvm5endcfhhlp4z25cqww3qtjg42if55o74/metadata/',
-  )
-  const metadataFolder = isChromaticAbyss
-    ? path.join(process.cwd(), 'public', 'sets', 'chromatic-abyss', 'json')
-    : card.uri?.includes('/sets/cyborg-cowboy/json/') || card.uri?.includes('/metadata/')
-      ? path.join(process.cwd(), 'public', 'sets', 'cyborg-cowboy', 'json')
-      : path.join(process.cwd(), 'public', 'cards')
+  const metadataFolder =
+    setId === 'chromatic-abyss'
+      ? path.join(process.cwd(), 'public', 'sets', 'chromatic-abyss', 'json')
+      : setId === 'cyborg-cowboy'
+        ? path.join(process.cwd(), 'public', 'sets', 'cyborg-cowboy', 'json')
+        : path.join(process.cwd(), 'public', 'cards')
 
   try {
     const raw = await readFile(path.join(metadataFolder, filename), 'utf8')
@@ -373,7 +375,7 @@ export async function POST(request: Request) {
                   .flat()
                   .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
         const cardToMint = { ...card, uri: currentUri }
-        const metadataError = await validateCardMetadata(cardToMint)
+        const metadataError = await validateCardMetadata(cardToMint, setId)
         if (metadataError) {
           fulfilledCards.push({ ...cardToMint, mintStatus: 'skipped', reason: metadataError })
           continue
