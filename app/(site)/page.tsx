@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
-import { SiteHero } from '@/components/site-hero'
 import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
 import { incrementHomepageVisits } from '@/lib/site-counter'
 
@@ -16,8 +15,7 @@ export default async function Page() {
   ])
 
   return (
-    <div className="homepage-monochrome table-surface flex min-h-svh flex-col">
-      <SiteHero />
+    <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <PackGallery />
         <IssuerTrustNotice latestNfts={latestNfts} />
@@ -46,6 +44,6 @@ export default async function Page() {
           <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
         </nav>
       </footer>
-    </div>
+    </>
   )
 }

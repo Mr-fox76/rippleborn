@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { SiteHero } from '@/components/site-hero'
 import { WalletCollection } from '@/components/wallet-collection'
 
 export const metadata: Metadata = {
@@ -10,8 +9,7 @@ export const metadata: Metadata = {
 
 export default function CollectionPage() {
   return (
-    <div className="homepage-monochrome table-surface flex min-h-svh flex-col">
-      <SiteHero />
+    <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <WalletCollection />
       </main>
@@ -25,6 +23,6 @@ export default function CollectionPage() {
           <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
         </nav>
       </footer>
-    </div>
+    </>
   )
 }
