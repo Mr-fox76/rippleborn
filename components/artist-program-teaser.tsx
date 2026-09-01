@@ -19,7 +19,7 @@ const STAGES = [
 
 export function ArtistProgramTeaser() {
   return (
-    <section aria-labelledby="artist-program-heading" className="mx-auto w-full max-w-6xl border-y border-border/60 py-10 sm:py-14">
+    <section aria-labelledby="artist-program-heading" className="mx-auto w-full max-w-7xl border-y border-border/60 py-10 sm:py-14">
       <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
         <div className="flex max-w-2xl flex-col gap-5">
           <p className="flex items-center gap-3 font-mono text-[0.65rem] uppercase tracking-[0.28em] text-muted-foreground">
