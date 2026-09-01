@@ -476,6 +476,16 @@
     inset 0 1px 0 oklch(0.84 0.19 325 / 38%);
 }
 
+.pack-set-card-cyborg .pack-set-image,
+.pack-set-card-chromatic .pack-set-image {
+  transform: scale(2.05);
+}
+
+.pack-set-card-cyborg:hover .pack-set-image,
+.pack-set-card-chromatic:hover .pack-set-image {
+  transform: scale(2.12);
+}
+
 .pack-set-card-mythic .pack-set-image {
   transform: scale(1.65);
 }
