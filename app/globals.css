@@ -874,23 +874,15 @@
   left: 50%;
   display: flex;
   width: min(20rem, calc(100vw - 3rem));
-  translate: -50% 0.75rem;
+  translate: -50% 0;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0.75rem;
   border: 1px solid color-mix(in oklch, var(--pack-accent) 42%, var(--border));
   border-radius: var(--radius);
-  opacity: 0;
+  opacity: 1;
   background: linear-gradient(180deg, color-mix(in oklch, var(--card) 80%, transparent), var(--card));
   box-shadow: 0 1.25rem 3rem oklch(0.04 0.02 225 / 55%);
-  pointer-events: none;
-  transition: opacity 180ms ease, translate 180ms ease;
-}
-
-.pack-opening-stage:hover .pack-preparation-action,
-.pack-opening-stage:focus-within .pack-preparation-action {
-  translate: -50% 0;
-  opacity: 1;
   pointer-events: auto;
 }
 

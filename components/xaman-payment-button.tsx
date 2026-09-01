@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { Loader2, Smartphone } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useSWR from 'swr'
 import { Button } from '@/components/ui/button'
 
@@ -52,6 +52,7 @@ export function XamanPaymentButton({
   )
 
   async function createPayment() {
+    if (creating || payment || disabled) return
     setCreating(true)
     setError(null)
     try {
@@ -69,6 +70,12 @@ export function XamanPaymentButton({
       setCreating(false)
     }
   }
+
+  useEffect(() => {
+    void createPayment()
+    // Create one payment request when this prepared order mounts.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [orderId])
 
   const terminalMessage =
     status?.status === 'rejected'
