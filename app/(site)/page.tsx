@@ -31,7 +31,7 @@ export default async function Page() {
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">3 cards · 5 XRP</p>
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-Ledgerborn is a new independent project built on open-source XRP Ledger technology. We are not affiliated with Ledger or Xaman, and we encourage every collector to review the details before signing.
+Independent project. Not affiliated with Ledger or Xaman.
         </p>
         <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
           <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
