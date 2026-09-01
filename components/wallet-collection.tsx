@@ -241,7 +241,6 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                     >
                       <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background" data-card-name={card.name}>
                         <Image src={card.image} alt={`${card.name} NFT artwork`} fill unoptimized sizes="(max-width: 639px) calc(50vw - 1.5rem), (max-width: 1023px) calc(25vw - 1.5rem), 280px" className="object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
-                        <div className="collection-display-sheen" aria-hidden="true" />
                         {card.cardIdentifier ? (
                           <span className="collection-discovery-mark" aria-label={`Card identifier ${card.cardIdentifier}`}>
                             {card.cardIdentifier}

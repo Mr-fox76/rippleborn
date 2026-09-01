@@ -1654,36 +1654,15 @@
     0 0 2.5rem color-mix(in oklch, var(--rarity-color) 46%, transparent),
     inset 0 0 0 1px color-mix(in oklch, var(--foreground) 42%, transparent),
     inset 0 0 1rem color-mix(in oklch, var(--rarity-color) 38%, transparent);
-  filter: contrast(1.08) saturate(1.16);
-  transition: border-color 250ms ease, box-shadow 250ms ease, translate 250ms ease, filter 250ms ease;
-}
-
-.collection-display-card::after {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(112deg, transparent 10%, color-mix(in oklch, var(--rarity-color) 50%, transparent) 34%, color-mix(in oklch, var(--foreground) 18%, transparent) 42%, transparent 56%);
-  background-size: 240% 100%;
-  content: '';
-  opacity: 0.7;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  transition: background-position 600ms ease, opacity 250ms ease;
+  transition: border-color 250ms ease, box-shadow 250ms ease, translate 250ms ease;
 }
 
 .collection-display-card:hover {
   translate: 0 -0.55rem;
   border-color: transparent;
-  filter: brightness(1.12) contrast(1.06) saturate(1.16);
   box-shadow:
     0 2rem 4rem oklch(0.04 0.02 225 / 68%),
     0 0 3.5rem color-mix(in oklch, var(--rarity-color) 42%, transparent);
-}
-
-.collection-display-card:hover::after {
-  background-position: 100% 0;
-  opacity: 0.28;
 }
 
 .collection-display-card:hover .collection-card-caption {
@@ -1699,7 +1678,6 @@
 .collection-display-art {
   width: 100%;
   height: 100%;
-  box-shadow: inset 0 0 1.75rem oklch(0.02 0.01 230 / 48%);
 }
 
 /* Slightly overscan every collectible image to prevent subpixel seams at the
@@ -1717,17 +1695,6 @@
 .collection-display-card:hover .collection-display-art[data-card-name*='Spiral' i] > img,
 .collection-display-card:hover .collection-display-art[data-card-name*='Wisp' i] > img {
   scale: 1.33;
-}
-
-.collection-display-sheen {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(112deg, transparent 12%, color-mix(in oklch, var(--rarity-color) 38%, transparent) 34%, transparent 49%),
-    linear-gradient(135deg, color-mix(in oklch, var(--rarity-color) 24%, transparent), transparent 32% 72%, color-mix(in oklch, var(--rarity-color) 20%, transparent));
-  box-shadow: inset 0 0 2.5rem color-mix(in oklch, var(--rarity-color) 28%, transparent);
-  mix-blend-mode: screen;
 }
 
 .collection-discovery-mark {

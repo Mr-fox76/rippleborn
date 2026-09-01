@@ -35,7 +35,6 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         sizes="(max-width: 639px) calc(50vw - 1.5rem), (max-width: 767px) calc(33vw - 1.5rem), (max-width: 1023px) calc(33vw - 1.5rem), 240px"
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                       />
-                      <div className="collection-display-sheen" aria-hidden="true" />
                       {nft.cardIdentifier ? (
                         <span className="collection-discovery-mark" aria-label={`Card identifier ${nft.cardIdentifier}`}>
                           {nft.cardIdentifier}
