@@ -1362,6 +1362,9 @@
   display: flex;
   flex-direction: column;
   overflow: visible;
+  border: 2px solid color-mix(in oklch, var(--rarity-color) 88%, var(--foreground));
+  border-radius: 0.65rem;
+  box-shadow: 0 0 2.5rem color-mix(in oklch, var(--rarity-color) 52%, transparent);
 }
 
 .tarot-slot-frame.show-face:has(.rarity-action-footer) .tarot-reveal {
@@ -1375,7 +1378,8 @@
   z-index: 30;
   width: 100%;
   padding: 0.75rem;
-  background: var(--card);
+  border-top: 1px solid color-mix(in oklch, var(--rarity-color) 68%, var(--border));
+  background: color-mix(in oklch, var(--rarity-color) 18%, var(--card));
 }
 
 .tarot-control-row,

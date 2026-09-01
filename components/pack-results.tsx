@@ -207,7 +207,7 @@ function RevealedSpread({
             key={card?.id ?? index}
             className={`tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
           >
-            <div className={`tarot-slot-frame ${card && isRevealed ? 'show-face' : 'show-back'}`}>
+            <div className={`tarot-slot-frame ${card ? RARITY_CLASSES[card.rarity] : ''} ${card && isRevealed ? 'show-face' : 'show-back'}`}>
               <div className="tarot-slot-face tarot-slot-back">
                 <FaceDownCard
                   index={index}
