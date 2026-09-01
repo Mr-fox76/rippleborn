@@ -198,8 +198,8 @@ export function PackShop({
 
   return (
     <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-5 sm:gap-6">
-      <div className="pack-theme-intro mx-auto flex w-full max-w-6xl flex-col gap-4 px-5 py-5 sm:px-7 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-6">
-        <div className="flex min-w-0 flex-1 flex-col gap-2 text-center lg:text-left">
+      <div className="pack-theme-intro mx-auto grid w-full max-w-6xl gap-5 px-5 py-5 sm:px-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(28rem,0.85fr)] lg:items-center lg:gap-8 lg:py-6">
+        <div className="flex min-w-0 flex-col gap-2 text-center lg:text-left">
           <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
             {pack.theme.eyebrow}
           </p>
@@ -209,17 +209,17 @@ export function PackShop({
           <p className="font-sans text-base font-medium text-pretty text-foreground sm:text-lg">
             {pack.theme.tagline}
           </p>
-          <p className="max-w-3xl text-pretty text-sm leading-relaxed text-muted-foreground">
+          <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground">
             {pack.theme.introduction}
           </p>
         </div>
-        <div className="flex shrink-0 flex-col items-center gap-3 lg:items-end">
-          <div className="flex max-w-xl flex-wrap justify-center gap-2 lg:justify-end">
+        <div className="flex min-w-0 flex-col items-center gap-3 lg:items-stretch">
+          <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
             {pack.theme.features.map((feature, index) => {
               const Icon = [Sparkles, Gem, ShieldCheck][index]
               return (
-                <span key={feature} className="inline-flex items-center gap-2 interface-chip rounded-full border px-3 py-1.5 text-xs text-foreground">
-                  <Icon className="pack-theme-accent size-3.5" aria-hidden="true" />
+                <span key={feature} className="inline-flex min-w-0 items-center justify-center gap-2 text-pretty interface-chip rounded-full border px-3 py-2 text-center text-xs leading-snug text-foreground">
+                  <Icon className="pack-theme-accent size-3.5 shrink-0" aria-hidden="true" />
                   {feature}
                 </span>
               )
