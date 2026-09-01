@@ -26,18 +26,24 @@ async function pinFiles(files, name) {
   return body.IpfsHash
 }
 
-async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, metadataPrefix = '' }) {
+async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, imagePathForSlug, metadataPrefix = '' }) {
   const metadataNames = (await readdir(metadataDir)).filter((name) => name.endsWith('.json')).sort()
   const entries = await Promise.all(metadataNames.map(async (filename) => {
     const slug = filename.replace(/\.json$/, '')
     const source = JSON.parse(await readFile(join(metadataDir, filename), 'utf8'))
-    return { filename, slug, source, imageName: imageNameForSlug(slug) }
+    return {
+      filename,
+      slug,
+      source,
+      imageName: imageNameForSlug(slug),
+      imagePath: imagePathForSlug ? imagePathForSlug(slug) : join(imageDir, imageNameForSlug(slug)),
+    }
   }))
 
-  const uniqueImages = [...new Set(entries.map((entry) => entry.imageName))]
+  const uniqueImages = [...new Map(entries.map((entry) => [entry.imageName, entry.imagePath])).entries()]
   const imageCid = await pinFiles(
-    uniqueImages.map((filename) => ({
-      path: join(imageDir, filename),
+    uniqueImages.map(([filename, path]) => ({
+      path,
       name: `images/${filename}`,
       type: 'image/png',
     })),
@@ -86,20 +92,57 @@ async function publish(options) {
   return publishSet(options)
 }
 
-const mythical = await publish({
+const phoenixMetadata = JSON.parse(await readFile(join(root, 'public/cards/the-phoenix.json'), 'utf8'))
+
+async function publishWithPhoenix(options) {
+  const sourcePath = join(options.metadataDir, 'the-phoenix.json')
+  let addedPhoenix = false
+  try {
+    await readFile(sourcePath)
+  } catch {
+    await writeFile(sourcePath, `${JSON.stringify(phoenixMetadata, null, 2)}\n`)
+    addedPhoenix = true
+  }
+
+  try {
+    return await publish(options)
+  } finally {
+    if (addedPhoenix) await import('node:fs/promises').then(({ unlink }) => unlink(sourcePath))
+  }
+}
+
+const mythical = await publishWithPhoenix({
   id: 'Rippleborn Genesis',
   metadataDir: join(root, 'public/cards'),
   imageDir: join(root, 'public/cards'),
-  imageNameForSlug: (slug) => slug.startsWith('the-phoenix-') ? 'the-phoenix.png' : `${slug === 'archon-flowing-ledgers' ? 'archon-of-flowing-ledgers' : slug}.png`,
+  imageNameForSlug: (slug) => slug.startsWith('the-phoenix') ? 'the-phoenix.png' : `${slug === 'archon-flowing-ledgers' ? 'archon-of-flowing-ledgers' : slug}.png`,
 })
-const cyborg = await publish({
+const cyborg = await publishWithPhoenix({
   id: 'Cyborg Cowboy',
   metadataDir: join(root, 'public/sets/cyborg-cowboy/json'),
   imageDir: join(root, 'public/sets/cyborg-cowboy/images'),
   imageNameForSlug: (slug) => `${slug}.png`,
+  imagePathForSlug: (slug) => slug === 'the-phoenix'
+    ? join(root, 'public/cards/the-phoenix.png')
+    : join(root, 'public/sets/cyborg-cowboy/images', `${slug}.png`),
   metadataPrefix: 'metadata/',
 })
-
-const result = { mythical, cyborg, publishedAt: new Date().toISOString(), standard: 'XLS-24' }
+const chromatic = await publishWithPhoenix({
+  id: 'Chromatic Abyss',
+  metadataDir: join(root, 'public/sets/chromatic-abyss/json'),
+  imageDir: join(root, 'public/sets/chromatic-abyss/images'),
+  imageNameForSlug: (slug) => `${slug}.png`,
+  imagePathForSlug: (slug) => slug === 'the-phoenix'
+    ? join(root, 'public/cards/the-phoenix.png')
+    : join(root, 'public/sets/chromatic-abyss/images', `${slug}.png`),
+  metadataPrefix: 'metadata/',
+})
+const result = {
+  mythical,
+  cyborg,
+  chromatic,
+  publishedAt: new Date().toISOString(),
+  standard: 'XLS-24',
+}
 await writeFile(join(root, 'scripts/xls24-metadata-result.json'), `${JSON.stringify(result, null, 2)}\n`)
 console.log(JSON.stringify(result, null, 2))

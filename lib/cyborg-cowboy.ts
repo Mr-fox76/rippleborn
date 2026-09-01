@@ -43,7 +43,6 @@ export const CYBORG_COWBOY_POOL = {
       image: '/cards/the-phoenix.png',
       slug: 'the-phoenix',
       rarity: 'Phoenix',
-      uri: 'https://ledgerborn.com/cards/the-phoenix.json',
     },
   ],
 } satisfies Record<Rarity, CyborgCowboyCard[]>
@@ -51,9 +50,9 @@ export const CYBORG_COWBOY_POOL = {
 export const CYBORG_COWBOY_NFT_TAXON = 20260827
 
 export const CYBORG_COWBOY_METADATA_CID =
-  'bafybeiahusnio5qkjhb6yco6tvgnd6dn75bf7qw6x6itejhchus26mrpcu'
+  'bafybeie4ulq56ak33h5t57za4pz2ybonfghxahvcpxxuddijkz5bigfrwq'
 export const CYBORG_COWBOY_IMAGE_CID =
-  'bafybeic6jkwvqvtiqopyq7vtxychxfdsa5p4gb5tl5ai6ee2k45ip4djwy'
+  'bafybeibzopieusgkdjhu57ypq3aqtzncsiww64pbrny7ith5qbs35lgad4'
 export const CYBORG_COWBOY_METADATA_BASE_URL =
   `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${CYBORG_COWBOY_METADATA_CID}/metadata`
 
@@ -73,6 +72,6 @@ export function rollCyborgCowboyCard(rarity: Rarity, slot: number, metadataBaseU
     rarity,
     slot,
     image: card.image,
-    uri: card.uri ?? `${metadataBaseUrl.replace(/\/$/, '')}/${card.slug}.json`,
+    uri: `${metadataBaseUrl.replace(/\/$/, '')}/${card.slug}.json`,
   }
 }

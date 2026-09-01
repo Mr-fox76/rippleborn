@@ -1,39 +1,46 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
+import { SiteNavigation } from '@/components/site-navigation'
 
 export function SiteHero() {
   return (
-    <header className="relative z-20 border-b border-border/40">
-      <div
-        role="alert"
-        className="border-b border-gold/35 bg-gold/10 px-4 py-2 text-center font-mono text-xs font-semibold uppercase tracking-[0.12em] text-gold sm:px-6"
-      >
-        Mainnet — pack payments use real XRP and are irreversible. Verify the amount and destination in Xaman before signing.
+    <header className="site-header sticky top-0 z-[100]">
+      <div role="alert" className="site-safety-ribbon">
+        <span className="site-safety-dot" aria-hidden="true" />
+        <span><strong>Mainnet:</strong> payments use real XRP. Verify in Xaman before signing.</span>
       </div>
-      <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:flex-nowrap sm:gap-4 sm:px-6 sm:py-5">
-        <a href="#reading-table" aria-label="Ledgerborn home" className="group inline-flex min-w-0 shrink-0 items-center gap-3">
-          <Image
-            src="/images/ledgerborn-symbol.png"
-            alt=""
-            width={96}
-            height={82}
-            className="h-14 w-16 object-contain drop-shadow-[0_8px_18px_oklch(0.04_0.02_225/0.8)] transition-transform duration-300 group-hover:-translate-y-0.5 sm:h-16 sm:w-20"
-            priority
-          />
-          <span className="hidden flex-col sm:flex">
-            <span className="font-sans text-lg font-semibold tracking-[0.08em] text-foreground">LEDGERBORN</span>
-            <span className="font-mono text-[0.58rem] uppercase tracking-[0.24em] text-muted-foreground">Collectibles on XRPL</span>
-          </span>
-        </a>
-        <div className="flex min-w-0 flex-1 items-center justify-end gap-2 sm:gap-3">
-          <div className="hidden min-[430px]:block">
-            <NetworkStatus />
+      <div className="site-header-bar">
+        <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center gap-3 px-4 sm:px-6">
+          <Link href="/" aria-label="Ledgerborn home" className="site-brand group inline-flex shrink-0 items-center gap-2.5">
+            <Image
+              src="/images/ledgerborn-symbol.png"
+              alt=""
+              width={56}
+              height={48}
+              className="site-brand-mark size-10 object-contain transition-transform duration-300 group-hover:-translate-y-0.5 sm:size-11"
+              priority
+            />
+            <span className="hidden flex-col min-[440px]:flex">
+              <span className="font-sans text-sm font-semibold tracking-[0.13em] text-foreground sm:text-[0.95rem]">LEDGERBORN</span>
+              <span className="font-mono text-[0.48rem] uppercase tracking-[0.22em] text-muted-foreground">XRPL collectibles</span>
+            </span>
+          </Link>
+
+          <div className="hidden md:block">
+            <SiteNavigation />
           </div>
-          <ConnectWalletButton />
-        </div>
-        <div className="flex w-full justify-end min-[430px]:hidden">
-          <NetworkStatus />
+
+          <div className="ml-auto flex min-w-0 items-center gap-2">
+            <div className="hidden lg:block">
+              <NetworkStatus />
+            </div>
+            <div className="md:hidden">
+              <SiteNavigation />
+            </div>
+            <ConnectWalletButton />
+          </div>
         </div>
       </div>
     </header>

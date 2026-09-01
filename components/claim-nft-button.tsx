@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import useSWR from 'swr'
 import { CheckCircle2, ChevronDown, ExternalLink, LockKeyhole, ScanLine } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { requestCollectionRefresh } from '@/lib/collection-refresh'
 import {
   Dialog,
   DialogContent,
@@ -91,12 +92,14 @@ export function ClaimNftButton({
   offerId,
   claimExpiresAt,
   onClaimed,
+  onUnavailable,
 }: {
   buyer: string
   nftId: string
   offerId: string
   claimExpiresAt?: string
   onClaimed?: (nftId: string) => void
+  onUnavailable?: (offerId: string) => void
 }) {
   const [claim, setClaim] = useState<ClaimRequest | null>(null)
   const [creating, setCreating] = useState(false)
@@ -122,8 +125,10 @@ export function ClaimNftButton({
     lifecycle?.status === 'cancelling'
 
   useEffect(() => {
-    if (status?.status === 'claimed') onClaimed?.(nftId)
-  }, [nftId, onClaimed, status?.status])
+    if (status?.status !== 'claimed') return
+    onClaimed?.(nftId)
+    requestCollectionRefresh(buyer)
+  }, [buyer, nftId, onClaimed, status?.status])
 
   async function createClaim() {
     setCreating(true)
@@ -134,8 +139,11 @@ export function ClaimNftButton({
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ buyer, nftId, offerId }),
       })
-      const data = (await response.json()) as ClaimRequest & { error?: string }
-      if (!response.ok) throw new Error(data.error ?? 'Unable to create claim request.')
+      const data = (await response.json()) as ClaimRequest & { error?: string; code?: string }
+      if (!response.ok) {
+        if (data.code === 'CLAIM_UNAVAILABLE') onUnavailable?.(offerId)
+        throw new Error(data.error ?? 'Unable to create claim request.')
+      }
       setClaim(data)
     } catch (claimError) {
       setError(claimError instanceof Error ? claimError.message : 'Unable to create claim request.')

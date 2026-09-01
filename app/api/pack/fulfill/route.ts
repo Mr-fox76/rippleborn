@@ -3,6 +3,7 @@ import path from 'node:path'
 import { NextResponse } from 'next/server'
 import { start } from 'workflow/api'
 import type { Client, TransactionMetadata } from 'xrpl'
+import { addDiscoveryNumbers } from '@/lib/card-discoveries'
 import {
   CHROMATIC_ABYSS_METADATA_BASE_URL,
   CHROMATIC_ABYSS_NFT_TAXON,
@@ -10,6 +11,7 @@ import {
   rollChromaticAbyssCard,
 } from '@/lib/chromatic-abyss'
 import {
+  CYBORG_COWBOY_METADATA_BASE_URL,
   CYBORG_COWBOY_NFT_TAXON,
   CYBORG_COWBOY_POOL,
   rollCyborgCowboyCard,
@@ -339,13 +341,18 @@ export async function POST(request: Request) {
                   .flat()
                   .find((candidate) => candidate.name === card.name)
                 return currentCard
-                  ? currentCard.uri ?? `${validateCyborgMetadataBaseUrl(process.env.CYBORG_COWBOY_METADATA_BASE_URL)}/${currentCard.slug}.json`
+                  ? `${CYBORG_COWBOY_METADATA_BASE_URL}/${currentCard.slug}.json`
                   : card.uri
               })()
             : setId === 'chromatic-abyss'
-              ? Object.values(CHROMATIC_ABYSS_POOL)
-                  .flat()
-                  .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
+              ? (() => {
+                  const currentCard = Object.values(CHROMATIC_ABYSS_POOL)
+                    .flat()
+                    .find((candidate) => candidate.name === card.name)
+                  return currentCard
+                    ? `${CHROMATIC_ABYSS_METADATA_BASE_URL}/${currentCard.slug}.json`
+                    : card.uri
+                })()
               : Object.values(CARD_POOL)
                   .flat()
                   .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
@@ -381,6 +388,7 @@ export async function POST(request: Request) {
       }
 
       await saveMintResults(destinationTag, fulfilledCards)
+      const numberedCards = await addDiscoveryNumbers(fulfilledCards)
 
       const claimOffers = fulfilledCards.flatMap((card) =>
         card.mintStatus === 'minted' &&
@@ -414,7 +422,7 @@ export async function POST(request: Request) {
         paymentVerified: true,
         paymentTransaction,
         commitment: committed.commitment,
-        cards: fulfilledCards,
+        cards: numberedCards,
       })
     })
   } catch (error) {

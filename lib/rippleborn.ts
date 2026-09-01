@@ -94,7 +94,7 @@ export const PACK_SLOTS = [1, 2, 3] as const
 type CardArt = { name: string; image: string; uri: string }
 
 export const RIPPLEBORN_METADATA_CID =
-  'bafybeidu3usjcomy3qxnm3zlwxwqxppcmy5mj4wjr6645tmqqsfquwwd5a'
+  'bafybeie7q4575rkx7k5yhfsakoxuty5pz72oq7v3vtv3gvp4yqgbjntlsm'
 export const RIPPLEBORN_METADATA_BASE_URL =
   `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${RIPPLEBORN_METADATA_CID}`
 const metadataUri = (slug: string) => `${RIPPLEBORN_METADATA_BASE_URL}/${slug}.json`
@@ -131,7 +131,7 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
     { name: 'Primordial Tidewyrm', image: '/cards/primordial-tidewyrm.png', uri: metadataUri('primordial-tidewyrm') },
   ],
   Phoenix: [
-    { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: 'https://ledgerborn.com/cards/the-phoenix.json' },
+    { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: metadataUri('the-phoenix') },
   ],
 }
 

@@ -2,8 +2,10 @@ import type { Card, Rarity } from '@/lib/rippleborn'
 
 export const CHROMATIC_ABYSS_SET_ID = 'chromatic-abyss' as const
 export const CHROMATIC_ABYSS_NFT_TAXON = 20260830
+export const CHROMATIC_ABYSS_METADATA_CID =
+  'bafybeifa6nmixpzgjqjvgzy5wj45vx464y2wrxoma4ewg3acvmwe7tguxu'
 export const CHROMATIC_ABYSS_METADATA_BASE_URL =
-  'ipfs://bafybeid74vziobs6hygeknebvm5endcfhhlp4z25cqww3qtjg42if55o74/metadata'
+  `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${CHROMATIC_ABYSS_METADATA_CID}/metadata`
 
 const IMAGE_ROOT = '/sets/chromatic-abyss/images'
 
@@ -56,7 +58,6 @@ export const CHROMATIC_ABYSS_POOL = {
       image: '/cards/the-phoenix.png',
       slug: 'the-phoenix',
       rarity: 'Phoenix' as const,
-      uri: 'https://ledgerborn.com/cards/the-phoenix.json',
     },
   ],
 } satisfies Record<Rarity, ChromaticCard[]>
@@ -70,6 +71,6 @@ export function rollChromaticAbyssCard(rarity: Rarity, slot: number): Card {
     image: card.image,
     rarity,
     slot,
-    uri: card.uri ?? `${CHROMATIC_ABYSS_METADATA_BASE_URL}/${card.slug}.json`,
+    uri: `${CHROMATIC_ABYSS_METADATA_BASE_URL}/${card.slug}.json`,
   }
 }

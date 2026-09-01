@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
 import { CardStylePreview } from '@/components/card-style-preview'
@@ -88,6 +88,15 @@ export function PackShop({
   const [packOpened, setPackOpened] = useState(false)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
+  const purchasePanelRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!order) return
+    const frame = window.requestAnimationFrame(() => {
+      purchasePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [order])
 
   function resetDeck() {
     setOrder(null)
@@ -133,7 +142,7 @@ export function PackShop({
       })
       setStatus({
         tone: 'success',
-        message: 'Your pack is ready. Scan the Xaman QR code or open Xaman to approve the payment.',
+        message: 'Pack prepared successfully. Continue below to approve the 5 XRP payment in Xaman.',
       })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
@@ -232,6 +241,9 @@ export function PackShop({
               canOpen={Boolean(cards)}
               packName={pack.name}
               packKicker={pack.kicker}
+              packImage={pack.packImage}
+              packCount={pack.cardsPerPack}
+              preparationHint={!account ? 'Connect Xaman to begin' : 'Prepare your pack below to create the 5 XRP Xaman request'}
               onComplete={() => {
                 setPackOpened(true)
                 setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
@@ -252,23 +264,23 @@ export function PackShop({
         </div>
 
         <section
+          ref={purchasePanelRef}
           aria-label="Open a pack"
-          className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
+          className="reading-panel stable-purchase-panel is-visible mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
         <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
           {!order ? (
-          <Button
-            onClick={createOrder}
-            disabled={!account || pending !== null}
-            size="lg"
-            className="primary-action h-16 w-full rounded-none px-8 font-mono text-base font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-          >
-            {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-            {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
-          </Button>
-          ) : null}
-
-          {order && account === order.buyer && !cards ? (
+            <Button
+              type="button"
+              onClick={createOrder}
+              disabled={!account || pending !== null}
+              size="lg"
+              className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+            >
+              {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+              {pending === 'create' ? 'Preparing Xaman request…' : 'Prepare pack · 5 XRP'}
+            </Button>
+          ) : order && account === order.buyer && !cards ? (
             <XamanPaymentButton
               buyer={order.buyer}
               orderId={order.orderId}

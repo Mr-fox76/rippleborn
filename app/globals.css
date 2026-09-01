@@ -80,15 +80,177 @@
   }
 }
 
+.site-header {
+  border-bottom: 1px solid color-mix(in oklch, var(--primary) 28%, var(--border));
+  background: oklch(0.075 0.02 225 / 92%);
+  box-shadow: 0 0.75rem 2.5rem oklch(0.025 0.012 230 / 42%);
+  backdrop-filter: blur(1rem) saturate(1.2);
+}
+
+.site-safety-ribbon {
+  display: flex;
+  min-height: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-inline: 1rem;
+  border-bottom: 1px solid color-mix(in oklch, var(--gold) 18%, var(--border));
+  color: var(--muted-foreground);
+  background: color-mix(in oklch, var(--gold) 4%, oklch(0.055 0.015 225 / 94%));
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  line-height: 1.35;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.site-safety-ribbon strong {
+  color: var(--gold);
+}
+
+.site-safety-dot,
+.wallet-status-dot {
+  width: 0.45rem;
+  aspect-ratio: 1;
+  flex: none;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0.75rem color-mix(in oklch, var(--gold) 68%, transparent);
+}
+
+.site-header-bar {
+  position: relative;
+  background:
+    linear-gradient(112deg, transparent 12%, color-mix(in oklch, var(--primary) 5%, transparent) 42%, transparent 58%),
+    repeating-linear-gradient(96deg, transparent 0 8px, oklch(0.93 0.018 210 / 1.5%) 8px 9px);
+}
+
+.site-header-bar::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--primary) 48%, transparent), color-mix(in oklch, var(--gold) 35%, transparent), transparent);
+  content: '';
+  pointer-events: none;
+}
+
+.site-brand-mark {
+  filter: drop-shadow(0 0.4rem 0.85rem oklch(0.035 0.018 230 / 72%));
+}
+
+.collection-nav-action {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in oklch, var(--gold) 72%, var(--foreground));
+  border-radius: var(--radius-sm);
+  padding-inline: 1rem;
+  color: var(--gold-foreground);
+  background: var(--gold);
+  box-shadow: 0 0.65rem 1.8rem oklch(0.04 0.02 225 / 38%), inset 0 1px 0 oklch(0.93 0.018 210 / 34%);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.collection-nav-action:hover {
+  background: color-mix(in oklch, var(--gold) 88%, var(--foreground));
+  box-shadow: 0 0.8rem 2rem oklch(0.04 0.02 225 / 46%), 0 0 1rem color-mix(in oklch, var(--gold) 12%, transparent);
+  transform: translateY(-1px);
+}
+
+.collection-nav-action-active {
+  box-shadow: 0 0.8rem 2rem oklch(0.04 0.02 225 / 46%), 0 0 1.15rem color-mix(in oklch, var(--gold) 18%, transparent);
+}
+
+.network-chip,
+.wallet-chip {
+  border: 1px solid color-mix(in oklch, var(--primary) 28%, var(--border));
+  border-radius: 999px;
+  background: oklch(0.055 0.015 225 / 62%);
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--foreground) 6%, transparent);
+}
+
+.wallet-chip {
+  color: var(--foreground);
+  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.wallet-chip:hover,
+.wallet-chip[data-popup-open] {
+  border-color: color-mix(in oklch, var(--gold) 58%, var(--border));
+  background: color-mix(in oklch, var(--gold) 7%, oklch(0.055 0.015 225 / 80%));
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--foreground) 8%, transparent), 0 0 1.25rem color-mix(in oklch, var(--gold) 10%, transparent);
+}
+
+.wallet-status-dot {
+  background: var(--primary);
+  box-shadow: 0 0 0.8rem color-mix(in oklch, var(--primary) 82%, transparent);
+}
+
+.wallet-menu,
+.wallet-connect-popover {
+  border: 1px solid color-mix(in oklch, var(--primary) 30%, var(--border));
+  color: var(--popover-foreground);
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--primary) 7%, transparent), transparent 45%),
+    var(--popover);
+  box-shadow: 0 1.5rem 4rem oklch(0.025 0.014 230 / 72%), inset 0 1px 0 color-mix(in oklch, var(--foreground) 8%, transparent);
+}
+
+.wallet-connect-popover {
+  gap: 1rem;
+}
+
+.wallet-qr-frame {
+  border: 1px solid color-mix(in oklch, var(--gold) 48%, var(--border));
+  border-radius: var(--radius);
+  background: var(--foreground);
+  box-shadow: 0 0 1.75rem color-mix(in oklch, var(--gold) 14%, transparent);
+}
+
+.wallet-qr-frame img {
+  display: block;
+}
+
+.wallet-error {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid color-mix(in oklch, var(--destructive) 44%, var(--border));
+  border-radius: var(--radius-sm);
+  background: var(--popover);
+  box-shadow: 0 1rem 2rem oklch(0.025 0.014 230 / 58%);
+}
+
+@media (max-width: 439px) {
+  .site-safety-ribbon {
+    min-height: 2rem;
+    font-size: 0.52rem;
+    letter-spacing: 0.05em;
+  }
+
+  .collection-nav-action {
+    min-height: 2.25rem;
+    padding-inline: 0.75rem;
+    font-size: 0.6rem;
+  }
+}
+
 .table-surface {
   position: relative;
   isolation: isolate;
-  overflow: hidden;
+  overflow-x: clip;
   background-color: var(--background);
   background-image:
     linear-gradient(180deg, oklch(0.055 0.02 225 / 42%), transparent 42%, oklch(0.055 0.02 225 / 56%)),
     linear-gradient(90deg, oklch(0.055 0.02 225 / 30%), transparent 20%, transparent 80%, oklch(0.055 0.02 225 / 30%)),
-    url('/images/ledgerborn-cyberpunk-background.png');
+    url('/images/ledgerborn-cyberpunk-background-v1.webp');
   background-position: center, center, center top;
   background-size: cover, cover, cover;
   background-attachment: fixed;
@@ -141,7 +303,7 @@
     radial-gradient(circle at 18% 20%, oklch(0.72 0.22 305 / 32%), transparent 35%),
     radial-gradient(circle at 84% 28%, oklch(0.82 0.2 325 / 28%), transparent 38%),
     linear-gradient(180deg, oklch(0.075 0.06 295 / 34%), oklch(0.06 0.05 280 / 64%) 68%, oklch(0.04 0.03 260 / 88%)),
-    url('/images/ledgerborn-page-bg.png');
+    url('/images/ledgerborn-page-bg-v1.webp');
   background-position: center, center, center, center top;
   background-size: cover, cover, cover, cover;
 }
@@ -154,7 +316,7 @@
     radial-gradient(circle at 16% 22%, oklch(0.82 0.17 62 / 26%), transparent 36%),
     radial-gradient(circle at 84% 28%, oklch(0.76 0.15 195 / 24%), transparent 38%),
     linear-gradient(180deg, oklch(0.055 0.02 225 / 26%), oklch(0.07 0.025 215 / 58%) 68%, oklch(0.045 0.018 215 / 84%)),
-    url('/images/cyborg-cowboy-page-bg.png');
+    url('/images/cyborg-cowboy-page-bg-v1.webp');
   background-position: center, center, center, center top;
   background-size: cover, cover, cover, cover;
 }
@@ -167,7 +329,7 @@
     radial-gradient(circle at 20% 18%, oklch(0.78 0.18 190 / 22%), transparent 34%),
     radial-gradient(circle at 82% 30%, oklch(0.7 0.22 335 / 22%), transparent 38%),
     linear-gradient(180deg, oklch(0.045 0.035 260 / 24%), oklch(0.055 0.05 285 / 54%) 68%, oklch(0.035 0.025 255 / 82%)),
-    url('/sets/chromatic-abyss/background.png');
+    url('/sets/chromatic-abyss/background-v1.webp');
   background-position: center, center, center, center top;
   background-size: cover, cover, cover, cover;
 }
@@ -247,34 +409,33 @@
     inset 0 1px 0 color-mix(in oklch, var(--set-card-accent) 14%, transparent);
 }
 
-.pack-set-card::before,
-.pack-set-card::after {
-  position: absolute;
-  inset: 0;
-  content: '';
-  pointer-events: none;
-}
-
-.pack-set-card::before {
+.pack-set-image {
   z-index: -2;
-  background-image: var(--set-card-image);
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
+  object-position: center;
   opacity: 0.58;
   filter: saturate(1.18) contrast(1.12);
   transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
 }
 
-.pack-set-card::after {
+.pack-set-overlay {
+  position: absolute;
+  inset: 0;
   z-index: -1;
   background:
     linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 32%, transparent), var(--set-card-surface) 76%),
     linear-gradient(90deg, color-mix(in oklch, var(--set-card-accent) 22%, transparent), transparent 62%);
+  pointer-events: none;
 }
 
 .pack-set-card > * {
   position: relative;
   z-index: 1;
+}
+
+.pack-set-card > .pack-set-image,
+.pack-set-card > .pack-set-overlay {
+  position: absolute;
 }
 
 .pack-set-card:hover {
@@ -298,7 +459,7 @@
   color: var(--set-card-accent);
 }
 
-.pack-set-card:hover::before {
+.pack-set-card:hover .pack-set-image {
   opacity: 0.74;
   filter: saturate(1.4) contrast(1.16);
   transform: scale(1.025);
@@ -307,12 +468,19 @@
 .pack-set-card-mythic {
   --set-card-accent: oklch(0.84 0.19 325);
   --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.24 0.13 305));
-  --set-card-image: url('/images/ledgerborn-page-bg.png');
   border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.68 0.23 305));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
     0 0 2.5rem oklch(0.68 0.23 305 / 24%),
     inset 0 1px 0 oklch(0.84 0.19 325 / 38%);
+}
+
+.pack-set-card-mythic .pack-set-image {
+  transform: scale(0.82);
+}
+
+.pack-set-card-mythic:hover .pack-set-image {
+  transform: scale(0.85);
 }
 
 .pack-set-card-mythic::before {
@@ -330,7 +498,6 @@
 .pack-set-card-cyborg {
   --set-card-accent: oklch(0.82 0.17 64);
   --set-card-surface: color-mix(in oklch, var(--card) 64%, oklch(0.34 0.11 58));
-  --set-card-image: url('/images/cyborg-cowboy-page-bg.png');
   border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.76 0.13 195));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
@@ -353,7 +520,6 @@
 .pack-set-card-chromatic {
   --set-card-accent: oklch(0.8 0.18 190);
   --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.29 0.12 285));
-  --set-card-image: url('/sets/chromatic-abyss/background.png');
   border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.72 0.2 335));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
@@ -386,29 +552,27 @@
   padding: 2rem;
   border: 1px solid color-mix(in oklch, var(--pack-accent) 34%, var(--border));
   background-image:
-    linear-gradient(90deg, oklch(0.025 0.008 250 / 96%) 0%, oklch(0.025 0.008 250 / 78%) 42%, oklch(0.025 0.008 250 / 18%) 76%),
+    linear-gradient(90deg, oklch(0.025 0.008 250 / 98%) 0%, oklch(0.025 0.008 250 / 9%) 66%, transparent 86%),
     linear-gradient(0deg, oklch(0.025 0.008 250 / 72%), transparent 60%),
     var(--style-guide-art);
-  background-position: center;
-  background-size: cover;
+  background-position: center, center, calc(100% + 4rem) center;
+  background-size: cover, cover, 112% auto;
   box-shadow: inset 0 1px 0 color-mix(in oklch, var(--pack-accent) 14%, transparent);
 }
 
 .card-style-preview-mythic {
   min-height: 32rem;
-  background-position: center, center, center 42%;
-  background-size: cover, cover, cover;
+  background-position: center, center, calc(100% + 4rem) 32%;
 }
 
 .card-style-preview-cyborg {
   min-height: 32rem;
-  background-position: center, center, center 46%;
+  background-position: center, center, calc(100% + 4rem) 30%;
 }
 
 .card-style-preview-chromatic {
   min-height: 32rem;
-  background-position: center, center, center 40%;
-  background-size: cover, cover, 175%;
+  background-position: center, center, calc(100% + 4rem) 42%;
 }
 
 .card-style-preview-copy {
@@ -680,20 +844,73 @@
 }
 
 .stable-opening-stage {
+  position: relative;
   display: flex;
-  min-height: 48rem;
+  min-height: 50rem;
   flex-direction: column;
-  justify-content: space-between;
   gap: 1.25rem;
 }
 
-.stable-opening-stage {
-  min-height: 48rem;
+.stable-purchase-panel {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  min-height: 6rem;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.stable-purchase-panel.is-reserved {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pack-preparation-action {
+  position: absolute;
+  z-index: 8;
+  top: 48%;
+  left: 50%;
+  display: flex;
+  width: min(20rem, calc(100vw - 3rem));
+  translate: -50% 0;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid color-mix(in oklch, var(--pack-accent) 42%, var(--border));
+  border-radius: var(--radius);
+  opacity: 1;
+  background: linear-gradient(180deg, color-mix(in oklch, var(--card) 80%, transparent), var(--card));
+  box-shadow: 0 1.25rem 3rem oklch(0.04 0.02 225 / 55%);
+  pointer-events: auto;
+}
+
+.pack-preparation-hint {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .pack-preparation-action {
+    translate: -50% 0;
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-preparation-action {
+    transition: none;
+  }
 }
 
 .stable-opening-visual {
   position: relative;
-  min-height: 38rem;
+  min-height: 42rem;
   contain: layout paint;
   isolation: isolate;
 }
@@ -760,15 +977,24 @@
   background-size: 220% 100%, auto, auto;
   box-shadow:
     inset 1px 0 0 oklch(0.96 0.015 210 / 16%),
-    inset -1px 0 0 oklch(0.96 0.015 210 / 8%);
+    inset -1px 0 0 oklch(0.96 0.015 210 / 8%),
+    0 2rem 4rem oklch(0.01 0.004 250 / 52%),
+    0 0 2.5rem color-mix(in oklch, var(--pack-accent-strong) 12%, transparent);
   filter: contrast(1.08);
   animation: foil-idle 4.8s ease-in-out infinite;
-  transition: filter 220ms ease;
+  transition: filter 220ms ease, translate 260ms ease, box-shadow 260ms ease;
 }
 
 .pack-preview .foil-pack:hover,
-.can-open.phase-sealed .foil-pack:hover {
+.can-open.phase-sealed .foil-pack:hover,
+.foil-pack:focus-visible {
+  translate: 0 -0.35rem;
   filter: brightness(1.06) contrast(1.08);
+  box-shadow:
+    inset 1px 0 0 oklch(0.96 0.015 210 / 20%),
+    inset -1px 0 0 oklch(0.96 0.015 210 / 10%),
+    0 2.4rem 5rem oklch(0.01 0.004 250 / 62%),
+    0 0 3.5rem color-mix(in oklch, var(--pack-accent-strong) 22%, transparent);
 }
 
 .can-open.phase-sealed .foil-pack:hover {
@@ -785,6 +1011,7 @@
 }
 
 .foil-pack-face {
+  position: relative;
   display: flex;
   flex: 1;
   align-items: center;
@@ -793,11 +1020,40 @@
   gap: 0.65rem;
   overflow: hidden;
   border-inline: 1px solid oklch(0.24 0.008 250);
-  background:
-    linear-gradient(100deg, transparent 18%, oklch(0.96 0.015 210 / 14%) 32%, transparent 45%),
-    linear-gradient(180deg, oklch(0.08 0.006 250), oklch(0.025 0.004 250) 72%, oklch(0.065 0.006 250));
+  background: linear-gradient(180deg, oklch(0.08 0.006 250), oklch(0.025 0.004 250) 72%, oklch(0.065 0.006 250));
   box-shadow: inset 0 0 2rem oklch(0.01 0.002 250 / 65%);
   text-align: center;
+}
+
+.foil-pack-face::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 92% 76% at 50% 42%, oklch(0.99 0.008 210 / 52%) 0%, oklch(0.88 0.018 220 / 30%) 48%, transparent 86%),
+    linear-gradient(90deg, transparent 6%, oklch(0.94 0.01 215 / 18%) 50%, transparent 94%);
+  content: '';
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.foil-pack-face::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    repeating-linear-gradient(7deg, transparent 0 3px, oklch(0.88 0.008 225 / 5%) 3px 4px),
+    repeating-linear-gradient(97deg, transparent 0 5px, oklch(0.02 0.004 225 / 12%) 5px 6px),
+    repeating-radial-gradient(circle at 30% 40%, oklch(0.92 0.006 225 / 6%) 0 0.6px, transparent 0.8px 4px);
+  content: '';
+  mix-blend-mode: soft-light;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.foil-pack-face > * {
+  position: relative;
+  z-index: 1;
 }
 
 .foil-pack-top,
@@ -822,53 +1078,147 @@
 }
 
 .pack-opening-prompt,
-.foil-pack-caption {
+.foil-pack-caption,
+.foil-pack-edition,
+.foil-pack-authenticity {
   font-family: var(--font-mono);
-  font-size: 0.65rem;
   text-transform: uppercase;
+}
+
+.foil-pack-brand {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.1rem;
+  color: oklch(0.92 0.008 225);
+  background: linear-gradient(180deg, oklch(0.015 0.004 250 / 88%), transparent);
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.foil-pack-edition {
+  color: oklch(0.7 0.008 230);
+  font-size: 0.45rem;
+  letter-spacing: 0.12em;
+}
+
+.foil-pack-art {
+  object-fit: cover;
+  object-position: 50% 48%;
+  filter: saturate(0.92) contrast(1.1) brightness(0.72);
+  scale: 1.72;
+  transition: filter 320ms ease, scale 500ms ease;
+}
+
+.pack-opening-stage[data-pack-kind='cyborg'] .foil-pack-art,
+.pack-opening-stage[data-pack-kind='chromatic'] .foil-pack-art {
+  scale: 2.05;
+}
+
+.foil-pack:hover .foil-pack-art,
+.foil-pack:focus-visible .foil-pack-art {
+  filter: saturate(1.04) contrast(1.1) brightness(0.82);
+  scale: 1.78;
+}
+
+.pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:hover .foil-pack-art,
+.pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:focus-visible .foil-pack-art,
+.pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:hover .foil-pack-art,
+.pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:focus-visible .foil-pack-art {
+  scale: 2.11;
+}
+
+.foil-pack-art-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, oklch(0.01 0.003 250 / 18%), transparent 34%, oklch(0.01 0.003 250 / 38%)),
+    linear-gradient(90deg, oklch(0.01 0.003 250 / 24%), transparent 25% 75%, oklch(0.01 0.003 250 / 24%));
+  pointer-events: none;
+}
+
+.foil-pack-product-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  margin-top: auto;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 5.5rem 1rem 0.55rem;
+  background: linear-gradient(180deg, transparent, oklch(0.012 0.004 250 / 94%) 68%);
+}
+
+.foil-pack-product-copy::before,
+.foil-pack-product-copy::after {
+  width: 72%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklch, var(--pack-accent-strong) 64%, oklch(0.72 0.01 230)), transparent);
+  content: '';
+  opacity: 0.72;
+}
+
+.foil-pack-caption {
+  color: oklch(0.7 0.008 250);
+  font-size: 0.52rem;
   letter-spacing: 0.2em;
 }
 
-.foil-pack-caption {
-  color: oklch(0.68 0.008 250);
-}
-
 .foil-pack-title {
-  color: var(--pack-accent-strong);
-  text-shadow: 0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 72%, transparent);
+  max-width: 90%;
+  color: color-mix(in oklch, var(--pack-accent-strong) 76%, oklch(0.94 0.012 225));
   font-family: var(--font-sans);
-  font-size: 2.35rem;
-  font-weight: 650;
-  letter-spacing: -0.025em;
+  font-size: 1.55rem;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-shadow:
+    0 1px 0 oklch(0.98 0.008 220 / 28%),
+    0 2px 0 oklch(0.02 0.004 250 / 90%),
+    0 0 1.25rem color-mix(in oklch, var(--pack-accent-strong) 38%, transparent);
   text-transform: uppercase;
+  transform: skewX(-4deg);
 }
 
 .foil-pack-rune {
   display: grid;
-  width: 5rem;
+  width: 1.8rem;
   aspect-ratio: 1;
-  margin-bottom: 1.25rem;
   rotate: 45deg;
   place-items: center;
-  border: 1px solid oklch(0.42 0.008 250);
-  border-radius: 0.2rem;
-  color: oklch(0.72 0.008 250);
-  background: oklch(0.035 0.004 250 / 82%);
-  box-shadow: 0 0 1rem color-mix(in oklch, var(--pack-accent-strong) 28%, transparent);
-  transition: box-shadow 220ms ease, border-color 220ms ease;
-}
-
-.foil-pack:hover .foil-pack-rune {
-  border-color: color-mix(in oklch, var(--pack-accent-strong) 55%, oklch(0.42 0.008 250));
-  box-shadow:
-    0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 55%, transparent),
-    0 0 2.6rem color-mix(in oklch, var(--pack-accent-strong) 24%, transparent);
+  border: 1px solid color-mix(in oklch, var(--pack-accent-strong) 50%, oklch(0.52 0.008 250));
+  border-radius: 0.15rem;
+  color: oklch(0.88 0.008 230);
+  background: oklch(0.035 0.004 250 / 84%);
+  box-shadow: 0 0 1.4rem color-mix(in oklch, var(--pack-accent-strong) 30%, transparent);
+  backdrop-filter: blur(0.4rem);
 }
 
 .foil-pack-rune-icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 0.9rem;
+  height: 0.9rem;
   rotate: -45deg;
+}
+
+.foil-pack-authenticity {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.15rem 1.1rem 0.8rem;
+  color: oklch(0.5 0.008 240);
+  font-size: 0.45rem;
+  letter-spacing: 0.13em;
 }
 
 .pack-opening-prompt {
@@ -977,6 +1327,20 @@
 .tarot-slot-face > .tarot-card {
   width: 100%;
   height: 100%;
+}
+
+.tarot-reveal .rarity-action-footer {
+  position: absolute;
+  z-index: 30;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  padding: 0;
+  background: transparent;
+}
+
+.tarot-reveal:has(.rarity-action-footer) .collection-card-caption {
+  padding-bottom: 4.5rem;
 }
 
 .tarot-control-row,
@@ -1220,6 +1584,203 @@
   color: color-mix(in oklch, var(--rarity-color) 76%, var(--foreground));
 }
 
+.collection-filter-trigger {
+  border-color: color-mix(in oklch, var(--gold) 42%, var(--border));
+  color: var(--foreground);
+  background: linear-gradient(135deg, color-mix(in oklch, var(--gold) 10%, var(--card)), var(--card));
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--foreground) 8%, transparent);
+}
+
+.collection-filter-dot {
+  display: inline-block;
+  width: 0.55rem;
+  aspect-ratio: 1;
+  flex: none;
+  border: 1px solid color-mix(in oklch, var(--rarity-color) 82%, var(--foreground));
+  border-radius: 50%;
+  background: var(--rarity-color);
+  box-shadow: 0 0 0.7rem color-mix(in oklch, var(--rarity-color) 74%, transparent);
+}
+
+.collection-display-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 3px solid color-mix(in oklch, var(--rarity-color) 94%, var(--foreground));
+  border-radius: 0.65rem;
+  color: var(--foreground);
+  background: var(--rarity-color);
+  box-shadow:
+    0 1.25rem 2.75rem oklch(0.04 0.02 225 / 68%),
+    0 0 2.5rem color-mix(in oklch, var(--rarity-color) 46%, transparent),
+    inset 0 0 0 1px color-mix(in oklch, var(--foreground) 42%, transparent),
+    inset 0 0 1rem color-mix(in oklch, var(--rarity-color) 38%, transparent);
+  filter: contrast(1.08) saturate(1.16);
+  transition: border-color 250ms ease, box-shadow 250ms ease, translate 250ms ease, filter 250ms ease;
+}
+
+.collection-display-card::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(112deg, transparent 10%, color-mix(in oklch, var(--rarity-color) 50%, transparent) 34%, color-mix(in oklch, var(--foreground) 18%, transparent) 42%, transparent 56%);
+  background-size: 240% 100%;
+  content: '';
+  opacity: 0.7;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transition: background-position 600ms ease, opacity 250ms ease;
+}
+
+.collection-display-card:hover {
+  translate: 0 -0.55rem;
+  border-color: transparent;
+  filter: brightness(1.12) contrast(1.06) saturate(1.16);
+  box-shadow:
+    0 2rem 4rem oklch(0.04 0.02 225 / 68%),
+    0 0 3.5rem color-mix(in oklch, var(--rarity-color) 42%, transparent);
+}
+
+.collection-display-card:hover::after {
+  background-position: 100% 0;
+  opacity: 0.28;
+}
+
+.collection-display-card:hover .collection-card-caption {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    oklch(0.025 0.008 240 / 8%) 28%,
+    oklch(0.025 0.008 240 / 62%) 68%,
+    oklch(0.025 0.008 240 / 82%) 100%
+  );
+}
+
+.collection-display-art {
+  width: 100%;
+  height: 100%;
+  box-shadow: inset 0 0 1.75rem oklch(0.02 0.01 230 / 48%);
+}
+
+/* Slightly overscan every collectible image to prevent subpixel seams at the
+   card edge. The affected Chromatic cards need a deeper full-bleed crop. */
+.collection-display-art > img {
+  scale: 1.01;
+}
+
+.collection-display-art[data-card-name*='Spiral' i] > img,
+.collection-display-art[data-card-name*='Wisp' i] > img {
+  object-position: 50% 58%;
+  scale: 1.3;
+}
+
+.collection-display-card:hover .collection-display-art[data-card-name*='Spiral' i] > img,
+.collection-display-card:hover .collection-display-art[data-card-name*='Wisp' i] > img {
+  scale: 1.33;
+}
+
+.collection-display-sheen {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(112deg, transparent 12%, color-mix(in oklch, var(--rarity-color) 38%, transparent) 34%, transparent 49%),
+    linear-gradient(135deg, color-mix(in oklch, var(--rarity-color) 24%, transparent), transparent 32% 72%, color-mix(in oklch, var(--rarity-color) 20%, transparent));
+  box-shadow: inset 0 0 2.5rem color-mix(in oklch, var(--rarity-color) 28%, transparent);
+  mix-blend-mode: screen;
+}
+
+.collection-discovery-mark {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 12;
+  color: color-mix(in oklch, var(--foreground) 72%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 4px oklch(0.015 0.006 240 / 90%);
+}
+
+.collection-edition-mark {
+  position: absolute;
+  right: 0.55rem;
+  bottom: 0.55rem;
+  display: grid;
+  width: 1.7rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid color-mix(in oklch, var(--rarity-color) 86%, var(--foreground));
+  border-radius: 50%;
+  color: color-mix(in oklch, var(--rarity-color) 80%, var(--foreground));
+  background: oklch(0.03 0.01 240 / 76%);
+  box-shadow: 0 0 1rem color-mix(in oklch, var(--rarity-color) 42%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(0.35rem);
+}
+
+.collection-card-caption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.75rem;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    oklch(0.025 0.008 240 / 18%) 24%,
+    oklch(0.025 0.008 240 / 82%) 62%,
+    oklch(0.025 0.008 240 / 96%) 100%
+  );
+}
+
+.collection-rarity-seal {
+  width: fit-content;
+  border: 1px solid color-mix(in oklch, var(--rarity-color) 78%, transparent);
+  border-radius: 999px;
+  padding: 0.24rem 0.48rem;
+  color: color-mix(in oklch, var(--rarity-color) 82%, var(--foreground));
+  background: color-mix(in oklch, var(--rarity-color) 24%, var(--card));
+  box-shadow: 0 0 0.8rem color-mix(in oklch, var(--rarity-color) 20%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.collection-card-footer {
+  padding-top: 0.55rem;
+  border-top: 1px solid color-mix(in oklch, var(--rarity-color) 34%, var(--border));
+}
+
+.collection-display-plaque {
+  position: relative;
+  border-top: 1px solid color-mix(in oklch, var(--rarity-color) 68%, var(--border));
+  color: var(--foreground);
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--rarity-color) 18%, transparent), transparent 28% 72%, color-mix(in oklch, var(--rarity-color) 12%, transparent)),
+    color-mix(in oklch, var(--rarity-color) 13%, var(--card));
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--rarity-color) 20%, transparent);
+}
+
+.collection-display-plaque::before {
+  position: absolute;
+  top: -1px;
+  left: 16%;
+  width: 68%;
+  height: 1px;
+  background: color-mix(in oklch, var(--rarity-color) 92%, transparent);
+  box-shadow: 0 0 0.75rem var(--rarity-color);
+  content: '';
+}
+
 .phoenix-reveal {
   z-index: 2;
   border: 2px solid var(--phoenix);
@@ -1424,11 +1985,12 @@
   }
 
   .stable-opening-stage {
-    min-height: 37rem;
+    min-height: 44rem;
+    gap: 1.25rem;
   }
 
   .stable-opening-visual {
-    min-height: 28rem;
+    min-height: 35rem;
   }
 
   .pack-opening-stage {
@@ -1504,6 +2066,38 @@
   background: color-mix(in oklch, var(--gold) 88%, var(--foreground));
 }
 
+.homepage-monochrome .primary-action,
+.pack-theme .wallet-connect-action {
+  border-color: color-mix(in oklch, var(--foreground) 62%, var(--border));
+  color: var(--background);
+  background: var(--foreground);
+  box-shadow:
+    0 0.8rem 2.5rem oklch(0.04 0.02 225 / 45%),
+    inset 0 1px 0 color-mix(in oklch, var(--background) 14%, transparent);
+}
+
+.homepage-monochrome .primary-action:hover,
+.pack-theme .wallet-connect-action:hover {
+  background: color-mix(in oklch, var(--foreground) 86%, var(--muted-foreground));
+}
+
+.homepage-monochrome .collection-eyebrow::before,
+.homepage-monochrome .collection-eyebrow::after {
+  background: linear-gradient(90deg, transparent, var(--foreground));
+}
+
+.homepage-monochrome [aria-labelledby='issuer-notice-heading'] a {
+  color: var(--foreground);
+}
+
+.homepage-monochrome [aria-labelledby='issuer-notice-heading'] a:hover {
+  color: var(--muted-foreground);
+}
+
+.homepage-monochrome [aria-labelledby='issuer-notice-heading'] a svg {
+  color: currentColor;
+}
+
 .ghost-action {
   border: 1px solid color-mix(in oklch, var(--primary) 42%, transparent);
   color: var(--primary);
@@ -1526,6 +2120,49 @@
     0 1.25rem 3rem oklch(0.04 0.02 225 / 66%),
     inset 0 1px 0 oklch(0.93 0.018 210 / 8%);
   backdrop-filter: blur(1rem);
+}
+
+.collection-panel {
+  border: 0;
+}
+
+.collection-overlay-content {
+  right: max(1.5rem, calc((100vw - 80rem) / 2));
+  left: max(1.5rem, calc((100vw - 80rem) / 2));
+  width: auto;
+  max-width: none;
+  transform: none;
+  border: 0;
+  color: var(--popover-foreground);
+  background:
+    linear-gradient(135deg, color-mix(in oklch, var(--primary) 5%, transparent), transparent 42%),
+    color-mix(in oklch, var(--popover) 82%, transparent);
+  box-shadow: 0 2rem 6rem oklch(0.025 0.014 230 / 62%);
+  backdrop-filter: blur(1.2rem) saturate(1.15);
+}
+
+.collection-overlay-header {
+  border-bottom: 1px solid color-mix(in oklch, var(--gold) 18%, var(--border));
+  background: color-mix(in oklch, var(--background) 78%, transparent);
+}
+
+.collection-overlay-scroll {
+  scrollbar-gutter: stable;
+}
+
+@media (max-width: 40rem) {
+  .collection-overlay-content {
+    right: 1rem;
+    left: 1rem;
+  }
+}
+
+.collection-overlay-content .collection-panel {
+  min-height: 20rem;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
 }
 
 .tarot-reveal {

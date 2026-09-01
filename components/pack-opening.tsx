@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Aperture, CircuitBoard, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -9,6 +10,10 @@ type PackOpeningProps = {
   canOpen?: boolean
   packName?: string
   packKicker?: string
+  packImage?: string
+  packCount?: number
+  preparationAction?: React.ReactNode
+  preparationHint?: string
 }
 
 type OpeningPhase = 'sealed' | 'flipping' | 'spreading'
@@ -78,6 +83,10 @@ export function PackOpening({
   canOpen = true,
   packName = 'Ledgerborn',
   packKicker = 'Mythical Set',
+  packImage = '/images/mythic-card-style-sample.png',
+  packCount = 3,
+  preparationAction,
+  preparationHint,
 }: PackOpeningProps) {
   const [phase, setPhase] = useState<OpeningPhase>('sealed')
   const completed = useRef(false)
@@ -111,6 +120,7 @@ export function PackOpening({
   return (
     <section
       className={`pack-opening-stage phase-${phase} ${canOpen ? 'can-open' : 'pack-preview'}`}
+      data-pack-kind={packLabel.toLowerCase()}
       aria-label={canOpen ? `Open your ${packName} pack` : `${packName} collectible card pack`}
     >
       <div className="pack-radiance" aria-hidden="true" />
@@ -130,14 +140,40 @@ export function PackOpening({
       >
         <span className="foil-pack-top" aria-hidden="true" />
         <span className="foil-pack-face">
-          <span className="foil-pack-rune" aria-hidden="true">
-            <PackRune className="foil-pack-rune-icon" strokeWidth={1.5} />
+          <Image
+            src={packImage}
+            alt=""
+            fill
+            preload
+            quality={75}
+            sizes="(max-width: 639px) 70vw, 19rem"
+            className="foil-pack-art"
+          />
+          <span className="foil-pack-art-shade" aria-hidden="true" />
+          <span className="foil-pack-brand">
+            <span>Ledgerborn</span>
+            <span className="foil-pack-edition">Digital collectible pack</span>
           </span>
-          <span className="foil-pack-title">{packLabel}</span>
-          <span className="foil-pack-caption">Three card pack</span>
+          <span className="foil-pack-product-copy">
+            <span className="foil-pack-title">{packLabel}</span>
+            <span className="foil-pack-caption">{packCount} card pack · XRPL edition</span>
+          </span>
+          <span className="foil-pack-authenticity" aria-hidden="true">
+            <span className="foil-pack-rune">
+              <PackRune className="foil-pack-rune-icon" strokeWidth={1.5} />
+            </span>
+            <span>Sealed on ledger</span>
+          </span>
         </span>
         <span className="foil-pack-bottom" aria-hidden="true" />
       </button>
+
+      {preparationAction && phase === 'sealed' ? (
+        <div className="pack-preparation-action">
+          {preparationAction}
+          {preparationHint ? <p className="pack-preparation-hint">{preparationHint}</p> : null}
+        </div>
+      ) : null}
 
       <div className="opening-card-stack" aria-hidden="true">
         {[0, 1, 2].map((index) => (
@@ -153,9 +189,11 @@ export function PackOpening({
       </div>
 
       <div className="pack-opening-controls">
-        <p className="pack-opening-prompt" role="status" aria-live="polite">
-          {!canOpen && phase === 'sealed' ? 'Purchase a pack to break the seal' : PHASE_COPY[phase]}
-        </p>
+        {canOpen || phase !== 'sealed' ? (
+          <p className="pack-opening-prompt" role="status" aria-live="polite">
+            {PHASE_COPY[phase]}
+          </p>
+        ) : null}
         <div className="pack-opening-button-row">
           {opening ? (
             <Button type="button" variant="ghost" size="sm" onClick={finish} className="pack-skip">

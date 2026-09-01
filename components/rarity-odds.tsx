@@ -7,10 +7,12 @@ export function RarityOdds({
   stats,
   setId = 'ledgerborn',
   countersOnly = false,
+  visitCount,
 }: {
   stats: CollectionStats
   setId?: PackSetId
   countersOnly?: boolean
+  visitCount?: number | bigint | null
 }) {
   const pool =
     setId === 'cyborg-cowboy'
@@ -26,6 +28,9 @@ export function RarityOdds({
 
   const counters = [
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
+    ...(countersOnly && visitCount !== null && visitCount !== undefined
+      ? [{ label: 'Site visits', value: visitCount, className: 'text-foreground' }]
+      : []),
     { label: 'Rare', value: stats.rareFound, className: 'rarity-rare' },
     { label: 'Epic', value: stats.epicFound, className: 'rarity-epic' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
@@ -42,7 +47,7 @@ export function RarityOdds({
       ) : null}
       <dl
         aria-label={countersOnly ? 'Cards discovered from opened packs across all sets' : 'Cards discovered from opened packs in this set'}
-        className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6"
+        className={`grid grid-cols-2 gap-2 sm:grid-cols-3 ${countersOnly && visitCount !== null && visitCount !== undefined ? 'lg:grid-cols-7' : 'lg:grid-cols-6'}`}
       >
         {counters.map((counter) => (
           <div
