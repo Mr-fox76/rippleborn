@@ -26,18 +26,24 @@ async function pinFiles(files, name) {
   return body.IpfsHash
 }
 
-async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, metadataPrefix = '' }) {
+async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, imagePathForSlug, metadataPrefix = '' }) {
   const metadataNames = (await readdir(metadataDir)).filter((name) => name.endsWith('.json')).sort()
   const entries = await Promise.all(metadataNames.map(async (filename) => {
     const slug = filename.replace(/\.json$/, '')
     const source = JSON.parse(await readFile(join(metadataDir, filename), 'utf8'))
-    return { filename, slug, source, imageName: imageNameForSlug(slug) }
+    return {
+      filename,
+      slug,
+      source,
+      imageName: imageNameForSlug(slug),
+      imagePath: imagePathForSlug ? imagePathForSlug(slug) : join(imageDir, imageNameForSlug(slug)),
+    }
   }))
 
-  const uniqueImages = [...new Set(entries.map((entry) => entry.imageName))]
+  const uniqueImages = [...new Map(entries.map((entry) => [entry.imageName, entry.imagePath])).entries()]
   const imageCid = await pinFiles(
-    uniqueImages.map((filename) => ({
-      path: join(imageDir, filename),
+    uniqueImages.map(([filename, path]) => ({
+      path,
       name: `images/${filename}`,
       type: 'image/png',
     })),
@@ -115,14 +121,20 @@ const cyborg = await publishWithPhoenix({
   id: 'Cyborg Cowboy',
   metadataDir: join(root, 'public/sets/cyborg-cowboy/json'),
   imageDir: join(root, 'public/sets/cyborg-cowboy/images'),
-  imageNameForSlug: (slug) => slug === 'the-phoenix' ? '../../../cards/the-phoenix.png' : `${slug}.png`,
+  imageNameForSlug: (slug) => `${slug}.png`,
+  imagePathForSlug: (slug) => slug === 'the-phoenix'
+    ? join(root, 'public/cards/the-phoenix.png')
+    : join(root, 'public/sets/cyborg-cowboy/images', `${slug}.png`),
   metadataPrefix: 'metadata/',
 })
 const chromatic = await publishWithPhoenix({
   id: 'Chromatic Abyss',
   metadataDir: join(root, 'public/sets/chromatic-abyss/json'),
   imageDir: join(root, 'public/sets/chromatic-abyss/images'),
-  imageNameForSlug: (slug) => slug === 'the-phoenix' ? '../../../cards/the-phoenix.png' : `${slug}.png`,
+  imageNameForSlug: (slug) => `${slug}.png`,
+  imagePathForSlug: (slug) => slug === 'the-phoenix'
+    ? join(root, 'public/cards/the-phoenix.png')
+    : join(root, 'public/sets/chromatic-abyss/images', `${slug}.png`),
   metadataPrefix: 'metadata/',
 })
 const result = {

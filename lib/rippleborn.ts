@@ -131,7 +131,7 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
     { name: 'Primordial Tidewyrm', image: '/cards/primordial-tidewyrm.png', uri: metadataUri('primordial-tidewyrm') },
   ],
   Phoenix: [
-    { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: 'https://ledgerborn.com/cards/the-phoenix.json' },
+    { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: metadataUri('the-phoenix') },
   ],
 }
 

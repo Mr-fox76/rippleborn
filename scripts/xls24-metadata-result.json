@@ -5,10 +5,15 @@
     "metadataBaseUri": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeie7q4575rkx7k5yhfsakoxuty5pz72oq7v3vtv3gvp4yqgbjntlsm"
   },
   "cyborg": {
-    "imageCid": "bafybeic6jkwvqvtiqopyq7vtxychxfdsa5p4gb5tl5ai6ee2k45ip4djwy",
-    "metadataCid": "bafybeiahusnio5qkjhb6yco6tvgnd6dn75bf7qw6x6itejhchus26mrpcu",
-    "metadataBaseUri": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeiahusnio5qkjhb6yco6tvgnd6dn75bf7qw6x6itejhchus26mrpcu/metadata"
+    "imageCid": "bafybeibzopieusgkdjhu57ypq3aqtzncsiww64pbrny7ith5qbs35lgad4",
+    "metadataCid": "bafybeie4ulq56ak33h5t57za4pz2ybonfghxahvcpxxuddijkz5bigfrwq",
+    "metadataBaseUri": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeie4ulq56ak33h5t57za4pz2ybonfghxahvcpxxuddijkz5bigfrwq/metadata"
   },
-  "publishedAt": "2026-09-01T11:05:00.460Z",
+  "chromatic": {
+    "imageCid": "bafybeieq4ubbpb3vwhcxbeuaipqtop7o7ygwwc2vh6chbtjopk5wsticwi",
+    "metadataCid": "bafybeifa6nmixpzgjqjvgzy5wj45vx464y2wrxoma4ewg3acvmwe7tguxu",
+    "metadataBaseUri": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeifa6nmixpzgjqjvgzy5wj45vx464y2wrxoma4ewg3acvmwe7tguxu/metadata"
+  },
+  "publishedAt": "2026-09-01T12:22:17.822Z",
   "standard": "XLS-24"
 }
