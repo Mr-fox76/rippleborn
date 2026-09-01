@@ -48,7 +48,7 @@ export function PackGallery() {
               alt=""
               fill
               preload={index === 0}
-              quality={70}
+              unoptimized
               sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(50vw - 2rem), 410px"
               className="pack-set-image"
             />
