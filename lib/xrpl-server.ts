@@ -198,11 +198,18 @@ export async function mintCardNft(
     Flags: 1,
   }
   const offerResult = await client.submitAndWait(offer, { wallet: config.minterWallet })
-  const offerMeta = successfulMetadata(offerResult.result, 'NFTokenCreateOffer') as TransactionMetadata & {
+  const offerMeta = successfulMetadata(offerResult.result, 'NFTokenCreateOffer')
+  const offerFields = offerMeta as unknown as {
     offer_id?: string
+    AffectedNodes?: Array<{
+      CreatedNode?: { LedgerEntryType?: string; LedgerIndex?: string }
+    }>
   }
-  const offerId = offerMeta.offer_id
-  if (!offerId) throw new Error('NFTokenCreateOffer succeeded but returned no offer ID.')
+  const createdOffer = offerFields.AffectedNodes?.find(
+    (node) => node.CreatedNode?.LedgerEntryType === 'NFTokenOffer',
+  )
+  const offerId = offerFields.offer_id ?? createdOffer?.CreatedNode?.LedgerIndex
+  if (!offerId) throw new Error('NFTokenCreateOffer succeeded but its offer ID could not be read from metadata.')
 
   return { nftId, offerId, mintTransactionHash: mintResult.result.hash }
 }

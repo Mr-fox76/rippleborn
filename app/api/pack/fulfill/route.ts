@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises'
-import path from 'node:path'
 import { NextResponse } from 'next/server'
 import { start } from 'workflow/api'
 import type { Client, TransactionMetadata } from 'xrpl'
@@ -24,6 +22,7 @@ import {
   rollPack,
   rollRarity,
   type Card,
+  type PackSetId,
 } from '@/lib/rippleborn'
 import {
   commitPackResult,
@@ -74,34 +73,25 @@ type AccountTransaction = {
   tx_json?: Record<string, unknown>
 }
 
-async function validateCardMetadata(card: { name: string; uri?: string; limited?: boolean }): Promise<string | null> {
+function validateCardMetadata(
+  card: { name: string; uri?: string; limited?: boolean },
+  setId: PackSetId,
+): string | null {
   if (!encodeMetadataUri(card.uri)) return 'No valid HTTPS Pinata metadata URL is configured for this card.'
   if (card.name === 'The Phoenix') return null
 
-  const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
-  if (!filename) return 'The card metadata URL must reference a JSON file in the pinned folder.'
-  const isChromaticAbyss = card.uri?.includes(
-    'bafybeid74vziobs6hygeknebvm5endcfhhlp4z25cqww3qtjg42if55o74/metadata/',
-  )
-  const metadataFolder = isChromaticAbyss
-    ? path.join(process.cwd(), 'public', 'sets', 'chromatic-abyss', 'json')
-    : card.uri?.includes('/sets/cyborg-cowboy/json/') || card.uri?.includes('/metadata/')
-      ? path.join(process.cwd(), 'public', 'sets', 'cyborg-cowboy', 'json')
-      : path.join(process.cwd(), 'public', 'cards')
+  const pool =
+    setId === 'chromatic-abyss'
+      ? CHROMATIC_ABYSS_POOL
+      : setId === 'cyborg-cowboy'
+        ? CYBORG_COWBOY_POOL
+        : CARD_POOL
+  const catalogCard = Object.values(pool)
+    .flat()
+    .find((candidate) => candidate.name === card.name)
 
-  try {
-    const raw = await readFile(path.join(metadataFolder, filename), 'utf8')
-    const metadata = JSON.parse(raw) as Record<string, unknown>
-    if (metadata.name !== card.name) return 'The metadata name does not match the selected card.'
-    if (typeof metadata.description !== 'string' || !metadata.description.trim()) {
-      return 'The metadata description is missing.'
-    }
-    if (typeof metadata.image !== 'string' || !metadata.image.trim()) return 'The metadata image is missing.'
-    if (!Array.isArray(metadata.attributes)) return 'The metadata attributes are missing.'
-    return null
-  } catch {
-    return `Metadata file ${filename} is missing or invalid.`
-  }
+  if (!catalogCard) return 'The selected card is not part of this pack set.'
+  return null
 }
 
 function getTransactionResult(meta: unknown): string | null {
@@ -285,15 +275,21 @@ export async function POST(request: Request) {
       }
 
       const existingResult = await getPackResult(destinationTag)
-      if (existingResult?.mintResults) {
+      const existingMintResults = existingResult?.mintResults
+      if (
+        existingMintResults?.length &&
+        existingMintResults.every(
+          (card) => card.mintStatus === 'minted' && card.nftId && card.offerId,
+        )
+      ) {
         return NextResponse.json({
           orderId: destinationTag,
           buyer,
           status: 'fulfilled',
           paymentVerified: true,
           paymentTransaction,
-          commitment: existingResult.commitment,
-          cards: existingResult.mintResults,
+          commitment: existingResult?.commitment ?? null,
+          cards: existingMintResults,
         })
       }
 
@@ -334,7 +330,17 @@ export async function POST(request: Request) {
 
       const fulfilledCards: MintedPackCard[] = []
 
-      for (const card of cards) {
+      for (const [cardIndex, card] of cards.entries()) {
+        const previousMint = existingMintResults?.[cardIndex]
+        if (
+          previousMint?.mintStatus === 'minted' &&
+          previousMint.nftId &&
+          previousMint.offerId
+        ) {
+          fulfilledCards.push(previousMint)
+          continue
+        }
+
         const currentUri = setId === 'cyborg-cowboy'
           ? (() => {
                 const currentCard = Object.values(CYBORG_COWBOY_POOL)
@@ -357,7 +363,7 @@ export async function POST(request: Request) {
                   .flat()
                   .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
         const cardToMint = { ...card, uri: currentUri }
-        const metadataError = await validateCardMetadata(cardToMint)
+        const metadataError = validateCardMetadata(cardToMint, setId)
         if (metadataError) {
           fulfilledCards.push({ ...cardToMint, mintStatus: 'skipped', reason: metadataError })
           continue

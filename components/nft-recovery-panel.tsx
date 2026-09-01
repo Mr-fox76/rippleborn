@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import useSWR from 'swr'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
@@ -18,6 +19,8 @@ type OpenClaimOffer = {
   offerId: string
   mintedAt: string
   claimExpiresAt: string
+  name: string
+  image: string | null
 }
 
 type RecoveryData = {
@@ -133,21 +136,34 @@ export function NftRecoveryPanel() {
           <h3 id="open-claims-title" className="font-mono text-xs uppercase tracking-wider text-gold">
             Unclaimed pack NFTs
           </h3>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="mt-3 grid items-stretch gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {claimOffers.map((offer) => (
-              <article key={offer.offerId} className="flex flex-col gap-3 border border-border p-4">
-                <div className="min-w-0">
-                  <p className="font-serif text-base">Minted NFT awaiting claim</p>
-                  <p className="truncate font-mono text-[0.6rem] text-muted-foreground">{offer.nftId}</p>
+              <article key={offer.offerId} className="flex min-w-0 flex-col overflow-hidden border border-border p-3 sm:p-4">
+                <div className="flex min-w-0 flex-1 flex-col gap-4">
+                  <div className="mx-auto w-full max-w-44 overflow-hidden border border-border bg-muted">
+                    <Image
+                      src={offer.image ?? '/placeholder.jpg'}
+                      alt={offer.image ? `${offer.name} NFT card` : 'NFT card preview unavailable'}
+                      width={240}
+                      height={336}
+                      className="aspect-[5/7] h-auto w-full object-cover"
+                    />
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-between gap-4">
+                    <div className="min-w-0 text-center">
+                      <p className="text-balance font-serif text-base">{offer.name}</p>
+                      <p className="break-all font-mono text-[0.6rem] leading-relaxed text-muted-foreground">{offer.nftId}</p>
+                    </div>
+                    <ClaimNftButton
+                      buyer={account}
+                      nftId={offer.nftId}
+                      offerId={offer.offerId}
+                      claimExpiresAt={offer.claimExpiresAt}
+                      onClaimed={() => void mutate()}
+                      onUnavailable={() => void mutate()}
+                    />
+                  </div>
                 </div>
-                <ClaimNftButton
-                  buyer={account}
-                  nftId={offer.nftId}
-                  offerId={offer.offerId}
-                  claimExpiresAt={offer.claimExpiresAt}
-                  onClaimed={() => void mutate()}
-                  onUnavailable={() => void mutate()}
-                />
               </article>
             ))}
           </div>
@@ -158,16 +174,16 @@ export function NftRecoveryPanel() {
         replacements.length > 0 ? (
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {replacements.map((item) => (
-            <article key={item.originalNftId} className="flex items-center justify-between gap-4 border border-border p-4">
+            <article key={item.originalNftId} className="flex min-w-0 flex-col gap-4 overflow-hidden border border-border p-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
-                <h3 className="font-serif text-base">{cardNames[item.cardId] ?? item.cardId}</h3>
-                <p className="truncate font-mono text-[0.6rem] text-muted-foreground">{item.originalNftId}</p>
+                <h3 className="text-balance font-serif text-base">{cardNames[item.cardId] ?? item.cardId}</h3>
+                <p className="break-all font-mono text-[0.6rem] leading-relaxed text-muted-foreground">{item.originalNftId}</p>
               </div>
               {item.status === 'claimed' ? (
                 <span className="font-mono text-xs uppercase text-gold">Recovered</span>
               ) : (
                 <button
-                  className="shrink-0 border border-gold px-3 py-2 font-mono text-xs uppercase tracking-wider text-gold disabled:opacity-50"
+                  className="w-full shrink-0 border border-gold px-3 py-2 font-mono text-xs uppercase tracking-wider text-gold disabled:opacity-50 sm:w-auto"
                   disabled={busyId === item.originalNftId || Boolean(claim)}
                   onClick={() => void recover(item)}
                 >

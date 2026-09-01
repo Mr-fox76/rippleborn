@@ -81,12 +81,12 @@ export function getDisplayCardName(name: string): string {
 
 /** Every card position rolls independently from this shared distribution. */
 export const SHARED_RARITY_ODDS: Record<Rarity, number> = {
-  Common: 56.57,
+  Common: 56.62,
   Rare: 28.33,
   Epic: 10,
   Legendary: 4,
   Mythic: 1,
-  Phoenix: 0.1,
+  Phoenix: 0.05,
 }
 
 export const PACK_SLOTS = [1, 2, 3] as const

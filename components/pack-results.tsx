@@ -196,7 +196,7 @@ function RevealedSpread({
 
   return (
     <div className="flex flex-col items-center gap-6">
-      <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
+      <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
         {[1, 0, 2].map((index) => {
         const card = cards[index]
         const displayName = card ? getDisplayCardName(card.name) : ''
@@ -207,7 +207,7 @@ function RevealedSpread({
             key={card?.id ?? index}
             className={`tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1 ${revealing === index ? 'is-revealing' : ''} ${revealed.size === cards.length ? 'is-collected' : ''}`}
           >
-            <div className={`tarot-slot-frame ${card && isRevealed ? 'show-face' : 'show-back'}`}>
+            <div className={`tarot-slot-frame ${card ? RARITY_CLASSES[card.rarity] : ''} ${card && isRevealed ? 'show-face' : 'show-back'}`}>
               <div className="tarot-slot-face tarot-slot-back">
                 <FaceDownCard
                   index={index}
@@ -219,6 +219,7 @@ function RevealedSpread({
               </div>
               <div className="tarot-slot-face tarot-slot-front" aria-hidden={!card || !isRevealed}>
               {card ? (
+              <>
               <article
                 className={`tarot-card tarot-reveal collection-display-card relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden`}
               >
@@ -266,18 +267,36 @@ function RevealedSpread({
                     </blockquote>
                   </div>
                 </div>
-                {card.mintStatus === 'minted' && card.nftId && card.offerId && buyer ? (
-                  <div className="rarity-action-footer p-3">
-                    <ClaimNftButton
-                      buyer={buyer}
-                      nftId={card.nftId}
-                      offerId={card.offerId}
-                      claimExpiresAt={card.claimExpiresAt}
-                      onClaimed={markClaimed}
-                    />
-                  </div>
-                ) : null}
               </article>
+              <div className="rarity-action-footer shrink-0 p-3">
+                {card.nftId && card.offerId && buyer ? (
+                  <ClaimNftButton
+                    buyer={buyer}
+                    nftId={card.nftId}
+                    offerId={card.offerId}
+                    claimExpiresAt={card.claimExpiresAt}
+                    onClaimed={markClaimed}
+                  />
+                ) : (
+                  <div className="flex flex-col gap-2">
+                    <Button type="button" size="sm" disabled className="w-full font-mono text-xs font-semibold uppercase tracking-wider">
+                      {card.nftId && card.offerId
+                        ? 'Reconnect Xaman to claim'
+                        : card.mintStatus === 'failed'
+                          ? 'NFT mint failed'
+                          : card.mintStatus === 'skipped'
+                            ? 'NFT mint skipped'
+                            : 'NFT claim unavailable'}
+                    </Button>
+                    {card.reason ? (
+                      <p className="text-pretty text-center font-mono text-xs leading-relaxed text-destructive" role="status">
+                        {card.reason}
+                      </p>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+              </>
               ) : null}
               </div>
             </div>
@@ -325,7 +344,7 @@ export function TarotCards({
         />
       ) : (
         <div className="flex flex-col items-center gap-6">
-          <ol className="tarot-spread mx-auto flex w-full max-w-7xl items-start justify-center gap-3 sm:gap-7">
+      <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
             {[1, 0, 2].map((index) => (
               <li key={index} className="tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1">
                 <div className="tarot-slot-frame show-back">
