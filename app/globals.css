@@ -1671,12 +1671,13 @@
 
 .collection-display-art[data-card-name*='Spiral' i] > img,
 .collection-display-art[data-card-name*='Wisp' i] > img {
-  scale: 1.12;
+  object-position: 50% 58%;
+  scale: 1.3;
 }
 
 .collection-display-card:hover .collection-display-art[data-card-name*='Spiral' i] > img,
 .collection-display-card:hover .collection-display-art[data-card-name*='Wisp' i] > img {
-  scale: 1.15;
+  scale: 1.33;
 }
 
 .collection-display-sheen {
