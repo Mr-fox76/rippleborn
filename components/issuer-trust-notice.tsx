@@ -48,14 +48,14 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                   aria-label={`View ${nft.name} NFT ${nft.nftId} on Bithomp`}
                   className="group flex h-full min-w-0 flex-col overflow-hidden rounded-md border border-border bg-background/40 transition-colors hover:border-gold/60"
                 >
-                  <div className="relative aspect-[2/3] overflow-hidden bg-card">
+                  <div className="relative aspect-square overflow-hidden bg-card">
                     <Image
                       src={nft.image}
                       alt={`${nft.name} NFT artwork`}
                       fill
                       loading="lazy"
                       sizes="(max-width: 640px) 30vw, 240px"
-                      className="object-cover object-center transition-transform duration-300 group-hover:scale-[1.02]"
+                      className="scale-[1.16] object-cover object-center transition-transform duration-300 group-hover:scale-[1.2]"
                     />
                   </div>
                   <span className="flex min-w-0 items-center gap-1.5 px-2 py-2 font-mono text-[0.65rem] text-foreground sm:px-3">
