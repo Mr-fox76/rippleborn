@@ -35,9 +35,9 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                       />
                       <div className="collection-display-sheen" aria-hidden="true" />
-                      {nft.discoveryNumber ? (
-                        <span className="collection-discovery-mark" aria-label={`Ledgerborn discovery ${nft.discoveryNumber}`}>
-                          LB{String(nft.discoveryNumber).padStart(4, '0')}
+                      {nft.cardIdentifier ? (
+                        <span className="collection-discovery-mark" aria-label={`Card identifier ${nft.cardIdentifier}`}>
+                          {nft.cardIdentifier}
                         </span>
                       ) : null}
                       <span className="collection-edition-mark" aria-hidden="true">LB</span>

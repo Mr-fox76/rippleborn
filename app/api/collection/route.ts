@@ -22,6 +22,7 @@ type CollectionCard = {
   rarity?: string
   discoveryNumber?: number
   discoveredTotal?: number
+  cardIdentifier?: string
 }
 
 function readIpfsPath(value: string): string | null {

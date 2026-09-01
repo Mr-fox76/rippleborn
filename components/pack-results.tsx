@@ -15,6 +15,7 @@ export type FulfilledCard = Card & {
   claimExpiresAt?: string
   discoveryNumber?: number
   discoveredTotal?: number
+  cardIdentifier?: string
   reason?: string
 }
 
@@ -241,9 +242,9 @@ function RevealedSpread({
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
                   />
                   <div className="collection-display-sheen" aria-hidden="true" />
-                  {card.discoveryNumber ? (
-                    <span className="collection-discovery-mark" aria-label={`Ledgerborn discovery ${card.discoveryNumber}`}>
-                      LB{String(card.discoveryNumber).padStart(4, '0')}
+                  {card.cardIdentifier ? (
+                    <span className="collection-discovery-mark" aria-label={`Card identifier ${card.cardIdentifier}`}>
+                      {card.cardIdentifier}
                     </span>
                   ) : null}
                   <span className="collection-edition-mark" aria-hidden="true">LB</span>

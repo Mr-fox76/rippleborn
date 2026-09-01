@@ -124,6 +124,7 @@ export type LatestMintedNft = {
   rarity: Card['rarity']
   discoveryNumber?: number
   discoveredTotal?: number
+  cardIdentifier?: string
 }
 
 export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]> {
