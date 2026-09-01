@@ -1,11 +1,20 @@
 'use client'
 
 import Image from 'next/image'
-import { ExternalLink, Loader2, RefreshCw } from 'lucide-react'
+import { ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
 import useSWR from 'swr'
-import { useSyncExternalStore } from 'react'
+import { useMemo, useState, useSyncExternalStore } from 'react'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { Button } from '@/components/ui/button'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 
 type CollectionCard = {
@@ -70,6 +79,20 @@ export function WalletCollection() {
     },
   })
   const cards = data?.cards ?? []
+  const [rarityFilter, setRarityFilter] = useState('all')
+  const rarityOptions = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const card of cards) {
+      const rarity = card.rarity?.trim() || 'Common'
+      counts.set(rarity, (counts.get(rarity) ?? 0) + 1)
+    }
+    return Array.from(counts, ([rarity, count]) => ({ rarity, count })).sort((a, b) =>
+      a.rarity.localeCompare(b.rarity),
+    )
+  }, [cards])
+  const filteredCards = rarityFilter === 'all'
+    ? cards
+    : cards.filter((card) => (card.rarity?.trim() || 'Common') === rarityFilter)
   const isInitialLoading = Boolean(account && isLoading && cards.length === 0)
 
   return (
@@ -118,17 +141,56 @@ export function WalletCollection() {
         ) : (
           <div className="flex flex-col gap-5">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
-              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                {cards.length} {cards.length === 1 ? 'card' : 'cards'} on this wallet
-              </p>
-              <Button type="button" variant="ghost" size="sm" onClick={() => mutate()} disabled={isValidating} className="ghost-action font-mono text-xs uppercase tracking-[0.12em]">
-                <RefreshCw className={`size-4 ${isValidating ? 'animate-spin' : ''}`} aria-hidden="true" />
-                {isValidating ? 'Refreshing' : 'Refresh'}
-              </Button>
+              <div className="flex items-center gap-3">
+                <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                  {filteredCards.length === cards.length
+                    ? `${cards.length} ${cards.length === 1 ? 'card' : 'cards'} on this wallet`
+                    : `${filteredCards.length} of ${cards.length} cards`}
+                </p>
+                {rarityFilter !== 'all' ? (
+                  <Button type="button" variant="ghost" size="sm" onClick={() => setRarityFilter('all')} className="ghost-action font-mono text-[0.65rem] uppercase tracking-[0.12em]">
+                    Clear
+                  </Button>
+                ) : null}
+              </div>
+              <div className="flex items-center gap-2">
+                <Select value={rarityFilter} onValueChange={(value) => setRarityFilter(value ?? 'all')}>
+                  <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
+                    <SlidersHorizontal aria-hidden="true" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent align="end" alignItemWithTrigger={false}>
+                    <SelectGroup>
+                      <SelectLabel>Filter by rarity</SelectLabel>
+                      <SelectItem value="all">
+                        <span>All cards</span>
+                        <span className="ml-auto font-mono text-xs text-muted-foreground">{cards.length}</span>
+                      </SelectItem>
+                      {rarityOptions.map(({ rarity, count }) => (
+                        <SelectItem key={rarity} value={rarity}>
+                          <span className={`collection-filter-dot rarity-${rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`} aria-hidden="true" />
+                          <span>{rarity}</span>
+                          <span className="ml-auto font-mono text-xs text-muted-foreground">{count}</span>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Button type="button" variant="ghost" size="sm" onClick={() => mutate()} disabled={isValidating} className="ghost-action font-mono text-xs uppercase tracking-[0.12em]">
+                  <RefreshCw className={`size-4 ${isValidating ? 'animate-spin' : ''}`} aria-hidden="true" />
+                  {isValidating ? 'Refreshing' : 'Refresh'}
+                </Button>
+              </div>
             </div>
             {error ? <p role="alert" className="text-sm text-destructive">Showing your saved grid. {error.message}</p> : null}
+            {filteredCards.length === 0 ? (
+              <div className="flex min-h-52 flex-col items-center justify-center gap-3 text-center">
+                <h2 className="font-sans text-lg font-semibold text-foreground">No {rarityFilter} cards in this collection.</h2>
+                <Button type="button" variant="outline" size="sm" onClick={() => setRarityFilter('all')}>Show all cards</Button>
+              </div>
+            ) : (
             <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
-              {cards.map((card) => {
+              {filteredCards.map((card) => {
                 const rarityClass = card.rarity
                   ? `rarity-${card.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
                   : 'rarity-common'
@@ -158,6 +220,7 @@ export function WalletCollection() {
                 )
               })}
             </ul>
+            )}
           </div>
         )}
       </div>
