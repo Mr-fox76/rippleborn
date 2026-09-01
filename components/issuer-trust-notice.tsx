@@ -57,9 +57,9 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
         </div>
       ) : null}
 
-      <div className="mx-auto flex max-w-3xl items-start gap-3 px-2 text-left sm:items-center sm:text-center">
-        <ShieldCheck aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-muted-foreground sm:mt-0" />
-        <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-baseline sm:gap-2">
+      <div className="mx-auto flex max-w-3xl flex-col items-center gap-2 px-2 text-center">
+        <ShieldCheck aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
+        <div className="flex min-w-0 flex-col items-center gap-1">
           <h2 id="issuer-notice-heading" className="shrink-0 font-sans text-sm font-medium text-foreground">
             Built openly as we grow
           </h2>
