@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
+import { Check, ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
 import useSWR from 'swr'
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
@@ -17,6 +17,8 @@ import {
 } from '@/components/ui/select'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 import { COLLECTION_REFRESH_EVENT } from '@/lib/collection-refresh'
+import { COLLECTION_CATALOG, getCollectionSlotKey, type CollectionCatalogSet } from '@/lib/collection-catalog'
+import type { PackSetId } from '@/lib/rippleborn'
 
 type CollectionCard = {
   tokenId: string
@@ -26,6 +28,7 @@ type CollectionCard = {
   discoveryNumber?: number
   discoveredTotal?: number
   cardIdentifier?: string
+  setId?: PackSetId
 }
 
 type CollectionResponse = {
@@ -47,7 +50,8 @@ function isCollectionCard(value: unknown): value is CollectionCard {
     (card.rarity === undefined || typeof card.rarity === 'string') &&
     (card.discoveryNumber === undefined || Number.isInteger(card.discoveryNumber)) &&
     (card.discoveredTotal === undefined || Number.isInteger(card.discoveredTotal)) &&
-    (card.cardIdentifier === undefined || /^PK\d{2}-S\d{2}-[A-Z]-\d{4}$/.test(card.cardIdentifier))
+    (card.cardIdentifier === undefined || /^PK\d{2}-S\d{2}-[A-Z]-\d{4}$/.test(card.cardIdentifier)) &&
+    (card.setId === undefined || ['ledgerborn', 'cyborg-cowboy', 'chromatic-abyss'].includes(card.setId))
   )
 }
 
@@ -63,10 +67,60 @@ function readCachedCards(account: string): CollectionCard[] | undefined {
 }
 
 async function fetchCollection(url: string): Promise<CollectionResponse> {
-  const response = await fetch(url)
+  const response = await fetch(url, { cache: 'no-store' })
   const data = (await response.json()) as CollectionResponse & { error?: string }
   if (!response.ok) throw new Error(data.error ?? 'Unable to refresh this collection.')
   return data
+}
+
+function CollectionChecklist({
+  set,
+  ownedBySlot,
+}: {
+  set: CollectionCatalogSet
+  ownedBySlot: Map<string, CollectionCard>
+}) {
+  const owned = set.slots.filter((slot) => ownedBySlot.has(slot.key)).length
+
+  return (
+    <section className="rounded-md border border-border/70 bg-background/35 p-4 sm:p-5" aria-labelledby={`checklist-${set.id}`}>
+      <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
+        <div className="flex flex-col gap-1">
+          <h2 id={`checklist-${set.id}`} className="font-sans text-lg font-semibold text-foreground">{set.label}</h2>
+          <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em] text-muted-foreground">Set checklist</p>
+        </div>
+        <p className="font-mono text-xs uppercase tracking-[0.12em] text-gold">{owned} owned · {set.slots.length - owned} missing</p>
+      </div>
+      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        {set.slots.map((slot) => {
+          const card = ownedBySlot.get(slot.key)
+          const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
+          const content = (
+            <div className={`flex min-h-20 items-center gap-3 rounded-sm border p-3 ${card ? 'border-[color:var(--rarity-color)]/45 bg-card/70' : 'border-dashed border-border/65 bg-background/45'}`}>
+              <span className={`grid size-7 shrink-0 place-items-center rounded-sm border ${card ? 'border-[color:var(--rarity-color)] text-[var(--rarity-color)]' : 'border-border text-muted-foreground'}`} aria-hidden="true">
+                {card ? <Check className="size-4" /> : <span className="font-mono text-[0.6rem]">{String(slot.position).padStart(2, '0')}</span>}
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-pretty text-sm font-medium leading-snug text-foreground">{slot.name}</span>
+                <span className="mt-1 block font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted-foreground">{card ? 'Owned' : 'Missing'} · {slot.rarity}</span>
+              </span>
+              {card ? <ExternalLink className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" /> : null}
+            </div>
+          )
+
+          return (
+            <li key={slot.key} className={rarityClass}>
+              {card ? (
+                <a href={`https://bithomp.com/nft/${card.tokenId}`} target="_blank" rel="noopener noreferrer" className="block rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label={`View owned ${slot.name} NFT on Bithomp`}>
+                  {content}
+                </a>
+              ) : content}
+            </li>
+          )
+        })}
+      </ul>
+    </section>
+  )
 }
 
 export function WalletCollection({ compact = false }: { compact?: boolean }) {
@@ -112,6 +166,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
 
   const cards = data?.cards ?? []
   const [rarityFilter, setRarityFilter] = useState('all')
+  const [setFilter, setSetFilter] = useState<'all' | PackSetId>('all')
   const rarityOptions = useMemo(() => {
     const counts = new Map<string, number>()
     for (const card of cards) {
@@ -122,9 +177,22 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
       a.rarity.localeCompare(b.rarity),
     )
   }, [cards])
+  const setFilteredCards = setFilter === 'all' ? cards : cards.filter((card) => card.setId === setFilter)
   const filteredCards = rarityFilter === 'all'
-    ? cards
-    : cards.filter((card) => (card.rarity?.trim() || 'Common') === rarityFilter)
+    ? setFilteredCards
+    : setFilteredCards.filter((card) => (card.rarity?.trim() || 'Common') === rarityFilter)
+  const visibleCatalogs = setFilter === 'all'
+    ? COLLECTION_CATALOG
+    : COLLECTION_CATALOG.filter((set) => set.id === setFilter)
+  const ownedBySlot = useMemo(() => {
+    const map = new Map<string, CollectionCard>()
+    for (const card of cards) {
+      if (!card.setId) continue
+      const key = getCollectionSlotKey(card.setId, card.name)
+      if (!map.has(key)) map.set(key, card)
+    }
+    return map
+  }, [cards])
   const isInitialLoading = Boolean(account && isLoading && cards.length === 0)
 
   return (
@@ -189,7 +257,21 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                   </Button>
                 ) : null}
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                <Select value={setFilter} onValueChange={(value) => setSetFilter((value ?? 'all') as 'all' | PackSetId)}>
+                  <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent align="end" alignItemWithTrigger={false}>
+                    <SelectGroup>
+                      <SelectLabel>Filter by set</SelectLabel>
+                      <SelectItem value="all">All sets</SelectItem>
+                      {COLLECTION_CATALOG.map((set) => (
+                        <SelectItem key={set.id} value={set.id}>{set.label}</SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
                 <Select value={rarityFilter} onValueChange={(value) => setRarityFilter(value ?? 'all')}>
                   <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
                     <SlidersHorizontal aria-hidden="true" />
@@ -219,6 +301,13 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
               </div>
             </div>
             {error ? <p role="alert" className="text-sm text-destructive">Showing your saved grid. {error.message}</p> : null}
+            <div className="flex flex-col gap-4">
+              {visibleCatalogs.map((set) => (
+                <CollectionChecklist key={set.id} set={set} ownedBySlot={ownedBySlot} />
+              ))}
+            </div>
+            <div className="border-t border-border/60 pt-5">
+              <h2 className="mb-4 font-sans text-lg font-semibold text-foreground">Owned cards</h2>
             {filteredCards.length === 0 ? (
               <div className="flex min-h-52 flex-col items-center justify-center gap-3 text-center">
                 <h2 className="font-sans text-lg font-semibold text-foreground">No {rarityFilter} cards in this collection.</h2>
@@ -261,6 +350,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
               })}
             </ul>
             )}
+            </div>
           </div>
         )}
       </div>

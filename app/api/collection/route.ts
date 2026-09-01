@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { Client, convertHexToString, isValidClassicAddress, type AccountNFToken } from 'xrpl'
 import { getDiscoveryNumbers } from '@/lib/card-discoveries'
+import { inferCollectionSetId } from '@/lib/collection-catalog'
 
 const MAINNET_WSS = 'wss://xrplcluster.com'
 const LEDGERBORN_ISSUER = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
@@ -23,6 +24,7 @@ type CollectionCard = {
   discoveryNumber?: number
   discoveredTotal?: number
   cardIdentifier?: string
+  setId?: 'ledgerborn' | 'cyborg-cowboy' | 'chromatic-abyss'
 }
 
 function readIpfsPath(value: string): string | null {
@@ -109,6 +111,7 @@ async function resolveCard(nft: AccountNFToken): Promise<CollectionCard | null> 
       image,
       name,
       ...(rarity ? { rarity } : {}),
+      ...(inferCollectionSetId(name, nft.NFTokenTaxon) ? { setId: inferCollectionSetId(name, nft.NFTokenTaxon) } : {}),
     }
   } catch {
     return null
@@ -175,7 +178,10 @@ export async function GET(request: Request) {
       const discovery = discoveries.get(card.tokenId.toUpperCase())
       return discovery ? { ...card, ...discovery } : card
     })
-    return NextResponse.json({ cards: numberedCards })
+    return NextResponse.json(
+      { cards: numberedCards },
+      { headers: { 'Cache-Control': 'no-store, max-age=0' } },
+    )
   } catch {
     return NextResponse.json({ error: 'Unable to read this wallet from XRP Ledger Mainnet.' }, { status: 502 })
   } finally {
