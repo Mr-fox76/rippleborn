@@ -1,7 +1,7 @@
 {
   "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "name": "Ledger Acolyte",
-  "description": "A Common card from the Rippleborn Genesis collection.",
+ doesnt show any image
   "image": "https://tomato-fancy-frog-92.mypinata.cloud/ipfs/bafybeigjd6onfq3uqdrdhjststsno7omsm2ovsz4yeqd74vjbhssw3yrqa",
   "attributes": [
     { "trait_type": "Rarity", "value": "Common" },
