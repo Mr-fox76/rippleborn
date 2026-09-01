@@ -142,17 +142,29 @@ export function WalletCollection() {
                       className="collection-display-card group flex h-full flex-col p-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     >
                       <div className="collection-card-rail" aria-hidden="true" />
-                      <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background">
-                        <Image src={card.image} alt={`${card.name} NFT artwork`} fill unoptimized sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.035]" />
-                        <div className="collection-display-sheen" aria-hidden="true" />
-                        {card.rarity ? <span className="collection-rarity-badge">{card.rarity}</span> : null}
-                      </div>
-                      <div className="collection-display-plaque flex min-h-20 items-start justify-between gap-2 px-2 pb-1 pt-3">
-                        <div className="flex min-w-0 flex-col gap-1">
-                          <h2 className="text-pretty text-sm font-semibold leading-snug text-foreground">{card.name}</h2>
-                          <p className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">Ledgerborn archive</p>
+                      <div className="collection-card-face flex h-full flex-col">
+                        <div className="collection-card-masthead flex items-center justify-between gap-2">
+                          <span className="font-sans text-[0.62rem] font-bold uppercase tracking-[0.18em]">Ledgerborn</span>
+                          <span className="font-mono text-[0.48rem] uppercase tracking-[0.14em]">XRPL collectible</span>
                         </div>
-                        <ExternalLink className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
+                        <div className="collection-display-art relative aspect-[4/5] overflow-hidden bg-background">
+                          <Image src={card.image} alt={`${card.name} NFT artwork`} fill unoptimized sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
+                          <div className="collection-display-sheen" aria-hidden="true" />
+                          <span className="collection-edition-mark" aria-hidden="true">LB</span>
+                        </div>
+                        <div className="collection-display-plaque flex min-h-24 flex-1 flex-col justify-between gap-3 px-3 pb-3 pt-3">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex min-w-0 flex-col gap-1">
+                              <h2 className="text-pretty text-sm font-semibold leading-snug text-foreground">{card.name}</h2>
+                              <p className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-muted-foreground">On-ledger archive</p>
+                            </div>
+                            <ExternalLink className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
+                          </div>
+                          <div className="collection-card-footer flex items-center justify-between gap-2">
+                            <span className="collection-rarity-seal">{card.rarity ?? 'Common'}</span>
+                            <span className="font-mono text-[0.48rem] uppercase tracking-[0.12em] text-muted-foreground">Digital first edition</span>
+                          </div>
+                        </div>
                       </div>
                     </a>
                   </li>
