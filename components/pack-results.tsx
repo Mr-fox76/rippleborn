@@ -278,9 +278,22 @@ function RevealedSpread({
                     onClaimed={markClaimed}
                   />
                 ) : (
-                  <Button type="button" size="sm" disabled className="w-full font-mono text-xs font-semibold uppercase tracking-wider">
-                    {card.nftId && card.offerId ? 'Reconnect Xaman to claim' : 'NFT claim unavailable'}
-                  </Button>
+                  <div className="flex flex-col gap-2">
+                    <Button type="button" size="sm" disabled className="w-full font-mono text-xs font-semibold uppercase tracking-wider">
+                      {card.nftId && card.offerId
+                        ? 'Reconnect Xaman to claim'
+                        : card.mintStatus === 'failed'
+                          ? 'NFT mint failed'
+                          : card.mintStatus === 'skipped'
+                            ? 'NFT mint skipped'
+                            : 'NFT claim unavailable'}
+                    </Button>
+                    {card.reason ? (
+                      <p className="text-pretty text-center font-mono text-xs leading-relaxed text-destructive" role="status">
+                        {card.reason}
+                      </p>
+                    ) : null}
+                  </div>
                 )}
               </div>
               </>
