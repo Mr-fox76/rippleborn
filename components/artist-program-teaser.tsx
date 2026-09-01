@@ -13,6 +13,7 @@ const STAGES = [
     label: 'Earn royalties',
     description: 'Artists receive a royalty when their collection changes hands.',
     artwork: '/sets/chromatic-abyss/images/thousand-petaled-mind.png',
+    backgroundSize: '116% auto',
   },
 ] as const
 
@@ -39,11 +40,11 @@ export function ArtistProgramTeaser() {
       </div>
 
       <ol className="mt-10 grid list-none grid-cols-1 gap-px overflow-hidden border border-border/60 bg-border/60 sm:grid-cols-3">
-        {STAGES.map(({ label, description, artwork }, index) => (
+        {STAGES.map(({ label, description, artwork, ...stage }, index) => (
           <li
             key={label}
             className="relative isolate flex min-h-72 items-center justify-center overflow-hidden bg-background p-6 text-center sm:p-7"
-            style={{ backgroundImage: `url('${artwork}')`, backgroundPosition: 'center', backgroundSize: 'cover' }}
+            style={{ backgroundImage: `url('${artwork}')`, backgroundPosition: 'center', backgroundSize: 'backgroundSize' in stage ? stage.backgroundSize : 'cover' }}
           >
             <span className="absolute inset-0 -z-10 bg-background/75" aria-hidden="true" />
             <div className="flex max-w-sm flex-col items-center gap-5">
