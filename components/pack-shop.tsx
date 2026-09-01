@@ -265,13 +265,13 @@ export function PackShop({
           </div>
         </div>
 
-        {order ? (
         <section
           aria-label="Open a pack"
-          className="reading-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
+          aria-hidden={!order}
+          className={`reading-panel stable-purchase-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5 ${order ? 'is-visible' : 'is-reserved'}`}
         >
         <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
-          {account === order.buyer && !cards ? (
+          {order && account === order.buyer && !cards ? (
             <XamanPaymentButton
               buyer={order.buyer}
               orderId={order.orderId}
@@ -297,7 +297,6 @@ export function PackShop({
           )}
         </div>
         </section>
-        ) : null}
       </div>
 
       <CardStylePreview theme={pack.theme.id} />

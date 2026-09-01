@@ -236,9 +236,9 @@ function RevealedSpread({
                       alt=""
                       aria-hidden="true"
                       fill
-                      priority
+                      loading="lazy"
                       sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
-                      className="scale-110 object-cover opacity-45 blur-xl"
+                      className="scale-110 object-cover object-center opacity-45 blur-xl"
                     />
                     <div className="absolute inset-0 bg-card/20" aria-hidden="true" />
                     <Image

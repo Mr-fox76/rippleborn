@@ -247,34 +247,33 @@
     inset 0 1px 0 color-mix(in oklch, var(--set-card-accent) 14%, transparent);
 }
 
-.pack-set-card::before,
-.pack-set-card::after {
-  position: absolute;
-  inset: 0;
-  content: '';
-  pointer-events: none;
-}
-
-.pack-set-card::before {
+.pack-set-image {
   z-index: -2;
-  background-image: var(--set-card-image);
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
+  object-position: center;
   opacity: 0.58;
   filter: saturate(1.18) contrast(1.12);
   transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
 }
 
-.pack-set-card::after {
+.pack-set-overlay {
+  position: absolute;
+  inset: 0;
   z-index: -1;
   background:
     linear-gradient(180deg, color-mix(in oklch, var(--set-card-surface) 32%, transparent), var(--set-card-surface) 76%),
     linear-gradient(90deg, color-mix(in oklch, var(--set-card-accent) 22%, transparent), transparent 62%);
+  pointer-events: none;
 }
 
 .pack-set-card > * {
   position: relative;
   z-index: 1;
+}
+
+.pack-set-card > .pack-set-image,
+.pack-set-card > .pack-set-overlay {
+  position: absolute;
 }
 
 .pack-set-card:hover {
@@ -298,7 +297,7 @@
   color: var(--set-card-accent);
 }
 
-.pack-set-card:hover::before {
+.pack-set-card:hover .pack-set-image {
   opacity: 0.74;
   filter: saturate(1.4) contrast(1.16);
   transform: scale(1.025);
@@ -307,7 +306,6 @@
 .pack-set-card-mythic {
   --set-card-accent: oklch(0.84 0.19 325);
   --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.24 0.13 305));
-  --set-card-image: url('/images/ledgerborn-page-bg.png');
   border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.68 0.23 305));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
@@ -330,7 +328,6 @@
 .pack-set-card-cyborg {
   --set-card-accent: oklch(0.82 0.17 64);
   --set-card-surface: color-mix(in oklch, var(--card) 64%, oklch(0.34 0.11 58));
-  --set-card-image: url('/images/cyborg-cowboy-page-bg.png');
   border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.76 0.13 195));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
@@ -353,7 +350,6 @@
 .pack-set-card-chromatic {
   --set-card-accent: oklch(0.8 0.18 190);
   --set-card-surface: color-mix(in oklch, var(--card) 66%, oklch(0.29 0.12 285));
-  --set-card-image: url('/sets/chromatic-abyss/background.png');
   border-color: color-mix(in oklch, var(--set-card-accent) 72%, oklch(0.72 0.2 335));
   box-shadow:
     0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
@@ -681,10 +677,21 @@
 
 .stable-opening-stage {
   display: flex;
-  min-height: 40rem;
+  min-height: 47rem;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.25rem;
+}
+
+.stable-purchase-panel {
+  min-height: 6rem;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.stable-purchase-panel.is-reserved {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .pack-preparation-action {
