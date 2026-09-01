@@ -1997,6 +1997,13 @@
   .stable-opening-visual:has(.stable-card-layer.is-active) .stable-card-layer {
     position: relative;
     inset: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  .stable-card-layer.is-active > section {
+    min-width: 0;
+    overflow: visible;
   }
 
   .stable-opening-visual {
@@ -2037,6 +2044,22 @@
     position: relative;
     inset: auto;
     overflow: visible;
+  }
+
+  .tarot-slot-frame.show-face .tarot-slot-front > .tarot-card {
+    height: auto;
+    aspect-ratio: auto;
+    overflow: visible;
+  }
+
+  .tarot-slot-frame.show-face .tarot-reveal .rarity-action-footer {
+    position: static;
+    padding: 0.75rem;
+    background: var(--card);
+  }
+
+  .tarot-slot-frame.show-face .tarot-reveal:has(.rarity-action-footer) .collection-card-caption {
+    padding-bottom: 1rem;
   }
 
   .tarot-card {
