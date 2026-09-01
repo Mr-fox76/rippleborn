@@ -12,7 +12,7 @@ export default async function Page() {
   const [collectionStats, visitCount, latestNfts] = await Promise.all([
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
     incrementHomepageVisits(),
-    getLatestMintedNfts().catch(() => []),
+    getLatestMintedNfts(4).catch(() => []),
   ])
 
   return (
