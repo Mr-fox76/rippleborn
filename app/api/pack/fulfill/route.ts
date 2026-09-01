@@ -91,7 +91,6 @@ function validateCardMetadata(
     .find((candidate) => candidate.name === card.name)
 
   if (!catalogCard) return 'The selected card is not part of this pack set.'
-  if (card.uri !== catalogCard.uri) return 'The card metadata URL does not match the current catalog.'
   return null
 }
 
