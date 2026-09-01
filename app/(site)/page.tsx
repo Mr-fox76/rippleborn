@@ -25,8 +25,8 @@ export default async function Page() {
           </h2>
           <RarityOdds stats={collectionStats} countersOnly visitCount={visitCount} />
         </section>
-        <IssuerTrustNotice latestNfts={latestNfts} />
         <ArtistProgramTeaser />
+        <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
       <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
         <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">3 cards · 5 XRP</p>
