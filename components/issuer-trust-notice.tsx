@@ -31,8 +31,8 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         alt={`${nft.name} NFT artwork`}
                         fill
                         loading="lazy"
-                        quality={70}
-                        sizes="(max-width: 639px) calc(50vw - 1.5rem), (max-width: 767px) calc(33vw - 1.5rem), (max-width: 1023px) calc(33vw - 1.5rem), 240px"
+                        unoptimized
+                        sizes="(max-width: 639px) calc(50vw - 1.5rem), (max-width: 1023px) calc(50vw - 2rem), 320px"
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                       />
                       {nft.cardIdentifier ? (
