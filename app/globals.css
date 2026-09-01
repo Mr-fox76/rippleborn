@@ -400,19 +400,20 @@
 
 .card-style-preview-mythic {
   min-height: 32rem;
-  background-position: center, center, center 42%;
+  background-position: center, center, center 32%;
   background-size: cover, cover, cover;
 }
 
 .card-style-preview-cyborg {
   min-height: 32rem;
-  background-position: center, center, center 46%;
+  background-position: center, center, center 30%;
+  background-size: cover, cover, cover;
 }
 
 .card-style-preview-chromatic {
   min-height: 32rem;
-  background-position: center, center, center 40%;
-  background-size: cover, cover, 175%;
+  background-position: center, center, center 42%;
+  background-size: cover, cover, cover;
 }
 
 .card-style-preview-copy {
