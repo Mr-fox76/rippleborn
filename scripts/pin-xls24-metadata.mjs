@@ -92,14 +92,14 @@ const mythical = await publish({
   imageDir: join(root, 'public/cards'),
   imageNameForSlug: (slug) => slug.startsWith('the-phoenix-') ? 'the-phoenix.png' : `${slug === 'archon-flowing-ledgers' ? 'archon-of-flowing-ledgers' : slug}.png`,
 })
-const cyborg = await publish({
-  id: 'Cyborg Cowboy',
-  metadataDir: join(root, 'public/sets/cyborg-cowboy/json'),
-  imageDir: join(root, 'public/sets/cyborg-cowboy/images'),
-  imageNameForSlug: (slug) => `${slug}.png`,
-  metadataPrefix: 'metadata/',
-})
-
-const result = { mythical, cyborg, publishedAt: new Date().toISOString(), standard: 'XLS-24' }
+const previousResult = JSON.parse(
+  await readFile(join(root, 'scripts/xls24-metadata-result.json'), 'utf8'),
+)
+const result = {
+  ...previousResult,
+  mythical,
+  publishedAt: new Date().toISOString(),
+  standard: 'XLS-24',
+}
 await writeFile(join(root, 'scripts/xls24-metadata-result.json'), `${JSON.stringify(result, null, 2)}\n`)
 console.log(JSON.stringify(result, null, 2))
