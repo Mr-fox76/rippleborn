@@ -1420,35 +1420,80 @@
 
 .collection-display-card {
   position: relative;
-  border: 1px solid color-mix(in oklch, var(--rarity-color) 66%, var(--border));
-  background: color-mix(in oklch, var(--rarity-color) 7%, var(--card));
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklch, var(--rarity-color) 88%, var(--border));
+  background:
+    repeating-linear-gradient(135deg, transparent 0 5px, color-mix(in oklch, var(--rarity-color) 10%, transparent) 5px 6px),
+    linear-gradient(145deg, color-mix(in oklch, var(--rarity-color) 52%, var(--card)), color-mix(in oklch, var(--rarity-color) 20%, var(--card)) 48%, var(--card));
   box-shadow:
-    0 1.25rem 2.75rem oklch(0.04 0.02 225 / 54%),
-    0 0 1.5rem color-mix(in oklch, var(--rarity-color) 13%, transparent),
-    inset 0 1px 0 color-mix(in oklch, var(--rarity-color) 34%, transparent);
+    0 1.25rem 2.75rem oklch(0.04 0.02 225 / 62%),
+    0 0 1.75rem color-mix(in oklch, var(--rarity-color) 24%, transparent),
+    inset 0 1px 0 color-mix(in oklch, var(--rarity-color) 70%, transparent),
+    inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 22%, transparent);
   transition: border-color 250ms ease, box-shadow 250ms ease, translate 250ms ease;
 }
 
+.collection-display-card::before,
+.collection-display-card::after {
+  position: absolute;
+  z-index: 3;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-color: color-mix(in oklch, var(--rarity-color) 92%, var(--foreground));
+  content: '';
+  pointer-events: none;
+}
+
+.collection-display-card::before {
+  top: 0.3rem;
+  left: 0.3rem;
+  border-left: 2px solid;
+  border-top: 2px solid;
+}
+
+.collection-display-card::after {
+  right: 0.3rem;
+  bottom: 0.3rem;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+}
+
 .collection-display-card:hover {
-  translate: 0 -0.2rem;
-  border-color: color-mix(in oklch, var(--rarity-color) 90%, var(--border));
+  translate: 0 -0.3rem;
+  border-color: color-mix(in oklch, var(--rarity-color) 96%, var(--foreground));
   box-shadow:
-    0 1.5rem 3rem oklch(0.04 0.02 225 / 62%),
-    0 0 2.25rem color-mix(in oklch, var(--rarity-color) 28%, transparent),
-    inset 0 1px 0 color-mix(in oklch, var(--rarity-color) 46%, transparent);
+    0 1.7rem 3.25rem oklch(0.04 0.02 225 / 68%),
+    0 0 3rem color-mix(in oklch, var(--rarity-color) 38%, transparent),
+    inset 0 1px 0 color-mix(in oklch, var(--rarity-color) 82%, transparent),
+    inset 0 0 1.75rem color-mix(in oklch, var(--rarity-color) 30%, transparent);
+}
+
+.collection-card-rail {
+  position: absolute;
+  inset: 0.35rem;
+  z-index: -1;
+  border: 1px solid color-mix(in oklch, var(--rarity-color) 55%, transparent);
+  background: linear-gradient(90deg, color-mix(in oklch, var(--rarity-color) 24%, transparent), transparent 18% 82%, color-mix(in oklch, var(--rarity-color) 24%, transparent));
+  pointer-events: none;
 }
 
 .collection-display-art {
-  border: 0.35rem solid color-mix(in oklch, var(--rarity-color) 18%, var(--card));
-  border-bottom: 0;
+  border: 2px solid color-mix(in oklch, var(--rarity-color) 78%, var(--border));
+  box-shadow:
+    0 0 0 3px color-mix(in oklch, var(--rarity-color) 30%, var(--card)),
+    inset 0 0 1.75rem oklch(0.02 0.01 230 / 48%);
 }
 
 .collection-display-sheen {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, color-mix(in oklch, var(--rarity-color) 18%, transparent), transparent 32% 72%, color-mix(in oklch, var(--rarity-color) 10%, transparent));
-  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 12%, transparent);
+  background:
+    linear-gradient(112deg, transparent 12%, color-mix(in oklch, var(--rarity-color) 22%, transparent) 34%, transparent 49%),
+    linear-gradient(135deg, color-mix(in oklch, var(--rarity-color) 15%, transparent), transparent 32% 72%, color-mix(in oklch, var(--rarity-color) 12%, transparent));
+  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 16%, transparent);
+  mix-blend-mode: screen;
 }
 
 .collection-rarity-badge {
@@ -1469,8 +1514,24 @@
 }
 
 .collection-display-plaque {
-  border-top: 1px solid color-mix(in oklch, var(--rarity-color) 48%, var(--border));
-  background: linear-gradient(145deg, color-mix(in oklch, var(--rarity-color) 13%, var(--card)), var(--card));
+  position: relative;
+  border-top: 1px solid color-mix(in oklch, var(--rarity-color) 68%, var(--border));
+  color: var(--foreground);
+  background:
+    linear-gradient(90deg, color-mix(in oklch, var(--rarity-color) 18%, transparent), transparent 28% 72%, color-mix(in oklch, var(--rarity-color) 12%, transparent)),
+    color-mix(in oklch, var(--rarity-color) 13%, var(--card));
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--rarity-color) 20%, transparent);
+}
+
+.collection-display-plaque::before {
+  position: absolute;
+  top: -1px;
+  left: 16%;
+  width: 68%;
+  height: 1px;
+  background: color-mix(in oklch, var(--rarity-color) 92%, transparent);
+  box-shadow: 0 0 0.75rem var(--rarity-color);
+  content: '';
 }
 
 .phoenix-reveal {
