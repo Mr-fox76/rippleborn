@@ -76,10 +76,15 @@ async function fetchCollection(url: string): Promise<CollectionResponse> {
 function CollectionChecklist({
   set,
   ownedBySlot,
+  rarityFilter,
 }: {
   set: CollectionCatalogSet
   ownedBySlot: Map<string, CollectionCard>
+  rarityFilter: string
 }) {
+  const visibleSlots = rarityFilter === 'all'
+    ? set.slots
+    : set.slots.filter((slot) => slot.rarity === rarityFilter)
   const owned = set.slots.filter((slot) => ownedBySlot.has(slot.key)).length
 
   return (
@@ -91,8 +96,11 @@ function CollectionChecklist({
         </div>
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-gold">{owned} owned · {set.slots.length - owned} missing</p>
       </div>
+      {visibleSlots.length === 0 ? (
+        <p className="py-8 text-center text-sm text-muted-foreground">No {rarityFilter} slots in this set.</p>
+      ) : (
       <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-        {set.slots.map((slot) => {
+        {visibleSlots.map((slot) => {
           const card = ownedBySlot.get(slot.key)
           const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
           const content = (
@@ -138,6 +146,7 @@ function CollectionChecklist({
           )
         })}
       </ul>
+      )}
     </section>
   )
 }
@@ -196,10 +205,10 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
       a.rarity.localeCompare(b.rarity),
     )
   }, [cards])
-  const setFilteredCards = setFilter === 'all' ? cards : cards.filter((card) => card.setId === setFilter)
-  const filteredCards = rarityFilter === 'all'
-    ? setFilteredCards
-    : setFilteredCards.filter((card) => (card.rarity?.trim() || 'Common') === rarityFilter)
+  const visibleCards = cards.filter((card) =>
+    (setFilter === 'all' || card.setId === setFilter) &&
+    (rarityFilter === 'all' || (card.rarity?.trim() || 'Common') === rarityFilter),
+  )
   const visibleCatalogs = setFilter === 'all'
     ? COLLECTION_CATALOG
     : COLLECTION_CATALOG.filter((set) => set.id === setFilter)
@@ -266,9 +275,9 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
               <div className="flex items-center gap-3">
                 <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  {filteredCards.length === cards.length
+                  {visibleCards.length === cards.length
                     ? `${cards.length} ${cards.length === 1 ? 'card' : 'cards'} on this wallet`
-                    : `${filteredCards.length} of ${cards.length} cards`}
+                    : `${visibleCards.length} of ${cards.length} cards`}
                 </p>
                 {rarityFilter !== 'all' ? (
                   <Button type="button" variant="ghost" size="sm" onClick={() => setRarityFilter('all')} className="ghost-action font-mono text-[0.65rem] uppercase tracking-[0.12em]">
@@ -322,53 +331,8 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
             {error ? <p role="alert" className="text-sm text-destructive">Showing your saved grid. {error.message}</p> : null}
             <div className="flex flex-col gap-4">
               {visibleCatalogs.map((set) => (
-                <CollectionChecklist key={set.id} set={set} ownedBySlot={ownedBySlot} />
+                <CollectionChecklist key={set.id} set={set} ownedBySlot={ownedBySlot} rarityFilter={rarityFilter} />
               ))}
-            </div>
-            <div className="border-t border-border/60 pt-5">
-              <h2 className="mb-4 font-sans text-lg font-semibold text-foreground">Owned cards</h2>
-            {filteredCards.length === 0 ? (
-              <div className="flex min-h-52 flex-col items-center justify-center gap-3 text-center">
-                <h2 className="font-sans text-lg font-semibold text-foreground">No {rarityFilter} cards in this collection.</h2>
-                <Button type="button" variant="outline" size="sm" onClick={() => setRarityFilter('all')}>Show all cards</Button>
-              </div>
-            ) : (
-            <ul className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
-              {filteredCards.map((card) => {
-                const rarityClass = card.rarity
-                  ? `rarity-${card.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
-                  : 'rarity-common'
-
-                return (
-                  <li key={card.tokenId} className={rarityClass}>
-                    <a
-                      href={`https://bithomp.com/nft/${card.tokenId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="collection-display-card group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    >
-                      <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background" data-card-name={card.name}>
-                        <Image src={card.image} alt={`${card.name} NFT artwork`} fill unoptimized sizes="(max-width: 639px) calc(50vw - 1.5rem), (max-width: 1023px) calc(25vw - 1.5rem), 280px" className="object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
-                        {card.cardIdentifier ? (
-                          <span className="collection-discovery-mark" aria-label={`Card identifier ${card.cardIdentifier}`}>
-                            {card.cardIdentifier}
-                          </span>
-                        ) : null}
-                        <span className="collection-edition-mark" aria-hidden="true">LB</span>
-                        <div className="collection-card-caption flex items-end justify-between gap-2">
-                          <div className="flex min-w-0 flex-col gap-1">
-                            <h2 className="text-pretty text-sm font-semibold leading-snug text-foreground">{card.name}</h2>
-                            <span className="collection-rarity-seal">{card.rarity ?? 'Common'}</span>
-                          </div>
-                          <ExternalLink className="size-4 shrink-0 text-foreground/70 transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                )
-              })}
-            </ul>
-            )}
             </div>
           </div>
         )}
