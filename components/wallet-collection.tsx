@@ -214,9 +214,9 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                       <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background">
                         <Image src={card.image} alt={`${card.name} NFT artwork`} fill unoptimized sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.025]" />
                         <div className="collection-display-sheen" aria-hidden="true" />
-                        {card.discoveryNumber && card.discoveredTotal ? (
-                          <span className="collection-discovery-mark">
-                            {card.discoveryNumber} of {card.discoveredTotal} discovered
+                        {card.discoveryNumber ? (
+                          <span className="collection-discovery-mark" aria-label={`Ledgerborn discovery ${card.discoveryNumber}`}>
+                            LB{String(card.discoveryNumber).padStart(4, '0')}
                           </span>
                         ) : null}
                         <span className="collection-edition-mark" aria-hidden="true">LB</span>

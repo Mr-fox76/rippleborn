@@ -241,9 +241,9 @@ function RevealedSpread({
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
                   />
                   <div className="collection-display-sheen" aria-hidden="true" />
-                  {card.discoveryNumber && card.discoveredTotal ? (
-                    <span className="collection-discovery-mark">
-                      {card.discoveryNumber} of {card.discoveredTotal} discovered
+                  {card.discoveryNumber ? (
+                    <span className="collection-discovery-mark" aria-label={`Ledgerborn discovery ${card.discoveryNumber}`}>
+                      LB{String(card.discoveryNumber).padStart(4, '0')}
                     </span>
                   ) : null}
                   <span className="collection-edition-mark" aria-hidden="true">LB</span>

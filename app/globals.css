@@ -1664,23 +1664,16 @@
 
 .collection-discovery-mark {
   position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
+  top: 0.65rem;
+  left: 0.65rem;
   z-index: 12;
-  max-width: calc(100% - 4.5rem);
-  border: 1px solid color-mix(in oklch, var(--rarity-color) 56%, var(--border));
-  border-radius: 999px;
-  background: oklch(0.025 0.008 240 / 88%);
-  padding: 0.3rem 0.55rem;
-  box-shadow: 0 0.25rem 0.75rem oklch(0.015 0.006 240 / 36%);
-  color: var(--foreground);
+  color: color-mix(in oklch, var(--foreground) 72%, transparent);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  font-weight: 700;
+  font-size: 0.55rem;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  backdrop-filter: blur(0.25rem);
+  letter-spacing: 0.1em;
+  text-shadow: 0 1px 4px oklch(0.015 0.006 240 / 90%);
 }
 
 .collection-edition-mark {
