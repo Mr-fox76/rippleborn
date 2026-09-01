@@ -37,7 +37,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Become Ledgerborn.',
       tagline: 'Chase legends. Awaken The Phoenix.',
       introduction:
-        'Enter a realm of mythical characters, legendary beings, and ancient powers. The Phoenix stands above Mythic as the collection’s rarest 0.1% pull.',
+        'Enter a realm of mythical characters, legendary beings, and ancient powers. The Phoenix stands above Mythic as the collection’s rarest 0.05% pull.',
       features: ['Arcane one-by-one reveals', 'Phoenix highest rarity', 'Forged and claimed on XRPL'],
     },
   },
@@ -77,7 +77,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Stare into the Chromatic Abyss.',
       tagline: 'Break the spectrum. Meet what looks back.',
       introduction:
-        'Slip beyond ordinary perception into a living spectrum of impossible creatures, recursive temples, and lucid cosmic entities. The Phoenix stands above Mythic as the collection’s rarest 0.1% pull.',
+        'Slip beyond ordinary perception into a living spectrum of impossible creatures, recursive temples, and lucid cosmic entities. The Phoenix stands above Mythic as the collection’s rarest 0.05% pull.',
       features: ['Prismatic one-by-one reveals', 'Phoenix highest rarity', 'Visions claimed on XRPL'],
     },
   },
