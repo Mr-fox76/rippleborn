@@ -4,6 +4,7 @@ import { Client, convertHexToString, isValidClassicAddress, type AccountNFToken 
 const MAINNET_WSS = 'wss://xrplcluster.com'
 const LEDGERBORN_ISSUER = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
 const PINATA_GATEWAY_ORIGIN = 'https://tomato-fancy-frog-92.mypinata.cloud'
+const PUBLIC_IPFS_GATEWAY_ORIGIN = 'https://ipfs.io'
 const IPFS_CID_PATTERN = /^(bafy|bafk|Qm)[A-Za-z0-9]+(?:\/[A-Za-z0-9._~!$&'()*+,;=:@%/-]+)?$/
 
 type Metadata = {
@@ -20,21 +21,34 @@ type CollectionCard = {
   rarity?: string
 }
 
-function toSafeGatewayUrl(value: string): string | null {
+function readIpfsPath(value: string): string | null {
   const trimmed = value.trim()
   if (trimmed.startsWith('ipfs://')) {
     const path = trimmed.slice('ipfs://'.length).replace(/^ipfs\//, '')
-    return IPFS_CID_PATTERN.test(path) ? `${PINATA_GATEWAY_ORIGIN}/ipfs/${path}` : null
+    return IPFS_CID_PATTERN.test(path) ? path : null
   }
 
   try {
     const url = new URL(trimmed)
-    return url.protocol === 'https:' && url.origin === PINATA_GATEWAY_ORIGIN && url.pathname.startsWith('/ipfs/')
-      ? url.toString()
-      : null
+    const isSupportedGateway =
+      url.protocol === 'https:' &&
+      (url.origin === PINATA_GATEWAY_ORIGIN || url.origin === PUBLIC_IPFS_GATEWAY_ORIGIN)
+    if (!isSupportedGateway || !url.pathname.startsWith('/ipfs/')) return null
+    const path = url.pathname.slice('/ipfs/'.length)
+    return IPFS_CID_PATTERN.test(path) ? path : null
   } catch {
     return null
   }
+}
+
+function publicIpfsUrl(value: string): string | null {
+  const path = readIpfsPath(value)
+  return path ? `${PUBLIC_IPFS_GATEWAY_ORIGIN}/ipfs/${path}` : null
+}
+
+function proxiedIpfsUrl(value: string): string | null {
+  const path = readIpfsPath(value)
+  return path ? `/api/collection?media=${encodeURIComponent(path)}` : null
 }
 
 function readRarity(metadata: Metadata): string | undefined {
@@ -67,7 +81,7 @@ async function resolveCard(nft: AccountNFToken): Promise<CollectionCard | null> 
     return null
   }
 
-  const metadataUrl = toSafeGatewayUrl(decodedUri)
+  const metadataUrl = publicIpfsUrl(decodedUri)
   if (!metadataUrl) return null
 
   try {
@@ -82,7 +96,7 @@ async function resolveCard(nft: AccountNFToken): Promise<CollectionCard | null> 
     if (typeof metadata.name !== 'string' || typeof metadata.image !== 'string') return null
 
     const name = metadata.name.trim()
-    const image = toSafeGatewayUrl(metadata.image)
+    const image = proxiedIpfsUrl(metadata.image)
     if (!name || !image) return null
 
     const rarity = readRarity(metadata)
@@ -98,7 +112,35 @@ async function resolveCard(nft: AccountNFToken): Promise<CollectionCard | null> 
 }
 
 export async function GET(request: Request) {
-  const owner = new URL(request.url).searchParams.get('owner')?.trim()
+  const searchParams = new URL(request.url).searchParams
+  const mediaPath = searchParams.get('media')?.trim()
+
+  if (mediaPath) {
+    if (!IPFS_CID_PATTERN.test(mediaPath)) {
+      return NextResponse.json({ error: 'Invalid IPFS media path.' }, { status: 400 })
+    }
+
+    try {
+      const response = await fetch(`${PUBLIC_IPFS_GATEWAY_ORIGIN}/ipfs/${mediaPath}`, {
+        signal: AbortSignal.timeout(15_000),
+        cache: 'force-cache',
+      })
+      const contentType = response.headers.get('content-type')
+      if (!response.ok || !contentType?.startsWith('image/')) {
+        return NextResponse.json({ error: 'NFT artwork is unavailable.' }, { status: 502 })
+      }
+      return new NextResponse(response.body, {
+        headers: {
+          'Content-Type': contentType,
+          'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
+        },
+      })
+    } catch {
+      return NextResponse.json({ error: 'NFT artwork is unavailable.' }, { status: 502 })
+    }
+  }
+
+  const owner = searchParams.get('owner')?.trim()
   if (!owner || !isValidClassicAddress(owner)) {
     return NextResponse.json({ error: 'Enter a valid XRP Ledger wallet address.' }, { status: 400 })
   }
