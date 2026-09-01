@@ -16,11 +16,14 @@ export type XrplNetwork = 'Testnet' | 'Mainnet'
 const XRPL_MAINNET_WEBSOCKET = 'wss://xrplcluster.com'
 const PACK_PRICE_DROPS = '5000000'
 
-export type XrplConfig = {
-  websocketUrl: string
+export type PackPaymentConfig = {
   treasuryAddress: string
-  issuerAddress: string
   packPriceDrops: string
+}
+
+export type XrplConfig = PackPaymentConfig & {
+  websocketUrl: string
+  issuerAddress: string
   nftTaxon: number
   transferFee: number
   minterWallet: Wallet
@@ -50,11 +53,22 @@ export function getXrplNetwork(websocketUrl = process.env.XRPL_WSS?.trim()): Xrp
   return host.includes('altnet') || host.includes('testnet') ? 'Testnet' : 'Mainnet'
 }
 
+export function getPackPaymentConfig(): PackPaymentConfig {
+  const treasuryAddress = requiredEnvironmentValue('TREASURY_ADDRESS')
+  const packPriceDrops = requiredEnvironmentValue('PACK_PRICE_DROPS')
+
+  if (!isValidClassicAddress(treasuryAddress)) throw new Error('TREASURY_ADDRESS is invalid.')
+  if (packPriceDrops !== PACK_PRICE_DROPS) {
+    throw new Error(`PACK_PRICE_DROPS must be exactly ${PACK_PRICE_DROPS} (5 XRP).`)
+  }
+
+  return { treasuryAddress, packPriceDrops }
+}
+
 export function getXrplConfig(): XrplConfig {
   const websocketUrl = process.env.XRPL_WSS?.trim() || XRPL_MAINNET_WEBSOCKET
-  const treasuryAddress = requiredEnvironmentValue('TREASURY_ADDRESS')
+  const { treasuryAddress, packPriceDrops } = getPackPaymentConfig()
   const issuerAddress = requiredEnvironmentValue('ISSUER_ADDRESS')
-  const packPriceDrops = requiredEnvironmentValue('PACK_PRICE_DROPS')
   const nftTaxon = parseUnsignedInteger('NFT_TAXON', requiredEnvironmentValue('NFT_TAXON'), 0xffffffff)
   const transferFee = parseUnsignedInteger(
     'TRANSFER_FEE',
@@ -66,13 +80,9 @@ export function getXrplConfig(): XrplConfig {
   if (websocketUrl !== XRPL_MAINNET_WEBSOCKET) {
     throw new Error(`XRPL_WSS must be ${XRPL_MAINNET_WEBSOCKET} for Mainnet transactions.`)
   }
-  if (!isValidClassicAddress(treasuryAddress)) throw new Error('TREASURY_ADDRESS is invalid.')
   if (!isValidClassicAddress(issuerAddress)) throw new Error('ISSUER_ADDRESS is invalid.')
   if (minterWallet.address !== issuerAddress) {
     throw new Error('ISSUER_SEED does not derive the configured ISSUER_ADDRESS.')
-  }
-  if (packPriceDrops !== PACK_PRICE_DROPS) {
-    throw new Error(`PACK_PRICE_DROPS must be exactly ${PACK_PRICE_DROPS} (5 XRP).`)
   }
 
   return {

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getXrplConfig, validateBuyer } from '@/lib/xrpl-server'
+import { getPackPaymentConfig, validateBuyer } from '@/lib/xrpl-server'
 import { getXamanSdk } from '@/lib/xaman-server'
 
 export const runtime = 'nodejs'
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     }
 
     const destinationTag = Number(orderId)
-    const config = getXrplConfig()
+    const config = getPackPaymentConfig()
     if (buyer === config.treasuryAddress) {
       return NextResponse.json(
         { error: 'The connected wallet is the treasury wallet. Connect a different Mainnet wallet to buy a pack.' },
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       custom_meta: {
         identifier: `rippleborn-pack-${destinationTag}`,
         instruction: `Pay ${config.packPriceDrops} drops for Ledgerborn pack ${destinationTag}.`,
-        blob: { kind: 'pack-payment', buyer, destinationTag },
+        blob: JSON.stringify({ kind: 'pack-payment', buyer, destinationTag }),
       },
     })
 

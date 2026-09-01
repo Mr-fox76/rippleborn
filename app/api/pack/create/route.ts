@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { dropsToXrp } from 'xrpl'
 import { CARDS_PER_PACK, isPackSetId } from '@/lib/rippleborn'
-import { createDestinationTag, getXrplConfig, validateBuyer } from '@/lib/xrpl-server'
+import { createDestinationTag, getPackPaymentConfig, validateBuyer } from '@/lib/xrpl-server'
 
 export const runtime = 'nodejs'
 
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const config = getXrplConfig()
+    const config = getPackPaymentConfig()
     if (buyer === config.treasuryAddress) {
       return NextResponse.json(
         { error: 'The connected wallet is the treasury wallet. Connect a different Mainnet wallet to buy a pack.' },

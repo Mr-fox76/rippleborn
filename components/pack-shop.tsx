@@ -243,18 +243,7 @@ export function PackShop({
               packKicker={pack.kicker}
               packImage={pack.packImage}
               packCount={pack.cardsPerPack}
-              preparationHint={!account ? 'Connect Xaman to begin' : 'Ready for your wallet approval'}
-              preparationAction={!order ? (
-                <Button
-                  onClick={createOrder}
-                  disabled={!account || pending !== null}
-                  size="lg"
-                  className="primary-action min-h-12 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-                >
-                  {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-                  {pending === 'create' ? 'Preparing…' : 'Prepare pack'}
-                </Button>
-              ) : undefined}
+              preparationHint={!account ? 'Connect Xaman to begin' : 'Prepare your pack below to create the 5 XRP Xaman request'}
               onComplete={() => {
                 setPackOpened(true)
                 setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
@@ -277,11 +266,21 @@ export function PackShop({
         <section
           ref={purchasePanelRef}
           aria-label="Open a pack"
-          aria-hidden={!order}
-          className={`reading-panel stable-purchase-panel mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5 ${order ? 'is-visible' : 'is-reserved'}`}
+          className="reading-panel stable-purchase-panel is-visible mx-auto flex w-full max-w-6xl flex-col gap-4 border border-border bg-card/90 p-4 shadow-2xl backdrop-blur-md sm:p-5"
         >
         <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
-          {order && account === order.buyer && !cards ? (
+          {!order ? (
+            <Button
+              type="button"
+              onClick={createOrder}
+              disabled={!account || pending !== null}
+              size="lg"
+              className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+            >
+              {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+              {pending === 'create' ? 'Preparing Xaman request…' : 'Prepare pack · 5 XRP'}
+            </Button>
+          ) : order && account === order.buyer && !cards ? (
             <XamanPaymentButton
               buyer={order.buyer}
               orderId={order.orderId}

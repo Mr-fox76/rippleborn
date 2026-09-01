@@ -16,7 +16,17 @@ export async function GET(
     const payload = await getXamanSdk().payload.get(uuid)
     if (!payload) return NextResponse.json({ error: 'Payment request not found.' }, { status: 404 })
 
-    const blob = payload.custom_meta?.blob as { buyer?: unknown; kind?: unknown } | null | undefined
+    const rawBlob = payload.custom_meta?.blob
+    let blob: { buyer?: unknown; kind?: unknown } | null = null
+    if (typeof rawBlob === 'string') {
+      try {
+        blob = JSON.parse(rawBlob) as { buyer?: unknown; kind?: unknown }
+      } catch {
+        blob = null
+      }
+    } else if (rawBlob && typeof rawBlob === 'object') {
+      blob = rawBlob as { buyer?: unknown; kind?: unknown }
+    }
     const expectedBuyer = typeof blob?.buyer === 'string' ? blob.buyer : null
     const signedAccount = payload.response.account ?? payload.response.signer
 
