@@ -390,30 +390,27 @@
   padding: 2rem;
   border: 1px solid color-mix(in oklch, var(--pack-accent) 34%, var(--border));
   background-image:
-    linear-gradient(90deg, oklch(0.025 0.008 250 / 96%) 0%, oklch(0.025 0.008 250 / 78%) 42%, oklch(0.025 0.008 250 / 18%) 76%),
+    linear-gradient(90deg, oklch(0.025 0.008 250 / 98%) 0%, oklch(0.025 0.008 250 / 9%) 66%, transparent 86%),
     linear-gradient(0deg, oklch(0.025 0.008 250 / 72%), transparent 60%),
     var(--style-guide-art);
-  background-position: center;
-  background-size: cover;
+  background-position: center, center, calc(100% + 4rem) center;
+  background-size: cover, cover, 112% auto;
   box-shadow: inset 0 1px 0 color-mix(in oklch, var(--pack-accent) 14%, transparent);
 }
 
 .card-style-preview-mythic {
   min-height: 32rem;
-  background-position: center, center, center 32%;
-  background-size: cover, cover, cover;
+  background-position: center, center, calc(100% + 4rem) 32%;
 }
 
 .card-style-preview-cyborg {
   min-height: 32rem;
-  background-position: center, center, center 30%;
-  background-size: cover, cover, cover;
+  background-position: center, center, calc(100% + 4rem) 30%;
 }
 
 .card-style-preview-chromatic {
   min-height: 32rem;
-  background-position: center, center, center 42%;
-  background-size: cover, cover, cover;
+  background-position: center, center, calc(100% + 4rem) 42%;
 }
 
 .card-style-preview-copy {
