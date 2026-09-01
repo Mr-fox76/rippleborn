@@ -53,6 +53,14 @@ export function getXrplNetwork(websocketUrl = process.env.XRPL_WSS?.trim()): Xrp
   return host.includes('altnet') || host.includes('testnet') ? 'Testnet' : 'Mainnet'
 }
 
+export function getXrplWebsocketUrl(): string {
+  const websocketUrl = process.env.XRPL_WSS?.trim() || XRPL_MAINNET_WEBSOCKET
+  if (websocketUrl !== XRPL_MAINNET_WEBSOCKET) {
+    throw new Error(`XRPL_WSS must be ${XRPL_MAINNET_WEBSOCKET} for Mainnet transactions.`)
+  }
+  return websocketUrl
+}
+
 export function getPackPaymentConfig(): PackPaymentConfig {
   const treasuryAddress = requiredEnvironmentValue('TREASURY_ADDRESS')
   const packPriceDrops = requiredEnvironmentValue('PACK_PRICE_DROPS')
@@ -66,7 +74,7 @@ export function getPackPaymentConfig(): PackPaymentConfig {
 }
 
 export function getXrplConfig(): XrplConfig {
-  const websocketUrl = process.env.XRPL_WSS?.trim() || XRPL_MAINNET_WEBSOCKET
+  const websocketUrl = getXrplWebsocketUrl()
   const { treasuryAddress, packPriceDrops } = getPackPaymentConfig()
   const issuerAddress = requiredEnvironmentValue('ISSUER_ADDRESS')
   const nftTaxon = parseUnsignedInteger('NFT_TAXON', requiredEnvironmentValue('NFT_TAXON'), 0xffffffff)
@@ -77,9 +85,6 @@ export function getXrplConfig(): XrplConfig {
   )
   const minterWallet = Wallet.fromSeed(requiredEnvironmentValue('ISSUER_SEED'))
 
-  if (websocketUrl !== XRPL_MAINNET_WEBSOCKET) {
-    throw new Error(`XRPL_WSS must be ${XRPL_MAINNET_WEBSOCKET} for Mainnet transactions.`)
-  }
   if (!isValidClassicAddress(issuerAddress)) throw new Error('ISSUER_ADDRESS is invalid.')
   if (minterWallet.address !== issuerAddress) {
     throw new Error('ISSUER_SEED does not derive the configured ISSUER_ADDRESS.')

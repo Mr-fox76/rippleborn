@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getClaimOffer } from '@/lib/nft-claim-lifecycle'
-import { getXrplConfig, validateBuyer, withXrplClient } from '@/lib/xrpl-server'
+import { getXrplWebsocketUrl, validateBuyer, withXrplClient } from '@/lib/xrpl-server'
 import { getXamanSdk, isHex256 } from '@/lib/xaman-server'
 
 export const runtime = 'nodejs'
@@ -27,8 +27,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'The claim window has closed.' }, { status: 410 })
     }
 
-    const config = getXrplConfig()
-    await withXrplClient(config.websocketUrl, async (client) => {
+    const websocketUrl = getXrplWebsocketUrl()
+    await withXrplClient(websocketUrl, async (client) => {
       const response = await client.request({ command: 'nft_sell_offers', nft_id: nftId, limit: 100 })
       const offer = response.result.offers.find(
         (candidate) => candidate.nft_offer_index.toUpperCase() === offerId,
