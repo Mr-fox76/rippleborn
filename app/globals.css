@@ -953,10 +953,22 @@
   transition: filter 320ms ease, scale 500ms ease;
 }
 
+.pack-opening-stage[data-pack-kind='cyborg'] .foil-pack-art,
+.pack-opening-stage[data-pack-kind='chromatic'] .foil-pack-art {
+  scale: 2.05;
+}
+
 .foil-pack:hover .foil-pack-art,
 .foil-pack:focus-visible .foil-pack-art {
   filter: saturate(1.04) contrast(1.1) brightness(0.82);
   scale: 1.78;
+}
+
+.pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:hover .foil-pack-art,
+.pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:focus-visible .foil-pack-art,
+.pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:hover .foil-pack-art,
+.pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:focus-visible .foil-pack-art {
+  scale: 2.11;
 }
 
 .foil-pack-art-shade {

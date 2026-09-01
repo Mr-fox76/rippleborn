@@ -120,6 +120,7 @@ export function PackOpening({
   return (
     <section
       className={`pack-opening-stage phase-${phase} ${canOpen ? 'can-open' : 'pack-preview'}`}
+      data-pack-kind={packLabel.toLowerCase()}
       aria-label={canOpen ? `Open your ${packName} pack` : `${packName} collectible card pack`}
     >
       <div className="pack-radiance" aria-hidden="true" />
