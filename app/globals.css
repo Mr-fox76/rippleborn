@@ -1630,19 +1630,27 @@
 }
 
 .collection-display-card:hover {
-  translate: 0 -0.4rem;
-  border-color: color-mix(in oklch, var(--rarity-color) 82%, var(--foreground));
-  filter: brightness(1.1) contrast(1.08) saturate(1.24);
+  translate: 0 -0.55rem;
+  border-color: transparent;
+  filter: brightness(1.12) contrast(1.06) saturate(1.16);
   box-shadow:
-    0 1.8rem 3.5rem oklch(0.04 0.02 225 / 72%),
-    0 0 4rem color-mix(in oklch, var(--rarity-color) 62%, transparent),
-    inset 0 0 0 1px color-mix(in oklch, var(--foreground) 46%, transparent),
-    inset 0 0 2rem color-mix(in oklch, var(--rarity-color) 48%, transparent);
+    0 2rem 4rem oklch(0.04 0.02 225 / 68%),
+    0 0 3.5rem color-mix(in oklch, var(--rarity-color) 42%, transparent);
 }
 
 .collection-display-card:hover::after {
   background-position: 100% 0;
-  opacity: 1;
+  opacity: 0.28;
+}
+
+.collection-display-card:hover .collection-card-caption {
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    oklch(0.025 0.008 240 / 8%) 28%,
+    oklch(0.025 0.008 240 / 62%) 68%,
+    oklch(0.025 0.008 240 / 82%) 100%
+  );
 }
 
 .collection-display-art {
