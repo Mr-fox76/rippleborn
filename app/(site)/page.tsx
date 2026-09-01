@@ -26,16 +26,22 @@ export default async function Page() {
         </section>
         <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
-      <footer className="relative z-10 flex flex-col items-center gap-3 border-t border-border/40 px-6 py-6 text-center">
-        <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">3 cards · 5 XRP · Version 4.2</p>
-        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-Independent project. Not affiliated with Ledger or Xaman.
-        </p>
-        <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-4 font-mono text-xs uppercase tracking-[0.14em]">
-          <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
-          <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy policy</Link>
-          <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
-        </nav>
+      <footer className="relative z-10 border-t border-border/40 px-6 py-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div className="flex flex-col gap-2 text-center md:text-left">
+            <p className="text-sm leading-relaxed text-foreground/80">
+              Independent project. Not affiliated with Ledger or Xaman.
+            </p>
+            <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
+              3 cards · 5 XRP · Version 4.2
+            </p>
+          </div>
+          <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm md:justify-end">
+            <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
+            <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy</Link>
+            <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms</Link>
+          </nav>
+        </div>
       </footer>
     </>
   )
