@@ -91,27 +91,46 @@ function CollectionChecklist({
         </div>
         <p className="font-mono text-xs uppercase tracking-[0.12em] text-gold">{owned} owned · {set.slots.length - owned} missing</p>
       </div>
-      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
         {set.slots.map((slot) => {
           const card = ownedBySlot.get(slot.key)
           const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
           const content = (
-            <div className={`flex min-h-20 items-center gap-3 rounded-sm border p-3 ${card ? 'border-[color:var(--rarity-color)]/45 bg-card/70' : 'border-dashed border-border/65 bg-background/45'}`}>
-              <span className={`grid size-7 shrink-0 place-items-center rounded-sm border ${card ? 'border-[color:var(--rarity-color)] text-[var(--rarity-color)]' : 'border-border text-muted-foreground'}`} aria-hidden="true">
-                {card ? <Check className="size-4" /> : <span className="font-mono text-[0.6rem]">{String(slot.position).padStart(2, '0')}</span>}
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-pretty text-sm font-medium leading-snug text-foreground">{slot.name}</span>
-                <span className="mt-1 block font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted-foreground">{card ? 'Owned' : 'Missing'} · {slot.rarity}</span>
-              </span>
-              {card ? <ExternalLink className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" /> : null}
+            <div className={`collection-display-card group h-full overflow-hidden ${card ? '' : 'border-dashed opacity-75'}`}>
+              <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background" data-card-name={slot.name}>
+                {card ? (
+                  <Image
+                    src={card.image}
+                    alt={`${slot.name} NFT artwork`}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 639px) calc(50vw - 2rem), (max-width: 1023px) calc(33vw - 2rem), 180px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                  />
+                ) : (
+                  <div className="absolute inset-3 grid place-items-center rounded-sm border border-dashed border-border/70 bg-card/30" aria-hidden="true">
+                    <span className="font-mono text-lg text-muted-foreground/55">{String(slot.position).padStart(2, '0')}</span>
+                  </div>
+                )}
+                <div className="collection-card-caption flex items-end justify-between gap-2">
+                  <div className="flex min-w-0 flex-col gap-1">
+                    <span className="text-pretty text-sm font-semibold leading-snug text-foreground">{slot.name}</span>
+                    <span className="collection-rarity-seal">{card ? 'Owned' : 'Missing'} · {slot.rarity}</span>
+                  </div>
+                  {card ? (
+                    <span className="grid size-6 shrink-0 place-items-center rounded-sm border border-[color:var(--rarity-color)] text-[var(--rarity-color)]" aria-hidden="true">
+                      <Check className="size-3.5" />
+                    </span>
+                  ) : null}
+                </div>
+              </div>
             </div>
           )
 
           return (
             <li key={slot.key} className={rarityClass}>
               {card ? (
-                <a href={`https://bithomp.com/nft/${card.tokenId}`} target="_blank" rel="noopener noreferrer" className="block rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label={`View owned ${slot.name} NFT on Bithomp`}>
+                <a href={`https://bithomp.com/nft/${card.tokenId}`} target="_blank" rel="noopener noreferrer" className="block h-full rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label={`View owned ${slot.name} NFT on Bithomp`}>
                   {content}
                 </a>
               ) : content}
