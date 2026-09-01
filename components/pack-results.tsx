@@ -230,6 +230,7 @@ function RevealedSpread({
                 ) : null}
                 <div
                   className="collection-display-art group/wisdom relative aspect-[2/3] overflow-hidden bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  data-card-name={card.name}
                   tabIndex={0}
                   aria-label={`${displayName} wisdom: ${getCardWisdom(card.name)}`}
                 >
