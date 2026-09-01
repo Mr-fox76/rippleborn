@@ -478,12 +478,12 @@
 
 .pack-set-card-cyborg .pack-set-image,
 .pack-set-card-chromatic .pack-set-image {
-  transform: scale(2.2);
+  transform: scale(2.32);
 }
 
 .pack-set-card-cyborg:hover .pack-set-image,
 .pack-set-card-chromatic:hover .pack-set-image {
-  transform: scale(2.27);
+  transform: scale(2.39);
 }
 
 .pack-set-card-mythic .pack-set-image {
