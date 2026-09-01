@@ -4,6 +4,7 @@ import { accountOwnsNft, getXrplConfig, mintCardNft, withXrplClient } from '@/li
 import { CYBORG_COWBOY_NFT_TAXON, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
 import { RIPPLEBORN_METADATA_BASE_URL } from '@/lib/rippleborn'
 import { listOpenClaimOffers, reconcileOpenClaimOffers } from '@/lib/nft-claim-lifecycle'
+import { getPackResult } from '@/lib/pack-results'
 
 const XRPL_ADDRESS = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
 const HEX_256 = /^[A-Fa-f0-9]{64}$/
@@ -19,15 +20,31 @@ export async function GET(request: Request) {
     listOpenClaimOffers(owner),
   ])
   const claimOffers = await reconcileOpenClaimOffers(storedClaimOffers)
+  const packResults = new Map(
+    await Promise.all(
+      [...new Set(claimOffers.map((offer) => offer.orderId))].map(async (orderId) => [
+        orderId,
+        await getPackResult(orderId),
+      ] as const),
+    ),
+  )
 
   return NextResponse.json({
     replacements,
-    claimOffers: claimOffers.map((offer) => ({
-      nftId: offer.nftId,
-      offerId: offer.offerId,
-      mintedAt: offer.mintedAt.toISOString(),
-      claimExpiresAt: offer.claimExpiresAt.toISOString(),
-    })),
+    claimOffers: claimOffers.map((offer) => {
+      const card = packResults
+        .get(offer.orderId)
+        ?.mintResults?.find((candidate) => candidate.nftId === offer.nftId)
+
+      return {
+        nftId: offer.nftId,
+        offerId: offer.offerId,
+        mintedAt: offer.mintedAt.toISOString(),
+        claimExpiresAt: offer.claimExpiresAt.toISOString(),
+        name: card?.name ?? 'Minted NFT awaiting claim',
+        image: card?.image ?? null,
+      }
+    }),
   })
 }
 

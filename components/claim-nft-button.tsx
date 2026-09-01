@@ -171,7 +171,7 @@ export function ClaimNftButton({
             type="button"
             size="sm"
             variant={isClaimed ? 'secondary' : offerUnavailable ? 'outline' : 'default'}
-            className="w-full font-mono text-xs font-semibold uppercase tracking-wider"
+            className="min-w-0 w-full whitespace-normal text-center font-mono text-xs font-semibold uppercase tracking-wider"
           />
         }
       >
