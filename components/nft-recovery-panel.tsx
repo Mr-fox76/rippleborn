@@ -136,21 +136,21 @@ export function NftRecoveryPanel() {
           <h3 id="open-claims-title" className="font-mono text-xs uppercase tracking-wider text-gold">
             Unclaimed pack NFTs
           </h3>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="mt-3 grid items-stretch gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {claimOffers.map((offer) => (
-              <article key={offer.offerId} className="min-w-0 overflow-hidden border border-border p-3 sm:p-4">
-                <div className="flex min-w-0 flex-col gap-3 sm:flex-row">
-                  {offer.image ? (
+              <article key={offer.offerId} className="flex min-w-0 flex-col overflow-hidden border border-border p-3 sm:p-4">
+                <div className="flex min-w-0 flex-1 flex-col gap-4">
+                  <div className="mx-auto w-full max-w-44 overflow-hidden border border-border bg-muted">
                     <Image
-                      src={offer.image}
-                      alt={`${offer.name} NFT card`}
-                      width={112}
-                      height={156}
-                      className="mx-auto aspect-[5/7] w-28 shrink-0 object-cover sm:mx-0"
+                      src={offer.image ?? '/placeholder.jpg'}
+                      alt={offer.image ? `${offer.name} NFT card` : 'NFT card preview unavailable'}
+                      width={240}
+                      height={336}
+                      className="aspect-[5/7] h-auto w-full object-cover"
                     />
-                  ) : null}
-                  <div className="flex min-w-0 flex-1 flex-col justify-between gap-3">
-                    <div className="min-w-0 text-center sm:text-left">
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-between gap-4">
+                    <div className="min-w-0 text-center">
                       <p className="text-balance font-serif text-base">{offer.name}</p>
                       <p className="break-all font-mono text-[0.6rem] leading-relaxed text-muted-foreground">{offer.nftId}</p>
                     </div>

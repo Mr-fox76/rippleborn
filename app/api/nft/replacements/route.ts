@@ -1,13 +1,46 @@
 import { NextResponse } from 'next/server'
 import { getNftReplacement, listNftReplacements, markReplacementMinted } from '@/lib/nft-replacements'
 import { accountOwnsNft, getXrplConfig, mintCardNft, withXrplClient } from '@/lib/xrpl-server'
-import { CYBORG_COWBOY_NFT_TAXON, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
-import { RIPPLEBORN_METADATA_BASE_URL } from '@/lib/rippleborn'
+import { CYBORG_COWBOY_NFT_TAXON, CYBORG_COWBOY_POOL, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
+import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
+import { CARD_POOL, getDisplayCardName, RIPPLEBORN_METADATA_BASE_URL } from '@/lib/rippleborn'
 import { listOpenClaimOffers, reconcileOpenClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { getPackResult } from '@/lib/pack-results'
 
 const XRPL_ADDRESS = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
 const HEX_256 = /^[A-Fa-f0-9]{64}$/
+
+const CARD_ART = new Map(
+  [CARD_POOL, CYBORG_COWBOY_POOL, CHROMATIC_ABYSS_POOL]
+    .flatMap((pool) => Object.values(pool).flat())
+    .map((card) => [card.name.toLowerCase(), { name: getDisplayCardName(card.name), image: card.image }] as const),
+)
+
+function resolveOfferCard(
+  offer: { nftId: string; offerId: string },
+  result: Awaited<ReturnType<typeof getPackResult>>,
+) {
+  if (!result) return null
+
+  const mintIndex = result.mintResults?.findIndex(
+    (candidate) =>
+      candidate.nftId?.toUpperCase() === offer.nftId.toUpperCase() ||
+      candidate.offerId?.toUpperCase() === offer.offerId.toUpperCase(),
+  ) ?? -1
+  const mintedCard = mintIndex >= 0 ? result.mintResults?.[mintIndex] : undefined
+  const savedCard =
+    result.cards.find((candidate) => candidate.id === mintedCard?.id) ??
+    result.cards.find((candidate) => candidate.name === mintedCard?.name) ??
+    (mintIndex >= 0 ? result.cards[mintIndex] : undefined)
+  const card = mintedCard ?? savedCard
+  if (!card) return null
+
+  const catalogCard = CARD_ART.get(card.name.toLowerCase())
+  return {
+    name: getDisplayCardName(card.name || catalogCard?.name || 'Minted NFT awaiting claim'),
+    image: card.image || savedCard?.image || catalogCard?.image || null,
+  }
+}
 
 export async function GET(request: Request) {
   const owner = new URL(request.url).searchParams.get('owner')?.trim()
@@ -32,9 +65,7 @@ export async function GET(request: Request) {
   return NextResponse.json({
     replacements,
     claimOffers: claimOffers.map((offer) => {
-      const card = packResults
-        .get(offer.orderId)
-        ?.mintResults?.find((candidate) => candidate.nftId === offer.nftId)
+      const card = resolveOfferCard(offer, packResults.get(offer.orderId) ?? null)
 
       return {
         nftId: offer.nftId,
