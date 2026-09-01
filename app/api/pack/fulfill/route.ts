@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises'
-import path from 'node:path'
 import { NextResponse } from 'next/server'
 import { start } from 'workflow/api'
 import type { Client, TransactionMetadata } from 'xrpl'
@@ -75,35 +73,26 @@ type AccountTransaction = {
   tx_json?: Record<string, unknown>
 }
 
-async function validateCardMetadata(
+function validateCardMetadata(
   card: { name: string; uri?: string; limited?: boolean },
   setId: PackSetId,
-): Promise<string | null> {
+): string | null {
   if (!encodeMetadataUri(card.uri)) return 'No valid HTTPS Pinata metadata URL is configured for this card.'
   if (card.name === 'The Phoenix') return null
 
-  const filename = card.uri?.match(/\/([a-z0-9][a-z0-9._-]*\.json)$/i)?.[1]
-  if (!filename) return 'The card metadata URL must reference a JSON file in the pinned folder.'
-  const metadataFolder =
+  const pool =
     setId === 'chromatic-abyss'
-      ? path.join(process.cwd(), 'public', 'sets', 'chromatic-abyss', 'json')
+      ? CHROMATIC_ABYSS_POOL
       : setId === 'cyborg-cowboy'
-        ? path.join(process.cwd(), 'public', 'sets', 'cyborg-cowboy', 'json')
-        : path.join(process.cwd(), 'public', 'cards')
+        ? CYBORG_COWBOY_POOL
+        : CARD_POOL
+  const catalogCard = Object.values(pool)
+    .flat()
+    .find((candidate) => candidate.name === card.name)
 
-  try {
-    const raw = await readFile(path.join(metadataFolder, filename), 'utf8')
-    const metadata = JSON.parse(raw) as Record<string, unknown>
-    if (metadata.name !== card.name) return 'The metadata name does not match the selected card.'
-    if (typeof metadata.description !== 'string' || !metadata.description.trim()) {
-      return 'The metadata description is missing.'
-    }
-    if (typeof metadata.image !== 'string' || !metadata.image.trim()) return 'The metadata image is missing.'
-    if (!Array.isArray(metadata.attributes)) return 'The metadata attributes are missing.'
-    return null
-  } catch {
-    return `Metadata file ${filename} is missing or invalid.`
-  }
+  if (!catalogCard) return 'The selected card is not part of this pack set.'
+  if (card.uri !== catalogCard.uri) return 'The card metadata URL does not match the current catalog.'
+  return null
 }
 
 function getTransactionResult(meta: unknown): string | null {
@@ -375,7 +364,7 @@ export async function POST(request: Request) {
                   .flat()
                   .find((candidate) => candidate.name === card.name)?.uri ?? card.uri
         const cardToMint = { ...card, uri: currentUri }
-        const metadataError = await validateCardMetadata(cardToMint, setId)
+        const metadataError = validateCardMetadata(cardToMint, setId)
         if (metadataError) {
           fulfilledCards.push({ ...cardToMint, mintStatus: 'skipped', reason: metadataError })
           continue
