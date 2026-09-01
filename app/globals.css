@@ -1331,6 +1331,20 @@
   height: 100%;
 }
 
+.tarot-reveal .rarity-action-footer {
+  position: absolute;
+  z-index: 30;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  padding: 0;
+  background: transparent;
+}
+
+.tarot-reveal:has(.rarity-action-footer) .collection-card-caption {
+  padding-bottom: 4.5rem;
+}
+
 .tarot-control-row,
 .pack-opening-button-row,
 .pack-purchase-row {
