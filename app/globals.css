@@ -250,7 +250,7 @@
   background-image:
     linear-gradient(180deg, oklch(0.055 0.02 225 / 42%), transparent 42%, oklch(0.055 0.02 225 / 56%)),
     linear-gradient(90deg, oklch(0.055 0.02 225 / 30%), transparent 20%, transparent 80%, oklch(0.055 0.02 225 / 30%)),
-    url('/images/ledgerborn-cyberpunk-background.png');
+    url('/images/ledgerborn-cyberpunk-background-v1.webp');
   background-position: center, center, center top;
   background-size: cover, cover, cover;
   background-attachment: fixed;
@@ -303,7 +303,7 @@
     radial-gradient(circle at 18% 20%, oklch(0.72 0.22 305 / 32%), transparent 35%),
     radial-gradient(circle at 84% 28%, oklch(0.82 0.2 325 / 28%), transparent 38%),
     linear-gradient(180deg, oklch(0.075 0.06 295 / 34%), oklch(0.06 0.05 280 / 64%) 68%, oklch(0.04 0.03 260 / 88%)),
-    url('/images/ledgerborn-page-bg.png');
+    url('/images/ledgerborn-page-bg-v1.webp');
   background-position: center, center, center, center top;
   background-size: cover, cover, cover, cover;
 }
@@ -316,7 +316,7 @@
     radial-gradient(circle at 16% 22%, oklch(0.82 0.17 62 / 26%), transparent 36%),
     radial-gradient(circle at 84% 28%, oklch(0.76 0.15 195 / 24%), transparent 38%),
     linear-gradient(180deg, oklch(0.055 0.02 225 / 26%), oklch(0.07 0.025 215 / 58%) 68%, oklch(0.045 0.018 215 / 84%)),
-    url('/images/cyborg-cowboy-page-bg.png');
+    url('/images/cyborg-cowboy-page-bg-v1.webp');
   background-position: center, center, center, center top;
   background-size: cover, cover, cover, cover;
 }
@@ -329,7 +329,7 @@
     radial-gradient(circle at 20% 18%, oklch(0.78 0.18 190 / 22%), transparent 34%),
     radial-gradient(circle at 82% 30%, oklch(0.7 0.22 335 / 22%), transparent 38%),
     linear-gradient(180deg, oklch(0.045 0.035 260 / 24%), oklch(0.055 0.05 285 / 54%) 68%, oklch(0.035 0.025 255 / 82%)),
-    url('/sets/chromatic-abyss/background.png');
+    url('/sets/chromatic-abyss/background-v1.webp');
   background-position: center, center, center, center top;
   background-size: cover, cover, cover, cover;
 }

@@ -33,7 +33,7 @@ export function PackGallery() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-        {PACK_CATALOG.map((pack) => {
+        {PACK_CATALOG.map((pack, index) => {
           const SetSymbol = SET_SYMBOLS[pack.theme.id]
 
           return (
@@ -47,8 +47,9 @@ export function PackGallery() {
               src={pack.packImage}
               alt=""
               fill
-              loading="lazy"
-              sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 33vw"
+              preload={index === 0}
+              quality={70}
+              sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(50vw - 2rem), 410px"
               className="pack-set-image"
             />
             <div className="pack-set-overlay" aria-hidden="true" />

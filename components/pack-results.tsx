@@ -238,8 +238,8 @@ function RevealedSpread({
                     src={card.image}
                     alt={`${displayName}, ${card.rarity} card`}
                     fill
-                    priority
-                    sizes="(max-width: 640px) calc(100vw - 2rem), 320px"
+                    quality={75}
+                    sizes="(max-width: 639px) calc(100vw - 2rem), 320px"
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
                   />
                   <div className="collection-display-sheen" aria-hidden="true" />
@@ -262,7 +262,7 @@ function RevealedSpread({
                   </div>
                   <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
                     <blockquote className="text-center font-sans text-sm italic leading-relaxed text-card-foreground text-pretty sm:text-base">
-                      “{getCardWisdom(card.name)}”
+                      ���{getCardWisdom(card.name)}”
                     </blockquote>
                   </div>
                 </div>

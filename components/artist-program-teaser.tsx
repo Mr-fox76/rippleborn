@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 const STAGES = [
   {
     label: 'Your artwork',
@@ -44,8 +46,15 @@ export function ArtistProgramTeaser() {
           <li
             key={label}
             className="relative isolate flex min-h-72 items-center justify-center overflow-hidden bg-background p-6 text-center sm:p-7"
-            style={{ backgroundImage: `url('${artwork}')`, backgroundPosition: 'center', backgroundSize: 'backgroundSize' in stage ? stage.backgroundSize : 'cover' }}
           >
+            <Image
+              src={artwork}
+              alt=""
+              fill
+              quality={70}
+              sizes="(max-width: 639px) calc(100vw - 2rem), 33vw"
+              className={`-z-20 object-cover ${'backgroundSize' in stage ? 'scale-[1.16]' : ''}`}
+            />
             <span className="absolute inset-0 -z-10 bg-background/75" aria-hidden="true" />
             <div className="flex max-w-sm flex-col items-center gap-5">
               <span className="font-mono text-[0.6rem] tracking-[0.22em] text-muted-foreground" aria-hidden="true">
