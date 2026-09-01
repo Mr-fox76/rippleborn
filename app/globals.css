@@ -313,6 +313,14 @@
     inset 0 1px 0 oklch(0.84 0.19 325 / 38%);
 }
 
+.pack-set-card-mythic .pack-set-image {
+  transform: scale(0.82);
+}
+
+.pack-set-card-mythic:hover .pack-set-image {
+  transform: scale(0.85);
+}
+
 .pack-set-card-mythic::before {
   opacity: 0.72;
   filter: saturate(1.4) contrast(1.16);
