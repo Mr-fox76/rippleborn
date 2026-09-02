@@ -1,11 +1,18 @@
 'use client'
 
 import Image from 'next/image'
-import { Check, ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
+import { Check, Copy, ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
 import useSWR from 'swr'
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import {
   Select,
   SelectContent,
@@ -73,14 +80,74 @@ async function fetchCollection(url: string): Promise<CollectionResponse> {
   return data
 }
 
+function CollectionCardLightbox({
+  card,
+  onOpenChange,
+}: {
+  card: CollectionCard | null
+  onOpenChange: (open: boolean) => void
+}) {
+  const [copied, setCopied] = useState(false)
+
+  async function copyTokenId() {
+    if (!card) return
+    await navigator.clipboard.writeText(card.tokenId)
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 2000)
+  }
+
+  return (
+    <Dialog open={card !== null} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-4xl overflow-y-auto bg-background p-4 sm:p-6">
+        {card ? (
+          <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_minmax(16rem,0.7fr)] md:items-center">
+            <div className="relative mx-auto aspect-[2/3] w-full max-w-md overflow-hidden rounded-md bg-card">
+              <Image
+                src={card.image}
+                alt={`${card.name} NFT artwork`}
+                fill
+                unoptimized
+                sizes="(max-width: 767px) calc(100vw - 4rem), 448px"
+                className="object-cover"
+              />
+            </div>
+            <div className="flex flex-col gap-6">
+              <DialogHeader>
+                <DialogTitle className="font-sans text-2xl font-semibold leading-tight text-balance sm:text-3xl">
+                  {card.name}
+                </DialogTitle>
+                <DialogDescription className="font-mono text-xs uppercase tracking-[0.16em] text-gold">
+                  {card.rarity?.trim() || 'Common'}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-col gap-3">
+                <Button render={<a href={`https://bithomp.com/nft/${card.tokenId}`} target="_blank" rel="noopener noreferrer" />} size="lg">
+                  View on Bithomp
+                  <ExternalLink data-icon="inline-end" aria-hidden="true" />
+                </Button>
+                <Button type="button" variant="outline" size="lg" onClick={copyTokenId}>
+                  <Copy data-icon="inline-start" aria-hidden="true" />
+                  {copied ? 'NFT ID copied' : 'Copy NFT ID'}
+                </Button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 function CollectionChecklist({
   set,
   ownedBySlot,
   rarityFilter,
+  onCardSelect,
 }: {
   set: CollectionCatalogSet
   ownedBySlot: Map<string, CollectionCard>
   rarityFilter: string
+  onCardSelect: (card: CollectionCard) => void
 }) {
   const visibleSlots = rarityFilter === 'all'
     ? set.slots
@@ -138,9 +205,14 @@ function CollectionChecklist({
           return (
             <li key={slot.key} className={rarityClass}>
               {card ? (
-                <a href={`https://bithomp.com/nft/${card.tokenId}`} target="_blank" rel="noopener noreferrer" className="block h-full rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" aria-label={`View owned ${slot.name} NFT on Bithomp`}>
+                <button
+                  type="button"
+                  onClick={() => onCardSelect(card)}
+                  className="block h-full w-full rounded-sm text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  aria-label={`View details for owned ${slot.name} NFT`}
+                >
                   {content}
-                </a>
+                </button>
               ) : content}
             </li>
           )
@@ -195,6 +267,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
   const cards = data?.cards ?? []
   const [rarityFilter, setRarityFilter] = useState('all')
   const [setFilter, setSetFilter] = useState<'all' | PackSetId>('all')
+  const [selectedCard, setSelectedCard] = useState<CollectionCard | null>(null)
   const rarityOptions = useMemo(() => {
     const counts = new Map<string, number>()
     for (const card of cards) {
@@ -331,12 +404,24 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
             {error ? <p role="alert" className="text-sm text-destructive">Showing your saved grid. {error.message}</p> : null}
             <div className="flex flex-col gap-4">
               {visibleCatalogs.map((set) => (
-                <CollectionChecklist key={set.id} set={set} ownedBySlot={ownedBySlot} rarityFilter={rarityFilter} />
+                <CollectionChecklist
+                  key={set.id}
+                  set={set}
+                  ownedBySlot={ownedBySlot}
+                  rarityFilter={rarityFilter}
+                  onCardSelect={setSelectedCard}
+                />
               ))}
             </div>
           </div>
         )}
       </div>
+      <CollectionCardLightbox
+        card={selectedCard}
+        onOpenChange={(open) => {
+          if (!open) setSelectedCard(null)
+        }}
+      />
     </section>
   )
 }
