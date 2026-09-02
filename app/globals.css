@@ -1723,8 +1723,6 @@
 }
 
 .collection-undiscovered-number {
-  position: absolute;
-  z-index: 3;
   color: var(--foreground);
   font-family: var(--font-mono);
   font-size: clamp(0.7rem, 1.25vw, 1rem);

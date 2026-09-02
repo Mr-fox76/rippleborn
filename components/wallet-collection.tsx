@@ -186,9 +186,11 @@ function CollectionChecklist({
                   <div className="collection-undiscovered-back tarot-back-inner absolute inset-1" aria-hidden="true">
                     <span className="celestial-orbit">
                       <span className="celestial-core" />
+                    </span>
+                    <span className="celestial-card-name flex flex-col items-center gap-1">
+                      <span>Undiscovered</span>
                       <span className="collection-undiscovered-number">{String(slot.position).padStart(2, '0')}</span>
                     </span>
-                    <span className="celestial-card-name">Undiscovered</span>
                   </div>
                 )}
                 {card ? (
