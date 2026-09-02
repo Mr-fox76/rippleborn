@@ -98,16 +98,16 @@ function CollectionCardLightbox({
 
   return (
     <Dialog open={card !== null} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-6xl overflow-y-auto bg-background p-4 sm:p-6">
+      <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto bg-background p-4 sm:max-w-6xl sm:p-6">
         {card ? (
-          <div className="grid gap-6 md:grid-cols-[minmax(0,1.35fr)_minmax(16rem,0.65fr)] md:items-center">
-            <div className="relative mx-auto aspect-[2/3] w-full max-w-xl overflow-hidden rounded-md bg-card">
+          <div className="grid gap-6 md:grid-cols-[minmax(0,1.5fr)_minmax(16rem,0.5fr)] md:items-center">
+            <div className="relative mx-auto aspect-[2/3] w-full max-w-2xl overflow-hidden rounded-md bg-card">
               <Image
                 src={card.image}
                 alt={`${card.name} NFT artwork`}
                 fill
                 unoptimized
-                sizes="(max-width: 767px) calc(100vw - 4rem), 576px"
+                sizes="(max-width: 767px) calc(100vw - 4rem), 672px"
                 className="object-cover"
               />
             </div>
