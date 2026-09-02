@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { SiteNavigation } from '@/components/site-navigation'
@@ -22,7 +21,9 @@ export function LegalPage({ title, summary, updated, sections }: LegalPageProps)
         <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4">
           <Link href="/" aria-label="Ledgerborn home" className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary">
             <ArrowLeft className="size-4" aria-hidden="true" />
-            <Image src="/images/ledgerborn-logo.jpg" alt="" width={36} height={36} className="size-9 rounded-md object-cover" />
+            <span className="site-brand-mark" aria-hidden="true">
+              <span className="site-brand-glyph">L</span>
+            </span>
             <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
           </Link>
           <div className="flex items-center gap-3">
