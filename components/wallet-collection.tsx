@@ -187,16 +187,16 @@ function CollectionChecklist({
                     <span className="font-mono text-lg text-muted-foreground/55">{String(slot.position).padStart(2, '0')}</span>
                   </div>
                 )}
-                <div className="collection-card-caption flex items-end justify-between gap-2">
-                  <div className="flex min-w-0 flex-col gap-1">
-                    <span className="truncate text-xs font-semibold leading-tight text-foreground" title={slot.name}>{slot.name}</span>
+                {card ? (
+                  <span className="absolute left-2 top-2 grid size-6 place-items-center rounded-sm border border-[color:var(--rarity-color)] bg-card/90 text-[var(--rarity-color)]" aria-hidden="true">
+                    <Check className="size-3.5" />
+                  </span>
+                ) : null}
+                <div className="collection-card-caption flex items-end justify-center">
+                  <div className="flex min-w-0 flex-col items-center gap-1 text-center">
+                    <span className="w-full truncate text-xs font-semibold leading-tight text-foreground" title={slot.name}>{slot.name}</span>
                     <span className="collection-rarity-seal">{card ? 'Owned' : 'Missing'} · {slot.rarity}</span>
                   </div>
-                  {card ? (
-                    <span className="grid size-6 shrink-0 place-items-center rounded-sm border border-[color:var(--rarity-color)] text-[var(--rarity-color)]" aria-hidden="true">
-                      <Check className="size-3.5" />
-                    </span>
-                  ) : null}
                 </div>
               </div>
             </div>
