@@ -183,8 +183,12 @@ function CollectionChecklist({
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                   />
                 ) : (
-                  <div className="absolute inset-3 grid place-items-center rounded-sm border border-dashed border-border/70 bg-card/30" aria-hidden="true">
-                    <span className="font-mono text-lg text-muted-foreground/55">{String(slot.position).padStart(2, '0')}</span>
+                  <div className="collection-undiscovered-back tarot-back-inner absolute inset-1" aria-hidden="true">
+                    <span className="celestial-orbit">
+                      <span className="celestial-core" />
+                      <span className="collection-undiscovered-number">{String(slot.position).padStart(2, '0')}</span>
+                    </span>
+                    <span className="celestial-card-name">Undiscovered</span>
                   </div>
                 )}
                 {card ? (
