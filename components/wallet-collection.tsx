@@ -171,7 +171,7 @@ function CollectionChecklist({
           const card = ownedBySlot.get(slot.key)
           const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
           const content = (
-            <div className={`collection-display-card group h-full overflow-hidden ${card ? '' : 'border-dashed opacity-75'}`}>
+            <div className={`collection-display-card group h-full overflow-hidden ${card ? '' : 'collection-display-card-missing'}`}>
               <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background" data-card-name={slot.name}>
                 {card ? (
                   <Image
@@ -189,7 +189,7 @@ function CollectionChecklist({
                 )}
                 <div className="collection-card-caption flex items-end justify-between gap-2">
                   <div className="flex min-w-0 flex-col gap-1">
-                    <span className="text-pretty text-sm font-semibold leading-snug text-foreground">{slot.name}</span>
+                    <span className="truncate text-xs font-semibold leading-tight text-foreground" title={slot.name}>{slot.name}</span>
                     <span className="collection-rarity-seal">{card ? 'Owned' : 'Missing'} · {slot.rarity}</span>
                   </div>
                   {card ? (

@@ -1704,6 +1704,31 @@
     0 0 3.5rem color-mix(in oklch, var(--rarity-color) 42%, transparent);
 }
 
+.collection-display-card-missing {
+  border-color: color-mix(in oklch, var(--rarity-color) 58%, var(--border));
+  background: color-mix(in oklch, var(--rarity-color) 38%, var(--card));
+  box-shadow:
+    0 1rem 2.25rem oklch(0.04 0.02 225 / 58%),
+    inset 0 0 0 1px color-mix(in oklch, var(--foreground) 18%, transparent);
+}
+
+.collection-display-card-missing .collection-display-art {
+  background:
+    linear-gradient(135deg, transparent 46%, color-mix(in oklch, var(--rarity-color) 22%, transparent) 47% 53%, transparent 54%),
+    linear-gradient(45deg, transparent 46%, color-mix(in oklch, var(--rarity-color) 14%, transparent) 47% 53%, transparent 54%),
+    color-mix(in oklch, var(--rarity-color) 8%, var(--card));
+  background-size: 2rem 2rem;
+}
+
+.collection-display-card-missing .collection-display-art::before {
+  position: absolute;
+  inset: 0.7rem;
+  border: 1px solid color-mix(in oklch, var(--rarity-color) 54%, var(--border));
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 1.5rem color-mix(in oklch, var(--rarity-color) 12%, transparent);
+  content: '';
+}
+
 .collection-display-card:hover .collection-card-caption {
   background: linear-gradient(
     180deg,
