@@ -79,7 +79,9 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
               <SiteNavigation />
             </div>
             <Link href="/" aria-label="Ledgerborn home" className="inline-flex items-center gap-2">
-              <Image src="/images/ledgerborn-symbol.png" alt="" width={48} height={42} className="h-9 w-10 object-contain" />
+              <span className="site-brand-mark" aria-hidden="true">
+                <span className="site-brand-glyph">L</span>
+              </span>
               <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
             </Link>
             <div className="flex items-center justify-end gap-2 sm:gap-3">
