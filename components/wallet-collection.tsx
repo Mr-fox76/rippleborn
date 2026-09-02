@@ -183,7 +183,7 @@ function CollectionChecklist({
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                   />
                 ) : (
-                  <div className="collection-undiscovered-back tarot-back-inner absolute inset-3" aria-hidden="true">
+                  <div className="collection-undiscovered-back tarot-back-inner absolute inset-0" aria-hidden="true">
                     <span className="celestial-orbit">
                       <span className="celestial-core" />
                     </span>
