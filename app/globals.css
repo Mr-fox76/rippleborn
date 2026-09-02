@@ -1722,6 +1722,14 @@
   border-color: oklch(0.94 0.018 260 / 10%);
 }
 
+.collection-undiscovered-back .celestial-card-name {
+  width: 100%;
+  font-size: clamp(0.58rem, 1vw, 0.78rem);
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-indent: 0.12em;
+}
+
 .collection-undiscovered-number {
   color: var(--foreground);
   font-family: var(--font-mono);
