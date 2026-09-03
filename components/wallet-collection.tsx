@@ -159,6 +159,7 @@ function CollectionChecklist({
     .map((rarity) => ({ rarity, slots: visibleSlots.filter((slot) => slot.rarity === rarity) }))
     .filter((tier) => tier.slots.length > 0)
     .reverse()
+  const maxTierSize = Math.max(1, ...tiers.map((tier) => tier.slots.length))
 
   function renderSlot(slot: CollectionCatalogSet['slots'][number]) {
     const card = ownedBySlot.get(slot.key)
@@ -227,7 +228,7 @@ function CollectionChecklist({
       {visibleSlots.length === 0 ? (
         <p className="py-8 text-center text-sm text-muted-foreground">No {rarityFilter} slots in this set.</p>
       ) : (
-        <div className="collection-pyramid">
+        <div className="collection-pyramid" style={{ '--pyramid-cols': maxTierSize } as React.CSSProperties}>
           {tiers.map((tier, index) => (
             <div key={tier.rarity} className={`collection-pyramid-tier rarity-${tier.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`}>
               {index > 0 ? <span className="collection-pyramid-link" aria-hidden="true" /> : null}
