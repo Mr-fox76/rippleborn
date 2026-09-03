@@ -239,7 +239,7 @@ function RevealedSpread({
                     src={card.image}
                     alt={`${displayName}, ${card.rarity} card`}
                     fill
-                    quality={75}
+                    unoptimized
                     sizes="(max-width: 639px) calc(100vw - 2rem), 320px"
                     className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
                   />
