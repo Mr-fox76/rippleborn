@@ -1753,25 +1753,15 @@
 .collection-pyramid-row {
   display: flex;
   width: 100%;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   gap: 0.9rem;
 }
 
 .collection-pyramid-card {
-  width: 7rem;
-}
-
-@media (min-width: 640px) {
-  .collection-pyramid-card {
-    width: 8rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .collection-pyramid-card {
-    width: 9.25rem;
-  }
+  --pyramid-gap: 0.9rem;
+  flex: 0 0 calc((100% - (var(--pyramid-cols, 1) - 1) * var(--pyramid-gap)) / var(--pyramid-cols, 1));
+  width: calc((100% - (var(--pyramid-cols, 1) - 1) * var(--pyramid-gap)) / var(--pyramid-cols, 1));
 }
 
 .collection-pyramid-link {
