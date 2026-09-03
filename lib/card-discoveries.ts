@@ -23,10 +23,9 @@ type DiscoveryEntry = {
   position: number
 }
 
-function formatCardIdentifier(orderId: number, rarity: string, cardNumber: number) {
-  const packNumber = orderId % 3 === 0 ? 1 : orderId % 3 === 1 ? 2 : 3
+function formatCardIdentifier(packNumber: number, rarity: string, cardNumber: number) {
   const rarityCode = rarity.trim().charAt(0).toUpperCase() || 'C'
-  return `PK${String(packNumber).padStart(2, '0')}-S${String(packNumber).padStart(2, '0')}-${rarityCode}-${String(cardNumber).padStart(4, '0')}`
+  return `PK${String(packNumber).padStart(2, '0')}-${rarityCode}-${String(cardNumber).padStart(4, '0')}`
 }
 
 function normalizeName(name: string) {
@@ -67,6 +66,11 @@ export async function getDiscoveryNumbers(nftIds?: string[]) {
   const entries = await getDiscoveryEntries()
   const totals = new Map<string, number>()
   const positions = new Map<string, number>()
+  const packSequence = new Map<number, number>()
+
+  for (const entry of entries) {
+    if (!packSequence.has(entry.orderId)) packSequence.set(entry.orderId, packSequence.size + 1)
+  }
 
   for (const entry of entries) totals.set(entry.name, (totals.get(entry.name) ?? 0) + 1)
 
@@ -85,7 +89,7 @@ export async function getDiscoveryNumbers(nftIds?: string[]) {
     result.set(entry.nftId, {
       discoveryNumber,
       discoveredTotal: totals.get(entry.name) ?? 1,
-      cardIdentifier: formatCardIdentifier(entry.orderId, entry.rarity, discoveryNumber),
+      cardIdentifier: formatCardIdentifier(packSequence.get(entry.orderId) ?? 1, entry.rarity, discoveryNumber),
     })
   }
   return result
