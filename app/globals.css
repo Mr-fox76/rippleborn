@@ -1764,6 +1764,19 @@
   width: calc((100% - (var(--pyramid-cols, 1) - 1) * var(--pyramid-gap)) / var(--pyramid-cols, 1));
 }
 
+/* On narrow screens a single tightly-packed row would shrink cards to unreadable
+   slivers, so wrap each tier into a usable, uniform 3-column grid instead. */
+@media (max-width: 640px) {
+  .collection-pyramid-row {
+    flex-wrap: wrap;
+  }
+
+  .collection-pyramid-card {
+    flex: 0 0 calc((100% - 2 * var(--pyramid-gap)) / 3);
+    width: calc((100% - 2 * var(--pyramid-gap)) / 3);
+  }
+}
+
 .collection-pyramid-link {
   position: relative;
   width: 1px;
