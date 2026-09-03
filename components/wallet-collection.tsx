@@ -307,6 +307,20 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
   const visibleCatalogs = setFilter === 'all'
     ? COLLECTION_CATALOG
     : COLLECTION_CATALOG.filter((set) => set.id === setFilter)
+  const catalogRarities = useMemo(() => {
+    const seen = new Set<string>()
+    const ordered: string[] = []
+    for (const set of COLLECTION_CATALOG) {
+      for (const slot of set.slots) {
+        const rarity = slot.rarity?.trim()
+        if (rarity && !seen.has(rarity)) {
+          seen.add(rarity)
+          ordered.push(rarity)
+        }
+      }
+    }
+    return ordered
+  }, [])
   const ownedBySlot = useMemo(() => {
     const map = new Map<string, CollectionCard>()
     for (const card of cards) {
@@ -365,13 +379,52 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
               </div>
               <ConnectWalletButton />
             </div>
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                Preview &middot; filter the full set
+              </p>
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
+                  <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent align="end" alignItemWithTrigger={false}>
+                    <SelectGroup>
+                      <SelectLabel>Filter by set</SelectLabel>
+                      <SelectItem value="all">All sets</SelectItem>
+                      {COLLECTION_CATALOG.map((set) => (
+                        <SelectItem key={set.id} value={set.id}>{set.label}</SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Select value={rarityFilter} onValueChange={(value) => setRarityFilter(value ?? 'all')}>
+                  <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
+                    <SlidersHorizontal aria-hidden="true" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent align="end" alignItemWithTrigger={false}>
+                    <SelectGroup>
+                      <SelectLabel>Filter by rarity</SelectLabel>
+                      <SelectItem value="all">All cards</SelectItem>
+                      {catalogRarities.map((rarity) => (
+                        <SelectItem key={rarity} value={rarity}>
+                          <span className={`collection-filter-dot rarity-${rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`} aria-hidden="true" />
+                          <span>{rarity}</span>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
             <div className="flex flex-col gap-4">
               {visibleCatalogs.map((set) => (
                 <CollectionChecklist
                   key={set.id}
                   set={set}
                   ownedBySlot={ownedBySlot}
-                  rarityFilter="all"
+                  rarityFilter={rarityFilter}
                   onCardSelect={setSelectedCard}
                 />
               ))}
