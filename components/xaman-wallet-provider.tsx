@@ -19,6 +19,7 @@ type WalletContextValue = {
   error: string | null
   connect: () => Promise<void>
   disconnect: () => void
+  dismissRequest: () => void
 }
 
 const WalletContext = createContext<WalletContextValue | null>(null)
@@ -88,6 +89,11 @@ export function XamanWalletProvider({ children }: { children: ReactNode }) {
     setError(null)
   }
 
+  function dismissRequest() {
+    setRequest(null)
+    setError(null)
+  }
+
   const value = useMemo(
     () => ({
       account,
@@ -97,6 +103,7 @@ export function XamanWalletProvider({ children }: { children: ReactNode }) {
       error: error ?? statusError?.message ?? null,
       connect,
       disconnect,
+      dismissRequest,
     }),
     [account, request, status, creating, error, statusError],
   )
