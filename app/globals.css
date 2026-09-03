@@ -1704,6 +1704,104 @@
     0 0 3.5rem color-mix(in oklch, var(--rarity-color) 42%, transparent);
 }
 
+.collection-display-card-missing {
+  border-color: color-mix(in oklch, var(--rarity-color) 90%, var(--foreground));
+  background: var(--card);
+  box-shadow:
+    0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+    0 0 2.25rem color-mix(in oklch, var(--rarity-color) 64%, transparent),
+    inset 0 0 1.25rem color-mix(in oklch, var(--rarity-color) 10%, transparent);
+}
+
+.collection-display-card-missing .collection-display-art {
+  background: var(--card);
+}
+
+  .collection-undiscovered-back {
+  height: 100%;
+  justify-content: center;
+  gap: 0;
+  border-color: oklch(0.94 0.018 260 / 8%);
+  opacity: 0.4;
+  }
+
+.collection-pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.collection-pyramid-tier {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.collection-pyramid-label {
+  color: var(--rarity-color);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  text-shadow: 0 0 0.75rem color-mix(in oklch, var(--rarity-color) 40%, transparent);
+}
+
+.collection-pyramid-row {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.9rem;
+}
+
+.collection-pyramid-card {
+  width: 7rem;
+}
+
+@media (min-width: 640px) {
+  .collection-pyramid-card {
+    width: 8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .collection-pyramid-card {
+    width: 9.25rem;
+  }
+}
+
+.collection-pyramid-link {
+  position: relative;
+  width: 1px;
+  height: 2.25rem;
+  margin: 0.35rem 0 1.1rem;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklch, var(--gold) 55%, transparent) 30%,
+    color-mix(in oklch, var(--gold) 55%, transparent) 70%,
+    transparent
+  );
+}
+
+.collection-pyramid-link::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  translate: -50% -50%;
+  rotate: 45deg;
+  border: 1px solid color-mix(in oklch, var(--gold) 60%, transparent);
+  background: var(--background);
+  box-shadow: 0 0 0.6rem color-mix(in oklch, var(--gold) 45%, transparent);
+  content: '';
+}
+
 .collection-display-card:hover .collection-card-caption {
   background: linear-gradient(
     180deg,

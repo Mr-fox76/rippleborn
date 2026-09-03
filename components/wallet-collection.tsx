@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Check, Copy, ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
 import useSWR from 'swr'
-import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -154,6 +154,67 @@ function CollectionChecklist({
     : set.slots.filter((slot) => slot.rarity === rarityFilter)
   const owned = set.slots.filter((slot) => ownedBySlot.has(slot.key)).length
 
+  const rarityOrder = Array.from(new Set(set.slots.map((slot) => slot.rarity)))
+  const tiers = rarityOrder
+    .map((rarity) => ({ rarity, slots: visibleSlots.filter((slot) => slot.rarity === rarity) }))
+    .filter((tier) => tier.slots.length > 0)
+    .reverse()
+
+  function renderSlot(slot: CollectionCatalogSet['slots'][number]) {
+    const card = ownedBySlot.get(slot.key)
+    const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
+    const content = (
+      <div className={`collection-display-card group h-full overflow-hidden ${card ? '' : 'collection-display-card-missing'}`}>
+        <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background" data-card-name={slot.name}>
+          {card ? (
+            <Image
+              src={card.image}
+              alt={`${slot.name} NFT artwork`}
+              fill
+              unoptimized
+              sizes="(max-width: 639px) calc(50vw - 2rem), (max-width: 1023px) calc(33vw - 2rem), 180px"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+            />
+          ) : (
+            <div className="collection-undiscovered-back tarot-back-inner absolute inset-0" aria-hidden="true">
+              <span className="celestial-orbit">
+                <span className="celestial-core" />
+              </span>
+            </div>
+          )}
+          {card ? (
+            <span className="absolute left-2 top-2 grid size-6 place-items-center rounded-sm border border-[color:var(--rarity-color)] bg-card/90 text-[var(--rarity-color)]" aria-hidden="true">
+              <Check className="size-3.5" />
+            </span>
+          ) : null}
+          {card ? (
+            <div className="collection-card-caption flex items-end justify-center">
+              <div className="flex min-w-0 flex-col items-center gap-1 text-center">
+                <span className="w-full truncate text-xs font-semibold leading-tight text-foreground" title={slot.name}>{slot.name}</span>
+                <span className="collection-rarity-seal">Owned · {slot.rarity}</span>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    )
+
+    return (
+      <li key={slot.key} className={`collection-pyramid-card ${rarityClass}`}>
+        {card ? (
+          <button
+            type="button"
+            onClick={() => onCardSelect(card)}
+            className="block h-full w-full rounded-sm text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label={`View details for owned ${slot.name} NFT`}
+          >
+            {content}
+          </button>
+        ) : content}
+      </li>
+    )
+  }
+
   return (
     <section className="rounded-md border border-border/70 bg-background/35 p-4 sm:p-5" aria-labelledby={`checklist-${set.id}`}>
       <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
@@ -166,58 +227,17 @@ function CollectionChecklist({
       {visibleSlots.length === 0 ? (
         <p className="py-8 text-center text-sm text-muted-foreground">No {rarityFilter} slots in this set.</p>
       ) : (
-      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
-        {visibleSlots.map((slot) => {
-          const card = ownedBySlot.get(slot.key)
-          const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
-          const content = (
-            <div className={`collection-display-card group h-full overflow-hidden ${card ? '' : 'border-dashed opacity-75'}`}>
-              <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background" data-card-name={slot.name}>
-                {card ? (
-                  <Image
-                    src={card.image}
-                    alt={`${slot.name} NFT artwork`}
-                    fill
-                    unoptimized
-                    sizes="(max-width: 639px) calc(50vw - 2rem), (max-width: 1023px) calc(33vw - 2rem), 180px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
-                  />
-                ) : (
-                  <div className="absolute inset-3 grid place-items-center rounded-sm border border-dashed border-border/70 bg-card/30" aria-hidden="true">
-                    <span className="font-mono text-lg text-muted-foreground/55">{String(slot.position).padStart(2, '0')}</span>
-                  </div>
-                )}
-                <div className="collection-card-caption flex items-end justify-between gap-2">
-                  <div className="flex min-w-0 flex-col gap-1">
-                    <span className="text-pretty text-sm font-semibold leading-snug text-foreground">{slot.name}</span>
-                    <span className="collection-rarity-seal">{card ? 'Owned' : 'Missing'} · {slot.rarity}</span>
-                  </div>
-                  {card ? (
-                    <span className="grid size-6 shrink-0 place-items-center rounded-sm border border-[color:var(--rarity-color)] text-[var(--rarity-color)]" aria-hidden="true">
-                      <Check className="size-3.5" />
-                    </span>
-                  ) : null}
-                </div>
-              </div>
+        <div className="collection-pyramid">
+          {tiers.map((tier, index) => (
+            <div key={tier.rarity} className={`collection-pyramid-tier rarity-${tier.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`}>
+              {index > 0 ? <span className="collection-pyramid-link" aria-hidden="true" /> : null}
+              <p className="collection-pyramid-label">{tier.rarity}</p>
+              <ul className="collection-pyramid-row">
+                {tier.slots.map(renderSlot)}
+              </ul>
             </div>
-          )
-
-          return (
-            <li key={slot.key} className={rarityClass}>
-              {card ? (
-                <button
-                  type="button"
-                  onClick={() => onCardSelect(card)}
-                  className="block h-full w-full rounded-sm text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                  aria-label={`View details for owned ${slot.name} NFT`}
-                >
-                  {content}
-                </button>
-              ) : content}
-            </li>
-          )
-        })}
-      </ul>
+          ))}
+        </div>
       )}
     </section>
   )
@@ -266,7 +286,8 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
 
   const cards = data?.cards ?? []
   const [rarityFilter, setRarityFilter] = useState('all')
-  const [setFilter, setSetFilter] = useState<'all' | PackSetId>('all')
+  const [setFilter, setSetFilter] = useState<'all' | PackSetId>(COLLECTION_CATALOG[0]?.id ?? 'all')
+  const userPickedSetRef = useRef(false)
   const [selectedCard, setSelectedCard] = useState<CollectionCard | null>(null)
   const rarityOptions = useMemo(() => {
     const counts = new Map<string, number>()
@@ -295,6 +316,25 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
     return map
   }, [cards])
   const isInitialLoading = Boolean(account && isLoading && cards.length === 0)
+
+  useEffect(() => {
+    if (userPickedSetRef.current || cards.length === 0) return
+    const counts = new Map<PackSetId, number>()
+    for (const card of cards) {
+      if (!card.setId) continue
+      counts.set(card.setId, (counts.get(card.setId) ?? 0) + 1)
+    }
+    let best: PackSetId | null = null
+    let bestCount = 0
+    for (const set of COLLECTION_CATALOG) {
+      const count = counts.get(set.id) ?? 0
+      if (count > bestCount) {
+        bestCount = count
+        best = set.id
+      }
+    }
+    if (best) setSetFilter(best)
+  }, [cards])
 
   return (
     <section aria-labelledby="collection-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-6">
@@ -359,7 +399,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                 ) : null}
               </div>
               <div className="flex flex-wrap items-center justify-end gap-2">
-                <Select value={setFilter} onValueChange={(value) => setSetFilter((value ?? 'all') as 'all' | PackSetId)}>
+                <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
                   <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
                     <SelectValue />
                   </SelectTrigger>
