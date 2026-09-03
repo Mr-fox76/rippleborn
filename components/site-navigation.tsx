@@ -12,14 +12,15 @@ export function SiteNavigation() {
   return (
     <nav aria-label="Primary navigation" className="site-nav flex items-center">
       <Link
-        href="/collection"
+        href={isActive ? '/' : '/collection'}
         aria-current={isActive ? 'page' : undefined}
+        aria-pressed={isActive}
         className={cn('collection-nav-action', isActive && 'collection-nav-action-active')}
-        aria-label="Open collection"
-        title="Collection"
+        aria-label={isActive ? 'Close collection' : 'Open collection'}
+        title={isActive ? 'Close collection' : 'Collection'}
       >
         <Images className="size-4" aria-hidden="true" />
-        <span className="sr-only">Collection</span>
+        <span className="sr-only">{isActive ? 'Close collection' : 'Collection'}</span>
       </Link>
     </nav>
   )
