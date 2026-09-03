@@ -307,6 +307,20 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
   const visibleCatalogs = setFilter === 'all'
     ? COLLECTION_CATALOG
     : COLLECTION_CATALOG.filter((set) => set.id === setFilter)
+  const catalogRarities = useMemo(() => {
+    const seen = new Set<string>()
+    const ordered: string[] = []
+    for (const set of COLLECTION_CATALOG) {
+      for (const slot of set.slots) {
+        const rarity = slot.rarity?.trim()
+        if (rarity && !seen.has(rarity)) {
+          seen.add(rarity)
+          ordered.push(rarity)
+        }
+      }
+    }
+    return ordered
+  }, [])
   const ownedBySlot = useMemo(() => {
     const map = new Map<string, CollectionCard>()
     for (const card of cards) {
@@ -355,12 +369,66 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
 
       <div className="qr-panel collection-panel min-h-[28rem] p-4 sm:p-6 lg:p-8" aria-live="polite" aria-busy={isLoading || isValidating}>
         {!account ? (
-          <div className="flex min-h-[24rem] flex-col items-center justify-center gap-6 text-center">
-            <div className="flex max-w-lg flex-col gap-2">
-              <h2 className="font-sans text-xl font-semibold text-foreground">Connect Xaman to see cards you claimed.</h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">Your public wallet address is used only to read its Ledgerborn NFTs.</p>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col items-center gap-4 border-b border-border/60 pb-6 text-center">
+              <div className="flex max-w-lg flex-col gap-2">
+                <h2 className="font-sans text-xl font-semibold text-foreground">Connect Xaman to see cards you claimed.</h2>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Here&apos;s the full set to collect. Connect your wallet to reveal the cards you own.
+                </p>
+              </div>
+              <ConnectWalletButton />
             </div>
-            <ConnectWalletButton />
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
+              <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                Preview &middot; filter the full set
+              </p>
+              <div className="flex flex-wrap items-center justify-end gap-2">
+                <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
+                  <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent align="end" alignItemWithTrigger={false}>
+                    <SelectGroup>
+                      <SelectLabel>Filter by set</SelectLabel>
+                      <SelectItem value="all">All sets</SelectItem>
+                      {COLLECTION_CATALOG.map((set) => (
+                        <SelectItem key={set.id} value={set.id}>{set.label}</SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <Select value={rarityFilter} onValueChange={(value) => setRarityFilter(value ?? 'all')}>
+                  <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
+                    <SlidersHorizontal aria-hidden="true" />
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent align="end" alignItemWithTrigger={false}>
+                    <SelectGroup>
+                      <SelectLabel>Filter by rarity</SelectLabel>
+                      <SelectItem value="all">All cards</SelectItem>
+                      {catalogRarities.map((rarity) => (
+                        <SelectItem key={rarity} value={rarity}>
+                          <span className={`collection-filter-dot rarity-${rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`} aria-hidden="true" />
+                          <span>{rarity}</span>
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              {visibleCatalogs.map((set) => (
+                <CollectionChecklist
+                  key={set.id}
+                  set={set}
+                  ownedBySlot={ownedBySlot}
+                  rarityFilter={rarityFilter}
+                  onCardSelect={setSelectedCard}
+                />
+              ))}
+            </div>
           </div>
         ) : isInitialLoading ? (
           <div className="flex min-h-[24rem] flex-col items-center justify-center gap-3 text-center">
@@ -380,9 +448,28 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
             </Button>
           </div>
         ) : cards.length === 0 ? (
-          <div className="flex min-h-[24rem] flex-col items-center justify-center gap-3 text-center">
-            <h2 className="font-sans text-xl font-semibold text-foreground">No Ledgerborn cards on this wallet yet.</h2>
-            <p className="text-sm text-muted-foreground">Claim a card offer, then refresh this collection.</p>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col items-center gap-3 border-b border-border/60 pb-6 text-center">
+              <h2 className="font-sans text-xl font-semibold text-foreground">No Ledgerborn cards on this wallet yet.</h2>
+              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+                Here&apos;s the full set to collect. Claim a card offer, then refresh to reveal your cards below.
+              </p>
+              <Button type="button" variant="ghost" size="sm" onClick={() => mutate()} disabled={isValidating} className="ghost-action font-mono text-xs uppercase tracking-[0.12em]">
+                <RefreshCw className={`size-4 ${isValidating ? 'animate-spin' : ''}`} aria-hidden="true" />
+                {isValidating ? 'Refreshing' : 'Refresh'}
+              </Button>
+            </div>
+            <div className="flex flex-col gap-4">
+              {visibleCatalogs.map((set) => (
+                <CollectionChecklist
+                  key={set.id}
+                  set={set}
+                  ownedBySlot={ownedBySlot}
+                  rarityFilter="all"
+                  onCardSelect={setSelectedCard}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className="flex flex-col gap-5">
