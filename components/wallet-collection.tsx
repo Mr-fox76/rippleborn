@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Check, Copy, ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
 import useSWR from 'swr'
-import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { Button } from '@/components/ui/button'
 import {
@@ -285,6 +285,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
   const cards = data?.cards ?? []
   const [rarityFilter, setRarityFilter] = useState('all')
   const [setFilter, setSetFilter] = useState<'all' | PackSetId>(COLLECTION_CATALOG[0]?.id ?? 'all')
+  const userPickedSetRef = useRef(false)
   const [selectedCard, setSelectedCard] = useState<CollectionCard | null>(null)
   const rarityOptions = useMemo(() => {
     const counts = new Map<string, number>()
@@ -313,6 +314,25 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
     return map
   }, [cards])
   const isInitialLoading = Boolean(account && isLoading && cards.length === 0)
+
+  useEffect(() => {
+    if (userPickedSetRef.current || cards.length === 0) return
+    const counts = new Map<PackSetId, number>()
+    for (const card of cards) {
+      if (!card.setId) continue
+      counts.set(card.setId, (counts.get(card.setId) ?? 0) + 1)
+    }
+    let best: PackSetId | null = null
+    let bestCount = 0
+    for (const set of COLLECTION_CATALOG) {
+      const count = counts.get(set.id) ?? 0
+      if (count > bestCount) {
+        bestCount = count
+        best = set.id
+      }
+    }
+    if (best) setSetFilter(best)
+  }, [cards])
 
   return (
     <section aria-labelledby="collection-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-6">
@@ -377,7 +397,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                 ) : null}
               </div>
               <div className="flex flex-wrap items-center justify-end gap-2">
-                <Select value={setFilter} onValueChange={(value) => setSetFilter((value ?? 'all') as 'all' | PackSetId)}>
+                <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
                   <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
                     <SelectValue />
                   </SelectTrigger>
