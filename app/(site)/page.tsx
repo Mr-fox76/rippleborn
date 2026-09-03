@@ -42,6 +42,14 @@ export default async function Page() {
             <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
             <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy</Link>
             <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms</Link>
+            <a
+              href="https://t.me/LedgerBorn"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+            >
+              Telegram
+            </a>
           </nav>
         </div>
       </footer>
