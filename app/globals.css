@@ -1705,7 +1705,7 @@
 }
 
 .collection-display-card-missing {
-  border-color: color-mix(in oklch, var(--rarity-color) 62%, var(--border));
+  border-color: color-mix(in oklch, var(--rarity-color) 90%, var(--foreground));
   background: var(--card);
   box-shadow:
     0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
