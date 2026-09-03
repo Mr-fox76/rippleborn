@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { HowItWorks } from '@/components/how-it-works'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
@@ -24,6 +25,7 @@ export default async function Page() {
           </h2>
           <RarityOdds stats={collectionStats} countersOnly visitCount={visitCount} />
         </section>
+        <HowItWorks />
         <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
       <footer className="relative z-10 border-t border-border/40 px-6 py-8">
