@@ -27,7 +27,7 @@ function shortAddress(address: string) {
 }
 
 export function ConnectWalletButton() {
-  const { account, request, status, creating, error, connect, disconnect } = useXamanWallet()
+  const { account, request, status, creating, error, connect, disconnect, dismissRequest } = useXamanWallet()
 
   if (account) {
     return (
@@ -69,14 +69,15 @@ export function ConnectWalletButton() {
 
   return (
     <div className="relative flex items-center">
-      <Popover open={Boolean(request)}>
+      <Popover open={Boolean(request)} onOpenChange={(open) => { if (!open) dismissRequest() }}>
         <PopoverTrigger
           render={
             <Button
               type="button"
               size="sm"
-              onClick={connect}
-              disabled={pending}
+              onClick={request ? dismissRequest : connect}
+              disabled={creating}
+              aria-pressed={Boolean(request)}
               className="wallet-connect-action primary-action min-h-10 px-3 font-mono text-[0.65rem] font-semibold uppercase tracking-[0.1em] sm:px-4"
             />
           }
