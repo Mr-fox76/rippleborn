@@ -144,8 +144,8 @@ export function PackOpening({
             src={packImage}
             alt=""
             fill
-            preload
-            unoptimized
+            priority
+            quality={85}
             sizes="(max-width: 639px) 70vw, 19rem"
             className="foil-pack-art"
           />
