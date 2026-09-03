@@ -380,9 +380,28 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
             </Button>
           </div>
         ) : cards.length === 0 ? (
-          <div className="flex min-h-[24rem] flex-col items-center justify-center gap-3 text-center">
-            <h2 className="font-sans text-xl font-semibold text-foreground">No Ledgerborn cards on this wallet yet.</h2>
-            <p className="text-sm text-muted-foreground">Claim a card offer, then refresh this collection.</p>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col items-center gap-3 border-b border-border/60 pb-6 text-center">
+              <h2 className="font-sans text-xl font-semibold text-foreground">No Ledgerborn cards on this wallet yet.</h2>
+              <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+                Here&apos;s the full set to collect. Claim a card offer, then refresh to reveal your cards below.
+              </p>
+              <Button type="button" variant="ghost" size="sm" onClick={() => mutate()} disabled={isValidating} className="ghost-action font-mono text-xs uppercase tracking-[0.12em]">
+                <RefreshCw className={`size-4 ${isValidating ? 'animate-spin' : ''}`} aria-hidden="true" />
+                {isValidating ? 'Refreshing' : 'Refresh'}
+              </Button>
+            </div>
+            <div className="flex flex-col gap-4">
+              {visibleCatalogs.map((set) => (
+                <CollectionChecklist
+                  key={set.id}
+                  set={set}
+                  ownedBySlot={ownedBySlot}
+                  rarityFilter="all"
+                  onCardSelect={setSelectedCard}
+                />
+              ))}
+            </div>
           </div>
         ) : (
           <div className="flex flex-col gap-5">
