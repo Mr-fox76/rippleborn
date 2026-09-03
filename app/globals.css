@@ -1759,18 +1759,22 @@
 }
 
 .collection-pyramid-card {
-  width: 7rem;
+  flex: 1 1 7rem;
+  min-width: 6rem;
+  max-width: 14rem;
 }
 
 @media (min-width: 640px) {
   .collection-pyramid-card {
-    width: 8rem;
+    flex-basis: 9rem;
+    max-width: 16rem;
   }
 }
 
 @media (min-width: 1024px) {
   .collection-pyramid-card {
-    width: 9.25rem;
+    flex-basis: 11rem;
+    max-width: 20rem;
   }
 }
 
