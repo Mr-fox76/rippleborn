@@ -25,7 +25,7 @@ export function PackGallery() {
       <div className="mx-auto flex max-w-3xl flex-col gap-4 text-center">
         <p className="collection-eyebrow font-mono text-[0.65rem] uppercase tracking-[0.32em] text-foreground">A new digital card-opening experience</p>
         <h1 id="pack-gallery-title" className="font-sans text-4xl font-semibold tracking-[-0.035em] text-balance sm:text-5xl lg:text-6xl">
-          Every card holds a moment. <span className="text-muted-foreground">Make the next one yours.</span>
+          Remember filling your sticker album? <span className="text-muted-foreground">Do it all over again.</span>
         </h1>
         <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
           Ledgerborn is a new independent collectible experience built with care, transparency, and genuine excitement for what digital cards can become. Open three-card packs, discover real rarities, and choose whether to collect your pulls on the public XRP Ledger.
