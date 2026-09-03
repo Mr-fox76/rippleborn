@@ -106,7 +106,7 @@ function CollectionCardLightbox({
                 src={card.image}
                 alt={`${card.name} NFT artwork`}
                 fill
-                unoptimized
+                quality={85}
                 sizes="(max-width: 767px) calc(100vw - 4rem), 672px"
                 className="object-cover"
               />
@@ -171,7 +171,6 @@ function CollectionChecklist({
               src={card.image}
               alt={`${slot.name} NFT artwork`}
               fill
-              unoptimized
               sizes="(max-width: 639px) calc(50vw - 2rem), (max-width: 1023px) calc(33vw - 2rem), 180px"
               className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
             />
