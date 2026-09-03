@@ -355,12 +355,27 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
 
       <div className="qr-panel collection-panel min-h-[28rem] p-4 sm:p-6 lg:p-8" aria-live="polite" aria-busy={isLoading || isValidating}>
         {!account ? (
-          <div className="flex min-h-[24rem] flex-col items-center justify-center gap-6 text-center">
-            <div className="flex max-w-lg flex-col gap-2">
-              <h2 className="font-sans text-xl font-semibold text-foreground">Connect Xaman to see cards you claimed.</h2>
-              <p className="text-sm leading-relaxed text-muted-foreground">Your public wallet address is used only to read its Ledgerborn NFTs.</p>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-col items-center gap-4 border-b border-border/60 pb-6 text-center">
+              <div className="flex max-w-lg flex-col gap-2">
+                <h2 className="font-sans text-xl font-semibold text-foreground">Connect Xaman to see cards you claimed.</h2>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  Here&apos;s the full set to collect. Connect your wallet to reveal the cards you own.
+                </p>
+              </div>
+              <ConnectWalletButton />
             </div>
-            <ConnectWalletButton />
+            <div className="flex flex-col gap-4">
+              {visibleCatalogs.map((set) => (
+                <CollectionChecklist
+                  key={set.id}
+                  set={set}
+                  ownedBySlot={ownedBySlot}
+                  rarityFilter="all"
+                  onCardSelect={setSelectedCard}
+                />
+              ))}
+            </div>
           </div>
         ) : isInitialLoading ? (
           <div className="flex min-h-[24rem] flex-col items-center justify-center gap-3 text-center">
