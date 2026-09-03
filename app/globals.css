@@ -1717,10 +1717,13 @@
   background: var(--card);
 }
 
-.collection-undiscovered-back {
-  height: auto;
-  border-color: oklch(0.94 0.018 260 / 10%);
-}
+  .collection-undiscovered-back {
+  height: 100%;
+  justify-content: center;
+  gap: 0;
+  border-color: oklch(0.94 0.018 260 / 8%);
+  opacity: 0.4;
+  }
 
 .collection-pyramid {
   display: flex;
