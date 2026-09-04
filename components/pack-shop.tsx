@@ -370,6 +370,21 @@ export function PackShop({
                   or open a pack for {pack.priceXrp} XRP
                 </button>
               </div>
+            ) : !account && freeStatus && freeStatus.remaining > 0 ? (
+              <div className="flex w-full flex-col items-center gap-2">
+                <Button
+                  type="button"
+                  disabled
+                  size="lg"
+                  className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+                >
+                  <Gift className="size-4" aria-hidden="true" />
+                  Free pack — first 15 wallets
+                </Button>
+                <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground">
+                  Connect Xaman to claim, or open a pack for {pack.priceXrp} XRP
+                </p>
+              </div>
             ) : (
               <Button
                 type="button"
