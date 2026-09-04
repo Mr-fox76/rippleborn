@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import { desc, eq } from 'drizzle-orm'
 import { addDiscoveryNumbers } from '@/lib/card-discoveries'
+import { getCardSetLine } from '@/lib/collection-catalog'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { db } from '@/lib/db'
@@ -15,6 +16,13 @@ export type MintedPackCard = Card & {
   claimExpiresAt?: string
   discoveryNumber?: number
   discoveredTotal?: number
+  // Edition line frozen at fulfill time (never recounted): "{discovery} / {discoveredAtPull}".
+  discovery?: number
+  discoveredAtPull?: number
+  // Quieter set line frozen at fulfill time: "{setCode} {cardNumber}/{setSize}" (e.g. "CYB 07/22").
+  setCode?: string
+  cardNumber?: number
+  setSize?: number
   reason?: string
 }
 
@@ -125,6 +133,11 @@ export type LatestMintedNft = {
   discoveryNumber?: number
   discoveredTotal?: number
   cardIdentifier?: string
+  discovery?: number
+  discoveredAtPull?: number
+  setCode?: string
+  cardNumber?: number
+  setSize?: number
 }
 
 export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]> {
@@ -140,9 +153,37 @@ export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]>
     .filter((card): card is MintedPackCard & { nftId: string } => card.mintStatus === 'minted' && Boolean(card.nftId))
     .sort((a, b) => Date.parse(b.mintedAt ?? '0') - Date.parse(a.mintedAt ?? '0'))
     .slice(0, limit)
-    .map(({ nftId, name, image, rarity }) => ({ nftId, name: getDisplayCardName(name), image, rarity }))
+    .map(({ nftId, name, image, rarity, discovery, discoveredAtPull, setCode, cardNumber, setSize }) => ({
+      nftId,
+      name: getDisplayCardName(name),
+      image,
+      rarity,
+      discovery,
+      discoveredAtPull,
+      setCode,
+      cardNumber,
+      setSize,
+    }))
 
-  return addDiscoveryNumbers(latest)
+  // Attach cardIdentifier (on-art code) and, for cards minted before edition fields were
+  // frozen, fall back to the stable ordinal (shown as N / N) and an inferred set line so
+  // no card ever renders a growing denominator.
+  const withIdentifiers = await addDiscoveryNumbers(latest)
+  return withIdentifiers.map((entry) => {
+    const nft = entry as typeof entry & { discoveryNumber?: number }
+    const discovery = nft.discovery ?? nft.discoveryNumber
+    const discoveredAtPull = nft.discoveredAtPull ?? nft.discoveryNumber
+    if (nft.setCode) return { ...nft, discovery, discoveredAtPull }
+    const setLine = getCardSetLine(nft.name)
+    return {
+      ...nft,
+      discovery,
+      discoveredAtPull,
+      setCode: setLine?.code,
+      cardNumber: setLine?.cardNumber,
+      setSize: setLine?.setSize,
+    }
+  })
 }
 
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {

@@ -45,6 +45,16 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         <div className="flex min-w-0 flex-col gap-1">
                           <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground">{nft.name}</h3>
                           <span className="collection-rarity-seal">{nft.rarity}</span>
+                          {typeof nft.discovery === 'number' && typeof nft.discoveredAtPull === 'number' ? (
+                            <span className="font-mono text-xs font-semibold tracking-wide text-foreground">
+                              {nft.discovery} / {nft.discoveredAtPull}
+                            </span>
+                          ) : null}
+                          {nft.setCode && typeof nft.cardNumber === 'number' && typeof nft.setSize === 'number' ? (
+                            <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
+                              {nft.setCode} {String(nft.cardNumber).padStart(2, '0')}/{String(nft.setSize).padStart(2, '0')}
+                            </span>
+                          ) : null}
                         </div>
                         <ExternalLink className="size-4 shrink-0 text-foreground/70 transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
                       </div>
