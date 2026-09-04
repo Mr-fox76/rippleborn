@@ -1,1 +1,22 @@
-{"name":"Gunslinger Zero","description":"You are more than your first design; every new choice is a chance to rebuild yourself.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/gunslinger-zero.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Mythic"},{"trait_type":"Card Number","value":19}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Gunslinger Zero",
+  "description": "You are more than your first design; every new choice is a chance to rebuild yourself.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/gunslinger-zero.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 19
+    }
+  ]
+}

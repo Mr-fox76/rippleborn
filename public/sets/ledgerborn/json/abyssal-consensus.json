@@ -1,8 +1,10 @@
 {
   "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
   "name": "Abyssal Consensus",
   "description": "Epic Rippleborn card.",
   "image": "https://ledgerborn.app/cards/abyssal-consensus.png",
+  "external_url": "https://ledgerborn.app",
   "attributes": [
     {
       "trait_type": "Rarity",
@@ -12,6 +14,5 @@
       "trait_type": "Set",
       "value": "Rippleborn"
     }
-  ],
-  "external_url": "https://ledgerborn.app"
+  ]
 }

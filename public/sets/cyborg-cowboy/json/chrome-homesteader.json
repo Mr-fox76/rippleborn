@@ -1,1 +1,22 @@
-{"name":"Chrome Homesteader","description":"Build with care today and tomorrow will have a strong place to call home.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/chrome-homesteader.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Common"},{"trait_type":"Card Number","value":5}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Chrome Homesteader",
+  "description": "Build with care today and tomorrow will have a strong place to call home.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/chrome-homesteader.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 5
+    }
+  ]
+}

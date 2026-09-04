@@ -1,1 +1,22 @@
-{"name":"Warden of Red Orbit","description":"Guard your inner world with wisdom; what you nurture within becomes your sky.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/warden-of-red-orbit.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Legendary"},{"trait_type":"Card Number","value":18}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Warden of Red Orbit",
+  "description": "Guard your inner world with wisdom; what you nurture within becomes your sky.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/warden-of-red-orbit.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 18
+    }
+  ]
+}

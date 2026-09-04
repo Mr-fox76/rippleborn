@@ -1,1 +1,22 @@
-{"name":"Echo Snail","description":"Carry your whole universe gently; there is no need to rush.","image":"https://ledgerborn.app/sets/chromatic-abyss/images/echo-snail.png","external_url":"https://ledgerborn.app/packs/chromatic-abyss","attributes":[{"trait_type":"Set","value":"Chromatic Abyss"},{"trait_type":"Rarity","value":"Common"},{"trait_type":"Card Number","value":5}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Echo Snail",
+  "description": "Carry your whole universe gently; there is no need to rush.",
+  "image": "https://ledgerborn.app/sets/chromatic-abyss/images/echo-snail.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 5
+    }
+  ]
+}

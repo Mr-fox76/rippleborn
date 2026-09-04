@@ -1,1 +1,22 @@
-{"name":"Infinity Gardener","description":"Tend the present moment; eternity grows from here.","image":"https://ledgerborn.app/sets/chromatic-abyss/images/infinity-gardener.png","external_url":"https://ledgerborn.app/packs/chromatic-abyss","attributes":[{"trait_type":"Set","value":"Chromatic Abyss"},{"trait_type":"Rarity","value":"Legendary"},{"trait_type":"Card Number","value":17}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Infinity Gardener",
+  "description": "Tend the present moment; eternity grows from here.",
+  "image": "https://ledgerborn.app/sets/chromatic-abyss/images/infinity-gardener.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 17
+    }
+  ]
+}

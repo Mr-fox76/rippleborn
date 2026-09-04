@@ -1,1 +1,22 @@
-{"name":"Thought Diver","description":"Go beneath the noise; your clearest truth waits in quieter water.","image":"https://ledgerborn.app/sets/chromatic-abyss/images/thought-diver.png","external_url":"https://ledgerborn.app/packs/chromatic-abyss","attributes":[{"trait_type":"Set","value":"Chromatic Abyss"},{"trait_type":"Rarity","value":"Rare"},{"trait_type":"Card Number","value":8}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Thought Diver",
+  "description": "Go beneath the noise; your clearest truth waits in quieter water.",
+  "image": "https://ledgerborn.app/sets/chromatic-abyss/images/thought-diver.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 8
+    }
+  ]
+}

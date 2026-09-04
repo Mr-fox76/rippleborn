@@ -1,8 +1,10 @@
 {
   "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
   "name": "Ledger Acolyte",
   "description": "A devoted apprentice learning to read the living currents of the XRP Ledger.",
   "image": "https://ledgerborn.app/cards/ledger-acolyte.png",
+  "external_url": "https://ledgerborn.app",
   "attributes": [
     {
       "trait_type": "Rarity",
@@ -12,6 +14,5 @@
       "trait_type": "Collection",
       "value": "Rippleborn Genesis"
     }
-  ],
-  "external_url": "https://ledgerborn.app"
+  ]
 }

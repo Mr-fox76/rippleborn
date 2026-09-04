@@ -1,1 +1,22 @@
-{"name":"The Thousand-Petaled Mind","description":"Your mind is not a cage; it is a garden with endless doors.","image":"https://ledgerborn.app/sets/chromatic-abyss/images/thousand-petaled-mind.png","external_url":"https://ledgerborn.app/packs/chromatic-abyss","attributes":[{"trait_type":"Set","value":"Chromatic Abyss"},{"trait_type":"Rarity","value":"Mythic"},{"trait_type":"Card Number","value":21}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "The Thousand-Petaled Mind",
+  "description": "Your mind is not a cage; it is a garden with endless doors.",
+  "image": "https://ledgerborn.app/sets/chromatic-abyss/images/thousand-petaled-mind.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 21
+    }
+  ]
+}

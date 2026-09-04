@@ -1,1 +1,22 @@
-{"name":"Sovereign of Sixguns","description":"Power is best measured by restraint; choose the peaceful path because you are strong enough to do so.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/sovereign-of-sixguns.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Legendary"},{"trait_type":"Card Number","value":15}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Sovereign of Sixguns",
+  "description": "Power is best measured by restraint; choose the peaceful path because you are strong enough to do so.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/sovereign-of-sixguns.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 15
+    }
+  ]
+}

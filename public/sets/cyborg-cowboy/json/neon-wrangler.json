@@ -1,1 +1,22 @@
-{"name":"Neon Wrangler","description":"Guide your energy with patience; even wild power can become a trusted companion.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/neon-wrangler.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Common"},{"trait_type":"Card Number","value":2}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Neon Wrangler",
+  "description": "Guide your energy with patience; even wild power can become a trusted companion.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/neon-wrangler.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 2
+    }
+  ]
+}

@@ -1,1 +1,22 @@
-{"name":"Circuit Trailhand","description":"A steady hand proves that every legendary trail begins with one brave step.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/circuit-trailhand.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Common"},{"trait_type":"Card Number","value":1}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Circuit Trailhand",
+  "description": "A steady hand proves that every legendary trail begins with one brave step.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/circuit-trailhand.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 1
+    }
+  ]
+}

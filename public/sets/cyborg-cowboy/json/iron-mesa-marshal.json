@@ -1,1 +1,22 @@
-{"name":"Iron Mesa Marshal","description":"Stand tall without hardening your heart; true authority protects before it commands.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/iron-mesa-marshal.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Rare"},{"trait_type":"Card Number","value":7}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Iron Mesa Marshal",
+  "description": "Stand tall without hardening your heart; true authority protects before it commands.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/iron-mesa-marshal.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 7
+    }
+  ]
+}

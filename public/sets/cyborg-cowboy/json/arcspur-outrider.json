@@ -1,1 +1,22 @@
-{"name":"Arcspur Outrider","description":"Ride beyond the familiar; courage grows each time curiosity leads the way.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/arcspur-outrider.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Rare"},{"trait_type":"Card Number","value":10}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Arcspur Outrider",
+  "description": "Ride beyond the familiar; courage grows each time curiosity leads the way.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/arcspur-outrider.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 10
+    }
+  ]
+}

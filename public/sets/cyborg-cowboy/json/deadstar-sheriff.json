@@ -1,1 +1,22 @@
-{"name":"Deadstar Sheriff","description":"Even after the darkest night, you can choose to become the light others follow.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/deadstar-sheriff.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Epic"},{"trait_type":"Card Number","value":14}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Deadstar Sheriff",
+  "description": "Even after the darkest night, you can choose to become the light others follow.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/deadstar-sheriff.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 14
+    }
+  ]
+}

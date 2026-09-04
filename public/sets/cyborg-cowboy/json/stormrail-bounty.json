@@ -1,1 +1,22 @@
-{"name":"Stormrail Bounty","description":"Keep moving through the storm; your purpose is stronger than the weather around you.","image":"https://ledgerborn.app/sets/cyborg-cowboy/images/stormrail-bounty.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Epic"},{"trait_type":"Card Number","value":12}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Stormrail Bounty",
+  "description": "Keep moving through the storm; your purpose is stronger than the weather around you.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/stormrail-bounty.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 12
+    }
+  ]
+}

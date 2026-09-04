@@ -1,1 +1,22 @@
-{"name":"Lantern Bloom","description":"Open at your own pace; your light already knows the way.","image":"https://ledgerborn.app/sets/chromatic-abyss/images/lantern-bloom.png","external_url":"https://ledgerborn.app/packs/chromatic-abyss","attributes":[{"trait_type":"Set","value":"Chromatic Abyss"},{"trait_type":"Rarity","value":"Common"},{"trait_type":"Card Number","value":6}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Lantern Bloom",
+  "description": "Open at your own pace; your light already knows the way.",
+  "image": "https://ledgerborn.app/sets/chromatic-abyss/images/lantern-bloom.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 6
+    }
+  ]
+}
