@@ -73,7 +73,11 @@ function readCachedCards(account: string): CollectionCard[] | undefined {
   }
 }
 
-async function fetchCollection(url: string): Promise<CollectionResponse> {
+export function collectionSwrKey(account: string): string {
+  return `/api/collection?owner=${encodeURIComponent(account)}`
+}
+
+export async function fetchCollection(url: string): Promise<CollectionResponse> {
   const response = await fetch(url, { cache: 'no-store' })
   const data = (await response.json()) as CollectionResponse & { error?: string }
   if (!response.ok) throw new Error(data.error ?? 'Unable to refresh this collection.')
