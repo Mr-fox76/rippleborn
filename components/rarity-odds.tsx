@@ -81,11 +81,7 @@ export function RarityOdds({
         </dl>
       ) : null}
 
-      {countersOnly ? (
-        <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
-          Phoenix is the rarest pull: a 0.05% independent chance per card.
-        </p>
-      ) : (
+      {countersOnly ? null : (
         <div className="flex flex-col gap-3 border-t border-border pt-5">
           <div className="flex items-end justify-between gap-4">
             <div className="flex flex-col gap-1">
