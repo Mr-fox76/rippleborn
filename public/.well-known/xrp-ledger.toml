@@ -1,8 +1,6 @@
-NETWORK = "mainnet"
-WEBSITE = "https://ledgerborn.app"
+METADATA_URL = https://ledgerborn.app
 
 [[ACCOUNTS]]
 address = "rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv"
-
-[[ISSUERS]]
-address = "rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv"
+desc = "Ledgerborn NFT issuer"
+network = "main"
