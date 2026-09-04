@@ -1485,8 +1485,7 @@
   background: var(--card);
   box-shadow:
     0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
-    0 0 1.75rem color-mix(in oklch, var(--primary) 12%, transparent),
-    0 0 0 1px oklch(0.72 0.12 205 / 10%),
+    0 0 1.75rem color-mix(in oklch, var(--rarity-color) 12%, transparent),
     inset 0 1px 0 oklch(0.93 0.018 210 / 10%);
 }
 
@@ -1537,7 +1536,7 @@
   position: absolute;
   inset: 0.8rem;
   z-index: 1;
-  border: 1px solid color-mix(in oklch, var(--primary) 36%, transparent);
+  border: 1px solid color-mix(in oklch, var(--rarity-color) 36%, transparent);
   border-radius: 0.65rem;
   content: '';
   pointer-events: none;
