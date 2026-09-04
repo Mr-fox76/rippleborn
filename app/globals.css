@@ -1500,13 +1500,14 @@
 }
 
 .tarot-reveal-button:hover {
-  border-color: var(--gold);
-  box-shadow: 0 1.75rem 4rem oklch(0.09 0.025 164 / 65%);
-  transform: translateY(-0.4rem);
+  border-color: color-mix(in oklch, var(--rarity-color) 82%, var(--foreground));
+  box-shadow:
+    0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
+    0 0 2.5rem color-mix(in oklch, var(--rarity-color) 55%, transparent);
 }
 
 .tarot-reveal-button:focus-visible {
-  outline: 2px solid var(--ring);
+  outline: 2px solid color-mix(in oklch, var(--rarity-color) 80%, var(--foreground));
   outline-offset: 0.3rem;
 }
 
@@ -1616,23 +1617,23 @@
 }
 
 .rarity-common {
-  --rarity-color: oklch(0.82 0.035 230);
+  --rarity-color: #9ca3af;
 }
 
 .rarity-rare {
-  --rarity-color: oklch(0.76 0.18 220);
+  --rarity-color: #3b82f6;
 }
 
 .rarity-epic {
-  --rarity-color: oklch(0.7 0.2 300);
+  --rarity-color: #a855f7;
 }
 
 .rarity-legendary {
-  --rarity-color: oklch(0.82 0.19 68);
+  --rarity-color: #f59e0b;
 }
 
 .rarity-mythic {
-  --rarity-color: oklch(0.72 0.23 28);
+  --rarity-color: #ef4444;
 }
 
 .rarity-limited,
@@ -1648,7 +1649,7 @@
   .tarot-card.rarity-limited,
   .tarot-card.rarity-phoenix {
     box-shadow:
-      0 1.5rem 3.5rem oklch(0.09 0.025 164 / 56%),
+      0 1.5rem 3.5rem oklch(0.04 0.02 225 / 56%),
       0 0 2.5rem color-mix(in oklch, var(--rarity-color) 52%, transparent);
   }
 
@@ -1716,7 +1717,6 @@
 }
 
 .collection-display-card:hover {
-  translate: 0 -0.55rem;
   border-color: color-mix(in oklch, var(--rarity-color) 100%, var(--foreground));
   box-shadow:
     0 2rem 4rem oklch(0.04 0.02 225 / 68%),
