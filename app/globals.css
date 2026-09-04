@@ -461,7 +461,7 @@
   object-position: center;
   opacity: 0.58;
   filter: saturate(1.18) contrast(1.12);
-  transform: scale(1.65);
+  transform: scale(1.02);
   transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
 }
 
@@ -509,7 +509,7 @@
 .pack-set-card:hover .pack-set-image {
   opacity: 0.74;
   filter: saturate(1.4) contrast(1.16);
-  transform: scale(1.72);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic {
@@ -524,20 +524,20 @@
 
 .pack-set-card-cyborg .pack-set-image,
 .pack-set-card-chromatic .pack-set-image {
-  transform: scale(2.32);
+  transform: scale(1.02);
 }
 
 .pack-set-card-cyborg:hover .pack-set-image,
 .pack-set-card-chromatic:hover .pack-set-image {
-  transform: scale(2.39);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic .pack-set-image {
-  transform: scale(1.8);
+  transform: scale(1.02);
 }
 
 .pack-set-card-mythic:hover .pack-set-image {
-  transform: scale(1.87);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic::before {
@@ -1186,26 +1186,26 @@
   object-fit: cover;
   object-position: 50% 48%;
   filter: saturate(0.92) contrast(1.1) brightness(0.72);
-  scale: 1.72;
+  scale: 1.02;
   transition: filter 320ms ease, scale 500ms ease;
 }
 
 .pack-opening-stage[data-pack-kind='cyborg'] .foil-pack-art,
 .pack-opening-stage[data-pack-kind='chromatic'] .foil-pack-art {
-  scale: 2.05;
+  scale: 1.02;
 }
 
 .foil-pack:hover .foil-pack-art,
 .foil-pack:focus-visible .foil-pack-art {
   filter: saturate(1.04) contrast(1.1) brightness(0.82);
-  scale: 1.78;
+  scale: 1.05;
 }
 
 .pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:hover .foil-pack-art,
 .pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:focus-visible .foil-pack-art,
 .pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:hover .foil-pack-art,
 .pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:focus-visible .foil-pack-art {
-  scale: 2.11;
+  scale: 1.05;
 }
 
 .foil-pack-art-shade {
