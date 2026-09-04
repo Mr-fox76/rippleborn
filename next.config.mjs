@@ -21,6 +21,26 @@ const nextConfig = {
         ],
       },
       {
+        source: '/sets/:set/json/:file*.json',
+        headers: [
+          { key: 'Content-Type', value: 'application/json' },
+        ],
+      },
+      {
+        source: '/sets/:set/images/:file*.png',
+        headers: [
+          { key: 'Content-Type', value: 'image/png' },
+        ],
+      },
+      {
+        source: '/sets/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET, HEAD' },
+          { key: 'Cache-Control', value: 'public, max-age=86400' },
+        ],
+      },
+      {
         source: '/:path*',
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
