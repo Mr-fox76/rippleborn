@@ -216,7 +216,7 @@ export function ClaimNftButton({
                 <div className="qr-panel w-full max-w-48 overflow-hidden p-2">
                   <Image src={claim.qrUrl} alt="Scan to claim this NFT in Xaman" width={176} height={176} className="h-auto w-full" unoptimized />
                 </div>
-                <Button render={<a href={claim.deepLink} target="_blank" rel="noopener noreferrer" />}>
+                <Button nativeButton={false} render={<a href={claim.deepLink} target="_blank" rel="noopener noreferrer" />}>
                   <ExternalLink data-icon="inline-start" />
                   Open in Xaman
                 </Button>
