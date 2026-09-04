@@ -21,6 +21,15 @@ const nextConfig = {
         ],
       },
       {
+        source: '/.well-known/xrp-ledger.toml',
+        headers: [
+          { key: 'Content-Type', value: 'text/plain; charset=utf-8' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET, HEAD' },
+          { key: 'Cache-Control', value: 'public, max-age=3600' },
+        ],
+      },
+      {
         source: '/sets/:set/json/:file*.json',
         headers: [
           { key: 'Content-Type', value: 'application/json' },
