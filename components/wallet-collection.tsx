@@ -50,7 +50,8 @@ function isCollectionCard(value: unknown): value is CollectionCard {
     typeof card.tokenId === 'string' &&
     /^[A-F0-9]{64}$/i.test(card.tokenId) &&
     typeof card.image === 'string' &&
-    card.image.startsWith('/api/collection?media=') &&
+    (card.image.startsWith('/api/collection?media=') ||
+      card.image.startsWith('https://ledgerborn.app/')) &&
     typeof card.name === 'string' &&
     card.name.trim().length > 0 &&
     (card.rarity === undefined || typeof card.rarity === 'string') &&
