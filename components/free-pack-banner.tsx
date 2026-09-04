@@ -41,7 +41,7 @@ export function FreePackBanner() {
   if (!status || status.remaining <= 0) return null
 
   const message = !account
-    ? `Connect your wallet to claim — the first ${status.limit} wallets each open one pack on us.`
+    ? `Connect. First ${status.limit} wallets open a pack free.`
     : status.alreadyClaimed
       ? 'Your free pack is reserved — pick a set to open it.'
       : status.eligible
