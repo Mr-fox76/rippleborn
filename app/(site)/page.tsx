@@ -1,7 +1,6 @@
 import { Suspense } from 'react'
 import Link from 'next/link'
 import { FreePackBanner } from '@/components/free-pack-banner'
-import { HowItWorks } from '@/components/how-it-works'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { NetworkStatus } from '@/components/network-status'
 import { PackGallery } from '@/components/pack-gallery'
@@ -40,7 +39,6 @@ export default function Page() {
             <HomeCollectionCounters />
           </Suspense>
         </section>
-        <HowItWorks />
         <Suspense fallback={<IssuerTrustNotice latestNfts={[]} />}>
           <HomeLatestNfts />
         </Suspense>
