@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
-import { NetworkStatus } from '@/components/network-status'
 import { SiteNavigation } from '@/components/site-navigation'
 
 export function SiteHero() {
@@ -28,9 +27,6 @@ export function SiteHero() {
           </div>
 
           <div className="ml-auto flex min-w-0 items-center gap-2">
-            <div className="hidden lg:block">
-              <NetworkStatus />
-            </div>
             <div className="md:hidden">
               <SiteNavigation />
             </div>
