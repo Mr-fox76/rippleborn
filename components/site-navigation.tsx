@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { Images } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function SiteNavigation() {
@@ -18,7 +19,8 @@ export function SiteNavigation() {
         aria-label={isActive ? 'Close My Albums' : 'Open My Albums'}
         title={isActive ? 'Close My Albums' : 'My Albums'}
       >
-        <span>My Albums</span>
+        <Images className="collection-nav-icon" aria-hidden="true" />
+        <span className="collection-nav-label">My Albums</span>
       </Link>
     </nav>
   )

@@ -274,8 +274,16 @@
 
   .collection-nav-action {
     height: 2.25rem;
-    padding-inline: 0.75rem;
-    font-size: 0.62rem;
+    width: 2.25rem;
+    padding-inline: 0;
+  }
+
+  .collection-nav-label {
+    display: none;
+  }
+
+  .collection-nav-icon {
+    display: inline-block;
   }
 }
 
