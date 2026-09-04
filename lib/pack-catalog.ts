@@ -33,7 +33,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/ledgerborn/ledgerborn-mythic-pack-v2.png',
-    coverImage: '/cards/primordial-tidewyrm.png',
+    coverImage: '/cards/primordial-tidewyrm-cover.png',
     theme: {
       id: 'mythic',
       eyebrow: 'Ancient powers. Real NFT ownership.',
@@ -75,7 +75,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/chromatic-abyss/pack.png',
-    coverImage: '/sets/chromatic-abyss/images/thousand-petaled-mind.png',
+    coverImage: '/sets/chromatic-abyss/images/thousand-petaled-mind-cover.png',
     theme: {
       id: 'chromatic',
       eyebrow: 'Lucid visions. On-ledger ownership.',
