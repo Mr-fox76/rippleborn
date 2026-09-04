@@ -85,7 +85,9 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
               <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
             </Link>
             <div className="flex items-center justify-end gap-2 sm:gap-3">
-              <NetworkStatus />
+              <span className="hidden sm:inline-flex">
+                <NetworkStatus />
+              </span>
               <ConnectWalletButton />
             </div>
           </div>
@@ -107,6 +109,9 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
             <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy policy</Link>
             <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms &amp; conditions</Link>
           </nav>
+          <span className="inline-flex sm:hidden">
+            <NetworkStatus />
+          </span>
         </footer>
     </div>
   )
