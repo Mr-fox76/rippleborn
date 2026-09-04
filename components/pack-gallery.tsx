@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { Aperture, CircuitBoard, Sparkles } from 'lucide-react'
 import { PACK_CATALOG, type PackCatalogEntry } from '@/lib/pack-catalog'
@@ -34,7 +33,7 @@ export function PackGallery() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-        {PACK_CATALOG.map((pack, index) => {
+        {PACK_CATALOG.map((pack) => {
           const SetSymbol = SET_SYMBOLS[pack.theme.id]
 
           return (
@@ -43,17 +42,8 @@ export function PackGallery() {
             href={pack.href}
             prefetch={true}
             aria-label={`View the ${pack.kicker} collection`}
-            className={`pack-set-card pack-set-card-${pack.theme.id} group relative flex aspect-[2/3] items-center justify-center overflow-hidden border p-8 shadow-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
+            className={`pack-set-card pack-set-card-${pack.theme.id} group relative flex aspect-square items-center justify-center overflow-hidden border p-8 shadow-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
           >
-            <Image
-              src={pack.coverImage}
-              alt=""
-              fill
-              priority={index === 0}
-              sizes="(max-width: 639px) calc(100vw - 2rem), (max-width: 1023px) calc(50vw - 2rem), 410px"
-              className="pack-set-image"
-            />
-            <div className="pack-set-overlay" aria-hidden="true" />
             <div className="flex flex-col items-center gap-3 text-center">
               <span className="pack-set-accent mb-6 inline-flex size-20 rotate-45 items-center justify-center rounded-sm border border-current/40 bg-background/30 shadow-[0_0_24px_currentColor] transition-transform duration-300 group-hover:rotate-[55deg] group-hover:scale-105" aria-hidden="true">
                 <SetSymbol className="size-10 -rotate-45" strokeWidth={1.5} />
