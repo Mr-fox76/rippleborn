@@ -10,11 +10,12 @@ const SET_SYMBOLS: Record<PackCatalogEntry['theme']['id'], typeof Sparkles> = {
 }
 
 function SetTitle({ name }: { name: string }) {
-  const [brand] = name.split(' - ')
+  const parts = name.split(' - ')
+  const label = parts[1] ?? parts[0]
 
   return (
     <h2 className="font-mono text-sm font-bold uppercase tracking-[0.3em] text-muted-foreground sm:text-base">
-      {brand}
+      {label}
     </h2>
   )
 }

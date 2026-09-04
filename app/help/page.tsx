@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { HelpPage } from '@/components/help-page'
 
 export const metadata: Metadata = {
-  title: 'Help & Support | Ledgerborn',
+  title: 'Help & Support',
   description: 'Answers to common questions about Ledgerborn packs, Xaman payments, NFT delivery, rarity, and recovery.',
 }
 
