@@ -10,7 +10,7 @@ export function SiteNavigation() {
   const isActive = pathname.startsWith('/collection')
 
   return (
-    <nav aria-label="Primary navigation" className="site-nav flex items-center">
+    <nav aria-label="Primary navigation" className="site-nav flex items-center gap-2">
       <Link
         href={isActive ? '/' : '/collection'}
         aria-current={isActive ? 'page' : undefined}
