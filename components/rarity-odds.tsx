@@ -26,11 +26,10 @@ export function RarityOdds({
   }))
   const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
 
+  const showVisits = countersOnly && visitCount !== null && visitCount !== undefined
+
   const counters = [
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
-    ...(countersOnly && visitCount !== null && visitCount !== undefined
-      ? [{ label: 'Site visits', value: visitCount, className: 'text-foreground' }]
-      : []),
     { label: 'Rare', value: stats.rareFound, className: 'rarity-rare' },
     { label: 'Epic', value: stats.epicFound, className: 'rarity-epic' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
@@ -47,7 +46,7 @@ export function RarityOdds({
       ) : null}
       <dl
         aria-label={countersOnly ? 'Cards discovered from opened packs across all sets' : 'Cards discovered from opened packs in this set'}
-        className={`grid grid-cols-2 gap-2 sm:grid-cols-3 ${countersOnly && visitCount !== null && visitCount !== undefined ? 'lg:grid-cols-7' : 'lg:grid-cols-6'}`}
+        className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6"
       >
         {counters.map((counter) => (
           <div
@@ -69,6 +68,18 @@ export function RarityOdds({
           </div>
         ))}
       </dl>
+
+      {showVisits ? (
+        <dl
+          aria-label="Total site visits"
+          className="flex items-center justify-center gap-4 rounded-xl border border-gold/40 bg-gold/[0.06] px-6 py-4 shadow-[0_0_28px_color-mix(in_oklch,var(--gold)_16%,transparent)]"
+        >
+          <dt className="font-mono text-xs uppercase tracking-[0.25em] text-gold">Site visits</dt>
+          <dd className="font-mono text-3xl font-bold tabular-nums text-gold sm:text-4xl">
+            {visitCount!.toLocaleString()}
+          </dd>
+        </dl>
+      ) : null}
 
       {countersOnly ? (
         <p className="text-center text-sm font-medium leading-relaxed text-phoenix">
