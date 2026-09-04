@@ -35,21 +35,15 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         sizes="(max-width: 639px) calc(50vw - 1.5rem), (max-width: 1023px) calc(50vw - 2rem), 320px"
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                       />
-                      {nft.cardIdentifier ? (
-                        <span className="collection-discovery-mark" aria-label={`Card identifier ${nft.cardIdentifier}`}>
-                          {nft.cardIdentifier}
+                      <span className="collection-rarity-seal collection-rarity-seal--corner">{nft.rarity}</span>
+                      {typeof nft.discovery === 'number' ? (
+                        <span className="collection-edition-mark" aria-label={`Edition number ${nft.discovery}`}>
+                          {String(nft.discovery).padStart(3, '0')}
                         </span>
                       ) : null}
-                      <span className="collection-edition-mark" aria-hidden="true">LB</span>
                       <div className="collection-card-caption flex items-end justify-between gap-2">
                         <div className="flex min-w-0 flex-col gap-1">
                           <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground">{nft.name}</h3>
-                          <span className="collection-rarity-seal">{nft.rarity}</span>
-                          {typeof nft.discovery === 'number' && typeof nft.discoveredAtPull === 'number' ? (
-                            <span className="font-mono text-xs font-semibold tracking-wide text-foreground">
-                              {nft.discovery} / {nft.discoveredAtPull}
-                            </span>
-                          ) : null}
                           {nft.setCode && typeof nft.cardNumber === 'number' && typeof nft.setSize === 'number' ? (
                             <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
                               {nft.setCode} {String(nft.cardNumber).padStart(2, '0')}/{String(nft.setSize).padStart(2, '0')}
