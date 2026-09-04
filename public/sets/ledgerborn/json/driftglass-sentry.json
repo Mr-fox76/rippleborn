@@ -1,0 +1,17 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "name": "Driftglass Sentry",
+  "description": "A Common card from the Rippleborn Genesis collection.",
+  "image": "https://ledgerborn.app/cards/driftglass-sentry.png",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Rippleborn Genesis"
+    }
+  ],
+  "external_url": "https://ledgerborn.app"
+}

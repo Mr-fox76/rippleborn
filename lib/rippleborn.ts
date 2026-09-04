@@ -116,8 +116,9 @@ type CardArt = { name: string; image: string; uri: string }
 
 export const RIPPLEBORN_METADATA_CID =
   'bafybeie7q4575rkx7k5yhfsakoxuty5pz72oq7v3vtv3gvp4yqgbjntlsm'
-export const RIPPLEBORN_METADATA_BASE_URL =
-  `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${RIPPLEBORN_METADATA_CID}`
+// New mints serve metadata from the canonical ledgerborn.app site (matches the mint allowlist in
+// lib/xrpl-server.ts). The old Pinata CID is retained above for reference to already-minted cards.
+export const RIPPLEBORN_METADATA_BASE_URL = 'https://ledgerborn.app/sets/ledgerborn/json'
 const metadataUri = (slug: string) => `${RIPPLEBORN_METADATA_BASE_URL}/${slug}.json`
 
 export const CARD_POOL: Record<Rarity, CardArt[]> = {

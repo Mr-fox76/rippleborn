@@ -1,0 +1,17 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "name": "Cobalt Tidecaller",
+  "description": "A Rare card from the Rippleborn Genesis collection.",
+  "image": "https://ledgerborn.app/cards/cobalt-tidecaller.png",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Rippleborn Genesis"
+    }
+  ],
+  "external_url": "https://ledgerborn.app"
+}

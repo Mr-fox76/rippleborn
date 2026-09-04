@@ -1,0 +1,17 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "name": "Archon of Flowing Ledgers",
+  "description": "Legendary Rippleborn card.",
+  "image": "https://ledgerborn.app/cards/archon-of-flowing-ledgers.png",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Set",
+      "value": "Rippleborn"
+    }
+  ],
+  "external_url": "https://ledgerborn.app"
+}
