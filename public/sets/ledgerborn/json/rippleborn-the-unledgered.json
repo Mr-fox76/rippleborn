@@ -1,8 +1,8 @@
 {
   "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "nftType": "collectible",
-  "name": "Rippleborn, the Unledgered",
-  "description": "A Mythic card from the Rippleborn Genesis collection.",
+  "name": "Ledgerborn, the Unledgered",
+  "description": "A Mythic card from the Ledgerborn Mythic collection.",
   "image": "https://ledgerborn.app/cards/rippleborn-the-unledgered.png",
   "external_url": "https://ledgerborn.app",
   "attributes": [
@@ -12,7 +12,7 @@
     },
     {
       "trait_type": "Collection",
-      "value": "Rippleborn Genesis"
+      "value": "Ledgerborn Mythic"
     }
   ]
 }

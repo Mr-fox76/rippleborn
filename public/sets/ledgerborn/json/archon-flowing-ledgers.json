@@ -2,7 +2,7 @@
   "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "nftType": "collectible",
   "name": "Archon of Flowing Ledgers",
-  "description": "Legendary Rippleborn card.",
+  "description": "Legendary Ledgerborn Mythic card.",
   "image": "https://ledgerborn.app/cards/archon-of-flowing-ledgers.png",
   "external_url": "https://ledgerborn.app",
   "attributes": [
@@ -12,7 +12,7 @@
     },
     {
       "trait_type": "Set",
-      "value": "Rippleborn"
+      "value": "Ledgerborn Mythic"
     }
   ]
 }
