@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { Check, Copy, ExternalLink, Loader2, RefreshCw, SlidersHorizontal } from 'lucide-react'
 import useSWR from 'swr'
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
-import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -371,9 +370,8 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
           <div className="flex flex-col gap-5">
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3 border-b border-border/60 pb-4 text-center">
               <p className="text-sm leading-relaxed text-muted-foreground">
-                Connect Xaman to reveal the cards you own.
+                Connect Xaman to reveal your cards.
               </p>
-              <ConnectWalletButton />
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
