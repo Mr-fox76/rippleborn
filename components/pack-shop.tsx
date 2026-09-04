@@ -341,7 +341,7 @@ export function PackShop({
         >
         <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
           {!order ? (
-            account && (freeStatus?.eligible || freeStatus?.alreadyClaimed) ? (
+            account && freeStatus?.eligible ? (
               <div className="flex w-full flex-col items-center gap-2">
                 <Button
                   type="button"
@@ -359,9 +359,7 @@ export function PackShop({
                     ? 'Reserving your free pack…'
                     : pending === 'fulfill'
                       ? 'Opening your free pack…'
-                      : freeStatus?.alreadyClaimed
-                        ? 'Open your free pack'
-                        : 'Open free pack — on us'}
+                      : 'Open free pack — on us'}
                 </Button>
                 <button
                   type="button"
