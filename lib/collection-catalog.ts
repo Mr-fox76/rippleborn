@@ -79,3 +79,31 @@ export function inferCollectionSetId(name: string, taxon?: number): PackSetId | 
 export function getCollectionSlotKey(setId: PackSetId, name: string): string {
   return `${setId}:${normalizeCollectionCardName(name)}`
 }
+
+// Short explorer-style set codes shown on the quieter edition line (e.g. "CYB 07/22").
+const SET_CODES: Record<PackSetId, string> = {
+  ledgerborn: 'MYTH',
+  'cyborg-cowboy': 'CYB',
+  'chromatic-abyss': 'CHR',
+}
+
+export type CardSetLine = {
+  code: string
+  cardNumber: number
+  setSize: number
+}
+
+// Resolves the fixed catalog position and set size for a card. `cardNumber` follows
+// the existing catalog order (Common -> Phoenix) and `setSize` is the set's slot count,
+// so the two can never disagree. Pass an explicit setId when known (mint/pull path); the
+// homepage's mixed "latest NFTs" list infers it from the card name.
+export function getCardSetLine(name: string, setIdHint?: PackSetId, taxon?: number): CardSetLine | null {
+  const setId = setIdHint ?? inferCollectionSetId(name, taxon)
+  if (!setId) return null
+  const set = COLLECTION_CATALOG.find((entry) => entry.id === setId)
+  if (!set) return null
+  const normalized = normalizeCollectionCardName(name)
+  const slot = set.slots.find((entry) => normalizeCollectionCardName(entry.name) === normalized)
+  if (!slot) return null
+  return { code: SET_CODES[setId], cardNumber: slot.position, setSize: set.slots.length }
+}

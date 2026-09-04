@@ -16,6 +16,11 @@ export type FulfilledCard = Card & {
   discoveryNumber?: number
   discoveredTotal?: number
   cardIdentifier?: string
+  discovery?: number
+  discoveredAtPull?: number
+  setCode?: string
+  cardNumber?: number
+  setSize?: number
   reason?: string
 }
 
@@ -254,6 +259,21 @@ function RevealedSpread({
                     <div className="flex min-w-0 flex-col gap-1">
                       <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground sm:text-base">{displayName}</h3>
                       <span className="collection-rarity-seal">{card.rarity}</span>
+                      {(() => {
+                        const discovery = card.discovery ?? card.discoveryNumber
+                        const discoveredAtPull = card.discoveredAtPull ?? card.discoveryNumber
+                        if (typeof discovery !== 'number' || typeof discoveredAtPull !== 'number') return null
+                        return (
+                          <span className="font-mono text-xs font-semibold tracking-wide text-foreground">
+                            {discovery} / {discoveredAtPull}
+                          </span>
+                        )
+                      })()}
+                      {card.setCode && typeof card.cardNumber === 'number' && typeof card.setSize === 'number' ? (
+                        <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
+                          {card.setCode} {String(card.cardNumber).padStart(2, '0')}/{String(card.setSize).padStart(2, '0')}
+                        </span>
+                      ) : null}
                     </div>
                     {card.limited && card.edition && card.maxSupply ? (
                       <span className="phoenix-edition rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:text-xs">

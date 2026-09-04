@@ -1872,8 +1872,9 @@
 
 .collection-edition-mark {
   position: absolute;
-  right: 0.55rem;
-  bottom: 0.55rem;
+  right: 0.65rem;
+  top: 0.65rem;
+  z-index: 12;
   display: grid;
   width: 1.7rem;
   aspect-ratio: 1;
