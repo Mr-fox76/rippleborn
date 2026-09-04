@@ -531,19 +531,19 @@
 }
 
 .pack-set-card-chromatic .pack-set-image {
-  transform: scale(1.14);
+  transform: scale(1.02);
 }
 
 .pack-set-card-chromatic:hover .pack-set-image {
-  transform: scale(1.17);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic .pack-set-image {
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .pack-set-card-mythic:hover .pack-set-image {
-  transform: scale(1.13);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic::before {
