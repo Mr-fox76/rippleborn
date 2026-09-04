@@ -1921,6 +1921,15 @@
   text-transform: uppercase;
 }
 
+.collection-rarity-seal--corner {
+  position: absolute;
+  left: 0.65rem;
+  top: 0.65rem;
+  z-index: 12;
+  background: color-mix(in oklch, var(--rarity-color) 24%, oklch(0.03 0.01 240 / 82%));
+  backdrop-filter: blur(0.35rem);
+}
+
 .collection-card-footer {
   padding-top: 0.55rem;
   border-top: 1px solid color-mix(in oklch, var(--rarity-color) 34%, var(--border));
