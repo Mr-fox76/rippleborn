@@ -7,7 +7,28 @@ const MAINNET_WSS = 'wss://xrplcluster.com'
 const LEDGERBORN_ISSUER = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
 const PINATA_GATEWAY_ORIGIN = 'https://tomato-fancy-frog-92.mypinata.cloud'
 const PUBLIC_IPFS_GATEWAY_ORIGIN = 'https://ipfs.io'
+const SITE_METADATA_ORIGIN = 'https://ledgerborn.app'
 const IPFS_CID_PATTERN = /^(bafy|bafk|Qm)[A-Za-z0-9]+(?:\/[A-Za-z0-9._~!$&'()*+,;=:@%/-]+)?$/
+
+function readSiteOriginUrl(value: string): string | null {
+  try {
+    const url = new URL(value.trim())
+    if (url.protocol === 'https:' && url.origin === SITE_METADATA_ORIGIN) return url.toString()
+    return null
+  } catch {
+    return null
+  }
+}
+
+// Metadata URIs are either legacy IPFS pins or the current ledgerborn.app site URLs.
+function readMetadataUrl(decodedUri: string): string | null {
+  return publicIpfsUrl(decodedUri) ?? readSiteOriginUrl(decodedUri)
+}
+
+// Images are either legacy IPFS art (proxied) or absolute ledgerborn.app URLs (used directly).
+function readImageSrc(imageValue: string): string | null {
+  return proxiedIpfsUrl(imageValue) ?? readSiteOriginUrl(imageValue)
+}
 
 type Metadata = {
   name?: unknown
@@ -87,7 +108,7 @@ async function resolveCard(nft: AccountNFToken): Promise<CollectionCard | null> 
     return null
   }
 
-  const metadataUrl = publicIpfsUrl(decodedUri)
+  const metadataUrl = readMetadataUrl(decodedUri)
   if (!metadataUrl) return null
 
   try {
@@ -102,7 +123,7 @@ async function resolveCard(nft: AccountNFToken): Promise<CollectionCard | null> 
     if (typeof metadata.name !== 'string' || typeof metadata.image !== 'string') return null
 
     const name = metadata.name.trim()
-    const image = proxiedIpfsUrl(metadata.image)
+    const image = readImageSrc(metadata.image)
     if (!name || !image) return null
 
     const rarity = readRarity(metadata)
