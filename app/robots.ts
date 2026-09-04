@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/'],
     },
-    sitemap: 'https://ledgerborn.com/sitemap.xml',
-    host: 'https://ledgerborn.com',
+    sitemap: 'https://ledgerborn.app/sitemap.xml',
+    host: 'https://ledgerborn.app',
   }
 }
