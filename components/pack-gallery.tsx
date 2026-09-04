@@ -41,6 +41,7 @@ export function PackGallery() {
           <Link
             key={pack.id}
             href={pack.href}
+            prefetch={true}
             aria-label={`View the ${pack.kicker} collection`}
             className={`pack-set-card pack-set-card-${pack.theme.id} group relative flex aspect-[2/3] items-center justify-center overflow-hidden border p-8 shadow-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
           >

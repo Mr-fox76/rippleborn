@@ -11,7 +11,7 @@ export function SiteHero() {
       </div>
       <div className="site-header-bar">
         <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center gap-3 px-4 sm:px-6">
-          <Link href="/" aria-label="Ledgerborn home" className="site-brand group inline-flex shrink-0 items-center gap-3">
+          <Link href="/" prefetch={true} aria-label="Ledgerborn home" className="site-brand group inline-flex shrink-0 items-center gap-3">
             <span className="site-brand-mark" aria-hidden="true">
               <span className="site-brand-glyph">L</span>
             </span>
