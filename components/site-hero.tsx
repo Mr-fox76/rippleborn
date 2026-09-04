@@ -13,11 +13,11 @@ export function SiteHero() {
         <div className="mx-auto flex min-h-16 w-full max-w-7xl items-center gap-3 px-4 sm:px-6">
           <Link href="/" prefetch={true} aria-label="Ledgerborn home" className="site-brand group inline-flex shrink-0 items-center">
             <img
-              src="/ledgerborn-logo.jpg"
+              src="/ledgerborn-logo.png"
               alt="Ledgerborn"
-              width={160}
-              height={40}
-              className="h-9 w-auto sm:h-10"
+              width={180}
+              height={52}
+              className="h-7 w-auto sm:h-8"
             />
           </Link>
 
