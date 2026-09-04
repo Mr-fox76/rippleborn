@@ -46,7 +46,7 @@ export function PackGallery() {
             className={`pack-set-card pack-set-card-${pack.theme.id} group relative flex aspect-[2/3] items-center justify-center overflow-hidden border p-8 shadow-xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring`}
           >
             <Image
-              src={pack.packImage}
+              src={pack.coverImage}
               alt=""
               fill
               priority={index === 0}
