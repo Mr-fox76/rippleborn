@@ -118,6 +118,7 @@ export function validateBuyer(value: unknown): string | null {
 }
 
 const PINATA_GATEWAY_ORIGIN = 'https://tomato-fancy-frog-92.mypinata.cloud'
+const LEDGERBORN_SITE_ORIGIN = 'https://ledgerborn.app'
 
 function toHttpsMetadataUri(uri: string): string {
   if (uri.startsWith('ipfs://')) {
@@ -132,14 +133,24 @@ export function encodeMetadataUri(uri: string | undefined): string | null {
 
   try {
     const metadataUrl = new URL(httpsUri)
-    const isLedgerbornGatewayUrl =
+
+    // Existing immutable Pinata IPFS bundles (keep so already-minted CIDs still mint).
+    const isPinataGatewayUrl =
       metadataUrl.protocol === 'https:' &&
       metadataUrl.origin === PINATA_GATEWAY_ORIGIN &&
       /^\/ipfs\/(bafy|bafk|Qm)[A-Za-z0-9]+\/(?:(?:json|metadata)\/)?[a-z0-9][a-z0-9._-]*\.json$/i.test(
         metadataUrl.pathname,
       )
 
-    if (!isLedgerbornGatewayUrl) return null
+    // Live metadata served from the canonical ledgerborn.app site.
+    const isLedgerbornSiteUrl =
+      metadataUrl.protocol === 'https:' &&
+      metadataUrl.origin === LEDGERBORN_SITE_ORIGIN &&
+      /^\/sets\/(ledgerborn|cyborg-cowboy|chromatic-abyss)\/json\/[a-z0-9][a-z0-9._-]*\.json$/.test(
+        metadataUrl.pathname,
+      )
+
+    if (!isPinataGatewayUrl && !isLedgerbornSiteUrl) return null
   } catch {
     return null
   }
