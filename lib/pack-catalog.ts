@@ -10,6 +10,8 @@ export type PackCatalogEntry = {
   cardsPerPack: number
   priceXrp: number
   packImage: string
+  /** Display-only hero card art used for the pack cover and set link. Never the Phoenix. */
+  coverImage: string
   theme: {
     id: 'mythic' | 'cyborg' | 'chromatic'
     eyebrow: string
@@ -31,6 +33,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/ledgerborn/ledgerborn-mythic-pack-v2.png',
+    coverImage: '/cards/primordial-tidewyrm.png',
     theme: {
       id: 'mythic',
       eyebrow: 'Ancient powers. Real NFT ownership.',
@@ -51,6 +54,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png',
+    coverImage: '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png',
     theme: {
       id: 'cyborg',
       eyebrow: 'Frontier outlaws. On-ledger ownership.',
@@ -71,6 +75,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/chromatic-abyss/pack.png',
+    coverImage: '/sets/chromatic-abyss/images/thousand-petaled-mind.png',
     theme: {
       id: 'chromatic',
       eyebrow: 'Lucid visions. On-ledger ownership.',
