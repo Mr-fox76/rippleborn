@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { PACK_CATALOG } from '@/lib/pack-catalog'
 
-const baseUrl = 'https://ledgerborn.com'
+const baseUrl = 'https://ledgerborn.app'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const packPages: MetadataRoute.Sitemap = PACK_CATALOG.map((pack) => ({

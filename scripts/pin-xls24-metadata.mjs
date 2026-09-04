@@ -59,7 +59,7 @@ async function publishSet({ id, metadataDir, imageDir, imageNameForSlug, imagePa
       name: source.name,
       description: source.description,
       image: `${publicGateway}/${imageCid}/images/${imageName}`,
-      external_url: source.external_url ?? 'https://ledgerborn.com',
+      external_url: source.external_url ?? 'https://ledgerborn.app',
       attributes: source.attributes ?? [],
     }, null, 2)),
   }))

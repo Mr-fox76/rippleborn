@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     'Xaman NFT',
     'XRP collectibles',
   ],
-  authors: [{ name: 'Ledgerborn', url: 'https://ledgerborn.com' }],
+  authors: [{ name: 'Ledgerborn', url: 'https://ledgerborn.app' }],
   creator: 'Ledgerborn',
   publisher: 'Ledgerborn',
   alternates: {

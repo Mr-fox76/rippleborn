@@ -65,7 +65,7 @@ const metadataFiles = cards.map(([name, slug, rarity]) => ({
     name,
     description: `${name} is a ${rarity} collectible from the Cyborg Cowboy set by RippleBorn.`,
     image: `ipfs://${imageCid}/images/${slug}.png`,
-    external_url: 'https://ledgerborn.com/packs/cyborg-cowboy',
+    external_url: 'https://ledgerborn.app/packs/cyborg-cowboy',
     attributes: [
       { trait_type: 'Set', value: 'Cyborg Cowboy' },
       { trait_type: 'Rarity', value: rarity },
