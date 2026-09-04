@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Gem, Gift, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
-import { CardStylePreview } from '@/components/card-style-preview'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { RarityOdds } from '@/components/rarity-odds'
@@ -424,8 +423,6 @@ export function PackShop({
         </div>
         </section>
       </div>
-
-      <CardStylePreview theme={pack.theme.id} />
 
       <aside className="reading-panel mx-auto w-full max-w-6xl border border-border p-4 backdrop-blur-md sm:p-5">
           <RarityOdds stats={collectionStats} setId={selectedSet} />
