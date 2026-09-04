@@ -448,10 +448,12 @@
   --set-card-surface: var(--card);
   position: relative;
   isolation: isolate;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 620px;
   border-color: color-mix(in oklch, var(--set-card-accent) 38%, var(--border));
   background: var(--card);
   box-shadow:
-    0 1.75rem 4rem oklch(0.03 0.02 225 / 48%),
+    0 0.75rem 1.75rem oklch(0.03 0.02 225 / 38%),
     inset 0 1px 0 color-mix(in oklch, var(--set-card-accent) 14%, transparent);
 }
 
@@ -461,7 +463,7 @@
   object-position: center;
   opacity: 0.58;
   filter: saturate(1.18) contrast(1.12);
-  transform: scale(1.65);
+  transform: scale(1.02);
   transition: opacity 300ms ease, filter 300ms ease, transform 500ms ease;
 }
 
@@ -487,10 +489,6 @@
 
 .pack-set-card:hover {
   border-color: var(--set-card-accent);
-  box-shadow:
-    0 2rem 5rem oklch(0.03 0.02 225 / 62%),
-    0 0 2.5rem color-mix(in oklch, var(--set-card-accent) 18%, transparent),
-    inset 0 1px 0 color-mix(in oklch, var(--set-card-accent) 24%, transparent);
   transform: translateY(-0.35rem);
 }
 
@@ -508,8 +506,7 @@
 
 .pack-set-card:hover .pack-set-image {
   opacity: 0.74;
-  filter: saturate(1.4) contrast(1.16);
-  transform: scale(1.72);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic {
@@ -522,22 +519,28 @@
     inset 0 1px 0 oklch(0.84 0.19 325 / 38%);
 }
 
-.pack-set-card-cyborg .pack-set-image,
-.pack-set-card-chromatic .pack-set-image {
-  transform: scale(2.32);
+.pack-set-card-cyborg .pack-set-image {
+  transform: scale(1.02);
 }
 
-.pack-set-card-cyborg:hover .pack-set-image,
+.pack-set-card-cyborg:hover .pack-set-image {
+  transform: scale(1.05);
+}
+
+.pack-set-card-chromatic .pack-set-image {
+  transform: scale(1.02);
+}
+
 .pack-set-card-chromatic:hover .pack-set-image {
-  transform: scale(2.39);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic .pack-set-image {
-  transform: scale(1.8);
+  transform: scale(1.02);
 }
 
 .pack-set-card-mythic:hover .pack-set-image {
-  transform: scale(1.87);
+  transform: scale(1.05);
 }
 
 .pack-set-card-mythic::before {
@@ -893,9 +896,9 @@
   border-radius: var(--radius);
   background:
     linear-gradient(145deg, oklch(0.93 0.018 210 / 5%), transparent 34%),
-    color-mix(in oklch, var(--card) 84%, transparent);
+    color-mix(in oklch, var(--card) 90%, transparent);
   box-shadow:
-    0 1.5rem 4rem oklch(0.04 0.02 225 / 55%),
+    0 0.75rem 1.75rem oklch(0.04 0.02 225 / 42%),
     inset 0 1px 0 oklch(0.93 0.018 210 / 9%),
     inset 0 -1px 0 oklch(0.72 0.12 205 / 7%);
 }
@@ -1186,26 +1189,26 @@
   object-fit: cover;
   object-position: 50% 48%;
   filter: saturate(0.92) contrast(1.1) brightness(0.72);
-  scale: 1.72;
+  scale: 1.02;
   transition: filter 320ms ease, scale 500ms ease;
 }
 
 .pack-opening-stage[data-pack-kind='cyborg'] .foil-pack-art,
 .pack-opening-stage[data-pack-kind='chromatic'] .foil-pack-art {
-  scale: 2.05;
+  scale: 1.02;
 }
 
 .foil-pack:hover .foil-pack-art,
 .foil-pack:focus-visible .foil-pack-art {
   filter: saturate(1.04) contrast(1.1) brightness(0.82);
-  scale: 1.78;
+  scale: 1.05;
 }
 
 .pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:hover .foil-pack-art,
 .pack-opening-stage[data-pack-kind='cyborg'] .foil-pack:focus-visible .foil-pack-art,
 .pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:hover .foil-pack-art,
 .pack-opening-stage[data-pack-kind='chromatic'] .foil-pack:focus-visible .foil-pack-art {
-  scale: 2.11;
+  scale: 1.05;
 }
 
 .foil-pack-art-shade {
@@ -2269,15 +2272,22 @@
   .tarot-slot-frame.show-face .tarot-slot-front {
     transform: none;
   }
+
+  .pack-set-image,
+  .pack-set-card:hover,
+  .pack-set-card:hover .pack-set-image {
+    transition: none;
+    transform: none;
+  }
 }
 
 .interface-chip {
   border-radius: 9999px;
   background:
     linear-gradient(135deg, oklch(0.93 0.018 210 / 5%), transparent 55%),
-    color-mix(in oklch, var(--card) 76%, transparent);
+    color-mix(in oklch, var(--card) 88%, transparent);
   box-shadow: inset 0 1px 0 oklch(0.93 0.018 210 / 7%);
-  backdrop-filter: blur(0.75rem);
+  backdrop-filter: blur(0.3rem);
 }
 
 .primary-action {
@@ -2365,8 +2375,8 @@
   background:
     linear-gradient(135deg, color-mix(in oklch, var(--primary) 5%, transparent), transparent 42%),
     color-mix(in oklch, var(--popover) 82%, transparent);
-  box-shadow: 0 2rem 6rem oklch(0.025 0.014 230 / 62%);
-  backdrop-filter: blur(1.2rem) saturate(1.15);
+  box-shadow: 0 1.25rem 3rem oklch(0.025 0.014 230 / 52%);
+  backdrop-filter: blur(0.5rem) saturate(1.1);
 }
 
 .collection-overlay-header {
@@ -2376,6 +2386,8 @@
 
 .collection-overlay-scroll {
   scrollbar-gutter: stable;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 40rem) {

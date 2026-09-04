@@ -145,8 +145,8 @@ export function PackOpening({
             alt=""
             fill
             priority
-            quality={85}
-            sizes="(max-width: 639px) 70vw, 19rem"
+            quality={90}
+            sizes="(max-width: 639px) 20rem, 24rem"
             className="foil-pack-art"
           />
           <span className="foil-pack-art-shade" aria-hidden="true" />
