@@ -1,1 +1,22 @@
-{"name":"Sunforge Desperado","description":"Let pressure refine rather than define you; the brightest spirit is forged with purpose.","image":"../images/sunforge-desperado.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Legendary"},{"trait_type":"Card Number","value":16}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Sunforge Desperado",
+  "description": "Let pressure refine rather than define you; the brightest spirit is forged with purpose.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/sunforge-desperado.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 16
+    }
+  ]
+}

@@ -1,1 +1,22 @@
-{"name":"Synapse Serpent","description":"One brave idea can illuminate an entire inner universe.","image":"https://ledgerborn.app/sets/chromatic-abyss/images/synapse-serpent.png","external_url":"https://ledgerborn.app/packs/chromatic-abyss","attributes":[{"trait_type":"Set","value":"Chromatic Abyss"},{"trait_type":"Rarity","value":"Epic"},{"trait_type":"Card Number","value":14}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Synapse Serpent",
+  "description": "One brave idea can illuminate an entire inner universe.",
+  "image": "https://ledgerborn.app/sets/chromatic-abyss/images/synapse-serpent.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 14
+    }
+  ]
+}

@@ -1,1 +1,22 @@
-{"name":"Spiral Grazer","description":"Progress is rarely a straight line; keep nourishing the journey.","image":"https://ledgerborn.app/sets/chromatic-abyss/images/spiral-grazer.png","external_url":"https://ledgerborn.app/packs/chromatic-abyss","attributes":[{"trait_type":"Set","value":"Chromatic Abyss"},{"trait_type":"Rarity","value":"Common"},{"trait_type":"Card Number","value":4}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Spiral Grazer",
+  "description": "Progress is rarely a straight line; keep nourishing the journey.",
+  "image": "https://ledgerborn.app/sets/chromatic-abyss/images/spiral-grazer.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 4
+    }
+  ]
+}

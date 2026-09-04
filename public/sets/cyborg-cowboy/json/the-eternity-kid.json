@@ -1,1 +1,22 @@
-{"name":"The Eternity Kid","description":"Stay young in wonder, not in years; an open heart makes every horizon new.","image":"../images/the-eternity-kid.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Mythic"},{"trait_type":"Card Number","value":20}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "The Eternity Kid",
+  "description": "Stay young in wonder, not in years; an open heart makes every horizon new.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/the-eternity-kid.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 20
+    }
+  ]
+}

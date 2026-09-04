@@ -1,1 +1,22 @@
-{"name":"Quantum Cardsharp","description":"Play the hand before you with grace; possibility favors the calm and prepared.","image":"../images/quantum-cardsharp.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Epic"},{"trait_type":"Card Number","value":13}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Quantum Cardsharp",
+  "description": "Play the hand before you with grace; possibility favors the calm and prepared.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/quantum-cardsharp.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 13
+    }
+  ]
+}

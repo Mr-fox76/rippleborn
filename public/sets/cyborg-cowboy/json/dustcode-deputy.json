@@ -1,1 +1,22 @@
-{"name":"Dustcode Deputy","description":"Do what is right when no one is watching; quiet integrity keeps every frontier safe.","image":"../images/dustcode-deputy.png","external_url":"https://ledgerborn.app","attributes":[{"trait_type":"Set","value":"Cyborg Cowboy"},{"trait_type":"Rarity","value":"Common"},{"trait_type":"Card Number","value":3}]}
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Dustcode Deputy",
+  "description": "Do what is right when no one is watching; quiet integrity keeps every frontier safe.",
+  "image": "https://ledgerborn.app/sets/cyborg-cowboy/images/dustcode-deputy.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 3
+    }
+  ]
+}

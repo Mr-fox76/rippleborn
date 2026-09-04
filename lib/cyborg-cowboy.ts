@@ -54,7 +54,7 @@ export const CYBORG_COWBOY_METADATA_CID =
 export const CYBORG_COWBOY_IMAGE_CID =
   'bafybeibzopieusgkdjhu57ypq3aqtzncsiww64pbrny7ith5qbs35lgad4'
 export const CYBORG_COWBOY_METADATA_BASE_URL =
-  `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${CYBORG_COWBOY_METADATA_CID}/metadata`
+  'https://ledgerborn.app/sets/cyborg-cowboy/json'
 
 export function validateCyborgMetadataBaseUrl(value: string | undefined): string {
   const metadataBaseUrl = value?.trim().replace(/\/$/, '')

@@ -1,0 +1,18 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Saltmarsh Courier",
+  "description": "A Common card from the Rippleborn Genesis collection.",
+  "image": "https://ledgerborn.app/cards/saltmarsh-courier.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Rippleborn Genesis"
+    }
+  ]
+}

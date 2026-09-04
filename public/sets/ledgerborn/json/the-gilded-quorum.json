@@ -1,0 +1,18 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "The Gilded Quorum",
+  "description": "A Legendary card from the Rippleborn Genesis collection.",
+  "image": "https://ledgerborn.app/cards/the-gilded-quorum.png",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Rippleborn Genesis"
+    }
+  ]
+}

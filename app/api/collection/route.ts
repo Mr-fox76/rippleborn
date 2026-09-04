@@ -152,25 +152,46 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Enter a valid XRP Ledger wallet address.' }, { status: 400 })
   }
 
-  const client = new Client(MAINNET_WSS, { connectionTimeout: 8_000 })
+  // xrplcluster.com occasionally times out on a single connect/query attempt,
+  // which previously surfaced as an empty or broken collection. Retry with a
+  // fresh client so a transient failure recovers instead of showing no cards.
+  const endpoint = process.env.XRPL_WSS?.trim() || MAINNET_WSS
+  let owned: AccountNFToken[] | null = null
+  let lastError: unknown
+
+  for (let attempt = 0; attempt < 3 && owned === null; attempt += 1) {
+    const client = new Client(endpoint, { connectionTimeout: 10_000 })
+    try {
+      await client.connect()
+      const collected: AccountNFToken[] = []
+      let marker: unknown
+
+      do {
+        const response = await client.request({
+          command: 'account_nfts',
+          account: owner,
+          ledger_index: 'validated',
+          limit: 400,
+          ...(marker ? { marker } : {}),
+        })
+        collected.push(...response.result.account_nfts.filter((nft) => nft.Issuer === LEDGERBORN_ISSUER))
+        marker = response.result.marker
+      } while (marker)
+
+      owned = collected
+    } catch (error) {
+      lastError = error
+    } finally {
+      if (client.isConnected()) await client.disconnect().catch(() => undefined)
+    }
+  }
+
+  if (owned === null) {
+    console.log('[v0] collection XRPL read failed after retries:', lastError instanceof Error ? lastError.message : lastError)
+    return NextResponse.json({ error: 'Unable to read this wallet from XRP Ledger Mainnet.' }, { status: 502 })
+  }
 
   try {
-    await client.connect()
-    const owned: AccountNFToken[] = []
-    let marker: unknown
-
-    do {
-      const response = await client.request({
-        command: 'account_nfts',
-        account: owner,
-        ledger_index: 'validated',
-        limit: 400,
-        ...(marker ? { marker } : {}),
-      })
-      owned.push(...response.result.account_nfts.filter((nft) => nft.Issuer === LEDGERBORN_ISSUER))
-      marker = response.result.marker
-    } while (marker)
-
     const resolved = await Promise.all(owned.map(resolveCard))
     const cards = resolved.filter((card): card is CollectionCard => card !== null)
     const discoveries = await getDiscoveryNumbers(cards.map((card) => card.tokenId))
@@ -184,7 +205,5 @@ export async function GET(request: Request) {
     )
   } catch {
     return NextResponse.json({ error: 'Unable to read this wallet from XRP Ledger Mainnet.' }, { status: 502 })
-  } finally {
-    if (client.isConnected()) await client.disconnect().catch(() => undefined)
   }
 }

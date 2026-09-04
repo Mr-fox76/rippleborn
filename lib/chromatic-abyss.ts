@@ -5,7 +5,7 @@ export const CHROMATIC_ABYSS_NFT_TAXON = 20260830
 export const CHROMATIC_ABYSS_METADATA_CID =
   'bafybeifa6nmixpzgjqjvgzy5wj45vx464y2wrxoma4ewg3acvmwe7tguxu'
 export const CHROMATIC_ABYSS_METADATA_BASE_URL =
-  `https://tomato-fancy-frog-92.mypinata.cloud/ipfs/${CHROMATIC_ABYSS_METADATA_CID}/metadata`
+  'https://ledgerborn.app/sets/chromatic-abyss/json'
 
 const IMAGE_ROOT = '/sets/chromatic-abyss/images'
 
