@@ -356,13 +356,12 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
       {compact ? (
         <h2 id="collection-heading" className="sr-only">Your collection</h2>
       ) : (
-        <div className="flex flex-col gap-2 text-center">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-gold">On-ledger archive</p>
-          <h1 id="collection-heading" className="font-sans text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl">
+        <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-center">
+          <h1 id="collection-heading" className="font-sans text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             Collection
           </h1>
-          <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Cards currently held by your connected XRP Ledger wallet, read directly from Mainnet.
+          <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
+            On-ledger archive &middot; read from Mainnet
           </p>
         </div>
       )}
@@ -370,13 +369,10 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
       <div className="qr-panel collection-panel min-h-[28rem] p-4 sm:p-6 lg:p-8" aria-live="polite" aria-busy={isLoading || isValidating}>
         {!account ? (
           <div className="flex flex-col gap-5">
-            <div className="flex flex-col items-center gap-4 border-b border-border/60 pb-6 text-center">
-              <div className="flex max-w-lg flex-col gap-2">
-                <h2 className="font-sans text-xl font-semibold text-foreground">Connect Xaman to see cards you claimed.</h2>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  Here&apos;s the full set to collect. Connect your wallet to reveal the cards you own.
-                </p>
-              </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3 border-b border-border/60 pb-4 text-center">
+              <p className="text-sm leading-relaxed text-muted-foreground">
+                Connect Xaman to reveal the cards you own.
+              </p>
               <ConnectWalletButton />
             </div>
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-4">
