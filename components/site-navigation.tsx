@@ -20,7 +20,6 @@ export function SiteNavigation() {
         title={isActive ? 'Close My Albums' : 'My Albums'}
       >
         <Images className="collection-nav-icon" aria-hidden="true" />
-        <span className="collection-nav-label">My Albums</span>
       </Link>
     </nav>
   )

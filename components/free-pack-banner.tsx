@@ -40,11 +40,13 @@ export function FreePackBanner() {
 
   if (!status || status.remaining <= 0) return null
 
-  const message = status.alreadyClaimed
-    ? 'Your free pack is reserved — pick a set to open it.'
-    : status.eligible
-      ? "You're one of the first 15 — open one set on us."
-      : `Launch gift: the first ${status.limit} wallets each get one free pack.`
+  const message = !account
+    ? `Connect your wallet to claim — the first ${status.limit} wallets each open one pack on us.`
+    : status.alreadyClaimed
+      ? 'Your free pack is reserved — pick a set to open it.'
+      : status.eligible
+        ? "You're one of the first 15 — pick a set to claim your free pack."
+        : `Launch gift: the first ${status.limit} wallets each get one free pack.`
 
   return (
     <Link
