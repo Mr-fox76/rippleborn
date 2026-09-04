@@ -31,6 +31,7 @@ import {
   saveMintResults,
   type MintedPackCard,
 } from '@/lib/pack-results'
+import { isFreeOrderForBuyer } from '@/lib/free-pack-promo'
 import { getClaimTtlHours, registerClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { cleanupUnclaimedOffer } from '@/lib/workflows/cleanup-unclaimed-offer'
 import {
@@ -210,7 +211,13 @@ async function findPayment(
 }
 
 export async function POST(request: Request) {
-  let body: { orderId?: unknown; buyer?: unknown; setId?: unknown; transactionHash?: unknown }
+  let body: {
+    orderId?: unknown
+    buyer?: unknown
+    setId?: unknown
+    transactionHash?: unknown
+    freeClaim?: unknown
+  }
 
   try {
     body = await request.json()
@@ -224,12 +231,13 @@ export async function POST(request: Request) {
   if (!isPackSetId(setId)) {
     return NextResponse.json({ error: 'A valid card set is required.' }, { status: 400 })
   }
+  const isFreeClaim = body.freeClaim === true
   const transactionHash =
     typeof body.transactionHash === 'string' && /^[A-F0-9]{64}$/i.test(body.transactionHash)
       ? body.transactionHash.toUpperCase()
       : null
 
-  if (body.transactionHash !== undefined && !transactionHash) {
+  if (!isFreeClaim && body.transactionHash !== undefined && !transactionHash) {
     return NextResponse.json({ error: 'A valid XRPL transaction hash is required.' }, { status: 400 })
   }
   if (destinationTag === null) {
@@ -243,35 +251,50 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'A valid XRPL classic address is required.' }, { status: 400 })
   }
 
+  // Free-pack promo: verify the order is a slot reserved by this wallet BEFORE
+  // opening the XRPL client. This is the only difference from the paid flow —
+  // the purchase payment is waived. Minting and claim offers stay identical.
+  if (isFreeClaim && !(await isFreeOrderForBuyer(destinationTag, buyer))) {
+    return NextResponse.json(
+      { error: 'No reserved free pack was found for this wallet. Open a pack for 5 XRP instead.' },
+      { status: 403 },
+    )
+  }
+
   try {
     const config = getXrplConfig()
 
     return await withXrplClient(config.websocketUrl, async (client) => {
       let paymentTransaction: string | null = null
 
-      if (transactionHash) {
-        for (let attempt = 0; attempt < 5 && !paymentTransaction; attempt += 1) {
-          paymentTransaction = await verifyPaymentByHash(
-            client,
-            transactionHash,
-            config,
-            buyer,
-            destinationTag,
-          )
-          if (!paymentTransaction && attempt < 4) {
-            await new Promise((resolve) => setTimeout(resolve, 800))
+      if (isFreeClaim) {
+        // Synthetic, unique commitment key for the free pack (no on-chain payment).
+        paymentTransaction = `FREEPACK-${destinationTag}`
+      } else {
+        if (transactionHash) {
+          for (let attempt = 0; attempt < 5 && !paymentTransaction; attempt += 1) {
+            paymentTransaction = await verifyPaymentByHash(
+              client,
+              transactionHash,
+              config,
+              buyer,
+              destinationTag,
+            )
+            if (!paymentTransaction && attempt < 4) {
+              await new Promise((resolve) => setTimeout(resolve, 800))
+            }
           }
         }
-      }
 
-      paymentTransaction ??= await findPayment(client, config, buyer, destinationTag)
-      if (!paymentTransaction) {
-        return NextResponse.json(
-          {
-            error: `A matching payment was not found. The payment must be sent from ${buyer} to the displayed treasury for exactly ${config.packPriceDrops} drops with destination tag ${destinationTag}.`,
-          },
-          { status: 402 },
-        )
+        paymentTransaction ??= await findPayment(client, config, buyer, destinationTag)
+        if (!paymentTransaction) {
+          return NextResponse.json(
+            {
+              error: `A matching payment was not found. The payment must be sent from ${buyer} to the displayed treasury for exactly ${config.packPriceDrops} drops with destination tag ${destinationTag}.`,
+            },
+            { status: 402 },
+          )
+        }
       }
 
       const existingResult = await getPackResult(destinationTag)

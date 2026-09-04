@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { FreePackBanner } from '@/components/free-pack-banner'
 import { HowItWorks } from '@/components/how-it-works'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { NetworkStatus } from '@/components/network-status'
@@ -19,6 +20,7 @@ export default async function Page() {
   return (
     <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+        <FreePackBanner />
         <PackGallery />
         <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-3">
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">

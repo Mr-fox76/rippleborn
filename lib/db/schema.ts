@@ -28,6 +28,22 @@ export const packResults = pgTable(
   ],
 )
 
+export const freePackSlots = pgTable(
+  'free_pack_slots',
+  {
+    slot: smallint('slot').primaryKey(),
+    address: text('address'),
+    orderId: bigint('order_id', { mode: 'number' }),
+    status: text('status').notNull().default('available'),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    uniqueIndex('free_pack_slots_address_key').on(table.address),
+    uniqueIndex('free_pack_slots_order_id_key').on(table.orderId),
+  ],
+)
+
 export const nftReplacements = pgTable('nft_replacements', {
   originalNftId: text('original_nft_id').primaryKey(),
   ownerAddress: text('owner_address').notNull(),
