@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { HowItWorks } from '@/components/how-it-works'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
+import { NetworkStatus } from '@/components/network-status'
 import { PackGallery } from '@/components/pack-gallery'
 import { RarityOdds } from '@/components/rarity-odds'
 import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
@@ -37,6 +38,9 @@ export default async function Page() {
             <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
               3 cards · 5 XRP · Version 4.2
             </p>
+            <div className="flex justify-center md:justify-start">
+              <NetworkStatus />
+            </div>
           </div>
           <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm md:justify-end">
             <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
