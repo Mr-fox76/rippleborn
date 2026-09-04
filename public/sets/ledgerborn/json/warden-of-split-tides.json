@@ -2,7 +2,7 @@
   "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
   "nftType": "collectible",
   "name": "Warden of Split Tides",
-  "description": "An Epic card from the Rippleborn Genesis collection.",
+  "description": "An Epic card from the Ledgerborn Mythic collection.",
   "image": "https://ledgerborn.app/cards/warden-of-split-tides.png",
   "external_url": "https://ledgerborn.app",
   "attributes": [
@@ -12,7 +12,7 @@
     },
     {
       "trait_type": "Collection",
-      "value": "Rippleborn Genesis"
+      "value": "Ledgerborn Mythic"
     }
   ]
 }
