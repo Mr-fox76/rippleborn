@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import Link from 'next/link'
 import { FreePackBanner } from '@/components/free-pack-banner'
 import { HowItWorks } from '@/components/how-it-works'
@@ -10,13 +11,22 @@ import { incrementHomepageVisits } from '@/lib/site-counter'
 
 export const dynamic = 'force-dynamic'
 
-export default async function Page() {
-  const [collectionStats, visitCount, latestNfts] = await Promise.all([
+async function HomeCollectionCounters() {
+  const [collectionStats, visitCount] = await Promise.all([
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
-    incrementHomepageVisits(),
-    getLatestMintedNfts(4).catch(() => []),
+    incrementHomepageVisits().catch(() => 0),
   ])
 
+  return <RarityOdds stats={collectionStats} countersOnly visitCount={visitCount} />
+}
+
+async function HomeLatestNfts() {
+  const latestNfts = await getLatestMintedNfts(4).catch(() => [])
+
+  return <IssuerTrustNotice latestNfts={latestNfts} />
+}
+
+export default function Page() {
   return (
     <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
@@ -26,10 +36,14 @@ export default async function Page() {
           <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             The collection taking shape, one reveal at a time
           </h2>
-          <RarityOdds stats={collectionStats} countersOnly visitCount={visitCount} />
+          <Suspense fallback={<RarityOdds stats={EMPTY_COLLECTION_STATS} countersOnly visitCount={0} />}>
+            <HomeCollectionCounters />
+          </Suspense>
         </section>
         <HowItWorks />
-        <IssuerTrustNotice latestNfts={latestNfts} />
+        <Suspense fallback={<IssuerTrustNotice latestNfts={[]} />}>
+          <HomeLatestNfts />
+        </Suspense>
       </main>
       <footer className="relative z-10 border-t border-border/40 px-6 py-8">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
