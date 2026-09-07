@@ -91,3 +91,11 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
 export function getPack(setId: string): PackCatalogEntry | undefined {
   return PACK_CATALOG.find((pack) => pack.id === setId)
 }
+
+/** Short URL/tab slug for each set (mythic · cyborg · chromatic). */
+export function getPackBySlug(slug: string): PackCatalogEntry | undefined {
+  return PACK_CATALOG.find((pack) => pack.theme.id === slug)
+}
+
+/** localStorage key for the last-selected set, shared by the homepage tabs and pack routes. */
+export const SELECTED_SET_STORAGE_KEY = 'ledgerborn:selected-set'

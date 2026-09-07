@@ -1,47 +1,60 @@
-import { Suspense } from 'react'
 import Link from 'next/link'
 import { FreePackBanner } from '@/components/free-pack-banner'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { NetworkStatus } from '@/components/network-status'
-import { PackGallery } from '@/components/pack-gallery'
+import { PackWorkspace } from '@/components/pack-workspace'
 import { RarityOdds } from '@/components/rarity-odds'
 import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
+import type { CollectionStats } from '@/lib/pack-results'
 import { incrementHomepageVisits } from '@/lib/site-counter'
+import type { PackSetId } from '@/lib/rippleborn'
 
 export const dynamic = 'force-dynamic'
 
-async function HomeCollectionCounters() {
-  const [collectionStats, visitCount] = await Promise.all([
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ set?: string }>
+}) {
+  const { set } = await searchParams
+
+  // Fetch every set's live stats up front so nothing renders as a zero placeholder while loading.
+  const [mythic, cyborg, chromatic, allSets, visitCount, latestNfts] = await Promise.all([
+    getCollectionStats('ledgerborn').catch(() => EMPTY_COLLECTION_STATS),
+    getCollectionStats('cyborg-cowboy').catch(() => EMPTY_COLLECTION_STATS),
+    getCollectionStats('chromatic-abyss').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
     incrementHomepageVisits().catch(() => 0),
+    getLatestMintedNfts(4).catch(() => []),
   ])
 
-  return <RarityOdds stats={collectionStats} countersOnly visitCount={visitCount} />
-}
+  const statsBySet: Record<PackSetId, CollectionStats> = {
+    ledgerborn: mythic,
+    'cyborg-cowboy': cyborg,
+    'chromatic-abyss': chromatic,
+  }
 
-async function HomeLatestNfts() {
-  const latestNfts = await getLatestMintedNfts(4).catch(() => [])
-
-  return <IssuerTrustNotice latestNfts={latestNfts} />
-}
-
-export default function Page() {
   return (
     <>
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <FreePackBanner />
-        <PackGallery />
-        <section aria-labelledby="collection-totals-heading" className="mx-auto flex w-full max-w-7xl flex-col gap-3">
-          <h2 id="collection-totals-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            The collection taking shape, one reveal at a time
+        <header className="mx-auto flex w-full max-w-3xl flex-col items-center gap-3 text-center">
+          <h1 className="text-balance font-sans text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+            3 XRPL NFTs per pack. 5 XRP.{' '}
+            <span className="text-muted-foreground">Open on Xaman.</span>
+          </h1>
+          <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Ledgerborn is a new independent collectible experience built with care, transparency, and genuine excitement for what digital cards can become. Open three-card packs, discover real rarities, and choose whether to collect your pulls on the public XRP Ledger.
+          </p>
+        </header>
+        <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
+        <section aria-labelledby="all-sets-heading" className="mx-auto flex w-full max-w-6xl flex-col gap-3">
+          <h2 id="all-sets-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            All sets
           </h2>
-          <Suspense fallback={<RarityOdds stats={EMPTY_COLLECTION_STATS} countersOnly visitCount={0} />}>
-            <HomeCollectionCounters />
-          </Suspense>
+          <RarityOdds stats={allSets} countersOnly visitCount={visitCount} />
         </section>
-        <Suspense fallback={<IssuerTrustNotice latestNfts={[]} />}>
-          <HomeLatestNfts />
-        </Suspense>
+        <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
       <footer className="relative z-10 border-t border-border/40 px-6 py-8">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">

@@ -7,6 +7,7 @@ import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
 import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { PackShop } from '@/components/pack-shop'
+import { PersistLastSet } from '@/components/persist-last-set'
 import { SiteNavigation } from '@/components/site-navigation'
 import { getPack, PACK_CATALOG } from '@/lib/pack-catalog'
 import { EMPTY_COLLECTION_STATS, getCollectionStats } from '@/lib/pack-results'
@@ -68,6 +69,7 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
 
   return (
     <div className={`table-surface pack-theme pack-theme-${pack.theme.id} flex min-h-svh flex-col`}>
+        <PersistLastSet slug={pack.theme.id} />
         <div aria-hidden="true" className="pack-theme-atmosphere" />
         <header className="pack-theme-bar sticky top-0 z-[100] border-b px-4 py-3 backdrop-blur-md sm:px-6">
           <div className="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-3">

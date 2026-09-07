@@ -78,9 +78,12 @@ function ReadingProgress() {
 export function PackShop({
   collectionStats,
   pack,
+  onActivityChange,
 }: {
   collectionStats: CollectionStats
   pack: PackCatalogEntry
+  /** Reports whether a pack is being prepared, paid, or revealed so parents can warn before navigating away. */
+  onActivityChange?: (busy: boolean) => void
 }) {
   const selectedSet = pack.id
   const router = useRouter()
@@ -114,6 +117,12 @@ export function PackShop({
   useEffect(() => {
     void refreshFreeStatus()
   }, [refreshFreeStatus])
+
+  useEffect(() => {
+    onActivityChange?.(pending !== null || order !== null || cards !== null)
+  }, [onActivityChange, pending, order, cards])
+
+  useEffect(() => () => onActivityChange?.(false), [onActivityChange])
 
   useEffect(() => {
     if (!order) return
