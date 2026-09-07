@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
-import { getCardWisdom, getDisplayCardName, type Card } from '@/lib/rippleborn'
+import { getDisplayCardName, type Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
   mintStatus?: 'minted' | 'skipped' | 'failed'
@@ -276,10 +276,10 @@ function RevealedSpread({
                   </div>
                 ) : null}
                 <div
-                  className="collection-display-art group/wisdom relative aspect-[2/3] overflow-hidden bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--rarity-color)]"
+                  className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--rarity-color)]"
                   data-card-name={card.name}
                   tabIndex={0}
-                  aria-label={`${displayName} wisdom: ${getCardWisdom(card.name)}`}
+                  aria-label={displayName}
                 >
                   <Image
                     src={card.image}
@@ -296,7 +296,7 @@ function RevealedSpread({
                     </span>
                   ) : null}
                   <span className="collection-edition-mark" aria-hidden="true">LB</span>
-                  <div className="collection-card-caption z-10 flex items-end justify-between gap-2 transition-opacity duration-300 group-hover/wisdom:opacity-0 group-focus/wisdom:opacity-0">
+                  <div className="collection-card-caption z-10 flex items-end justify-between gap-2">
                     <div className="flex min-w-0 flex-col gap-1">
                       <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground sm:text-base">{displayName}</h3>
                       <span className="collection-rarity-seal">{card.rarity}</span>
@@ -321,11 +321,6 @@ function RevealedSpread({
                         {card.edition}/{card.maxSupply}
                       </span>
                     ) : null}
-                  </div>
-                  <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center bg-card/95 p-4 opacity-0 transition-opacity duration-300 group-hover/wisdom:opacity-100 group-focus/wisdom:opacity-100">
-                    <blockquote className="text-center font-sans text-sm italic leading-relaxed text-card-foreground text-pretty sm:text-base">
-                      ���{getCardWisdom(card.name)}”
-                    </blockquote>
                   </div>
                 </div>
               </article>
