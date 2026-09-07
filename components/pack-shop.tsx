@@ -425,7 +425,7 @@ export function PackShop({
             <p className={`pack-status-message text-sm leading-relaxed ${statusColor}`}>
               {status.message || (account
                 ? 'Prepare your pack and approve payment with Xaman. Once ready, click the pack itself to open it.'
-                : 'Connect Xaman to begin.')}
+                : '')}
             </p>
           )}
         </div>
