@@ -48,7 +48,7 @@ export default async function Page({
           </p>
         </header>
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
-        <section aria-labelledby="all-sets-heading" className="mx-auto flex w-full max-w-6xl flex-col gap-3">
+        <section aria-labelledby="all-sets-heading" className="flex w-full flex-col gap-3">
           <h2 id="all-sets-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
             All sets
           </h2>

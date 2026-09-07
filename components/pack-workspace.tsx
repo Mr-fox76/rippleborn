@@ -78,7 +78,7 @@ export function PackWorkspace({
   }, [])
 
   return (
-    <section aria-label="Open a pack" className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+    <section aria-label="Open a pack" className="flex w-full flex-col gap-6">
       <div
         role="tablist"
         aria-label="Choose a set"
@@ -116,7 +116,7 @@ export function PackWorkspace({
         })}
       </div>
 
-      <div className="mx-auto w-full max-w-6xl">
+      <div className="w-full">
         <NftRecoveryPanel />
       </div>
 
