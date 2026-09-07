@@ -43,6 +43,9 @@ export default async function Page({
             3 XRPL NFTs per pack. 5 XRP.{' '}
             <span className="text-muted-foreground">Open on Xaman.</span>
           </h1>
+          <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Ledgerborn is a new independent collectible experience built with care, transparency, and genuine excitement for what digital cards can become. Open three-card packs, discover real rarities, and choose whether to collect your pulls on the public XRP Ledger.
+          </p>
         </header>
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
         <section aria-labelledby="all-sets-heading" className="mx-auto flex w-full max-w-6xl flex-col gap-3">
