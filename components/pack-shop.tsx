@@ -288,7 +288,7 @@ export function PackShop({
           <p className="font-sans text-base font-medium text-pretty text-foreground sm:text-lg">
             {pack.theme.tagline}
           </p>
-          <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground">
+          <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground lg:mx-0">
             {pack.theme.introduction}
           </p>
         </div>
