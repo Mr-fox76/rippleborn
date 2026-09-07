@@ -388,7 +388,7 @@ export function PackShop({
                 >
                   Claim your free pack.
                 </Button>
-                <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground">
+                <p className="text-center font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground sm:text-left">
                   Connect Xaman to claim, or open a pack for {pack.priceXrp} XRP
                 </p>
               </div>
