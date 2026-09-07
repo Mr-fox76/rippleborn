@@ -332,6 +332,26 @@
   to { transform: translate3d(-4rem, 2rem, 0) scale(1.015); }
 }
 
+/* Fixed background attachment triggers heavy per-frame repaints and scroll jank on
+   mobile browsers, so pin the banner to normal scroll flow on small screens and
+   stop the drifting starfield layer from animating there. */
+@media (max-width: 768px) {
+  .table-surface {
+    background-attachment: scroll;
+  }
+
+  .table-surface::after {
+    position: absolute;
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .table-surface::after {
+    animation: none;
+  }
+}
+
 .pack-theme {
   --pack-accent: var(--primary);
   --pack-accent-strong: var(--gold);
