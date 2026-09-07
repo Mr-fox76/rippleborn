@@ -1442,6 +1442,29 @@
   background: color-mix(in oklch, var(--rarity-color) 18%, var(--card));
 }
 
+/* Revealed card stack: no rarity-coloured frame, ring, or glow around the whole card or the Claim button. Rarity colour lives only on the small rarity chip. */
+.tarot-slot-frame.show-face:has(.rarity-action-footer) .tarot-slot-front {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.tarot-slot-frame.show-face .tarot-reveal.collection-display-card {
+  border-color: color-mix(in oklch, var(--foreground) 12%, transparent);
+  background: var(--card);
+  box-shadow: 0 1.25rem 2.75rem oklch(0.04 0.02 225 / 68%);
+}
+
+.tarot-slot-frame.show-face .tarot-reveal.collection-display-card:hover {
+  border-color: color-mix(in oklch, var(--foreground) 18%, transparent);
+  box-shadow: 0 2rem 4rem oklch(0.04 0.02 225 / 68%);
+}
+
+.tarot-slot-frame.show-face .tarot-slot-front > .rarity-action-footer {
+  border-top-color: color-mix(in oklch, var(--foreground) 12%, transparent);
+  background: var(--card);
+  box-shadow: none;
+}
+
 .tarot-control-row,
 .pack-opening-button-row,
 .pack-purchase-row {
