@@ -386,8 +386,7 @@ export function PackShop({
                   size="lg"
                   className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
                 >
-                  <Gift className="size-4" aria-hidden="true" />
-                  Free pack — first 15 wallets
+                  Claim your free pack.
                 </Button>
                 <p className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground">
                   Connect Xaman to claim, or open a pack for {pack.priceXrp} XRP
@@ -426,7 +425,7 @@ export function PackShop({
             <p className={`pack-status-message text-sm leading-relaxed ${statusColor}`}>
               {status.message || (account
                 ? 'Prepare your pack and approve payment with Xaman. Once ready, click the pack itself to open it.'
-                : 'Connect Xaman to begin.')}
+                : '')}
             </p>
           )}
         </div>
