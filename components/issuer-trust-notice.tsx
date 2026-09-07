@@ -1,8 +1,6 @@
 import Image from 'next/image'
-import { ExternalLink, ShieldCheck } from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 import type { LatestMintedNft } from '@/lib/pack-results'
-
-const ISSUER_ADDRESS = 'rhjYMiwkvVMmDXNZGG2EXg8fnNLiM9Mgwv'
 
 export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[] }) {
   return (
@@ -60,28 +58,6 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
           </ul>
         </div>
       ) : null}
-
-      <div className="mx-auto flex max-w-3xl flex-col items-center gap-2 px-2 text-center">
-        <ShieldCheck aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
-        <div className="flex min-w-0 flex-col items-center gap-1">
-          <h2 id="issuer-notice-heading" className="shrink-0 font-sans text-sm font-medium text-foreground">
-            Built openly as we grow
-          </h2>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Ledgerborn and our XRPL issuer are new. We want to earn your trust through visible on-ledger activity, clear signing details, and no hidden promises. Xaman may show an automated notice while our transaction history grows; you can independently review every issuer transaction on{' '}
-            <a
-              href={`https://bithomp.com/explorer/${ISSUER_ADDRESS}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:text-muted-foreground"
-            >
-              Bithomp
-              <ExternalLink aria-hidden="true" className="ml-1 inline size-3.5" />
-            </a>
-            .
-          </p>
-        </div>
-      </div>
     </aside>
   )
 }
