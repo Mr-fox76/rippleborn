@@ -35,46 +35,11 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
 
 function playCardFlipSound() {
   try {
-    const context = new AudioContext()
-    const now = context.currentTime
-    const master = context.createGain()
-    master.gain.setValueAtTime(0.32, now)
-    master.gain.exponentialRampToValueAtTime(0.0001, now + 0.34)
-    master.connect(context.destination)
-
-    const buffer = context.createBuffer(1, Math.ceil(context.sampleRate * 0.3), context.sampleRate)
-    const samples = buffer.getChannelData(0)
-    for (let index = 0; index < samples.length; index += 1) {
-      samples[index] = Math.random() * 2 - 1
-    }
-
-    const paper = context.createBufferSource()
-    const paperFilter = context.createBiquadFilter()
-    const paperGain = context.createGain()
-    paper.buffer = buffer
-    paperFilter.type = 'bandpass'
-    paperFilter.frequency.setValueAtTime(1800, now)
-    paperFilter.frequency.exponentialRampToValueAtTime(5200, now + 0.13)
-    paperFilter.Q.value = 0.8
-    paperGain.gain.setValueAtTime(0.0001, now)
-    paperGain.gain.linearRampToValueAtTime(0.65, now + 0.018)
-    paperGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18)
-    paper.connect(paperFilter).connect(paperGain).connect(master)
-    paper.start(now, Math.random() * 0.08, 0.2)
-
-    const landing = context.createOscillator()
-    const landingGain = context.createGain()
-    landing.type = 'triangle'
-    landing.frequency.setValueAtTime(170, now + 0.13)
-    landing.frequency.exponentialRampToValueAtTime(85, now + 0.2)
-    landingGain.gain.setValueAtTime(0.0001, now)
-    landingGain.gain.setValueAtTime(0.48, now + 0.13)
-    landingGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22)
-    landing.connect(landingGain).connect(master)
-    landing.start(now + 0.13)
-    landing.stop(now + 0.23)
-
-    window.setTimeout(() => void context.close(), 450)
+    // Short card-turn whoosh (<1s). Started from the user's click, never autoplayed.
+    const audio = new Audio('/audio/card-flip.mp3')
+    audio.volume = 0.5
+    // Play returns a promise that rejects if the browser blocks audio; swallow it.
+    void audio.play().catch(() => {})
   } catch {
     // Audio is an enhancement; revealing must still work if playback is unavailable.
   }
@@ -107,6 +72,83 @@ function playPhoenixFanfare() {
     window.setTimeout(() => void context.close(), 1800)
   } catch {
     // Audio is an enhancement; the Phoenix reveal must still work without it.
+  }
+}
+
+type RevealVoice = { freq: number; type: OscillatorType; delay: number; peak: number; dur: number }
+
+// One-shot reveal sting keyed to rarity, played the moment the card face lands.
+// Common stays silent (flip whoosh only); Phoenix uses its own unique fanfare.
+function playRevealSound(rarity: Card['rarity']) {
+  if (rarity === 'Common') return
+  if (rarity === 'Phoenix') {
+    playPhoenixFanfare()
+    return
+  }
+  try {
+    const context = new AudioContext()
+    const now = context.currentTime
+    const master = context.createGain()
+    master.gain.setValueAtTime(0.0001, now)
+    master.gain.exponentialRampToValueAtTime(0.22, now + 0.03)
+    master.connect(context.destination)
+
+    let voices: RevealVoice[]
+    let tail: number
+
+    if (rarity === 'Rare') {
+      // short soft chime — two gentle notes
+      voices = [
+        { freq: 659.25, type: 'sine', delay: 0, peak: 0.5, dur: 0.42 },
+        { freq: 987.77, type: 'sine', delay: 0.08, peak: 0.4, dur: 0.5 },
+      ]
+      tail = 0.6
+    } else if (rarity === 'Epic') {
+      // richer chime — major triad with a warmer voicing
+      voices = [
+        { freq: 523.25, type: 'triangle', delay: 0, peak: 0.45, dur: 0.55 },
+        { freq: 659.25, type: 'triangle', delay: 0.05, peak: 0.42, dur: 0.55 },
+        { freq: 783.99, type: 'sine', delay: 0.1, peak: 0.4, dur: 0.62 },
+      ]
+      tail = 0.72
+    } else if (rarity === 'Legendary') {
+      // brighter fanfare — quick ascending arpeggio, still short
+      voices = [
+        { freq: 659.25, type: 'triangle', delay: 0, peak: 0.5, dur: 0.38 },
+        { freq: 830.61, type: 'triangle', delay: 0.07, peak: 0.5, dur: 0.38 },
+        { freq: 987.77, type: 'triangle', delay: 0.14, peak: 0.5, dur: 0.42 },
+        { freq: 1318.51, type: 'sine', delay: 0.21, peak: 0.55, dur: 0.55 },
+      ]
+      tail = 0.85
+    } else {
+      // Mythic — bigger hit: low impact plus a bright shimmer on top
+      voices = [
+        { freq: 98, type: 'sawtooth', delay: 0, peak: 0.6, dur: 0.7 },
+        { freq: 196, type: 'triangle', delay: 0, peak: 0.4, dur: 0.7 },
+        { freq: 392, type: 'triangle', delay: 0.05, peak: 0.4, dur: 0.72 },
+        { freq: 587.33, type: 'sine', delay: 0.13, peak: 0.4, dur: 0.78 },
+      ]
+      tail = 1
+    }
+
+    voices.forEach((voice) => {
+      const start = now + voice.delay
+      const osc = context.createOscillator()
+      const gain = context.createGain()
+      osc.type = voice.type
+      osc.frequency.setValueAtTime(voice.freq, start)
+      gain.gain.setValueAtTime(0.0001, start)
+      gain.gain.exponentialRampToValueAtTime(voice.peak, start + 0.02)
+      gain.gain.exponentialRampToValueAtTime(0.0001, start + voice.dur)
+      osc.connect(gain).connect(master)
+      osc.start(start)
+      osc.stop(start + voice.dur + 0.05)
+    })
+
+    master.gain.exponentialRampToValueAtTime(0.0001, now + tail + 0.3)
+    window.setTimeout(() => void context.close(), (tail + 0.6) * 1000)
+  } catch {
+    // Audio is an enhancement; the reveal must still work without it.
   }
 }
 
@@ -179,21 +221,20 @@ function RevealedSpread({
   function revealCard(index: number) {
     if (revealing !== null || revealed.has(index)) return
     playCardFlipSound()
-    if (cards[index]?.rarity === 'Phoenix') {
-      window.setTimeout(playPhoenixFanfare, 430)
-    }
     setRevealing(index)
   }
 
   useEffect(() => {
     if (revealing === null) return
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const landingRarity = cards[revealing]?.rarity
     const timer = window.setTimeout(() => {
+      if (landingRarity) playRevealSound(landingRarity)
       setRevealed((current) => new Set(current).add(revealing))
       setRevealing(null)
     }, reducedMotion ? 40 : 650)
     return () => window.clearTimeout(timer)
-  }, [revealing])
+  }, [revealing, cards])
 
   const markClaimed = useCallback((nftId: string) => {
     setClaimed((current) => new Set(current).add(nftId))
