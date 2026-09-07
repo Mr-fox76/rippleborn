@@ -1511,11 +1511,12 @@
   position: relative;
   display: block;
   padding: 0.4rem;
-  border: 1px solid color-mix(in oklch, var(--rarity-color) 62%, var(--border));
+  border: 2.5px solid color-mix(in oklch, var(--rarity-color) 82%, var(--border));
   background: var(--card);
   box-shadow:
     0 1.5rem 3.5rem oklch(0.04 0.02 225 / 66%),
-    0 0 1.75rem color-mix(in oklch, var(--rarity-color) 12%, transparent),
+    0 0 2.75rem color-mix(in oklch, var(--rarity-color) 32%, transparent),
+    inset 0 0 0.75rem color-mix(in oklch, var(--rarity-color) 16%, transparent),
     inset 0 1px 0 oklch(0.93 0.018 210 / 10%);
 }
 
