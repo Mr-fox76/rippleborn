@@ -346,8 +346,13 @@
   --pack-accent-strong: oklch(0.84 0.19 325);
   --pack-surface: oklch(0.095 0.055 292 / 88%);
   background-image:
+<<<<<<< HEAD
     radial-gradient(circle at 18% 20%, oklch(0.72 0.22 305 / 32%), transparent 35%),
     radial-gradient(circle at 84% 28%, oklch(0.82 0.2 325 / 28%), transparent 38%);
+=======
+    radial-gradient(circle at 18% 20%, oklch(0.72 0.22 305 / 24%), transparent 42%),
+    radial-gradient(circle at 84% 28%, oklch(0.82 0.2 325 / 20%), transparent 46%);
+>>>>>>> 11c1a1b91d102c1b2d381f96e57b4ec7a89ab100
   background-position: center, center;
   background-size: cover, cover;
 }
@@ -357,8 +362,13 @@
   --pack-accent-strong: oklch(0.82 0.17 62);
   --pack-surface: oklch(0.105 0.025 205 / 82%);
   background-image:
+<<<<<<< HEAD
     radial-gradient(circle at 16% 22%, oklch(0.82 0.17 62 / 26%), transparent 36%),
     radial-gradient(circle at 84% 28%, oklch(0.76 0.15 195 / 24%), transparent 38%);
+=======
+    radial-gradient(circle at 16% 22%, oklch(0.82 0.17 62 / 20%), transparent 44%),
+    radial-gradient(circle at 84% 28%, oklch(0.76 0.15 195 / 18%), transparent 46%);
+>>>>>>> 11c1a1b91d102c1b2d381f96e57b4ec7a89ab100
   background-position: center, center;
   background-size: cover, cover;
 }
@@ -368,8 +378,13 @@
   --pack-accent-strong: oklch(0.73 0.2 335);
   --pack-surface: oklch(0.095 0.04 260 / 82%);
   background-image:
+<<<<<<< HEAD
     radial-gradient(circle at 20% 18%, oklch(0.78 0.18 190 / 22%), transparent 34%),
     radial-gradient(circle at 82% 30%, oklch(0.7 0.22 335 / 22%), transparent 38%);
+=======
+    radial-gradient(circle at 20% 18%, oklch(0.78 0.18 190 / 20%), transparent 42%),
+    radial-gradient(circle at 82% 30%, oklch(0.7 0.22 335 / 20%), transparent 46%);
+>>>>>>> 11c1a1b91d102c1b2d381f96e57b4ec7a89ab100
   background-position: center, center;
   background-size: cover, cover;
 }
