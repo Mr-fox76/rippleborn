@@ -58,7 +58,7 @@ export function RarityOdds({
               style={counter.className.startsWith('rarity-') ? { color: 'var(--rarity-color)' } : undefined}
             >
               {counter.value.toLocaleString()}
-              {counter.max ? <span className="text-muted-foreground"> / {counter.max}</span> : null}
+              {counter.max ? <span className="opacity-60"> / {counter.max}</span> : null}
             </dd>
             <dt
               className={`mt-1 text-[0.7rem] font-medium uppercase tracking-wider ${counter.className.startsWith('rarity-') ? counter.className : 'text-muted-foreground'}`}
