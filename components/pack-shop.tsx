@@ -277,7 +277,7 @@ export function PackShop({
 
   return (
     <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-5 sm:gap-6">
-      <div className="pack-theme-intro mx-auto flex w-full max-w-3xl flex-col items-center gap-4 px-5 py-5 text-center sm:px-7 lg:py-6">
+      <div className="pack-theme-intro flex w-full flex-col items-center gap-4 px-5 py-5 text-center sm:px-7 lg:py-6">
         <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
           {pack.theme.eyebrow}
         </p>
