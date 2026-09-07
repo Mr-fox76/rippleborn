@@ -29,6 +29,7 @@
     "xumm-sdk": "^1.11.2"
   },
   "devDependencies": {
+    "@breezystack/lamejs": "^1.2.7",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24",
     "@types/pg": "^8.23.1",
