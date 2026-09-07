@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Gift } from 'lucide-react'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 
 type FreeStatus = {
@@ -40,20 +39,15 @@ export function FreePackBanner() {
 
   if (!status || status.remaining <= 0) return null
 
-  const message = !account
-    ? `Connect. First ${status.limit} wallets open a pack free.`
-    : status.alreadyClaimed
-      ? 'Your free pack is reserved — pick a set to open it.'
-      : status.eligible
-        ? 'Connect. First 15 wallets open a pack free.'
-        : `Launch gift: the first ${status.limit} wallets each get one free pack.`
+  const message = status.alreadyClaimed
+    ? 'Your free pack is reserved — pick a set to open it.'
+    : 'Claim your free pack.'
 
   return (
     <Link
       href="#pack-gallery"
-      className="group mx-auto flex w-full max-w-3xl items-center justify-center gap-3 rounded-full border border-gold/40 bg-gold/5 px-5 py-2.5 text-center transition-colors hover:border-gold/70 hover:bg-gold/10"
+      className="group mx-auto flex w-full max-w-3xl items-center justify-center gap-3 rounded-full border border-gold/40 bg-gold/5 px-4 py-2.5 text-center transition-colors hover:border-gold/70 hover:bg-gold/10 sm:px-5"
     >
-      <Gift className="size-4 shrink-0 text-gold" aria-hidden="true" />
       <span className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-foreground sm:text-xs">
         {message}
       </span>
