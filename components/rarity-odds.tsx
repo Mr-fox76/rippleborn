@@ -34,7 +34,7 @@ export function RarityOdds({
     { label: 'Epic', value: stats.epicFound, className: 'rarity-epic' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
-    { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true },
+    { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true, max: 5 },
   ]
 
   return (
@@ -58,6 +58,7 @@ export function RarityOdds({
               style={counter.className.startsWith('rarity-') ? { color: 'var(--rarity-color)' } : undefined}
             >
               {counter.value.toLocaleString()}
+              {counter.max ? <span className="text-muted-foreground"> / {counter.max}</span> : null}
             </dd>
             <dt
               className={`mt-1 text-[0.7rem] font-medium uppercase tracking-wider ${counter.className.startsWith('rarity-') ? counter.className : 'text-muted-foreground'}`}
