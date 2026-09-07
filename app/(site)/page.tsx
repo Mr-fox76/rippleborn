@@ -47,7 +47,7 @@ export default function Page() {
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="flex flex-col gap-2 text-center md:text-left">
             <p className="text-sm leading-relaxed text-foreground/80">
-              Independent project. Not affiliated with Ledger or Xaman.
+              Not affiliated with Ledger or Xaman.
             </p>
             <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-muted-foreground">
               3 cards · 5 XRP · Version 4.2
