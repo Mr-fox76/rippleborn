@@ -1,6 +1,6 @@
 'use client'
 
-import { Images, Send } from 'lucide-react'
+import { Images } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCollectionOverlay } from '@/components/collection-overlay'
 
@@ -20,16 +20,6 @@ export function SiteNavigation() {
       >
         <Images className="collection-nav-icon" aria-hidden="true" />
       </button>
-      <a
-        href="https://t.me/LedgerBorn"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="collection-nav-action"
-        aria-label="Join our Telegram group"
-        title="Telegram"
-      >
-        <Send className="collection-nav-icon" aria-hidden="true" />
-      </a>
     </nav>
   )
 }
