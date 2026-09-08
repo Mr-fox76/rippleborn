@@ -46,7 +46,7 @@ export function CardWithFrame({
       <img className="card-frame__sleeve" src={FRAME} alt="" aria-hidden="true" />
       <span className="card-frame__edge" aria-hidden="true" />
       <span className="card-frame__caption">
-        <span className="card-frame__rate">{meta.rate}</span>
+        <span className="card-frame__rate">Rarity {meta.rate}</span>
       </span>
     </div>
   )
