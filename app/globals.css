@@ -2372,34 +2372,29 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 7.5%;
+  padding: 0 0.7em;
   color: #f4f6fb;
-  background: oklch(0.16 0.01 260 / 82%);
   border-radius: 999px;
   box-shadow: inset 0 0 0 1px oklch(1 0 0 / 8%);
   font-family: var(--font-mono);
-  font-weight: 600;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-align: center;
   text-transform: uppercase;
+  text-shadow: 0 1px 2px oklch(0 0 0 / 65%);
   pointer-events: none;
 }
 
 .card-frame__rarity {
   top: 1.8%;
-  height: 7.5%;
-  padding: 0 0.7em;
-  letter-spacing: 0.12em;
-  font-weight: 500;
+  background: var(--rarity-color, oklch(0.16 0.01 260 / 82%));
   font-size: clamp(0.38rem, 3.5cqw, 0.78rem);
-  }
+}
 
 .card-frame__caption {
   bottom: 1.8%;
-  min-height: 11%;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.05em;
-  padding: 0.35em 0.7em;
-  border-radius: 1.1em;
+  background: oklch(0.16 0.01 260 / 82%);
   line-height: 1.1;
 }
 
