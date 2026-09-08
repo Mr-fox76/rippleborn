@@ -1,4 +1,4 @@
-import type { PackSetId } from '@/lib/rippleborn'
+import type { PackSetId, Rarity } from '@/lib/rippleborn'
 
 export type PackCatalogEntry = {
   id: PackSetId
@@ -87,6 +87,29 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     },
   },
 ]
+
+/** Display-only preview card shown flanking the sealed pack. Never minted or purchased. */
+export type SampleCard = { name: string; rarity: Rarity; image: string }
+
+/**
+ * Two fixed sample cards per set, shown either side of the sealed pack so the slots preview
+ * real collection art instead of empty frames. Deliberately static (same art every visit) and
+ * reset per set when the tab changes.
+ */
+export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> = {
+  ledgerborn: [
+    { name: 'Aurelian Tidesovereign', rarity: 'Legendary', image: '/cards/aurelian-tidesovereign.png' },
+    { name: 'Rippleborn, the Unledgered', rarity: 'Mythic', image: '/cards/rippleborn-the-unledgered.png' },
+  ],
+  'cyborg-cowboy': [
+    { name: 'Sovereign of Sixguns', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png' },
+    { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero.png' },
+  ],
+  'chromatic-abyss': [
+    { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside.png' },
+    { name: 'Dream Architect', rarity: 'Mythic', image: '/sets/chromatic-abyss/images/dream-architect.png' },
+  ],
+}
 
 export function getPack(setId: string): PackCatalogEntry | undefined {
   return PACK_CATALOG.find((pack) => pack.id === setId)

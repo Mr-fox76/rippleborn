@@ -1367,6 +1367,27 @@
   translate: -50% -50%;
 }
 
+/* Sample cards flank the sealed pack in the preview layer; keep them fully lit, not dimmed. */
+.stable-card-layer.is-hidden:has(.tarot-sample-card) {
+  opacity: 1;
+}
+
+.tarot-sample-spacer {
+  aspect-ratio: 2 / 3;
+}
+
+.tarot-sample-note {
+  margin-top: 0.75rem;
+}
+
+/* Narrow screens have no room to flank the pack, so the samples stay hidden there. */
+@media (max-width: 639px) {
+  .tarot-sample-card,
+  .tarot-sample-note {
+    display: none;
+  }
+}
+
 .tarot-slot {
   aspect-ratio: 2 / 3;
   perspective: 75rem;

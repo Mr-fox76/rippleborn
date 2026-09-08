@@ -6,6 +6,7 @@ import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
 import { CardWithFrame } from '@/components/card-with-frame'
+import type { SampleCard } from '@/lib/pack-catalog'
 import { getDisplayCardName, type Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
@@ -199,6 +200,25 @@ function FaceDownCard({
   )
 }
 
+/** Static, display-only card that previews real set art in the sealed-pack slots (no reveal/claim). */
+function SamplePreviewCard({ card }: { card: SampleCard }) {
+  return (
+    <CardWithFrame rarity={card.rarity} className="tarot-sample-card">
+      <div className="collection-display-art relative bg-background" data-card-name={card.name}>
+        <Image
+          src={card.image}
+          alt={`${getDisplayCardName(card.name)}, ${card.rarity} sample card`}
+          fill
+          unoptimized
+          sizes="(max-width: 639px) calc(100vw - 2rem), 320px"
+          className="object-cover object-center"
+        />
+        <div className="collection-display-sheen" aria-hidden="true" />
+      </div>
+    </CardWithFrame>
+  )
+}
+
 function RevealedSpread({
   cards,
   buyer,
@@ -376,15 +396,18 @@ export function TarotCards({
   cards,
   buyer,
   setName,
+  sampleCards,
   onReset,
 }: {
   cards: FulfilledCard[] | null
   buyer: string | null
   setName: string
+  sampleCards?: readonly SampleCard[]
   onReset?: () => void
 }) {
+  const hasSamples = Boolean(sampleCards?.length)
   return (
-    <section aria-label={cards ? 'Reveal your cards' : 'Three face-down cards'}>
+    <section className={!cards && hasSamples ? 'tarot-sample-shell' : undefined} aria-label={cards ? 'Reveal your cards' : 'Sample cards from this set'}>
       {cards ? (
         <RevealedSpread
           key={cards.map((card) => card.id).join(':')}
@@ -396,16 +419,25 @@ export function TarotCards({
       ) : (
         <div className="flex flex-col items-center gap-6">
       <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
-            {[1, 0, 2].map((index) => (
-              <li key={index} className="tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1">
-                <div className="tarot-slot-frame show-back">
-                  <div className="tarot-slot-face tarot-slot-back">
-                    <FaceDownCard index={index} setName={setName} />
-                  </div>
-                  <div className="tarot-slot-face tarot-slot-front" aria-hidden="true" />
-                </div>
-              </li>
-            ))}
+            {[1, 0, 2].map((index) => {
+              const sample = index === 1 ? sampleCards?.[0] : index === 2 ? sampleCards?.[1] : undefined
+              return (
+                <li key={index} className="tarot-slot w-full max-w-sm min-w-0 flex-none sm:max-w-none sm:flex-1">
+                  {sample ? (
+                    <SamplePreviewCard card={sample} />
+                  ) : hasSamples ? (
+                    <div className="tarot-sample-spacer" aria-hidden="true" />
+                  ) : (
+                    <div className="tarot-slot-frame show-back">
+                      <div className="tarot-slot-face tarot-slot-back">
+                        <FaceDownCard index={index} setName={setName} />
+                      </div>
+                      <div className="tarot-slot-face tarot-slot-front" aria-hidden="true" />
+                    </div>
+                  )}
+                </li>
+              )
+            })}
           </ol>
           <div className="tarot-control-row" />
         </div>
@@ -413,6 +445,11 @@ export function TarotCards({
       <p className="tarot-instruction text-center font-mono text-xs uppercase tracking-[0.2em] text-gold" aria-live="polite">
         {cards ? 'Reveal the cards in any order. Each glow reflects the rarity already locked inside.' : ''}
       </p>
+      {!cards && hasSamples ? (
+        <p className="tarot-sample-note text-center font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
+          Sample cards from this set
+        </p>
+      ) : null}
     </section>
   )
 }

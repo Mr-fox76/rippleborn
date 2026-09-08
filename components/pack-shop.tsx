@@ -9,7 +9,7 @@ import { RarityOdds } from '@/components/rarity-odds'
 import { Button } from '@/components/ui/button'
 import { XamanPaymentButton } from '@/components/xaman-payment-button'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
-import type { PackCatalogEntry } from '@/lib/pack-catalog'
+import { SAMPLE_CARDS, type PackCatalogEntry } from '@/lib/pack-catalog'
 import type { CollectionStats } from '@/lib/pack-results'
 import type { PackSetId } from '@/lib/rippleborn'
 import { cn } from '@/lib/utils'
@@ -333,6 +333,7 @@ export function PackShop({
               cards={packOpened ? cards : null}
               buyer={order?.buyer ?? account}
               setName={pack.kicker}
+              sampleCards={SAMPLE_CARDS[pack.id]}
               onReset={resetDeck}
             />
           </div>
