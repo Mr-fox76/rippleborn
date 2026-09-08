@@ -38,15 +38,6 @@ export default async function Page({
     <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <FreePackBanner />
-        <header className="mx-auto flex w-full max-w-3xl flex-col items-center gap-3 text-center">
-          <h1 className="text-balance font-sans text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-            3 XRPL NFTs per pack. 5 XRP.{' '}
-            <span className="text-muted-foreground">Open on Xaman.</span>
-          </h1>
-          <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Ledgerborn is a new independent collectible experience built with care, transparency, and genuine excitement for what digital cards can become. Open three-card packs, discover real rarities, and choose whether to collect your pulls on the public XRP Ledger.
-          </p>
-        </header>
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
         <section aria-labelledby="all-sets-heading" className="flex w-full flex-col gap-3">
           <h2 id="all-sets-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
