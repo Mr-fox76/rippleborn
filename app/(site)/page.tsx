@@ -38,6 +38,21 @@ export default async function Page({
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <FreePackBanner />
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
+        <section
+          aria-labelledby="artists-block-heading"
+          className="flex w-full flex-col items-center gap-4 border border-border/50 bg-card/40 px-6 py-10 text-center sm:px-8"
+        >
+          <p className="font-mono text-xs uppercase tracking-[0.24em] text-gold">Artists</p>
+          <h2 id="artists-block-heading" className="max-w-2xl font-sans text-xl font-semibold leading-relaxed text-balance text-foreground sm:text-2xl">
+            Each new set is one artist. Their work, their name, their wallet on resale.
+          </h2>
+          <Link
+            href="/artists"
+            className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 font-sans text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-4 focus-visible:ring-offset-background"
+          >
+            Start a set
+          </Link>
+        </section>
         {visitCount !== null && visitCount !== undefined ? (
           <dl
             aria-label="Total site visits"
@@ -67,6 +82,7 @@ export default async function Page({
           <div className="flex flex-col items-center gap-4 md:items-end">
             <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm md:justify-end">
               <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
+              <Link href="/artists" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Artists</Link>
               <Link href="/privacy" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Privacy</Link>
               <Link href="/terms" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Terms</Link>
             </nav>
