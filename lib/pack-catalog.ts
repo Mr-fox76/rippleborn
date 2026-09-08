@@ -1,4 +1,4 @@
-import type { PackSetId } from '@/lib/rippleborn'
+import type { PackSetId, Rarity } from '@/lib/rippleborn'
 
 export type PackCatalogEntry = {
   id: PackSetId
@@ -40,7 +40,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Become Ledgerborn.',
       tagline: 'Chase legends. Awaken The Phoenix.',
       introduction:
-        'Enter a realm of mythical characters, legendary beings, and ancient powers. The Phoenix stands above Mythic as the collection’s rarest 0.05% pull.',
+        'Mythical beings and ancient powers. The Phoenix is the collection’s rarest 0.05% pull.',
       features: ['Arcane one-by-one reveals', 'Phoenix highest rarity', 'Forged and claimed on XRPL'],
     },
   },
@@ -61,7 +61,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Ride the machine frontier.',
       tagline: 'Deal the cards. Find the legend. Claim the bounty.',
       introduction:
-        'Cross into a dust-choked future where cybernetic marshals, machine outlaws, and hardened drifters rule the frontier. Every pack deals three collectible characters ready to claim on the XRP Ledger.',
+        'A dust-choked future of cybernetic marshals, machine outlaws, and drifters. Every pack deals three collectibles to claim on the XRP Ledger.',
       features: ['High-voltage reveals', 'Twenty-two frontier legends', 'Bounties claimed on XRPL'],
     },
   },
@@ -82,11 +82,34 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       title: 'Stare into the Chromatic Abyss.',
       tagline: 'Break the spectrum. Meet what looks back.',
       introduction:
-        'Slip beyond ordinary perception into a living spectrum of impossible creatures, recursive temples, and lucid cosmic entities. The Phoenix stands above Mythic as the collection’s rarest 0.05% pull.',
+        'A living spectrum of impossible creatures, recursive temples, and lucid entities. The Phoenix is the collection’s rarest 0.05% pull.',
       features: ['Prismatic one-by-one reveals', 'Phoenix highest rarity', 'Visions claimed on XRPL'],
     },
   },
 ]
+
+/** Display-only preview card shown flanking the sealed pack. Never minted or purchased. */
+export type SampleCard = { name: string; rarity: Rarity; image: string }
+
+/**
+ * Two fixed sample cards per set, shown either side of the sealed pack so the slots preview
+ * real collection art instead of empty frames. Deliberately static (same art every visit) and
+ * reset per set when the tab changes.
+ */
+export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> = {
+  ledgerborn: [
+    { name: 'Aurelian Tidesovereign', rarity: 'Legendary', image: '/cards/aurelian-tidesovereign-sample.webp' },
+    { name: 'Rippleborn, the Unledgered', rarity: 'Mythic', image: '/cards/rippleborn-the-unledgered-sample.webp' },
+  ],
+  'cyborg-cowboy': [
+    { name: 'Sovereign of Sixguns', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sovereign-of-sixguns-sample.webp' },
+    { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero-sample.webp' },
+  ],
+  'chromatic-abyss': [
+    { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside-sample.webp' },
+    { name: 'Dream Architect', rarity: 'Mythic', image: '/sets/chromatic-abyss/images/dream-architect-sample.webp' },
+  ],
+}
 
 export function getPack(setId: string): PackCatalogEntry | undefined {
   return PACK_CATALOG.find((pack) => pack.id === setId)
