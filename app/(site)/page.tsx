@@ -40,10 +40,10 @@ export default async function Page({
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
         <section
           aria-labelledby="artists-block-heading"
-          className="mx-auto flex w-full max-w-3xl flex-col items-start gap-4 border border-border/50 bg-card/40 px-6 py-7 sm:px-8"
+          className="flex w-full flex-col items-center gap-4 border border-border/50 bg-card/40 px-6 py-10 text-center sm:px-8"
         >
           <p className="font-mono text-xs uppercase tracking-[0.24em] text-gold">Artists</p>
-          <h2 id="artists-block-heading" className="max-w-2xl font-sans text-xl font-semibold leading-relaxed text-foreground sm:text-2xl">
+          <h2 id="artists-block-heading" className="max-w-2xl font-sans text-xl font-semibold leading-relaxed text-balance text-foreground sm:text-2xl">
             Each new set is one artist. Their work, their name, their wallet on resale.
           </h2>
           <Link
