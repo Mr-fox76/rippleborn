@@ -2329,7 +2329,10 @@
   width: 100%;
   aspect-ratio: 3 / 5;
   container-type: inline-size;
-  filter: drop-shadow(0 1.1rem 2.25rem oklch(0.04 0.02 225 / 55%));
+  border: 3px solid var(--rarity-color, transparent);
+  border-radius: 6.67% / 4%;
+  filter: drop-shadow(0 1.1rem 2.25rem oklch(0.04 0.02 225 / 55%))
+    drop-shadow(0 0 0.35rem var(--rarity-color, transparent));
 }
 
 .card-frame__window {
@@ -2340,7 +2343,7 @@
   bottom: 10.4%;
   z-index: 1;
   overflow: hidden;
-  border-radius: 0.35rem;
+  border-radius: 0;
   background: oklch(0.04 0.02 225);
 }
 
@@ -2363,7 +2366,19 @@
   pointer-events: none;
 }
 
-.card-frame__rarity,
+/* Rarity border drawn above the sleeve so the frame corners never clip it. */
+.card-frame__edge {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 10.4%;
+  bottom: 10.4%;
+  z-index: 2;
+  border-radius: 0;
+  border: 3px solid #ffffff;
+  pointer-events: none;
+}
+
 .card-frame__caption {
   position: absolute;
   left: 10%;
@@ -2372,44 +2387,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0b0b0f;
-  background: #fff;
-  border-radius: 999px;
-  box-shadow: 0 1px 4px oklch(0 0 0 / 40%), inset 0 0 0 1px oklch(0 0 0 / 6%);
-  font-family: var(--font-mono);
-  font-weight: 600;
-  text-align: center;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-
-.card-frame__rarity {
-  top: 1.8%;
   height: 7.5%;
   padding: 0 0.7em;
-  letter-spacing: 0.2em;
-  font-size: clamp(0.5rem, 5cqw, 1.05rem);
-}
-
-.card-frame__caption {
-  bottom: 1.8%;
-  min-height: 11%;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.05em;
-  padding: 0.35em 0.7em;
-  border-radius: 1.1em;
-  line-height: 1.1;
-}
-
-.card-frame__title {
-  letter-spacing: 0.12em;
+  color: #f4f6fb;
+  font-family: var(--font-mono);
   font-weight: 500;
-  font-size: clamp(0.38rem, 3.5cqw, 0.78rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: 0 1px 2px oklch(0 0 0 / 65%);
+  pointer-events: none;
+  bottom: 1.8%;
+  line-height: 1.1;
 }
 
 .card-frame__rate {

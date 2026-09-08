@@ -107,7 +107,7 @@ function CollectionCardLightbox({
         {card ? (
           <div className="grid gap-6 md:grid-cols-[minmax(0,1.5fr)_minmax(16rem,0.5fr)] md:items-center">
             <div className="mx-auto w-full max-w-sm">
-              <CardWithFrame rarity={card.rarity} title={card.name}>
+              <CardWithFrame rarity={card.rarity}>
                 <div className="relative h-full w-full bg-card">
                   <Image
                     src={card.image}
@@ -175,7 +175,7 @@ function CollectionChecklist({
     const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
     const content = (
       <div className="collection-frame-slot group">
-        <CardWithFrame rarity={slot.rarity} title={slot.name} className={card ? '' : 'card-frame--missing'}>
+        <CardWithFrame rarity={slot.rarity} className={card ? '' : 'card-frame--missing'}>
           <div className="collection-display-art relative h-full w-full bg-background" data-card-name={slot.name}>
             {card ? (
               <Image
