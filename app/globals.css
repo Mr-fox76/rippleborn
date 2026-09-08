@@ -2345,9 +2345,6 @@
   overflow: hidden;
   border-radius: 0.35rem;
   background: oklch(0.04 0.02 225);
-  border: 2px solid var(--rarity-color, transparent);
-  box-shadow: inset 0 0 0 1px oklch(0.04 0.02 225 / 60%),
-    inset 0 0 0.5rem var(--rarity-color, transparent);
 }
 
 .card-frame__window > * {
@@ -2366,6 +2363,20 @@
   z-index: 2;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+}
+
+/* Rarity border drawn above the sleeve so the frame corners never clip it. */
+.card-frame__edge {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 10.4%;
+  bottom: 10.4%;
+  z-index: 2;
+  border-radius: 0.35rem;
+  border: 2px solid var(--rarity-color, transparent);
+  box-shadow: inset 0 0 0.5rem var(--rarity-color, transparent);
   pointer-events: none;
 }
 
