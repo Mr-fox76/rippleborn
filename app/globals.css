@@ -2329,7 +2329,9 @@
   width: 100%;
   aspect-ratio: 3 / 5;
   container-type: inline-size;
-  filter: drop-shadow(0 1.1rem 2.25rem oklch(0.04 0.02 225 / 55%));
+  filter: drop-shadow(0 1.1rem 2.25rem oklch(0.04 0.02 225 / 55%))
+    drop-shadow(0 0 0.5rem var(--rarity-color, transparent))
+    drop-shadow(0 0 1.5rem var(--rarity-color, transparent));
 }
 
 .card-frame__window {
@@ -2363,7 +2365,6 @@
   pointer-events: none;
 }
 
-.card-frame__rarity,
 .card-frame__caption {
   position: absolute;
   left: 10%;
@@ -2375,8 +2376,6 @@
   height: 7.5%;
   padding: 0 0.7em;
   color: #f4f6fb;
-  border-radius: 999px;
-  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 8%);
   font-family: var(--font-mono);
   font-weight: 500;
   letter-spacing: 0.12em;
@@ -2384,18 +2383,7 @@
   text-transform: uppercase;
   text-shadow: 0 1px 2px oklch(0 0 0 / 65%);
   pointer-events: none;
-}
-
-.card-frame__rarity {
-  top: 1.8%;
-  background: var(--rarity-color, oklch(0.16 0.01 260 / 82%));
-  font-size: clamp(0.38rem, 3.5cqw, 0.78rem);
-}
-
-.card-frame__caption {
   bottom: 1.8%;
-  background: transparent;
-  box-shadow: none;
   line-height: 1.1;
 }
 

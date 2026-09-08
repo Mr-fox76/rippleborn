@@ -44,7 +44,6 @@ export function CardWithFrame({
     >
       <div className="card-frame__window">{children}</div>
       <img className="card-frame__sleeve" src={FRAME} alt="" aria-hidden="true" />
-      <span className="card-frame__rarity">{meta.label}</span>
       <span className="card-frame__caption">
         <span className="card-frame__rate">{meta.rate}</span>
       </span>
