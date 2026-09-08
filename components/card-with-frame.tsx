@@ -40,11 +40,8 @@ export function CardWithFrame({
     <div className={`card-frame ${className ?? ''}`}>
       <div className="card-frame__window">{children}</div>
       <img className="card-frame__sleeve" src={meta.frame} alt="" aria-hidden="true" />
-      <span className="card-frame__rarity">{meta.label}</span>
-      <span className="card-frame__caption">
-        {title?.trim() ? <span className="card-frame__title">{title.trim()}</span> : null}
-        <span className="card-frame__rate">{meta.rate}</span>
-      </span>
+      <span className="card-frame__rarity">{title?.trim() || meta.label}</span>
+      <span className="card-frame__rate">{meta.rate}</span>
     </div>
   )
 }
