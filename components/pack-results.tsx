@@ -209,7 +209,8 @@ function SamplePreviewCard({ card }: { card: SampleCard }) {
           src={card.image}
           alt={`${getDisplayCardName(card.name)}, ${card.rarity} sample card`}
           fill
-          unoptimized
+          priority
+          quality={70}
           sizes="(max-width: 639px) calc(100vw - 2rem), 320px"
           className="object-cover object-center"
         />

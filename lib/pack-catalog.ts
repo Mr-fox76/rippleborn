@@ -98,16 +98,16 @@ export type SampleCard = { name: string; rarity: Rarity; image: string }
  */
 export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> = {
   ledgerborn: [
-    { name: 'Aurelian Tidesovereign', rarity: 'Legendary', image: '/cards/aurelian-tidesovereign.png' },
-    { name: 'Rippleborn, the Unledgered', rarity: 'Mythic', image: '/cards/rippleborn-the-unledgered.png' },
+    { name: 'Aurelian Tidesovereign', rarity: 'Legendary', image: '/cards/aurelian-tidesovereign-sample.webp' },
+    { name: 'Rippleborn, the Unledgered', rarity: 'Mythic', image: '/cards/rippleborn-the-unledgered-sample.webp' },
   ],
   'cyborg-cowboy': [
-    { name: 'Sovereign of Sixguns', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png' },
-    { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero.png' },
+    { name: 'Sovereign of Sixguns', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sovereign-of-sixguns-sample.webp' },
+    { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero-sample.webp' },
   ],
   'chromatic-abyss': [
-    { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside.png' },
-    { name: 'Dream Architect', rarity: 'Mythic', image: '/sets/chromatic-abyss/images/dream-architect.png' },
+    { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside-sample.webp' },
+    { name: 'Dream Architect', rarity: 'Mythic', image: '/sets/chromatic-abyss/images/dream-architect-sample.webp' },
   ],
 }
 
