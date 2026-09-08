@@ -1372,6 +1372,21 @@
   opacity: 1;
 }
 
+/* The card frame is 3/5 (taller than the 2/3 pack slot), so size it by the slot's
+   height instead of its width — otherwise it overflows below the slot and the
+   container's paint containment shears off the bottom rarity caption. */
+.tarot-slot:has(> .tarot-sample-card) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tarot-sample-card {
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+}
+
 .tarot-sample-spacer {
   aspect-ratio: 2 / 3;
 }
