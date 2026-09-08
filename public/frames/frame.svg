@@ -13,9 +13,4 @@
   </defs>
   <path fill-rule="evenodd" fill="url(#card)" d="M22 2 H278 A20 20 0 0 1 298 22 V478 A20 20 0 0 1 278 498 H22 A20 20 0 0 1 2 478 V22 A20 20 0 0 1 22 2 Z M26 52 H274 A8 8 0 0 1 282 60 V440 A8 8 0 0 1 274 448 H26 A8 8 0 0 1 18 440 V60 A8 8 0 0 1 26 52 Z"/>
   <rect x="3.5" y="3.5" width="293" height="493" rx="18.5" fill="none" stroke="url(#rim)" stroke-width="3"/>
-  <rect x="8" y="8" width="284" height="484" rx="14" fill="none" stroke="#9a9aa2" stroke-width="1" stroke-opacity="0.28"/>
-  <rect x="17" y="51" width="266" height="398" rx="8.5" fill="none" stroke="#050506" stroke-width="2.5" stroke-opacity="0.8"/>
-  <rect x="19" y="53" width="262" height="394" rx="7" fill="none" stroke="#9a9aa2" stroke-width="1" stroke-opacity="0.3"/>
-  <path d="M42 49 H258" stroke="#9a9aa2" stroke-width="1" stroke-opacity="0.32"/>
-  <path d="M42 451 H258" stroke="#9a9aa2" stroke-width="1" stroke-opacity="0.32"/>
 </svg>
