@@ -2387,9 +2387,10 @@
   top: 1.8%;
   height: 7.5%;
   padding: 0 0.7em;
-  letter-spacing: 0.2em;
-  font-size: clamp(0.5rem, 5cqw, 1.05rem);
-}
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: clamp(0.38rem, 3.5cqw, 0.78rem);
+  }
 
 .card-frame__caption {
   bottom: 1.8%;
