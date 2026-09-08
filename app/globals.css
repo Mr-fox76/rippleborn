@@ -2364,38 +2364,58 @@
 }
 
 .card-frame__rarity,
-.card-frame__rate {
+.card-frame__caption {
   position: absolute;
-  left: 12%;
-  right: 12%;
+  left: 10%;
+  right: 10%;
   z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #0b0b0f;
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px oklch(0 0 0 / 40%), inset 0 0 0 1px oklch(0 0 0 / 6%);
   font-family: var(--font-mono);
-  font-weight: 800;
+  font-weight: 600;
   text-align: center;
   text-transform: uppercase;
-  text-shadow:
-    0 1px 2px oklch(0 0 0 / 60%),
-    0 0 2px oklch(0 0 0 / 45%),
-    0 -1px 0 oklch(1 0 0 / 20%);
   pointer-events: none;
 }
 
 .card-frame__rarity {
-  top: 1.6%;
-  height: 8%;
+  top: 1.8%;
+  height: 7.5%;
+  padding: 0 0.7em;
   letter-spacing: 0.2em;
   font-size: clamp(0.5rem, 5cqw, 1.05rem);
 }
 
+.card-frame__caption {
+  bottom: 1.8%;
+  min-height: 11%;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.05em;
+  padding: 0.35em 0.7em;
+  border-radius: 1.1em;
+  line-height: 1.1;
+}
+
+.card-frame__title {
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  font-size: clamp(0.38rem, 3.5cqw, 0.78rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
 .card-frame__rate {
-  bottom: 1.6%;
-  height: 8%;
   letter-spacing: 0.1em;
-  font-size: clamp(0.42rem, 3.9cqw, 0.8rem);
+  font-size: clamp(0.4rem, 3.4cqw, 0.72rem);
+  opacity: 0.92;
 }
 
 .card-frame--missing .card-frame__window {
