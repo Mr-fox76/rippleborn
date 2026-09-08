@@ -172,11 +172,10 @@
 .collection-nav-action {
   display: inline-flex;
   height: 2.5rem;
-  width: 2.5rem;
   flex: none;
   align-items: center;
   justify-content: center;
-  padding-inline: 0;
+  padding-inline: 0.95rem;
   white-space: nowrap;
   border: 1px solid color-mix(in oklch, var(--foreground) 18%, transparent);
   border-radius: var(--radius-sm);
@@ -275,16 +274,8 @@
 
   .collection-nav-action {
     height: 2.25rem;
-    width: 2.25rem;
-    padding-inline: 0;
-  }
-
-  .collection-nav-label {
-    display: none;
-  }
-
-  .collection-nav-icon {
-    display: inline-block;
+    padding-inline: 0.8rem;
+    font-size: 0.62rem;
   }
 }
 

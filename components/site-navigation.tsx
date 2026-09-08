@@ -1,6 +1,5 @@
 'use client'
 
-import { Images } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCollectionOverlay } from '@/components/collection-overlay'
 
@@ -15,10 +14,10 @@ export function SiteNavigation() {
         aria-pressed={open}
         aria-expanded={open}
         className={cn('collection-nav-action', open && 'collection-nav-action-active')}
-        aria-label={open ? 'Close My Albums' : 'Open My Albums'}
-        title={open ? 'Close My Albums' : 'My Albums'}
+        aria-label={open ? 'Close Collections' : 'Open Collections'}
+        title={open ? 'Close Collections' : 'Collections'}
       >
-        <Images className="collection-nav-icon" aria-hidden="true" />
+        Collections
       </button>
     </nav>
   )
