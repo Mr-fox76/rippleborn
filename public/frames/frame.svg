@@ -18,10 +18,4 @@
   <rect x="19" y="53" width="262" height="394" rx="7" fill="none" stroke="#9a9aa2" stroke-width="1" stroke-opacity="0.3"/>
   <path d="M42 49 H258" stroke="#9a9aa2" stroke-width="1" stroke-opacity="0.32"/>
   <path d="M42 451 H258" stroke="#9a9aa2" stroke-width="1" stroke-opacity="0.32"/>
-  <g stroke="#c4c4cc" stroke-width="2.5" stroke-linecap="round" stroke-opacity="0.85">
-    <path d="M23 16 H41"/><path d="M16 23 V41"/>
-    <path d="M277 16 H259"/><path d="M284 23 V41"/>
-    <path d="M23 484 H41"/><path d="M16 477 V459"/>
-    <path d="M277 484 H259"/><path d="M284 477 V459"/>
-  </g>
 </svg>

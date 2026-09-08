@@ -2394,7 +2394,8 @@
 
 .card-frame__caption {
   bottom: 1.8%;
-  background: oklch(0.16 0.01 260 / 82%);
+  background: transparent;
+  box-shadow: none;
   line-height: 1.1;
 }
 
