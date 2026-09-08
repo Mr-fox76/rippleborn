@@ -2367,12 +2367,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f6f8fc;
+  color: #fff;
   font-family: var(--font-mono);
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
-  text-shadow: 0 1px 2px oklch(0 0 0 / 55%);
+  text-shadow:
+    0 1px 2px oklch(0 0 0 / 60%),
+    0 0 2px oklch(0 0 0 / 45%),
+    0 -1px 0 oklch(1 0 0 / 20%);
   pointer-events: none;
 }
 
