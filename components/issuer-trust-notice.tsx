@@ -24,7 +24,7 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                     aria-label={`View ${nft.name} NFT ${nft.nftId} on Bithomp`}
                     className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
-                    <CardWithFrame rarity={nft.rarity}>
+                    <CardWithFrame rarity={nft.rarity} title={nft.name}>
                       <Image
                         src={nft.image}
                         alt={`${nft.name} NFT artwork`}
@@ -35,15 +35,7 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                       />
                     </CardWithFrame>
-                    <div className="mt-2 flex items-end justify-between gap-2">
-                      <div className="flex min-w-0 flex-col gap-1">
-                        <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground">{nft.name}</h3>
-                        {nft.setCode && typeof nft.cardNumber === 'number' && typeof nft.setSize === 'number' ? (
-                          <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
-                            {nft.setCode} {String(nft.cardNumber).padStart(2, '0')}/{String(nft.setSize).padStart(2, '0')}
-                          </span>
-                        ) : null}
-                      </div>
+                    <div className="mt-2 flex items-center justify-end gap-2">
                       <ExternalLink className="size-4 shrink-0 text-foreground/70 transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
                     </div>
                   </a>

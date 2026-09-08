@@ -276,7 +276,7 @@ function RevealedSpread({
                     <strong>The Phoenix awakens</strong>
                   </div>
                 ) : null}
-                <CardWithFrame rarity={card.rarity}>
+                <CardWithFrame rarity={card.rarity} title={displayName}>
                   <div
                     className="collection-display-art relative bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--rarity-color)]"
                     data-card-name={card.name}
@@ -295,7 +295,6 @@ function RevealedSpread({
                   </div>
                 </CardWithFrame>
                 <div className="reveal-caption">
-                  <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground sm:text-base">{displayName}</h3>
                   {(() => {
                     const discovery = card.discovery ?? card.discoveryNumber
                     const discoveredAtPull = card.discoveredAtPull ?? card.discoveryNumber

@@ -24,10 +24,12 @@ function normalizeRarity(rarity?: string): FrameRarity {
 
 export function CardWithFrame({
   rarity,
+  title,
   className,
   children,
 }: {
   rarity?: string
+  title?: string
   className?: string
   children: ReactNode
 }) {
@@ -38,7 +40,7 @@ export function CardWithFrame({
     <div className={`card-frame ${className ?? ''}`}>
       <div className="card-frame__window">{children}</div>
       <img className="card-frame__sleeve" src={meta.frame} alt="" aria-hidden="true" />
-      <span className="card-frame__rarity">{meta.label}</span>
+      <span className="card-frame__rarity">{title?.trim() || meta.label}</span>
       <span className="card-frame__rate">{meta.rate}</span>
     </div>
   )
