@@ -2330,7 +2330,7 @@
   aspect-ratio: 3 / 5;
   container-type: inline-size;
   border: 2px solid var(--rarity-color, transparent);
-  border-radius: 0.75rem;
+  border-radius: 6.67% / 4%;
   filter: drop-shadow(0 1.1rem 2.25rem oklch(0.04 0.02 225 / 55%))
     drop-shadow(0 0 0.35rem var(--rarity-color, transparent));
 }
