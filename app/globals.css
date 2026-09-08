@@ -2321,6 +2321,136 @@
   }
 }
 
+/* Premium collectible sleeve: metal rim + rarity plate (top) + pull-rate plate
+   (bottom) around an untouched 2:3 art window. Rarity data lives here, never on
+   the painting. The wrapper grows outside the art so the artwork keeps its size. */
+.card-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 5;
+  container-type: inline-size;
+  filter: drop-shadow(0 1.1rem 2.25rem oklch(0.04 0.02 225 / 55%));
+}
+
+.card-frame__window {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  top: 10.4%;
+  bottom: 10.4%;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 0.35rem;
+  background: var(--background);
+}
+
+.card-frame__window > * {
+  width: 100%;
+  height: 100%;
+}
+
+.card-frame__sleeve {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.card-frame__rarity,
+.card-frame__rate {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow:
+    0 1px 2px oklch(0 0 0 / 60%),
+    0 0 2px oklch(0 0 0 / 45%),
+    0 -1px 0 oklch(1 0 0 / 20%);
+  pointer-events: none;
+}
+
+.card-frame__rarity {
+  top: 1.6%;
+  height: 8%;
+  letter-spacing: 0.2em;
+  font-size: clamp(0.5rem, 5cqw, 1.05rem);
+}
+
+.card-frame__rate {
+  bottom: 1.6%;
+  height: 8%;
+  letter-spacing: 0.1em;
+  font-size: clamp(0.42rem, 3.9cqw, 0.8rem);
+}
+
+.card-frame--missing .card-frame__window {
+  opacity: 0.5;
+}
+
+/* Below-frame captions keep the card name, ownership, and actions off the art. */
+.collection-frame-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.collection-frame-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  text-align: center;
+}
+
+.collection-frame-name {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--foreground);
+  font-size: clamp(0.62rem, 2.2cqw, 0.78rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.collection-frame-owned {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.collection-frame-missing {
+  color: var(--muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.reveal-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.5rem 0;
+  text-align: center;
+}
+
 .interface-chip {
   border-radius: 9999px;
   background:

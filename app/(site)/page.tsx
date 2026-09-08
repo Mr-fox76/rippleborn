@@ -3,7 +3,6 @@ import { FreePackBanner } from '@/components/free-pack-banner'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { NetworkStatus } from '@/components/network-status'
 import { PackWorkspace } from '@/components/pack-workspace'
-import { RarityOdds } from '@/components/rarity-odds'
 import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
 import type { CollectionStats } from '@/lib/pack-results'
 import { incrementHomepageVisits } from '@/lib/site-counter'
@@ -38,22 +37,18 @@ export default async function Page({
     <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
         <FreePackBanner />
-        <header className="mx-auto flex w-full max-w-3xl flex-col items-center gap-3 text-center">
-          <h1 className="text-balance font-sans text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-            3 XRPL NFTs per pack. 5 XRP.{' '}
-            <span className="text-muted-foreground">Open on Xaman.</span>
-          </h1>
-          <p className="mx-auto max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Ledgerborn is a new independent collectible experience built with care, transparency, and genuine excitement for what digital cards can become. Open three-card packs, discover real rarities, and choose whether to collect your pulls on the public XRP Ledger.
-          </p>
-        </header>
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
-        <section aria-labelledby="all-sets-heading" className="flex w-full flex-col gap-3">
-          <h2 id="all-sets-heading" className="text-center font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            All sets
-          </h2>
-          <RarityOdds stats={allSets} countersOnly visitCount={visitCount} />
-        </section>
+        {visitCount !== null && visitCount !== undefined ? (
+          <dl
+            aria-label="Total site visits"
+            className="mx-auto flex items-center justify-center gap-4 rounded-xl border border-gold/40 bg-gold/[0.06] px-6 py-4 shadow-[0_0_28px_color-mix(in_oklch,var(--gold)_16%,transparent)]"
+          >
+            <dt className="font-mono text-xs uppercase tracking-[0.25em] text-gold">Site visits</dt>
+            <dd className="font-mono text-3xl font-bold tabular-nums text-gold sm:text-4xl">
+              {visitCount.toLocaleString()}
+            </dd>
+          </dl>
+        ) : null}
         <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
       <footer className="relative z-10 border-t border-border/40 px-6 py-8">

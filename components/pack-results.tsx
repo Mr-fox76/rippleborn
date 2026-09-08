@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
+import { CardWithFrame } from '@/components/card-with-frame'
 import { getDisplayCardName, type Card } from '@/lib/rippleborn'
 
 export type FulfilledCard = Card & {
@@ -267,7 +268,7 @@ function RevealedSpread({
               {card ? (
               <>
               <article
-                className={`tarot-card tarot-reveal collection-display-card relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''} overflow-hidden`}
+                className={`tarot-card tarot-reveal relative ${RARITY_CLASSES[card.rarity]} ${card.rarity === 'Phoenix' || card.name === 'The Phoenix' ? 'phoenix-reveal' : ''}`}
               >
                 {card.rarity === 'Phoenix' ? (
                   <div className="phoenix-victory-banner" role="status" aria-live="assertive">
@@ -275,47 +276,41 @@ function RevealedSpread({
                     <strong>The Phoenix awakens</strong>
                   </div>
                 ) : null}
-                <div
-                  className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--rarity-color)]"
-                  data-card-name={card.name}
-                  tabIndex={0}
-                  aria-label={displayName}
-                >
-                  <Image
-                    src={card.image}
-                    alt={`${displayName}, ${card.rarity} card`}
-                    fill
-                    unoptimized
-                    sizes="(max-width: 639px) calc(100vw - 2rem), 320px"
-                    className="object-cover object-center transition-transform duration-500 group-hover:scale-[1.025]"
-                  />
-                  <div className="collection-display-sheen" aria-hidden="true" />
-                  {card.cardIdentifier ? (
-                    <span className="collection-discovery-mark" aria-label={`Card identifier ${card.cardIdentifier}`}>
-                      {card.cardIdentifier}
-                    </span>
-                  ) : null}
-                  <span className="collection-edition-mark" aria-hidden="true">LB</span>
-                  <div className="collection-card-caption z-10 flex items-end justify-between gap-2">
-                    <div className="flex min-w-0 flex-col gap-1">
-                      <h3 className="text-pretty text-sm font-semibold leading-snug text-foreground sm:text-base">{displayName}</h3>
-                      <span className="collection-rarity-seal">{card.rarity}</span>
-                      {(() => {
-                        const discovery = card.discovery ?? card.discoveryNumber
-                        const discoveredAtPull = card.discoveredAtPull ?? card.discoveryNumber
-                        if (typeof discovery !== 'number' || typeof discoveredAtPull !== 'number') return null
-                        return (
-                          <span className="font-mono text-xs font-semibold tracking-wide text-foreground">
-                            {discovery} / {discoveredAtPull}
-                          </span>
-                        )
-                      })()}
-                      {card.setCode && typeof card.cardNumber === 'number' && typeof card.setSize === 'number' ? (
-                        <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
-                          {card.setCode} {String(card.cardNumber).padStart(2, '0')}/{String(card.setSize).padStart(2, '0')}
-                        </span>
-                      ) : null}
-                    </div>
+                <CardWithFrame rarity={card.rarity} title={displayName}>
+                  <div
+                    className="collection-display-art relative bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--rarity-color)]"
+                    data-card-name={card.name}
+                    tabIndex={0}
+                    aria-label={`${displayName}, ${card.rarity} card`}
+                  >
+                    <Image
+                      src={card.image}
+                      alt={`${displayName}, ${card.rarity} card`}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 639px) calc(100vw - 2rem), 320px"
+                      className="object-cover object-center"
+                    />
+                    <div className="collection-display-sheen" aria-hidden="true" />
+                  </div>
+                </CardWithFrame>
+                <div className="reveal-caption">
+                  {(() => {
+                    const discovery = card.discovery ?? card.discoveryNumber
+                    const discoveredAtPull = card.discoveredAtPull ?? card.discoveryNumber
+                    if (typeof discovery !== 'number' || typeof discoveredAtPull !== 'number') return null
+                    return (
+                      <span className="font-mono text-xs font-semibold tracking-wide text-foreground">
+                        {discovery} / {discoveredAtPull}
+                      </span>
+                    )
+                  })()}
+                  <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1">
+                    {card.setCode && typeof card.cardNumber === 'number' && typeof card.setSize === 'number' ? (
+                      <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted-foreground">
+                        {card.setCode} {String(card.cardNumber).padStart(2, '0')}/{String(card.setSize).padStart(2, '0')}
+                      </span>
+                    ) : null}
                     {card.limited && card.edition && card.maxSupply ? (
                       <span className="phoenix-edition rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:text-xs">
                         {card.edition}/{card.maxSupply}

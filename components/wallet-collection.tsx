@@ -22,6 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
+import { CardWithFrame } from '@/components/card-with-frame'
 import { COLLECTION_REFRESH_EVENT } from '@/lib/collection-refresh'
 import { COLLECTION_CATALOG, getCollectionSlotKey, type CollectionCatalogSet } from '@/lib/collection-catalog'
 import type { PackSetId } from '@/lib/rippleborn'
@@ -105,15 +106,19 @@ function CollectionCardLightbox({
       <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto bg-background p-4 sm:max-w-6xl sm:p-6">
         {card ? (
           <div className="grid gap-6 md:grid-cols-[minmax(0,1.5fr)_minmax(16rem,0.5fr)] md:items-center">
-            <div className="relative mx-auto aspect-[2/3] w-full max-w-2xl overflow-hidden rounded-md bg-card">
-              <Image
-                src={card.image}
-                alt={`${card.name} NFT artwork`}
-                fill
-                unoptimized
-                sizes="(max-width: 767px) calc(100vw - 4rem), 672px"
-                className="object-cover"
-              />
+            <div className="mx-auto w-full max-w-sm">
+              <CardWithFrame rarity={card.rarity} title={card.name}>
+                <div className="relative h-full w-full bg-card">
+                  <Image
+                    src={card.image}
+                    alt={`${card.name} NFT artwork`}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 767px) calc(100vw - 4rem), 384px"
+                    className="object-cover"
+                  />
+                </div>
+              </CardWithFrame>
             </div>
             <div className="flex flex-col gap-6">
               <DialogHeader>
@@ -121,7 +126,7 @@ function CollectionCardLightbox({
                   {card.name}
                 </DialogTitle>
                 <DialogDescription className="font-mono text-xs uppercase tracking-[0.16em] text-gold">
-                  {card.rarity?.trim() || 'Common'}
+                  On-ledger collectible
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col gap-3">
@@ -169,37 +174,36 @@ function CollectionChecklist({
     const card = ownedBySlot.get(slot.key)
     const rarityClass = `rarity-${slot.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
     const content = (
-      <div className={`collection-display-card group h-full overflow-hidden ${card ? '' : 'collection-display-card-missing'}`}>
-        <div className="collection-display-art relative aspect-[2/3] overflow-hidden bg-background" data-card-name={slot.name}>
-          {card ? (
-            <Image
-              src={card.image}
-              alt={`${slot.name} NFT artwork`}
-              fill
-              unoptimized
-              sizes="(max-width: 639px) calc(50vw - 2rem), (max-width: 1023px) calc(33vw - 2rem), 180px"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
-            />
-          ) : (
-            <div className="collection-undiscovered-back tarot-back-inner absolute inset-0" aria-hidden="true">
-              <span className="celestial-orbit">
-                <span className="celestial-core" />
-              </span>
-            </div>
-          )}
-          {card ? (
-            <span className="absolute left-2 top-2 grid size-6 place-items-center rounded-sm border border-[color:var(--rarity-color)] bg-card/90 text-[var(--rarity-color)]" aria-hidden="true">
-              <Check className="size-3.5" />
-            </span>
-          ) : null}
-          {card ? (
-            <div className="collection-card-caption flex items-end justify-center">
-              <div className="flex min-w-0 flex-col items-center gap-1 text-center">
-                <span className="w-full truncate text-xs font-semibold leading-tight text-foreground" title={slot.name}>{slot.name}</span>
-                <span className="collection-rarity-seal">Owned · {slot.rarity}</span>
+      <div className="collection-frame-slot group">
+        <CardWithFrame rarity={slot.rarity} title={slot.name} className={card ? '' : 'card-frame--missing'}>
+          <div className="collection-display-art relative h-full w-full bg-background" data-card-name={slot.name}>
+            {card ? (
+              <Image
+                src={card.image}
+                alt={`${slot.name} NFT artwork`}
+                fill
+                unoptimized
+                sizes="(max-width: 639px) calc(50vw - 2rem), (max-width: 1023px) calc(33vw - 2rem), 180px"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+              />
+            ) : (
+              <div className="collection-undiscovered-back tarot-back-inner absolute inset-0" aria-hidden="true">
+                <span className="celestial-orbit">
+                  <span className="celestial-core" />
+                </span>
               </div>
-            </div>
-          ) : null}
+            )}
+          </div>
+        </CardWithFrame>
+        <div className="collection-frame-caption">
+          {card ? (
+            <span className="collection-frame-owned">
+              <Check className="size-3" aria-hidden="true" />
+              Owned
+            </span>
+          ) : (
+            <span className="collection-frame-missing">Missing</span>
+          )}
         </div>
       </div>
     )
