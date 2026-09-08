@@ -24,7 +24,7 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                     aria-label={`View ${nft.name} NFT ${nft.nftId} on Bithomp`}
                     className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
-                    <CardWithFrame rarity={nft.rarity} title={nft.name}>
+                    <CardWithFrame rarity={nft.rarity}>
                       <Image
                         src={nft.image}
                         alt={`${nft.name} NFT artwork`}

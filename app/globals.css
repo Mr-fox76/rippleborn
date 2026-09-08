@@ -2372,10 +2372,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #0b0b0f;
-  background: #fff;
+  color: #f4f6fb;
+  background: oklch(0.16 0.01 260 / 82%);
   border-radius: 999px;
-  box-shadow: 0 1px 4px oklch(0 0 0 / 40%), inset 0 0 0 1px oklch(0 0 0 / 6%);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 8%);
   font-family: var(--font-mono);
   font-weight: 600;
   text-align: center;
@@ -2401,16 +2401,6 @@
   padding: 0.35em 0.7em;
   border-radius: 1.1em;
   line-height: 1.1;
-}
-
-.card-frame__title {
-  letter-spacing: 0.12em;
-  font-weight: 500;
-  font-size: clamp(0.38rem, 3.5cqw, 0.78rem);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 100%;
 }
 
 .card-frame__rate {
