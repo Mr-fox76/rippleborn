@@ -276,7 +276,7 @@ function RevealedSpread({
                     <strong>The Phoenix awakens</strong>
                   </div>
                 ) : null}
-                <CardWithFrame rarity={card.rarity}>
+                <CardWithFrame rarity={card.rarity} edition={card.discovery ?? card.discoveryNumber}>
                   <div
                     className="collection-display-art relative bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--rarity-color)]"
                     data-card-name={card.name}

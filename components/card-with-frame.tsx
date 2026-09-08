@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react'
 
-/** Shared black metal sleeve; rarity is signalled by the top plate color. */
-const FRAME = '/frames/frame.svg'
-
-/** Rarity → pull rate (bottom plate) and the color of the top rarity plate. */
+/** Rarity → pull rate (bottom caption) and the rarity accent color. */
 const RARITY_META = {
   Common: { label: 'Common', rate: '65.4% · 1 in 1.5', color: '#b9bfca' },
   Rare: { label: 'Rare', rate: '22% · 1 in 4.5', color: '#3b82f6' },
@@ -27,10 +24,13 @@ function normalizeRarity(rarity?: string): FrameRarity {
 
 export function CardWithFrame({
   rarity,
+  edition,
   className,
   children,
 }: {
   rarity?: string
+  /** Nth copy of this card ever pulled; shown as a zero-padded ordinal (e.g. 001). */
+  edition?: number
   className?: string
   children: ReactNode
 }) {
@@ -43,8 +43,10 @@ export function CardWithFrame({
       style={{ ['--rarity-color' as string]: meta.color }}
     >
       <div className="card-frame__window">{children}</div>
-      <img className="card-frame__sleeve" src={FRAME} alt="" aria-hidden="true" />
-      <span className="card-frame__edge" aria-hidden="true" />
+      {typeof edition === 'number' && edition > 0 ? (
+        <span className="card-frame__ordinal">{String(edition).padStart(3, '0')}</span>
+      ) : null}
+      <span className="card-frame__badge">{meta.label}</span>
       <span className="card-frame__caption">
         <span className="card-frame__rate">Rarity {meta.rate}</span>
       </span>
