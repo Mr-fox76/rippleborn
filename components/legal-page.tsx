@@ -21,10 +21,7 @@ export function LegalPage({ title, summary, updated, sections }: LegalPageProps)
         <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-4">
           <Link href="/" aria-label="Ledgerborn home" className="inline-flex items-center gap-2 text-muted-foreground transition-colors hover:text-primary">
             <ArrowLeft className="size-4" aria-hidden="true" />
-            <span className="site-brand-mark" aria-hidden="true">
-              <span className="site-brand-glyph">L</span>
-            </span>
-            <span className="hidden font-sans text-sm font-semibold tracking-[0.12em] text-foreground sm:inline">LEDGERBORN</span>
+            <img src="/ledgerborn-logo.png" alt="Ledgerborn" width={180} height={52} className="h-7 w-auto sm:h-8" />
           </Link>
           <div className="flex items-center gap-3">
             <SiteNavigation />
