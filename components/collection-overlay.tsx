@@ -18,7 +18,6 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { WalletCollection, collectionSwrKey, fetchCollection } from '@/components/wallet-collection'
-import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { useXamanWallet } from '@/components/xaman-wallet-provider'
 
 type CollectionOverlayValue = {
@@ -91,7 +90,6 @@ export function CollectionOverlayProvider({ children }: { children: ReactNode })
           </DialogHeader>
           <div className="collection-overlay-scroll flex flex-1 flex-col gap-6 overflow-y-auto overscroll-contain px-4 py-5 sm:px-6 sm:py-7">
             <WalletCollection compact />
-            <NftRecoveryPanel />
           </div>
         </DialogContent>
       </Dialog>

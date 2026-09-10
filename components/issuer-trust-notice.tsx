@@ -11,7 +11,7 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
           <p className="font-mono text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
             Latest NFTs on-ledger
           </p>
-          <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
             {latestNfts.map((nft) => {
               const rarityClass = `rarity-${nft.rarity.toLowerCase().replace(/[^a-z]+/g, '-')}`
 

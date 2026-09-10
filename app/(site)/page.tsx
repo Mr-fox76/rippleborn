@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { FreePackBanner } from '@/components/free-pack-banner'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { NetworkStatus } from '@/components/network-status'
 import { PackWorkspace } from '@/components/pack-workspace'
@@ -25,7 +24,7 @@ export default async function Page({
     getCollectionStats('mr-slack').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
     incrementHomepageVisits().catch(() => 0),
-    getLatestMintedNfts(4).catch(() => []),
+    getLatestMintedNfts(6).catch(() => []),
   ])
 
   const statsBySet: Record<PackSetId, CollectionStats> = {
@@ -38,7 +37,7 @@ export default async function Page({
   return (
     <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
-        <FreePackBanner />
+
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
         <section
           aria-labelledby="artists-block-heading"
@@ -68,7 +67,7 @@ export default async function Page({
         ) : null}
         <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
-      <footer className="relative z-10 border-t border-border/40 px-6 py-8">
+      <footer className="relative z-10 border-t border-border/40 px-6 pt-8 pb-0">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="flex flex-col gap-2 text-center md:text-left">
             <p className="text-sm leading-relaxed text-foreground/80">

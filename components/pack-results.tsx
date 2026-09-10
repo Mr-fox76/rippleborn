@@ -250,10 +250,19 @@ function RevealedSpread({
   useEffect(() => {
     if (revealing === null) return
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const landingRarity = cards[revealing]?.rarity
+    const landingCard = cards[revealing]
+    const landingRarity = landingCard?.rarity
     const timer = window.setTimeout(() => {
       if (landingRarity) playRevealSound(landingRarity)
       setRevealed((current) => new Set(current).add(revealing))
+      // Only now does this NFT become eligible for the public "Latest NFTs on-ledger" feed.
+      if (landingCard?.mintStatus === 'minted' && landingCard.nftId) {
+        void fetch('/api/nft/reveal', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ nftId: landingCard.nftId }),
+        }).catch(() => {})
+      }
       setRevealing(null)
     }, reducedMotion ? 40 : 650)
     return () => window.clearTimeout(timer)

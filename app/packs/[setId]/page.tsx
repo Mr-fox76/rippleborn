@@ -5,7 +5,6 @@ import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
 import { NetworkStatus } from '@/components/network-status'
-import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { PackShop } from '@/components/pack-shop'
 import { PersistLastSet } from '@/components/persist-last-set'
 import { SiteNavigation } from '@/components/site-navigation'
@@ -100,9 +99,6 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
         </header>
 
         <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-6 sm:px-6 sm:py-8">
-          <div className="mx-auto w-full max-w-6xl">
-            <NftRecoveryPanel />
-          </div>
           <PackShop collectionStats={collectionStats} pack={pack} />
         </main>
 

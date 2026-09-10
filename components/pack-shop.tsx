@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Gem, Gift, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { RarityOdds } from '@/components/rarity-odds'
@@ -26,8 +26,6 @@ type Order = {
   amountDrops?: string
   priceXrp?: string
 }
-
-type FreeStatus = { remaining: number; alreadyClaimed: boolean; eligible: boolean }
 
 const READING_STAGES = [
   'Payment approved — starting your pack',
@@ -93,30 +91,7 @@ export function PackShop({
   const [packOpened, setPackOpened] = useState(false)
   const [status, setStatus] = useState<Status>({ tone: 'idle', message: '' })
   const [pending, setPending] = useState<'create' | 'fulfill' | null>(null)
-  const [freeStatus, setFreeStatus] = useState<FreeStatus | null>(null)
   const purchasePanelRef = useRef<HTMLElement>(null)
-
-  const refreshFreeStatus = useCallback(async () => {
-    try {
-      const url = account
-        ? `/api/promo/free-pack?address=${encodeURIComponent(account)}`
-        : '/api/promo/free-pack'
-      const response = await fetch(url, { cache: 'no-store' })
-      if (!response.ok) return
-      const data = await response.json()
-      setFreeStatus({
-        remaining: data.remaining ?? 0,
-        alreadyClaimed: Boolean(data.alreadyClaimed),
-        eligible: Boolean(data.eligible),
-      })
-    } catch {
-      // A promo lookup failure should never block the paid flow.
-    }
-  }, [account])
-
-  useEffect(() => {
-    void refreshFreeStatus()
-  }, [refreshFreeStatus])
 
   useEffect(() => {
     onActivityChange?.(pending !== null || order !== null || cards !== null)
@@ -225,49 +200,6 @@ export function PackShop({
     }
   }
 
-  async function openFreePack() {
-    if (!account) {
-      setStatus({ tone: 'error', message: 'Connect Xaman before opening your free pack.' })
-      return
-    }
-
-    setPending('create')
-    setCards(null)
-    setPackOpened(false)
-    setStatus({ tone: 'pending', message: 'Reserving your free pack…' })
-
-    try {
-      const response = await fetch('/api/pack/create-free', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ buyer: account, setId: selectedSet }),
-      })
-      const data = await response.json()
-
-      if (!response.ok) {
-        // Sold out or ineligible — refresh the promo state and fall back to paid.
-        setOrder(null)
-        setStatus({ tone: 'error', message: data.error ?? 'Could not reserve a free pack.' })
-        void refreshFreeStatus()
-        return
-      }
-
-      const freeOrder: Order = {
-        orderId: data.orderId,
-        setId: data.setId,
-        buyer: account,
-        free: true,
-      }
-      setOrder(freeOrder)
-      void refreshFreeStatus()
-      await fulfillOrder(undefined, { order: freeOrder, free: true })
-    } catch {
-      setStatus({ tone: 'error', message: 'Network error. Please try again.' })
-    } finally {
-      setPending(null)
-    }
-  }
-
   const statusColor =
     status.tone === 'error'
       ? 'text-destructive'
@@ -276,33 +208,14 @@ export function PackShop({
         : 'text-muted-foreground'
 
   return (
-    <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-5 sm:gap-6">
-      <div className="pack-theme-intro flex w-full flex-col items-center gap-4 px-5 py-5 text-center sm:px-7 lg:py-6">
-        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
-          {pack.theme.eyebrow}
-        </p>
-        <h1 className="font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          {pack.theme.title}
+    <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-2 sm:gap-3">
+      <div className="pack-theme-intro flex w-full flex-col items-center gap-1.5 px-5 pt-3 pb-1 text-center sm:px-7">
+        <h1 className="font-sans text-lg font-semibold tracking-tight text-balance sm:text-xl">
+          <span className="pack-theme-accent">{pack.kicker.split(' ').at(-1)}</span>{' '}
+          <span className="text-foreground">{pack.theme.blurb}</span>
         </h1>
-        <p className="font-sans text-base font-medium text-pretty text-foreground sm:text-lg">
-          {pack.theme.tagline}
-        </p>
-        <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground">
-          {pack.theme.introduction}
-        </p>
-        <div className="grid w-full max-w-xl grid-cols-1 gap-2 sm:grid-cols-3">
-          {pack.theme.features.map((feature, index) => {
-            const Icon = [Sparkles, Gem, ShieldCheck][index]
-            return (
-              <span key={feature} className="inline-flex min-w-0 items-center justify-center gap-2 text-pretty interface-chip rounded-full border px-3 py-2 text-center text-xs leading-snug text-foreground">
-                <Icon className="pack-theme-accent size-3.5 shrink-0" aria-hidden="true" />
-                {feature}
-              </span>
-            )
-          })}
-        </div>
         <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.22em]">
-          Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
+          {pack.cardsPerPack} cards · {pack.priceXrp} XRP
         </p>
       </div>
 
@@ -347,61 +260,16 @@ export function PackShop({
         >
         <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
           {!order ? (
-            account && freeStatus?.eligible ? (
-              <div className="flex w-full flex-col items-center gap-2">
-                <Button
-                  type="button"
-                  onClick={openFreePack}
-                  disabled={pending !== null}
-                  size="lg"
-                  className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-                >
-                  {pending !== null ? (
-                    <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-                  ) : (
-                    <Gift className="size-4" aria-hidden="true" />
-                  )}
-                  {pending === 'create'
-                    ? 'Reserving your free pack…'
-                    : pending === 'fulfill'
-                      ? 'Opening your free pack…'
-                      : 'Open free pack — on us'}
-                </Button>
-                <button
-                  type="button"
-                  onClick={createOrder}
-                  disabled={pending !== null}
-                  className="font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground underline-offset-4 transition-colors hover:text-foreground disabled:opacity-50"
-                >
-                  or open a pack for {pack.priceXrp} XRP
-                </button>
-              </div>
-            ) : !account && freeStatus && freeStatus.remaining > 0 ? (
-              <div className="flex w-full flex-col items-center gap-2">
-                <Button
-                  type="button"
-                  disabled
-                  size="lg"
-                  className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-                >
-                  Claim your free pack.
-                </Button>
-                <p className="text-center font-mono text-[0.7rem] uppercase tracking-[0.12em] text-muted-foreground sm:text-left">
-                  Connect Xaman to claim, or open a pack for {pack.priceXrp} XRP
-                </p>
-              </div>
-            ) : (
-              <Button
-                type="button"
-                onClick={createOrder}
-                disabled={!account || pending !== null}
-                size="lg"
-                className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
-              >
-                {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-                {pending === 'create' ? 'Preparing Xaman request…' : 'Prepare pack · 5 XRP'}
-              </Button>
-            )
+            <Button
+              type="button"
+              onClick={createOrder}
+              disabled={!account || pending !== null}
+              size="lg"
+              className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+            >
+              {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+              {pending === 'create' ? 'Preparing Xaman request…' : 'Prepare pack · 5 XRP'}
+            </Button>
           ) : order && account === order.buyer && !cards && !order.free ? (
             <XamanPaymentButton
               buyer={order.buyer}

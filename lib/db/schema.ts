@@ -98,6 +98,14 @@ export const phoenixCollectionSlots = pgTable(
   ],
 )
 
+// Tracks which minted NFTs the buyer has actually flipped/revealed in the pack-opening UI.
+// The public "Latest NFTs on-ledger" feed only surfaces NFTs present here, so a freshly
+// minted card never appears before its owner turns it over.
+export const revealedNfts = pgTable('revealed_nfts', {
+  nftId: text('nft_id').primaryKey(),
+  revealedAt: timestamp('revealed_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
 export const nftClaimOffers = pgTable(
   'nft_claim_offers',
   {

@@ -388,13 +388,22 @@ export async function POST(request: Request) {
                   ? `${CYBORG_COWBOY_METADATA_BASE_URL}/${currentCard.slug}.json`
                   : card.uri
               })()
-            : setId === 'chromatic-abyss'
+              : setId === 'chromatic-abyss'
               ? (() => {
                   const currentCard = Object.values(CHROMATIC_ABYSS_POOL)
                     .flat()
                     .find((candidate) => candidate.name === card.name)
                   return currentCard
                     ? `${CHROMATIC_ABYSS_METADATA_BASE_URL}/${currentCard.slug}.json`
+                    : card.uri
+                })()
+              : setId === 'mr-slack'
+              ? (() => {
+                  const currentCard = Object.values(MR_SLACK_POOL)
+                    .flat()
+                    .find((candidate) => candidate.name === card.name)
+                  return currentCard
+                    ? `${MR_SLACK_METADATA_BASE_URL}/${currentCard.slug}.json`
                     : card.uri
                 })()
               : Object.values(CARD_POOL)
@@ -417,7 +426,9 @@ export async function POST(request: Request) {
               ? CYBORG_COWBOY_NFT_TAXON
               : setId === 'chromatic-abyss'
                 ? CHROMATIC_ABYSS_NFT_TAXON
-                : config.nftTaxon,
+                : setId === 'mr-slack'
+                  ? MR_SLACK_NFT_TAXON
+                  : config.nftTaxon,
           )
           fulfilledCards.push({
             ...cardToMint,

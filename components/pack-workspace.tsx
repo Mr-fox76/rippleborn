@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { NftRecoveryPanel } from '@/components/nft-recovery-panel'
 import { PackShop } from '@/components/pack-shop'
 import {
   PACK_CATALOG,
@@ -79,11 +78,11 @@ export function PackWorkspace({
   }, [])
 
   return (
-    <section aria-label="Open a pack" className="flex w-full flex-col gap-6">
+    <section aria-label="Open a pack" className="flex w-full flex-col gap-2">
       <div
         role="tablist"
         aria-label="Choose a set"
-        className="mx-auto flex w-full max-w-md items-center gap-1 rounded-full border border-border bg-card/70 p-1 backdrop-blur-md"
+        className="flex w-full items-center gap-1 rounded-full border border-border bg-card/70 p-1 backdrop-blur-md"
       >
         {PACK_CATALOG.map((pack) => {
           const active = pack.id === selectedId
@@ -105,20 +104,16 @@ export function PackWorkspace({
                   : undefined
               }
               className={cn(
-                'flex-1 rounded-full border px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.16em] transition-colors',
+                'flex-1 rounded-full border px-2 py-2 font-mono text-[0.7rem] font-semibold uppercase tracking-[0.1em] transition-colors sm:px-3 sm:text-xs sm:tracking-[0.14em]',
                 active
                   ? 'bg-background/60'
                   : 'border-transparent text-muted-foreground hover:text-foreground',
               )}
             >
-              {pack.kicker}
+              {pack.kicker.split(' ').at(-1)}
             </button>
           )
         })}
-      </div>
-
-      <div className="w-full">
-        <NftRecoveryPanel />
       </div>
 
       <div

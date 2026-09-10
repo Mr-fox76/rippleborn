@@ -16,6 +16,8 @@ export type PackCatalogEntry = {
   coverImage: string
   theme: {
     id: 'mythic' | 'cyborg' | 'chromatic' | 'slack'
+    /** Concise one-line pitch shown above the pack, e.g. "Ancient powers. On-ledger. Become Ledgerborn." */
+    blurb: string
     eyebrow: string
     title: string
     tagline: string
@@ -38,6 +40,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     coverImage: '/cards/primordial-tidewyrm-cover.png',
     theme: {
       id: 'mythic',
+      blurb: 'Ancient powers. On-ledger. Become Ledgerborn.',
       eyebrow: 'Ancient powers. Real NFT ownership.',
       title: 'Become Ledgerborn.',
       tagline: 'Chase legends. Awaken The Phoenix.',
@@ -59,6 +62,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     coverImage: '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png',
     theme: {
       id: 'cyborg',
+      blurb: 'Frontier outlaws. On-ledger. Ride the machine frontier.',
       eyebrow: 'Frontier outlaws. On-ledger ownership.',
       title: 'Ride the machine frontier.',
       tagline: 'Deal the cards. Find the legend. Claim the bounty.',
@@ -80,6 +84,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     coverImage: '/sets/chromatic-abyss/images/thousand-petaled-mind-cover.png',
     theme: {
       id: 'chromatic',
+      blurb: 'Lucid visions. On-ledger. Stare into the abyss.',
       eyebrow: 'Lucid visions. On-ledger ownership.',
       title: 'Stare into the Chromatic Abyss.',
       tagline: 'Break the spectrum. Meet what looks back.',
@@ -102,6 +107,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     coverImage: '/sets/mr-slack/images/matrix-fox.jpg',
     theme: {
       id: 'slack',
+      blurb: 'Twenty-one foxes. On-ledger. Chase the Angel Fox.',
       eyebrow: 'Twenty-one foxes. Real NFT ownership.',
       title: 'Meet the Mr Slack foxes.',
       tagline: 'Open three. Chase the Angel Fox.',
