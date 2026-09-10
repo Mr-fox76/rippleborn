@@ -72,6 +72,9 @@
 
   body {
     @apply bg-background text-foreground;
+    display: flex;
+    min-height: 100dvh;
+    flex-direction: column;
   }
 
   button,
