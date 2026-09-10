@@ -4,6 +4,8 @@ export type PackCatalogEntry = {
   id: PackSetId
   name: string
   kicker: string
+  /** Optional label shown as the title on the sealed pack. Defaults to the kicker. */
+  packTitle?: string
   description: string
   href: `/packs/${PackSetId}`
   cardCount: number
@@ -90,6 +92,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     id: 'mr-slack',
     name: 'Ledgerborn - Mr Slack',
     kicker: 'Mr Slack',
+    packTitle: 'Slack Pack',
     description: 'Twenty-one one-of-a-kind foxes — from zen masters to demon tricksters — drawn for the ledger.',
     href: '/packs/mr-slack',
     cardCount: 21,
