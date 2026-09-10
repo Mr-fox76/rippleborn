@@ -2,9 +2,11 @@
 
 import { cn } from '@/lib/utils'
 import { useCollectionOverlay } from '@/components/collection-overlay'
+import { useRecoveryOverlay } from '@/components/recovery-overlay'
 
 export function SiteNavigation() {
   const { open, toggleCollection } = useCollectionOverlay()
+  const { open: recoverOpen, toggleRecovery } = useRecoveryOverlay()
 
   return (
     <nav aria-label="Primary navigation" className="site-nav flex items-center gap-2">
@@ -18,6 +20,17 @@ export function SiteNavigation() {
         title={open ? 'Close Collections' : 'Collections'}
       >
         Collections
+      </button>
+      <button
+        type="button"
+        onClick={toggleRecovery}
+        aria-pressed={recoverOpen}
+        aria-expanded={recoverOpen}
+        className={cn('collection-nav-action', recoverOpen && 'collection-nav-action-active')}
+        aria-label={recoverOpen ? 'Close Recover NFTs' : 'Open Recover NFTs'}
+        title={recoverOpen ? 'Close Recover NFTs' : 'Recover NFTs'}
+      >
+        Recover
       </button>
     </nav>
   )

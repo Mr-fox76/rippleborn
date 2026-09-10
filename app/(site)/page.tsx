@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { FreePackBanner } from '@/components/free-pack-banner'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { NetworkStatus } from '@/components/network-status'
 import { PackWorkspace } from '@/components/pack-workspace'
@@ -38,7 +37,7 @@ export default async function Page({
   return (
     <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
-        <FreePackBanner />
+
         <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
         <section
           aria-labelledby="artists-block-heading"
