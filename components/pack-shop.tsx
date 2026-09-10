@@ -334,13 +334,21 @@ export function PackShop({
                 {pending === 'create' || connecting ? (
                   <Loader2 className="size-4 animate-spin" aria-hidden="true" />
                 ) : null}
-                {connecting
-                  ? 'Connecting Xaman…'
-                  : pending === 'create'
-                    ? 'Reserving free pack…'
-                    : !account
-                      ? 'Claim free pack · Connect Xaman'
-                      : 'Claim free pack · Free'}
+                {connecting ? (
+                  'Connecting Xaman…'
+                ) : pending === 'create' ? (
+                  'Reserving free pack…'
+                ) : !account ? (
+                  <>
+                    Claim free pack
+                    <span className="hidden sm:inline">{' · Connect Xaman'}</span>
+                  </>
+                ) : (
+                  <>
+                    Claim free pack
+                    <span className="hidden sm:inline">{' · Free'}</span>
+                  </>
+                )}
               </Button>
             ) : (
               <Button
