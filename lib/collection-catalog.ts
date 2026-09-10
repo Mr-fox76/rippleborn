@@ -17,10 +17,10 @@ export type CollectionCatalogSet = {
 }
 
 const SET_LABELS: Record<PackSetId, string> = {
-  ledgerborn: 'Ledgerborn Mythic',
-  'cyborg-cowboy': 'Cyborg Cowboy',
-  'chromatic-abyss': 'Chromatic Abyss',
-  'mr-slack': 'Mr Slack',
+  ledgerborn: 'Mythic',
+  'cyborg-cowboy': 'Cyborg',
+  'chromatic-abyss': 'Chromatic',
+  'mr-slack': 'Slack',
 }
 
 const pools = {

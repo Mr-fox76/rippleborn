@@ -340,6 +340,11 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
   }, [cards])
   const isInitialLoading = Boolean(account && isLoading && cards.length === 0)
 
+  const renderSetFilterValue = (value: string) =>
+    value === 'all'
+      ? 'All sets'
+      : COLLECTION_CATALOG.find((set) => set.id === value)?.label ?? value
+
   useEffect(() => {
     if (userPickedSetRef.current || cards.length === 0) return
     const counts = new Map<PackSetId, number>()
@@ -389,7 +394,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
               <div className="flex flex-wrap items-center justify-end gap-2">
                 <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
                   <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
-                    <SelectValue />
+                    <SelectValue>{(value) => renderSetFilterValue(value as string)}</SelectValue>
                   </SelectTrigger>
                   <SelectContent align="end" alignItemWithTrigger={false}>
                     <SelectGroup>
@@ -492,7 +497,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
               <div className="flex flex-wrap items-center justify-end gap-2">
                 <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
                   <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
-                    <SelectValue />
+                    <SelectValue>{(value) => renderSetFilterValue(value as string)}</SelectValue>
                   </SelectTrigger>
                   <SelectContent align="end" alignItemWithTrigger={false}>
                     <SelectGroup>
