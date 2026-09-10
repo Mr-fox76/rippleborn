@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import { ConnectWalletButton } from '@/components/connect-wallet-button'
-import { FreePackBanner } from '@/components/free-pack-banner'
 import { NetworkStatus } from '@/components/network-status'
 import { PackShop } from '@/components/pack-shop'
 import { PersistLastSet } from '@/components/persist-last-set'
@@ -100,7 +99,6 @@ export default async function PackPage({ params }: { params: Promise<{ setId: st
         </header>
 
         <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-4 px-4 py-6 sm:px-6 sm:py-8">
-          <FreePackBanner />
           <PackShop collectionStats={collectionStats} pack={pack} />
         </main>
 
