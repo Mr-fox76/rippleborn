@@ -363,6 +363,7 @@
 
   .table-surface::after {
     position: absolute;
+    inset: 0;
     animation: none;
   }
 }
