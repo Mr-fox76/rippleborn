@@ -330,9 +330,10 @@ function RevealedSpread({
                     const discovery = card.discovery ?? card.discoveryNumber
                     const discoveredAtPull = card.discoveredAtPull ?? card.discoveryNumber
                     if (typeof discovery !== 'number' || typeof discoveredAtPull !== 'number') return null
+                    const isPhoenix = card.rarity === 'Phoenix' || card.name === 'The Phoenix'
                     return (
                       <span className="font-mono text-xs font-semibold tracking-wide text-foreground">
-                        {discovery} / {discoveredAtPull}
+                        {isPhoenix ? discovery : `${discovery} / ${discoveredAtPull}`}
                       </span>
                     )
                   })()}
@@ -342,9 +343,9 @@ function RevealedSpread({
                         {card.setCode} {String(card.cardNumber).padStart(2, '0')}/{String(card.setSize).padStart(2, '0')}
                       </span>
                     ) : null}
-                    {card.limited && card.edition && card.maxSupply ? (
+                    {card.limited && card.edition ? (
                       <span className="phoenix-edition rounded-full border px-2 py-1 font-mono text-[0.55rem] font-bold uppercase tracking-[0.14em] sm:text-xs">
-                        {card.edition}/{card.maxSupply}
+                        {card.edition}
                       </span>
                     ) : null}
                   </div>

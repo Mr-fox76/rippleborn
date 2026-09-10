@@ -38,7 +38,7 @@ export function RarityOdds({
   const isMrSlack = setId === 'mr-slack'
   const apexCounter: Counter = isMrSlack
     ? { label: 'Ultimate', value: stats.ultimateFound, className: 'rarity-ultimate', featured: true }
-    : { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true, max: 5 }
+    : { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true }
 
   const counters: Counter[] = [
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
