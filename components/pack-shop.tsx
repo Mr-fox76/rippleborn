@@ -100,11 +100,10 @@ export function PackShop({
   )
   const freeSlotsLeft = (freeStatus?.remaining ?? 0) > 0
   // Disconnected visitors can't be checked against the claim ledger yet, so any
-  // remaining slot is offered; connected wallets use the precise eligibility
-  // (eligible = has a slot left and hasn't claimed; alreadyClaimed can resume).
-  const canClaimFree = account
-    ? Boolean(freeStatus && (freeStatus.eligible || freeStatus.alreadyClaimed))
-    : freeSlotsLeft
+  // remaining slot is offered. A connected wallet only sees the free CTA while
+  // still eligible (slot left and not yet claimed); once it has already claimed,
+  // it falls through to the paid 5 XRP flow.
+  const canClaimFree = account ? Boolean(freeStatus?.eligible) : freeSlotsLeft
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [packOpened, setPackOpened] = useState(false)
