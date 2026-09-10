@@ -1,5 +1,6 @@
 'use client'
 
+import { Layers, RotateCcw } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useCollectionOverlay } from '@/components/collection-overlay'
 import { useRecoveryOverlay } from '@/components/recovery-overlay'
@@ -19,7 +20,8 @@ export function SiteNavigation() {
         aria-label={open ? 'Close Collections' : 'Open Collections'}
         title={open ? 'Close Collections' : 'Collections'}
       >
-        Collections
+        <Layers className="nav-action-icon" aria-hidden="true" />
+        <span className="nav-action-label">Collections</span>
       </button>
       <button
         type="button"
@@ -30,7 +32,8 @@ export function SiteNavigation() {
         aria-label={recoverOpen ? 'Close Recover NFTs' : 'Open Recover NFTs'}
         title={recoverOpen ? 'Close Recover NFTs' : 'Recover NFTs'}
       >
-        Recover
+        <RotateCcw className="nav-action-icon" aria-hidden="true" />
+        <span className="nav-action-label">Recover</span>
       </button>
     </nav>
   )
