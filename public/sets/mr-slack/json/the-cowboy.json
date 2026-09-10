@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "The Cowboy",
+  "description": "Ride your own trail at your own pace. The horizon belongs to those brave enough to follow it.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/the-cowboy.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 8
+    }
+  ]
+}

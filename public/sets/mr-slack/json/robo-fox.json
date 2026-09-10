@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Robo Fox",
+  "description": "Precision has its own kind of heart. Do each thing well and let your work speak for you.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/robo-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Epic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 14
+    }
+  ]
+}

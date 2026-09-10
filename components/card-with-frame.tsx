@@ -8,6 +8,7 @@ const RARITY_META = {
   Legendary: { label: 'Legendary', rate: '3.5% · 1 in 29', color: '#eab308' },
   Mythic: { label: 'Mythic', rate: '1.05% · 1 in 95', color: '#ef4444' },
   Phoenix: { label: 'Phoenix', rate: '0.05% · 1 in 2,000', color: '#fb923c' },
+  Ultimate: { label: 'Ultimate', rate: '0.05% · 1 in 2,000', color: '#ffe6a3' },
 } as const
 
 type FrameRarity = keyof typeof RARITY_META

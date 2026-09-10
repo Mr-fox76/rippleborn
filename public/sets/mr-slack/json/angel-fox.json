@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Angel Fox",
+  "description": "Be the light that lifts others. Kindness given freely is the rarest treasure of all, and it returns tenfold.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/angel-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Ultimate"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 21
+    }
+  ]
+}

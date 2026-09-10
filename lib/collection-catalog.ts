@@ -1,5 +1,6 @@
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
+import { MR_SLACK_POOL } from '@/lib/mr-slack'
 import { CARD_POOL, RARITIES, getDisplayCardName, type PackSetId, type Rarity } from '@/lib/rippleborn'
 
 export type CollectionCatalogSlot = {
@@ -19,12 +20,14 @@ const SET_LABELS: Record<PackSetId, string> = {
   ledgerborn: 'Ledgerborn Mythic',
   'cyborg-cowboy': 'Cyborg Cowboy',
   'chromatic-abyss': 'Chromatic Abyss',
+  'mr-slack': 'Mr Slack',
 }
 
 const pools = {
   ledgerborn: CARD_POOL,
   'cyborg-cowboy': CYBORG_COWBOY_POOL,
   'chromatic-abyss': CHROMATIC_ABYSS_POOL,
+  'mr-slack': MR_SLACK_POOL,
 } as const
 
 export function normalizeCollectionCardName(value: string): string {
@@ -71,6 +74,7 @@ for (const set of COLLECTION_CATALOG) {
 export function inferCollectionSetId(name: string, taxon?: number): PackSetId | undefined {
   if (taxon === 20260827) return 'cyborg-cowboy'
   if (taxon === 20260830) return 'chromatic-abyss'
+  if (taxon === 20260833) return 'mr-slack'
 
   const matches = setsByName.get(normalizeCollectionCardName(name)) ?? []
   return matches.length === 1 ? matches[0] : matches.includes('ledgerborn') ? 'ledgerborn' : matches[0]
@@ -85,6 +89,7 @@ const SET_CODES: Record<PackSetId, string> = {
   ledgerborn: 'MYTH',
   'cyborg-cowboy': 'CYB',
   'chromatic-abyss': 'CHR',
+  'mr-slack': 'SLK',
 }
 
 export type CardSetLine = {

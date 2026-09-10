@@ -1,11 +1,12 @@
 import Link from 'next/link'
-import { Aperture, CircuitBoard, Sparkles } from 'lucide-react'
+import { Aperture, CircuitBoard, PawPrint, Sparkles } from 'lucide-react'
 import { PACK_CATALOG, type PackCatalogEntry } from '@/lib/pack-catalog'
 
 const SET_SYMBOLS: Record<PackCatalogEntry['theme']['id'], typeof Sparkles> = {
   mythic: Sparkles,
   cyborg: CircuitBoard,
   chromatic: Aperture,
+  slack: PawPrint,
 }
 
 function SetTitle({ name }: { name: string }) {

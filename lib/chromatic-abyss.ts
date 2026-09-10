@@ -60,6 +60,8 @@ export const CHROMATIC_ABYSS_POOL = {
       rarity: 'Phoenix' as const,
     },
   ],
+  // Ultimate is scoped to the Mr Slack set; this pool never rolls it.
+  Ultimate: [],
 } satisfies Record<Rarity, ChromaticCard[]>
 
 export function rollChromaticAbyssCard(rarity: Rarity, slot: number): Card {

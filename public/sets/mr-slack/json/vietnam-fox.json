@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Vietnam Fox",
+  "description": "You carry more than your scars; you carry the strength that survived them. Walk on, unbroken.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/vietnam-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Rare"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 9
+    }
+  ]
+}

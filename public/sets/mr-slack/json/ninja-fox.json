@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Ninja Fox",
+  "description": "Move quietly and let results announce you. The strongest presence rarely needs to be seen.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/ninja-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 18
+    }
+  ]
+}
