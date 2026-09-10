@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import useSWR from 'swr'
 import { Loader2 } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
@@ -15,6 +16,11 @@ import type { PackSetId } from '@/lib/rippleborn'
 import { cn } from '@/lib/utils'
 
 type Status = { tone: 'idle' | 'pending' | 'success' | 'error'; message: string }
+
+type FreeStatus = { limit: number; remaining: number; alreadyClaimed: boolean; eligible: boolean }
+
+const freeStatusFetcher = (url: string): Promise<FreeStatus> =>
+  fetch(url, { cache: 'no-store' }).then((response) => response.json())
 
 type Order = {
   orderId: number
@@ -85,7 +91,19 @@ export function PackShop({
 }) {
   const selectedSet = pack.id
   const router = useRouter()
-  const { account } = useXamanWallet()
+  const { account, connect, creating: connecting } = useXamanWallet()
+  const { data: freeStatus, mutate: refreshFreeStatus } = useSWR<FreeStatus>(
+    account
+      ? `/api/promo/free-pack?address=${encodeURIComponent(account)}`
+      : '/api/promo/free-pack',
+    freeStatusFetcher,
+  )
+  const freeSlotsLeft = (freeStatus?.remaining ?? 0) > 0
+  // Disconnected visitors can't be checked against the claim ledger yet, so any
+  // remaining slot is offered. A connected wallet only sees the free CTA while
+  // still eligible (slot left and not yet claimed); once it has already claimed,
+  // it falls through to the paid 5 XRP flow.
+  const canClaimFree = account ? Boolean(freeStatus?.eligible) : freeSlotsLeft
   const [order, setOrder] = useState<Order | null>(null)
   const [cards, setCards] = useState<FulfilledCard[] | null>(null)
   const [packOpened, setPackOpened] = useState(false)
@@ -153,6 +171,43 @@ export function PackShop({
         tone: 'success',
         message: 'Pack prepared successfully. Continue below to approve the 5 XRP payment in Xaman.',
       })
+    } catch {
+      setStatus({ tone: 'error', message: 'Network error. Please try again.' })
+    } finally {
+      setPending(null)
+    }
+  }
+
+  async function createFreeOrder() {
+    // A free pack still mints to a wallet, so a disconnected visitor connects
+    // Xaman first; the CTA re-renders to the claim action once an account exists.
+    if (!account) {
+      void connect()
+      return
+    }
+
+    setPending('create')
+    setCards(null)
+    setPackOpened(false)
+    setStatus({ tone: 'pending', message: 'Reserving your free pack…' })
+
+    try {
+      const response = await fetch('/api/pack/create-free', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ buyer: account, setId: selectedSet }),
+      })
+      const data = await response.json()
+
+      if (!response.ok) {
+        setOrder(null)
+        setStatus({ tone: 'error', message: data.error ?? 'Could not reserve a free pack.' })
+        void refreshFreeStatus()
+        return
+      }
+
+      setOrder({ orderId: data.orderId, setId: data.setId, buyer: account, free: true })
+      setStatus({ tone: 'success', message: 'Free pack reserved. Open it below — no payment needed.' })
     } catch {
       setStatus({ tone: 'error', message: 'Network error. Please try again.' })
     } finally {
@@ -232,7 +287,15 @@ export function PackShop({
               packTitle={pack.packTitle}
               packImage={pack.coverImage}
               packCount={pack.cardsPerPack}
-              preparationHint={!account ? 'Connect Xaman to begin' : 'Prepare your pack below to create the 5 XRP Xaman request'}
+              preparationHint={
+                canClaimFree
+                  ? account
+                    ? 'Claim your free pack below — no payment needed'
+                    : 'Claim your free pack below — connect Xaman to receive it'
+                  : !account
+                    ? 'Connect Xaman to begin'
+                    : 'Prepare your pack below to create the 5 XRP Xaman request'
+              }
               onComplete={() => {
                 setPackOpened(true)
                 setStatus({ tone: 'success', message: 'Your cards are dealt. Turn them over one by one.' })
@@ -260,15 +323,47 @@ export function PackShop({
         >
         <div className="pack-purchase-row mx-auto flex w-full max-w-xl items-center justify-center">
           {!order ? (
+            canClaimFree ? (
+              <Button
+                type="button"
+                onClick={createFreeOrder}
+                disabled={pending !== null || connecting}
+                size="lg"
+                className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+              >
+                {pending === 'create' || connecting ? (
+                  <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                ) : null}
+                {connecting
+                  ? 'Connecting Xaman…'
+                  : pending === 'create'
+                    ? 'Reserving free pack…'
+                    : !account
+                      ? 'Claim free pack · Connect Xaman'
+                      : 'Claim free pack · Free'}
+              </Button>
+            ) : (
+              <Button
+                type="button"
+                onClick={createOrder}
+                disabled={!account || pending !== null}
+                size="lg"
+                className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
+              >
+                {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+                {pending === 'create' ? 'Preparing Xaman request…' : 'Prepare pack · 5 XRP'}
+              </Button>
+            )
+          ) : order && account === order.buyer && !cards && order.free ? (
             <Button
               type="button"
-              onClick={createOrder}
-              disabled={!account || pending !== null}
+              onClick={() => void fulfillOrder(undefined, { free: true })}
+              disabled={pending !== null}
               size="lg"
               className="primary-action min-h-14 w-full rounded-none px-6 font-mono text-sm font-semibold uppercase tracking-[0.12em] sm:rounded-md"
             >
-              {pending === 'create' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
-              {pending === 'create' ? 'Preparing Xaman request…' : 'Prepare pack · 5 XRP'}
+              {pending === 'fulfill' ? <Loader2 className="size-4 animate-spin" aria-hidden="true" /> : null}
+              {pending === 'fulfill' ? 'Opening free pack…' : 'Open free pack'}
             </Button>
           ) : order && account === order.buyer && !cards && !order.free ? (
             <XamanPaymentButton
