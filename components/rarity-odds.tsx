@@ -1,7 +1,10 @@
 import type { CollectionStats } from '@/lib/pack-results'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
-import { CARD_POOL, RARITIES, SHARED_RARITY_ODDS, type PackSetId } from '@/lib/rippleborn'
+import { MR_SLACK_POOL } from '@/lib/mr-slack'
+import { CARD_POOL, RARITIES, getRarityOdds, type PackSetId } from '@/lib/rippleborn'
+
+type Counter = { label: string; value: number; className: string; featured?: boolean; max?: number }
 
 export function RarityOdds({
   stats,
@@ -19,22 +22,31 @@ export function RarityOdds({
       ? CYBORG_COWBOY_POOL
       : setId === 'chromatic-abyss'
         ? CHROMATIC_ABYSS_POOL
-        : CARD_POOL
+        : setId === 'mr-slack'
+          ? MR_SLACK_POOL
+          : CARD_POOL
+  const odds = getRarityOdds(setId)
+  // Only tiers that actually exist in this set are shown (Phoenix hides for Mr Slack; Ultimate hides elsewhere).
   const categoryCounts = RARITIES.map((rarity) => ({
     rarity,
     count: pool[rarity].length,
-  }))
+  })).filter((category) => category.count > 0)
   const totalCards = categoryCounts.reduce((total, category) => total + category.count, 0)
 
   const showVisits = countersOnly && visitCount !== null && visitCount !== undefined
 
-  const counters = [
+  const isMrSlack = setId === 'mr-slack'
+  const apexCounter: Counter = isMrSlack
+    ? { label: 'Ultimate', value: stats.ultimateFound, className: 'rarity-ultimate', featured: true }
+    : { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true, max: 5 }
+
+  const counters: Counter[] = [
     { label: 'Packs opened', value: stats.packsOpened, className: 'text-foreground' },
     { label: 'Rare', value: stats.rareFound, className: 'rarity-rare' },
     { label: 'Epic', value: stats.epicFound, className: 'rarity-epic' },
     { label: 'Legendary', value: stats.legendaryFound, className: 'rarity-legendary' },
     { label: 'Mythic', value: stats.mythicFound, className: 'rarity-mythic' },
-    { label: 'Phoenix', value: stats.phoenixFound, className: 'rarity-phoenix', featured: true, max: 5 },
+    apexCounter,
   ]
 
   return (
@@ -51,7 +63,16 @@ export function RarityOdds({
         {counters.map((counter) => (
           <div
             key={counter.label}
-            className={`rounded-lg border p-3 text-center ${counter.featured ? 'border-phoenix bg-phoenix/10 shadow-[0_0_20px_color-mix(in_oklch,var(--phoenix)_20%,transparent)]' : 'border-border bg-card/55'}`}
+            className={`rounded-lg border p-3 text-center ${counter.className.startsWith('rarity-') ? counter.className : ''} ${counter.featured ? '' : 'border-border bg-card/55'}`}
+            style={
+              counter.featured
+                ? {
+                    borderColor: 'color-mix(in oklch, var(--rarity-color) 55%, transparent)',
+                    backgroundColor: 'color-mix(in oklch, var(--rarity-color) 12%, transparent)',
+                    boxShadow: '0 0 20px color-mix(in oklch, var(--rarity-color) 20%, transparent)',
+                  }
+                : undefined
+            }
           >
             <dd
               className={`font-mono text-xl font-semibold tabular-nums ${counter.className}`}
@@ -114,7 +135,7 @@ export function RarityOdds({
                     {category.rarity}
                   </span>
                   <span role="cell" className="text-right font-mono font-semibold tabular-nums">
-                    {SHARED_RARITY_ODDS[category.rarity]}%
+                    {odds[category.rarity]}%
                   </span>
                   <span role="cell" className="text-right font-mono font-semibold tabular-nums">
                     {category.count}
@@ -124,10 +145,19 @@ export function RarityOdds({
             })}
           </div>
 
-          <p className="text-pretty text-center text-xs leading-relaxed text-muted-foreground">
-            <span className="font-medium text-phoenix">Phoenix is the highest rarity tier.</span>{' '}
-            Every card position has an independent 0.05% chance to reveal The Phoenix.
-          </p>
+          {isMrSlack ? (
+            <p className="text-pretty text-center text-xs leading-relaxed text-muted-foreground">
+              <span className="rarity-ultimate font-medium" style={{ color: 'var(--rarity-color)' }}>
+                Ultimate is the highest rarity tier.
+              </span>{' '}
+              Every card position has an independent 0.05% chance to reveal Angel Fox.
+            </p>
+          ) : (
+            <p className="text-pretty text-center text-xs leading-relaxed text-muted-foreground">
+              <span className="font-medium text-phoenix">Phoenix is the highest rarity tier.</span>{' '}
+              Every card position has an independent 0.05% chance to reveal The Phoenix.
+            </p>
+          )}
         </div>
       )}
     </section>

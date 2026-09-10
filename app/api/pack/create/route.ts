@@ -38,8 +38,9 @@ export async function POST(request: Request) {
       )
     }
     const randomTag = createDestinationTag()
-    const setRemainder = setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : 2
-    const destinationTag = randomTag - (randomTag % 3) + setRemainder
+    const setRemainder =
+      setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : setId === 'chromatic-abyss' ? 2 : 3
+    const destinationTag = randomTag - (randomTag % 4) + setRemainder
 
     return NextResponse.json({
       orderId: destinationTag,

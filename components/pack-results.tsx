@@ -33,6 +33,7 @@ const RARITY_CLASSES: Record<Card['rarity'], string> = {
   Legendary: 'rarity-legendary',
   Mythic: 'rarity-mythic',
   Phoenix: 'rarity-phoenix',
+  Ultimate: 'rarity-ultimate',
 }
 
 function playCardFlipSound() {

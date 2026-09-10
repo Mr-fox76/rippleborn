@@ -18,6 +18,7 @@ const TAB_ACCENTS: Record<PackCatalogEntry['theme']['id'], string> = {
   mythic: 'oklch(0.84 0.19 325)',
   cyborg: 'oklch(0.82 0.17 62)',
   chromatic: 'oklch(0.73 0.2 335)',
+  slack: 'oklch(0.76 0.18 48)',
 }
 
 export function PackWorkspace({

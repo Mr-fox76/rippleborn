@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Wasted Fox",
+  "description": "Even a rough night ends in morning. Be gentle with yourself and begin again.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/wasted-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 4
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Demon Fox",
+  "description": "Your shadows are not your enemies. Face them with courage and they become your fiercest power.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/demon-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 15
+    }
+  ]
+}

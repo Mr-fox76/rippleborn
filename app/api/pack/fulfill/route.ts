@@ -16,8 +16,15 @@ import {
   validateCyborgMetadataBaseUrl,
 } from '@/lib/cyborg-cowboy'
 import {
+  MR_SLACK_METADATA_BASE_URL,
+  MR_SLACK_NFT_TAXON,
+  MR_SLACK_POOL,
+  rollMrSlackCard,
+} from '@/lib/mr-slack'
+import {
   CARD_POOL,
   PACK_SLOTS,
+  getRarityOdds,
   isPackSetId,
   rollPack,
   rollRarity,
@@ -86,7 +93,9 @@ function validateCardMetadata(
       ? CHROMATIC_ABYSS_POOL
       : setId === 'cyborg-cowboy'
         ? CYBORG_COWBOY_POOL
-        : CARD_POOL
+        : setId === 'mr-slack'
+          ? MR_SLACK_POOL
+          : CARD_POOL
   const catalogCard = Object.values(pool)
     .flat()
     .find((candidate) => candidate.name === card.name)
@@ -243,8 +252,9 @@ export async function POST(request: Request) {
   if (destinationTag === null) {
     return NextResponse.json({ error: 'A valid destination tag is required.' }, { status: 400 })
   }
-  const expectedRemainder = setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : 2
-  if (destinationTag % 3 !== expectedRemainder) {
+  const expectedRemainder =
+    setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : setId === 'chromatic-abyss' ? 2 : 3
+  if (destinationTag % 4 !== expectedRemainder) {
     return NextResponse.json({ error: 'The selected card set does not match this pack order.' }, { status: 400 })
   }
   if (!buyer) {
@@ -337,6 +347,11 @@ export async function POST(request: Request) {
       metadataBaseUrl = CHROMATIC_ABYSS_METADATA_BASE_URL
       cards = rollUniquePack((slot) =>
         rollChromaticAbyssCard(rollRarity(), slot),
+      )
+    } else if (setId === 'mr-slack') {
+      metadataBaseUrl = MR_SLACK_METADATA_BASE_URL
+      cards = rollUniquePack((slot) =>
+        rollMrSlackCard(rollRarity(Math.random, getRarityOdds('mr-slack')), slot),
       )
     } else {
       cards = rollPack()

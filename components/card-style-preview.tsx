@@ -5,6 +5,7 @@ const styleArtwork = {
   mythic: '/images/mythic-card-style-sample.png',
   cyborg: '/sets/cyborg-cowboy/images/gunslinger-zero.png',
   chromatic: '/sets/chromatic-abyss/images/thousand-petaled-mind.png',
+  slack: '/sets/mr-slack/images/ninja-fox.jpg',
 } as const
 
 export function CardStylePreview({ theme }: { theme: PackCatalogEntry['theme']['id'] }) {

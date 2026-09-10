@@ -45,7 +45,7 @@ type CollectionCard = {
   discoveryNumber?: number
   discoveredTotal?: number
   cardIdentifier?: string
-  setId?: 'ledgerborn' | 'cyborg-cowboy' | 'chromatic-abyss'
+  setId?: 'ledgerborn' | 'cyborg-cowboy' | 'chromatic-abyss' | 'mr-slack'
 }
 
 function readIpfsPath(value: string): string | null {

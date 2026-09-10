@@ -146,7 +146,7 @@ export function encodeMetadataUri(uri: string | undefined): string | null {
     const isLedgerbornSiteUrl =
       metadataUrl.protocol === 'https:' &&
       metadataUrl.origin === LEDGERBORN_SITE_ORIGIN &&
-      /^\/sets\/(ledgerborn|cyborg-cowboy|chromatic-abyss)\/json\/[a-z0-9][a-z0-9._-]*\.json$/.test(
+      /^\/sets\/(ledgerborn|cyborg-cowboy|chromatic-abyss|mr-slack)\/json\/[a-z0-9][a-z0-9._-]*\.json$/.test(
         metadataUrl.pathname,
       )
 

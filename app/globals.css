@@ -57,6 +57,7 @@
   --gold: oklch(0.79 0.13 83);
   --gold-foreground: oklch(0.105 0.025 225);
   --phoenix: oklch(0.94 0.12 104);
+  --ultimate: #ffe6a3;
   --radius: 0.65rem;
 }
 
@@ -381,6 +382,17 @@
   background-image:
     radial-gradient(circle at 20% 18%, oklch(0.78 0.18 190 / 22%), transparent 34%),
     radial-gradient(circle at 82% 30%, oklch(0.7 0.22 335 / 22%), transparent 38%);
+  background-position: center, center;
+  background-size: cover, cover;
+}
+
+.pack-theme-slack {
+  --pack-accent: oklch(0.8 0.13 210);
+  --pack-accent-strong: oklch(0.76 0.18 48);
+  --pack-surface: oklch(0.1 0.03 55 / 84%);
+  background-image:
+    radial-gradient(circle at 18% 20%, oklch(0.76 0.18 48 / 28%), transparent 36%),
+    radial-gradient(circle at 84% 28%, oklch(0.8 0.13 210 / 22%), transparent 38%);
   background-position: center, center;
   background-size: cover, cover;
 }
@@ -1705,10 +1717,14 @@
   --rarity-color: #ef4444;
 }
 
-.rarity-limited,
-.rarity-phoenix {
-  --rarity-color: var(--phoenix);
-}
+  .rarity-limited,
+  .rarity-phoenix {
+    --rarity-color: var(--phoenix);
+  }
+
+  .rarity-ultimate {
+    --rarity-color: var(--ultimate);
+  }
 
   .tarot-card.rarity-common,
   .tarot-card.rarity-rare,

@@ -10,6 +10,7 @@ type PackOpeningProps = {
   canOpen?: boolean
   packName?: string
   packKicker?: string
+  packTitle?: string
   packImage?: string
   packCount?: number
   preparationAction?: React.ReactNode
@@ -83,6 +84,7 @@ export function PackOpening({
   canOpen = true,
   packName = 'Ledgerborn',
   packKicker = 'Mythical Set',
+  packTitle,
   packImage = '/images/mythic-card-style-sample.png',
   packCount = 3,
   preparationAction,
@@ -90,8 +92,9 @@ export function PackOpening({
 }: PackOpeningProps) {
   const [phase, setPhase] = useState<OpeningPhase>('sealed')
   const completed = useRef(false)
-  const packLabel = packKicker in PACK_RUNES ? packKicker as keyof typeof PACK_RUNES : 'Mythic'
-  const PackRune = PACK_RUNES[packLabel]
+  const PackRune = packKicker in PACK_RUNES ? PACK_RUNES[packKicker as keyof typeof PACK_RUNES] : Sparkles
+  const displayTitle = packTitle ?? packKicker
+  const packKind = packKicker.toLowerCase().replace(/\s+/g, '-')
 
   const finish = useCallback(() => {
     if (completed.current) return
@@ -120,7 +123,7 @@ export function PackOpening({
   return (
     <section
       className={`pack-opening-stage phase-${phase} ${canOpen ? 'can-open' : 'pack-preview'}`}
-      data-pack-kind={packLabel.toLowerCase()}
+      data-pack-kind={packKind}
       aria-label={canOpen ? `Open your ${packName} pack` : `${packName} collectible card pack`}
     >
       <div className="pack-radiance" aria-hidden="true" />
@@ -155,7 +158,7 @@ export function PackOpening({
             <span className="foil-pack-edition">Digital collectible pack</span>
           </span>
           <span className="foil-pack-product-copy">
-            <span className="foil-pack-title">{packLabel}</span>
+            <span className="foil-pack-title">{displayTitle}</span>
             <span className="foil-pack-caption">{packCount} card pack · XRPL edition</span>
           </span>
           <span className="foil-pack-authenticity" aria-hidden="true">
@@ -182,7 +185,7 @@ export function PackOpening({
               <span className="celestial-orbit">
                 <span className="celestial-core" />
               </span>
-              <span className="celestial-card-name">{packLabel}</span>
+              <span className="celestial-card-name">{displayTitle}</span>
             </div>
           </div>
         ))}

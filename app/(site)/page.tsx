@@ -18,10 +18,11 @@ export default async function Page({
   const { set } = await searchParams
 
   // Fetch every set's live stats up front so nothing renders as a zero placeholder while loading.
-  const [mythic, cyborg, chromatic, allSets, visitCount, latestNfts] = await Promise.all([
+  const [mythic, cyborg, chromatic, slack, allSets, visitCount, latestNfts] = await Promise.all([
     getCollectionStats('ledgerborn').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats('cyborg-cowboy').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats('chromatic-abyss').catch(() => EMPTY_COLLECTION_STATS),
+    getCollectionStats('mr-slack').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
     incrementHomepageVisits().catch(() => 0),
     getLatestMintedNfts(4).catch(() => []),
@@ -31,6 +32,7 @@ export default async function Page({
     ledgerborn: mythic,
     'cyborg-cowboy': cyborg,
     'chromatic-abyss': chromatic,
+    'mr-slack': slack,
   }
 
   return (

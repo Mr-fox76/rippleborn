@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Zen Fox",
+  "description": "Stillness is not empty; it is full of everything you were too busy to hear. Sit, and listen.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/zen-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Mythic"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 20
+    }
+  ]
+}

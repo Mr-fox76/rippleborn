@@ -316,6 +316,7 @@ export function PackShop({
               canOpen={Boolean(cards)}
               packName={pack.name}
               packKicker={pack.kicker}
+              packTitle={pack.packTitle}
               packImage={pack.coverImage}
               packCount={pack.cardsPerPack}
               preparationHint={!account ? 'Connect Xaman to begin' : 'Prepare your pack below to create the 5 XRP Xaman request'}

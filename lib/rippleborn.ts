@@ -1,4 +1,4 @@
-export const RARITIES = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Phoenix'] as const
+export const RARITIES = ['Common', 'Rare', 'Epic', 'Legendary', 'Mythic', 'Phoenix', 'Ultimate'] as const
 
 export type Rarity = (typeof RARITIES)[number]
 
@@ -18,7 +18,7 @@ export type Card = {
 
 export const PACK_PRICE_XRP = 5
 export const CARDS_PER_PACK = 3
-export const PACK_SET_IDS = ['ledgerborn', 'cyborg-cowboy', 'chromatic-abyss'] as const
+export const PACK_SET_IDS = ['ledgerborn', 'cyborg-cowboy', 'chromatic-abyss', 'mr-slack'] as const
 export type PackSetId = (typeof PACK_SET_IDS)[number]
 
 export function isPackSetId(value: unknown): value is PackSetId {
@@ -89,6 +89,27 @@ const CARD_WISDOM: Record<string, string> = {
   'The Color Thief': 'It steals every hue but one, knowing a single true color can remake the world.',
   'Dream Architect': 'While others sleep within the vision, it quietly redraws the doors and sky.',
   'The Thousand-Petaled Mind': 'Each thought unfolds another universe, and every universe dreams of opening.',
+  'Tired Fox': 'Rest is not surrender. Even the weariest heart wakes sharper when it finally lets itself pause.',
+  'Graf Fox': 'Leave the world brighter than you found it. Every mark you make is a chance to say you were here.',
+  'Scratch-head Fox': 'Not knowing is the doorway to learning. Sit with the question and the answer will find you.',
+  'Wasted Fox': 'Even a rough night ends in morning. Be gentle with yourself and begin again.',
+  'Freaked Fox': 'Fear is only excitement holding its breath. Breathe out, and the moment shrinks back to size.',
+  'The Gentleman': 'Manners cost nothing and buy everything. Carry yourself with grace and doors quietly open.',
+  'Bruce Lee Fox': 'Be like water — patient, adaptable, unstoppable. Flow around what blocks you and wear it down.',
+  'The Cowboy': 'Ride your own trail at your own pace. The horizon belongs to those brave enough to follow it.',
+  'Vietnam Fox': 'You carry more than your scars; you carry the strength that survived them. Walk on, unbroken.',
+  'Pot Head': 'Slow down and notice the small wonders. Peace is usually hiding in the ordinary moment.',
+  'Space Cadet': 'Let your mind wander the stars. Big dreams need room to drift before they come home to build.',
+  'Punk Fox': 'Refuse to shrink for anyone. The world needs your loud, unrepeatable spark exactly as it is.',
+  'Crypto Fox': 'Believe in what others cannot yet see. Conviction, held long enough, becomes the future.',
+  'Robo Fox': 'Precision has its own kind of heart. Do each thing well and let your work speak for you.',
+  'Demon Fox': 'Your shadows are not your enemies. Face them with courage and they become your fiercest power.',
+  'Techno Fox': 'Find the rhythm beneath the noise. When you move with the beat, chaos turns into a dance.',
+  'Red-eye Fox': 'The long night proves the dawn. Push through the tired hour and the reward will be yours alone.',
+  'Ninja Fox': 'Move quietly and let results announce you. The strongest presence rarely needs to be seen.',
+  'Matrix Fox': 'Question the walls around you. The moment you see the pattern, you are already free of it.',
+  'Zen Fox': 'Stillness is not empty; it is full of everything you were too busy to hear. Sit, and listen.',
+  'Angel Fox': 'Be the light that lifts others. Kindness given freely is the rarest treasure of all, and it returns tenfold.',
 }
 
 export function getCardWisdom(name: string): string {
@@ -100,7 +121,7 @@ export function getDisplayCardName(name: string): string {
   return name.replace(/ripple\s*born/gi, 'Ledgerborn')
 }
 
-/** Every card position rolls independently from this shared distribution. */
+/** Every card position rolls independently from this shared distribution (used by the original three sets). */
 export const SHARED_RARITY_ODDS: Record<Rarity, number> = {
   Common: 65.4,
   Rare: 22,
@@ -108,6 +129,32 @@ export const SHARED_RARITY_ODDS: Record<Rarity, number> = {
   Legendary: 3.5,
   Mythic: 1.05,
   Phoenix: 0.05,
+  Ultimate: 0,
+}
+
+/**
+ * Per-set rarity distributions. The original three sets share the standard table (Phoenix apex).
+ * Mr Slack swaps the apex to a set-scoped "Ultimate" tier at the same 0.05% odds and has no Phoenix.
+ * A tier with 0 odds never rolls and is hidden from set UI (rows filter on count > 0).
+ */
+export const RARITY_ODDS_BY_SET: Record<PackSetId, Record<Rarity, number>> = {
+  ledgerborn: SHARED_RARITY_ODDS,
+  'cyborg-cowboy': SHARED_RARITY_ODDS,
+  'chromatic-abyss': SHARED_RARITY_ODDS,
+  'mr-slack': {
+    Common: 65.4,
+    Rare: 22,
+    Epic: 8,
+    Legendary: 3.5,
+    Mythic: 1.05,
+    Phoenix: 0,
+    Ultimate: 0.05,
+  },
+}
+
+/** Returns the rarity odds table for a set, defaulting to the shared distribution. */
+export function getRarityOdds(setId: PackSetId = 'ledgerborn'): Record<Rarity, number> {
+  return RARITY_ODDS_BY_SET[setId] ?? SHARED_RARITY_ODDS
 }
 
 export const PACK_SLOTS = [1, 2, 3] as const
@@ -155,15 +202,20 @@ export const CARD_POOL: Record<Rarity, CardArt[]> = {
   Phoenix: [
     { name: 'The Phoenix', image: '/cards/the-phoenix.png', uri: metadataUri('the-phoenix') },
   ],
+  // Ultimate is a set-scoped apex tier used only by Mr Slack; the ledgerborn pool never rolls it.
+  Ultimate: [],
 }
 
-/** Picks a rarity using the shared distribution used by every pack position. */
-export function rollRarity(random = Math.random): Rarity {
+/** Picks a rarity from the given distribution (defaults to the shared table used by the original sets). */
+export function rollRarity(
+  random = Math.random,
+  odds: Record<Rarity, number> = SHARED_RARITY_ODDS,
+): Rarity {
   const roll = random() * 100
   let cumulative = 0
 
   for (const rarity of RARITIES) {
-    cumulative += SHARED_RARITY_ODDS[rarity]
+    cumulative += odds[rarity]
     if (roll < cumulative) return rarity
   }
 

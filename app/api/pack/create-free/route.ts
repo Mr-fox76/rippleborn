@@ -38,9 +38,10 @@ export async function POST(request: Request) {
 
   // Encode the set into the order id the same way the paid flow does so the
   // fulfill route's set/remainder validation and pack-result keying match.
-  const setRemainder = setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : 2
+  const setRemainder =
+    setId === 'ledgerborn' ? 0 : setId === 'cyborg-cowboy' ? 1 : setId === 'chromatic-abyss' ? 2 : 3
   const randomTag = createDestinationTag()
-  const orderId = randomTag - (randomTag % 3) + setRemainder
+  const orderId = randomTag - (randomTag % 4) + setRemainder
 
   try {
     const result = await claimFreeSlot(buyer, orderId)

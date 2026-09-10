@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Techno Fox",
+  "description": "Find the rhythm beneath the noise. When you move with the beat, chaos turns into a dance.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/techno-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Legendary"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 16
+    }
+  ]
+}

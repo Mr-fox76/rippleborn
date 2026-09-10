@@ -4,6 +4,8 @@ export type PackCatalogEntry = {
   id: PackSetId
   name: string
   kicker: string
+  /** Optional label shown as the title on the sealed pack. Defaults to the kicker. */
+  packTitle?: string
   description: string
   href: `/packs/${PackSetId}`
   cardCount: number
@@ -13,7 +15,7 @@ export type PackCatalogEntry = {
   /** Display-only hero card art used for the pack cover and set link. Never the Phoenix. */
   coverImage: string
   theme: {
-    id: 'mythic' | 'cyborg' | 'chromatic'
+    id: 'mythic' | 'cyborg' | 'chromatic' | 'slack'
     eyebrow: string
     title: string
     tagline: string
@@ -86,6 +88,28 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
       features: ['Prismatic one-by-one reveals', 'Phoenix highest rarity', 'Visions claimed on XRPL'],
     },
   },
+  {
+    id: 'mr-slack',
+    name: 'Ledgerborn - Mr Slack',
+    kicker: 'Mr Slack',
+    packTitle: 'Slack Pack',
+    description: 'Twenty-one one-of-a-kind foxes — from zen masters to demon tricksters — drawn for the ledger.',
+    href: '/packs/mr-slack',
+    cardCount: 21,
+    cardsPerPack: 3,
+    priceXrp: 5,
+    packImage: '/sets/mr-slack/pack.png',
+    coverImage: '/sets/mr-slack/images/matrix-fox.jpg',
+    theme: {
+      id: 'slack',
+      eyebrow: 'Twenty-one foxes. Real NFT ownership.',
+      title: 'Meet the Mr Slack foxes.',
+      tagline: 'Open three. Chase the Angel Fox.',
+      introduction:
+        'A den of twenty-one characterful foxes. Angel Fox is the set’s rarest 0.05% Ultimate pull.',
+      features: ['One-by-one fox reveals', 'Angel Fox Ultimate rarity', 'Foxes claimed on XRPL'],
+    },
+  },
 ]
 
 /** Display-only preview card shown flanking the sealed pack. Never minted or purchased. */
@@ -108,6 +132,10 @@ export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> 
   'chromatic-abyss': [
     { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside-sample.webp' },
     { name: 'Dream Architect', rarity: 'Mythic', image: '/sets/chromatic-abyss/images/dream-architect-sample.webp' },
+  ],
+  'mr-slack': [
+    { name: 'Demon Fox', rarity: 'Legendary', image: '/sets/mr-slack/images/demon-fox-sample.webp' },
+    { name: 'Ninja Fox', rarity: 'Mythic', image: '/sets/mr-slack/images/ninja-fox-sample.webp' },
   ],
 }
 

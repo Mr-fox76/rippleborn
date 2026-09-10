@@ -1,0 +1,22 @@
+{
+  "schema": "https://api.xrpldata.com/api/v1/xls20-nft-metadata.json",
+  "nftType": "collectible",
+  "name": "Freaked Fox",
+  "description": "Fear is only excitement holding its breath. Breathe out, and the moment shrinks back to size.",
+  "image": "https://ledgerborn.app/sets/mr-slack/images/freaked-fox.jpg",
+  "external_url": "https://ledgerborn.app",
+  "attributes": [
+    {
+      "trait_type": "Set",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    },
+    {
+      "trait_type": "Card Number",
+      "value": 5
+    }
+  ]
+}

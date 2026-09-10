@@ -45,6 +45,8 @@ export const CYBORG_COWBOY_POOL = {
       rarity: 'Phoenix',
     },
   ],
+  // Ultimate is scoped to the Mr Slack set; this pool never rolls it.
+  Ultimate: [],
 } satisfies Record<Rarity, CyborgCowboyCard[]>
 
 export const CYBORG_COWBOY_NFT_TAXON = 20260827

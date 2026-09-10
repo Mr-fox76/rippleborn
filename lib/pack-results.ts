@@ -4,6 +4,7 @@ import { addDiscoveryNumbers } from '@/lib/card-discoveries'
 import { getCardSetLine } from '@/lib/collection-catalog'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
+import { MR_SLACK_POOL } from '@/lib/mr-slack'
 import { db } from '@/lib/db'
 import { packResults } from '@/lib/db/schema'
 import { CARD_POOL, getDisplayCardName, type Card, type PackSetId } from '@/lib/rippleborn'
@@ -41,6 +42,7 @@ export type CollectionStats = {
   mythicFound: number
   limitedFound: number
   phoenixFound: number
+  ultimateFound: number
 }
 
 export const EMPTY_COLLECTION_STATS: CollectionStats = {
@@ -51,6 +53,7 @@ export const EMPTY_COLLECTION_STATS: CollectionStats = {
   mythicFound: 0,
   limitedFound: 0,
   phoenixFound: 0,
+  ultimateFound: 0,
 }
 
 function canonicalCards(cards: Card[]) {
@@ -87,7 +90,9 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
             ? CYBORG_COWBOY_POOL
             : setId === 'chromatic-abyss'
               ? CHROMATIC_ABYSS_POOL
-              : CARD_POOL,
+              : setId === 'mr-slack'
+                ? MR_SLACK_POOL
+                : CARD_POOL,
         )
           .flat()
           .map((card) => card.name),
@@ -105,6 +110,10 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
         if (card.limited) stats.limitedFound += 1
         if (card.name === 'The Phoenix' || card.rarity === 'Phoenix') {
           stats.phoenixFound += 1
+          continue
+        }
+        if (card.rarity === 'Ultimate') {
+          stats.ultimateFound += 1
           continue
         }
 

@@ -3,6 +3,7 @@ import { getNftReplacement, listNftReplacements, markReplacementMinted } from '@
 import { accountOwnsNft, getXrplConfig, mintCardNft, withXrplClient } from '@/lib/xrpl-server'
 import { CYBORG_COWBOY_NFT_TAXON, CYBORG_COWBOY_POOL, validateCyborgMetadataBaseUrl } from '@/lib/cyborg-cowboy'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
+import { MR_SLACK_POOL } from '@/lib/mr-slack'
 import { CARD_POOL, getDisplayCardName, RIPPLEBORN_METADATA_BASE_URL } from '@/lib/rippleborn'
 import { listOpenClaimOffers, reconcileOpenClaimOffers } from '@/lib/nft-claim-lifecycle'
 import { getPackResult } from '@/lib/pack-results'
@@ -11,7 +12,7 @@ const XRPL_ADDRESS = /^r[1-9A-HJ-NP-Za-km-z]{24,34}$/
 const HEX_256 = /^[A-Fa-f0-9]{64}$/
 
 const CARD_ART = new Map(
-  [CARD_POOL, CYBORG_COWBOY_POOL, CHROMATIC_ABYSS_POOL]
+  [CARD_POOL, CYBORG_COWBOY_POOL, CHROMATIC_ABYSS_POOL, MR_SLACK_POOL]
     .flatMap((pool) => Object.values(pool).flat())
     .map((card) => [card.name.toLowerCase(), { name: getDisplayCardName(card.name), image: card.image }] as const),
 )
