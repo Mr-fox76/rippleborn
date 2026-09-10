@@ -208,8 +208,8 @@ export function PackShop({
         : 'text-muted-foreground'
 
   return (
-    <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-5 sm:gap-6">
-      <div className="pack-theme-intro flex w-full flex-col items-center gap-1.5 px-5 py-3 text-center sm:px-7">
+    <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-2 sm:gap-3">
+      <div className="pack-theme-intro flex w-full flex-col items-center gap-1.5 px-5 pt-3 pb-1 text-center sm:px-7">
         <h1 className="font-sans text-lg font-semibold tracking-tight text-balance sm:text-xl">
           <span className="pack-theme-accent">{pack.kicker.split(' ').at(-1)}</span>{' '}
           <span className="text-foreground">{pack.theme.blurb}</span>
