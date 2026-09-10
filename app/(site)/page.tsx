@@ -67,7 +67,7 @@ export default async function Page({
         ) : null}
         <IssuerTrustNotice latestNfts={latestNfts} />
       </main>
-      <footer className="relative z-10 border-t border-border/40 px-6 py-8">
+      <footer className="relative z-10 border-t border-border/40 px-6 pt-8 pb-0">
         <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="flex flex-col gap-2 text-center md:text-left">
             <p className="text-sm leading-relaxed text-foreground/80">

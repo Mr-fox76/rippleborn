@@ -78,11 +78,11 @@ export function PackWorkspace({
   }, [])
 
   return (
-    <section aria-label="Open a pack" className="flex w-full flex-col gap-6">
+    <section aria-label="Open a pack" className="flex w-full flex-col gap-2">
       <div
         role="tablist"
         aria-label="Choose a set"
-        className="mx-auto flex w-full max-w-lg items-center gap-1 rounded-full border border-border bg-card/70 p-1 backdrop-blur-md"
+        className="flex w-full items-center gap-1 rounded-full border border-border bg-card/70 p-1 backdrop-blur-md"
       >
         {PACK_CATALOG.map((pack) => {
           const active = pack.id === selectedId
