@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Gem, Loader2, ShieldCheck, Sparkles } from 'lucide-react'
+import { Loader2 } from 'lucide-react'
 import { PackOpening } from '@/components/pack-opening'
 import { TarotCards, type FulfilledCard } from '@/components/pack-results'
 import { RarityOdds } from '@/components/rarity-odds'
@@ -209,32 +209,13 @@ export function PackShop({
 
   return (
     <div id="reading-table" className="mx-auto flex w-full flex-col items-center gap-5 sm:gap-6">
-      <div className="pack-theme-intro flex w-full flex-col items-center gap-4 px-5 py-5 text-center sm:px-7 lg:py-6">
-        <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.32em]">
-          {pack.theme.eyebrow}
-        </p>
-        <h1 className="font-sans text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-          {pack.theme.title}
+      <div className="pack-theme-intro flex w-full flex-col items-center gap-1.5 px-5 py-3 text-center sm:px-7">
+        <h1 className="font-sans text-lg font-semibold tracking-tight text-balance sm:text-xl">
+          <span className="pack-theme-accent">{pack.kicker.split(' ').at(-1)}</span>{' '}
+          <span className="text-foreground">{pack.theme.blurb}</span>
         </h1>
-        <p className="font-sans text-base font-medium text-pretty text-foreground sm:text-lg">
-          {pack.theme.tagline}
-        </p>
-        <p className="max-w-2xl text-pretty text-sm leading-relaxed text-muted-foreground">
-          {pack.theme.introduction}
-        </p>
-        <div className="grid w-full max-w-xl grid-cols-1 gap-2 sm:grid-cols-3">
-          {pack.theme.features.map((feature, index) => {
-            const Icon = [Sparkles, Gem, ShieldCheck][index]
-            return (
-              <span key={feature} className="inline-flex min-w-0 items-center justify-center gap-2 text-pretty interface-chip rounded-full border px-3 py-2 text-center text-xs leading-snug text-foreground">
-                <Icon className="pack-theme-accent size-3.5 shrink-0" aria-hidden="true" />
-                {feature}
-              </span>
-            )
-          })}
-        </div>
         <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.22em]">
-          Three collectible NFTs · One immersive opening · {pack.priceXrp} XRP
+          {pack.cardsPerPack} cards · {pack.priceXrp} XRP
         </p>
       </div>
 
