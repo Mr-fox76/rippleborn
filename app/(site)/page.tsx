@@ -24,7 +24,7 @@ export default async function Page({
     getCollectionStats('mr-slack').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
     incrementHomepageVisits().catch(() => 0),
-    getLatestMintedNfts(4).catch(() => []),
+    getLatestMintedNfts(6).catch(() => []),
   ])
 
   const statsBySet: Record<PackSetId, CollectionStats> = {

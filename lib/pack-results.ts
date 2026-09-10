@@ -1,12 +1,12 @@
 import { createHash } from 'node:crypto'
-import { desc, eq } from 'drizzle-orm'
+import { desc, eq, inArray } from 'drizzle-orm'
 import { addDiscoveryNumbers } from '@/lib/card-discoveries'
 import { getCardSetLine } from '@/lib/collection-catalog'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
 import { CYBORG_COWBOY_POOL } from '@/lib/cyborg-cowboy'
 import { MR_SLACK_POOL } from '@/lib/mr-slack'
 import { db } from '@/lib/db'
-import { packResults } from '@/lib/db/schema'
+import { packResults, revealedNfts } from '@/lib/db/schema'
 import { CARD_POOL, getDisplayCardName, type Card, type PackSetId } from '@/lib/rippleborn'
 
 export type MintedPackCard = Card & {
@@ -149,18 +149,38 @@ export type LatestMintedNft = {
   setSize?: number
 }
 
+// Marks a minted NFT as revealed (buyer flipped it in the pack-opening UI). Idempotent —
+// only the first flip inserts. Bogus ids are harmless: the feed only surfaces ids that also
+// exist in a fulfilled pack's mint results.
+export async function markNftRevealed(nftId: string) {
+  await db.insert(revealedNfts).values({ nftId }).onConflictDoNothing()
+}
+
 export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]> {
+  // Pull a wide window of recent packs since only flipped cards qualify for the feed.
   const recentPacks = await db
     .select({ mintResults: packResults.mintResultsJson })
     .from(packResults)
     .where(eq(packResults.status, 'fulfilled'))
     .orderBy(desc(packResults.updatedAt))
-    .limit(Math.max(limit, 12))
+    .limit(Math.max(limit * 8, 64))
 
-  const latest = recentPacks
+  const candidates = recentPacks
     .flatMap((record) => (record.mintResults ?? []) as MintedPackCard[])
     .filter((card): card is MintedPackCard & { nftId: string } => card.mintStatus === 'minted' && Boolean(card.nftId))
     .sort((a, b) => Date.parse(b.mintedAt ?? '0') - Date.parse(a.mintedAt ?? '0'))
+
+  if (candidates.length === 0) return []
+
+  // Only surface cards the buyer has actually flipped/revealed.
+  const revealedRows = await db
+    .select({ nftId: revealedNfts.nftId })
+    .from(revealedNfts)
+    .where(inArray(revealedNfts.nftId, candidates.map((card) => card.nftId)))
+  const revealedSet = new Set(revealedRows.map((row) => row.nftId))
+
+  const latest = candidates
+    .filter((card) => revealedSet.has(card.nftId))
     .slice(0, limit)
     .map(({ nftId, name, image, rarity, discovery, discoveredAtPull, setCode, cardNumber, setSize }) => ({
       nftId,
