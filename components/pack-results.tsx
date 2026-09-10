@@ -330,9 +330,10 @@ function RevealedSpread({
                     const discovery = card.discovery ?? card.discoveryNumber
                     const discoveredAtPull = card.discoveredAtPull ?? card.discoveryNumber
                     if (typeof discovery !== 'number' || typeof discoveredAtPull !== 'number') return null
+                    const isPhoenix = card.rarity === 'Phoenix' || card.name === 'The Phoenix'
                     return (
                       <span className="font-mono text-xs font-semibold tracking-wide text-foreground">
-                        {discovery} / {discoveredAtPull}
+                        {isPhoenix ? discovery : `${discovery} / ${discoveredAtPull}`}
                       </span>
                     )
                   })()}
