@@ -45,11 +45,11 @@ export function CardWithFrame({
     >
       <div className="card-frame__window">{children}</div>
       {typeof edition === 'number' && edition > 0 ? (
-        <span className="card-frame__ordinal">Mint: {String(edition).padStart(3, '0')}</span>
+        <span className="card-frame__ordinal">V: {String(edition).padStart(3, '0')}</span>
       ) : null}
       <span className="card-frame__badge">{meta.label}</span>
       <span className="card-frame__caption">
-        <span className="card-frame__rate">Rarity {meta.rate}</span>
+        <span className="card-frame__rate">{meta.rate}</span>
       </span>
     </div>
   )
