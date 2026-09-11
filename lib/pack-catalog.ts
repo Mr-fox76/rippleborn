@@ -59,7 +59,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png',
-    coverImage: '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png',
+    coverImage: '/sets/cyborg-cowboy/images/sovereign-of-sixguns-cover.png',
     theme: {
       id: 'cyborg',
       blurb: 'Frontier outlaws. On-ledger. Ride the machine frontier.',
@@ -133,7 +133,7 @@ export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> 
   ],
   'cyborg-cowboy': [
     { name: 'Sunforge Desperado', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sunforge-desperado-sample.webp' },
-    { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero-sample.webp' },
+    { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero-sample-new.webp' },
   ],
   'chromatic-abyss': [
     { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside-sample.webp' },
