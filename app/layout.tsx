@@ -55,10 +55,10 @@ export const metadata: Metadata = {
       'Open the ledger. Pull the myth. Discover collectible XRPL NFT card packs.',
     images: [
       {
-        url: '/images/cyborg-card-style-sample.png',
-        width: 1024,
-        height: 1024,
-        alt: 'Cyborg cowboy collectible artwork from Ledgerborn',
+        url: '/images/homepage-share.png',
+        width: 1200,
+        height: 630,
+        alt: 'Ledgerborn XRPL NFT card packs — Mythic, Cyborg, Chromatic, and Mr Slack',
       },
     ],
   },
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     title: 'Ledgerborn — XRPL NFT Card Packs',
     description:
       'Open the ledger. Pull the myth. Discover collectible XRPL NFT card packs.',
-    images: ['/images/cyborg-card-style-sample.png'],
+    images: ['/images/homepage-share.png'],
   },
   icons: {
     icon: {
