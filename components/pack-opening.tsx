@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image'
+import { SmoothImage } from '@/components/smooth-image'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Aperture, CircuitBoard, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -143,7 +143,7 @@ export function PackOpening({
       >
         <span className="foil-pack-top" aria-hidden="true" />
         <span className="foil-pack-face">
-          <Image
+          <SmoothImage
             src={packImage}
             alt=""
             fill

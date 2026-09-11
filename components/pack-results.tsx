@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
-import Image from 'next/image'
+import { SmoothImage } from '@/components/smooth-image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClaimNftButton } from '@/components/claim-nft-button'
@@ -206,7 +206,7 @@ function SamplePreviewCard({ card }: { card: SampleCard }) {
   return (
     <CardWithFrame rarity={card.rarity} className="tarot-sample-card">
       <div className="collection-display-art relative bg-background" data-card-name={card.name}>
-        <Image
+        <SmoothImage
           src={card.image}
           alt={`${getDisplayCardName(card.name)}, ${card.rarity} sample card`}
           fill
@@ -314,7 +314,7 @@ function RevealedSpread({
                     tabIndex={0}
                     aria-label={`${displayName}, ${card.rarity} card`}
                   >
-                    <Image
+                    <SmoothImage
                       src={card.image}
                       alt={`${displayName}, ${card.rarity} card`}
                       fill
