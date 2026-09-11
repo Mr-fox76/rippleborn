@@ -37,7 +37,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/ledgerborn/ledgerborn-mythic-pack-v2.png',
-    coverImage: '/cards/primordial-tidewyrm-cover.png',
+    coverImage: '/cards/primordial-tidewyrm-cover-v2.png',
     theme: {
       id: 'mythic',
       blurb: 'Ancient powers. On-ledger. Become Ledgerborn.',
@@ -128,8 +128,8 @@ export type SampleCard = { name: string; rarity: Rarity; image: string }
  */
 export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> = {
   ledgerborn: [
-    { name: 'Aurelian Tidesovereign', rarity: 'Legendary', image: '/cards/aurelian-tidesovereign-sample.webp' },
-    { name: 'Rippleborn, the Unledgered', rarity: 'Mythic', image: '/cards/rippleborn-the-unledgered-sample.webp' },
+    { name: 'Aurelian Tidesovereign', rarity: 'Legendary', image: '/cards/aurelian-tidesovereign-sample-v2.webp' },
+    { name: 'Rippleborn, the Unledgered', rarity: 'Mythic', image: '/cards/rippleborn-the-unledgered-sample-v2.webp' },
   ],
   'cyborg-cowboy': [
     { name: 'Sunforge Desperado', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sunforge-desperado-sample.webp' },
