@@ -1233,7 +1233,7 @@
 .foil-pack-art {
   object-fit: cover;
   object-position: 50% 48%;
-  filter: saturate(0.92) contrast(1.1) brightness(0.72);
+  filter: saturate(0.92) contrast(1.02) brightness(0.72);
   scale: 1.02;
   transition: filter 320ms ease, scale 500ms ease;
 }
@@ -1245,7 +1245,7 @@
 
 .foil-pack:hover .foil-pack-art,
 .foil-pack:focus-visible .foil-pack-art {
-  filter: saturate(1.04) contrast(1.1) brightness(0.82);
+  filter: saturate(1.04) contrast(1.02) brightness(0.82);
   scale: 1.05;
 }
 
