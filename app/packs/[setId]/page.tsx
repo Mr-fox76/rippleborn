@@ -26,9 +26,9 @@ export async function generateMetadata({ params }: { params: Promise<{ setId: st
   const description = `${pack.description} Open a pack for ${pack.priceXrp} XRP and claim ${pack.cardsPerPack} original collectible NFTs on the XRP Ledger.`
   const socialImage = {
     ledgerborn: '/images/mythic-card-style-sample.png',
-    'cyborg-cowboy': '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png',
+    'cyborg-cowboy': '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png',
     'chromatic-abyss': '/sets/chromatic-abyss/pack.png',
-    'mr-slack': '/sets/mr-slack/pack.png',
+    'mr-slack': '/sets/mr-slack/images/matrix-fox.jpg',
   }[pack.id]
 
   return {
