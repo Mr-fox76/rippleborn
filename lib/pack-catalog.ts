@@ -132,7 +132,7 @@ export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> 
     { name: 'Rippleborn, the Unledgered', rarity: 'Mythic', image: '/cards/rippleborn-the-unledgered-sample.webp' },
   ],
   'cyborg-cowboy': [
-    { name: 'Sovereign of Sixguns', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sovereign-of-sixguns-sample.webp' },
+    { name: 'Sunforge Desperado', rarity: 'Legendary', image: '/sets/cyborg-cowboy/images/sunforge-desperado-sample.webp' },
     { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero-sample.webp' },
   ],
   'chromatic-abyss': [
