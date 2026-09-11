@@ -82,7 +82,7 @@ export function PackWorkspace({
       <div
         role="tablist"
         aria-label="Choose a set"
-        className="flex w-full items-center gap-1 rounded-full border border-border bg-card/70 p-1 backdrop-blur-md"
+        className="sticky top-3 z-40 flex w-full items-center gap-1 rounded-full border border-border bg-card/90 p-1 shadow-lg backdrop-blur-md"
       >
         {PACK_CATALOG.map((pack) => {
           const active = pack.id === selectedId
