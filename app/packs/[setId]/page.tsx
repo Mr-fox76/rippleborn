@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ setId: st
   const socialImage = {
     ledgerborn: '/images/mythic-card-style-sample.png',
     'cyborg-cowboy': '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png',
-    'chromatic-abyss': '/sets/chromatic-abyss/images/thousand-petaled-mind-cover.png',
+    'chromatic-abyss': '/sets/chromatic-abyss/images/thousand-petaled-mind-cover-v2.png',
     'mr-slack': '/sets/mr-slack/images/matrix-fox.jpg',
   }[pack.id]
 

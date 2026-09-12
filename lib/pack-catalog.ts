@@ -81,7 +81,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/chromatic-abyss/pack.png',
-    coverImage: '/sets/chromatic-abyss/images/thousand-petaled-mind-cover.png',
+    coverImage: '/sets/chromatic-abyss/images/thousand-petaled-mind-cover-v2.png',
     theme: {
       id: 'chromatic',
       blurb: 'Lucid visions. On-ledger. Stare into the abyss.',
@@ -136,8 +136,8 @@ export const SAMPLE_CARDS: Record<PackSetId, readonly [SampleCard, SampleCard]> 
     { name: 'Gunslinger Zero', rarity: 'Mythic', image: '/sets/cyborg-cowboy/images/gunslinger-zero-sample-new.webp' },
   ],
   'chromatic-abyss': [
-    { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside-sample.webp' },
-    { name: 'Dream Architect', rarity: 'Mythic', image: '/sets/chromatic-abyss/images/dream-architect-sample.webp' },
+    { name: 'The Moon Inside', rarity: 'Legendary', image: '/sets/chromatic-abyss/images/moon-inside-sample-v2.webp' },
+    { name: 'Dream Architect', rarity: 'Mythic', image: '/sets/chromatic-abyss/images/dream-architect-sample-v2.webp' },
   ],
   'mr-slack': [
     { name: 'Demon Fox', rarity: 'Legendary', image: '/sets/mr-slack/images/demon-fox-sample.webp' },
