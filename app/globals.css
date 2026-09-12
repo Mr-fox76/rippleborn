@@ -2493,6 +2493,13 @@
   opacity: 0.92;
 }
 
+/* On phones the caption is too narrow for the odds ratio, so show only the percentage. */
+@media (max-width: 639px) {
+  .card-frame__rate-odds {
+    display: none;
+  }
+}
+
 .card-frame--missing .card-frame__window {
   opacity: 0.5;
 }
