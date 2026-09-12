@@ -32,11 +32,11 @@ export function IssuerTrustNotice({ latestNfts }: { latestNfts: LatestMintedNft[
                         unoptimized
                         loading="lazy"
                         sizes="(max-width: 639px) calc(50vw - 1.5rem), (max-width: 1023px) calc(50vw - 2rem), 320px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                        className="latest-nft-image object-cover"
                       />
                     </CardWithFrame>
                     <div className="mt-2 flex items-center justify-end gap-2">
-                      <ExternalLink className="size-4 shrink-0 text-foreground/70 transition-colors group-hover:text-[var(--rarity-color)]" aria-hidden="true" />
+                      <ExternalLink className="size-4 shrink-0 text-foreground/70" aria-hidden="true" />
                     </div>
                   </a>
                 </li>
