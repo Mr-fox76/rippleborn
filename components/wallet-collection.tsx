@@ -369,7 +369,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
       {compact ? (
         <h2 id="collection-heading" className="sr-only">Your collection</h2>
       ) : (
-        <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-center">
+        <div className="sr-only sm:not-sr-only sm:flex sm:flex-wrap sm:items-baseline sm:justify-center sm:gap-x-3 sm:gap-y-1 sm:text-center">
           <h1 id="collection-heading" className="font-sans text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
             Collection
           </h1>
@@ -391,9 +391,9 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
               <p className="font-mono text-xs uppercase tracking-[0.14em] text-muted-foreground">
                 Preview &middot; filter the full set
               </p>
-              <div className="flex flex-wrap items-center justify-end gap-2">
+              <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-wrap sm:items-center sm:justify-end">
                 <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
-                  <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
+                  <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger w-full sm:w-auto sm:min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
                     <SelectValue>{(value) => renderSetFilterValue(value as string)}</SelectValue>
                   </SelectTrigger>
                   <SelectContent align="end" alignItemWithTrigger={false}>
@@ -407,7 +407,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                   </SelectContent>
                 </Select>
                 <Select value={rarityFilter} onValueChange={(value) => setRarityFilter(value ?? 'all')}>
-                  <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
+                  <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger w-full sm:w-auto sm:min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
                     <SlidersHorizontal aria-hidden="true" />
                     <SelectValue />
                   </SelectTrigger>
@@ -494,9 +494,9 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                   </Button>
                 ) : null}
               </div>
-              <div className="flex flex-wrap items-center justify-end gap-2">
+              <div className="grid w-full grid-cols-2 gap-2 sm:flex sm:w-auto sm:flex-wrap sm:items-center sm:justify-end">
                 <Select value={setFilter} onValueChange={(value) => { userPickedSetRef.current = true; setSetFilter((value ?? 'all') as 'all' | PackSetId) }}>
-                  <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
+                  <SelectTrigger size="sm" aria-label="Filter collection by set" className="collection-filter-trigger w-full sm:w-auto sm:min-w-44 font-mono text-xs uppercase tracking-[0.12em]">
                     <SelectValue>{(value) => renderSetFilterValue(value as string)}</SelectValue>
                   </SelectTrigger>
                   <SelectContent align="end" alignItemWithTrigger={false}>
@@ -510,7 +510,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                   </SelectContent>
                 </Select>
                 <Select value={rarityFilter} onValueChange={(value) => setRarityFilter(value ?? 'all')}>
-                  <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
+                  <SelectTrigger size="sm" aria-label="Filter collection by rarity" className="collection-filter-trigger w-full sm:w-auto sm:min-w-40 font-mono text-xs uppercase tracking-[0.12em]">
                     <SlidersHorizontal aria-hidden="true" />
                     <SelectValue />
                   </SelectTrigger>
@@ -531,7 +531,7 @@ export function WalletCollection({ compact = false }: { compact?: boolean }) {
                     </SelectGroup>
                   </SelectContent>
                 </Select>
-                <Button type="button" variant="ghost" size="sm" onClick={() => mutate()} disabled={isValidating} className="ghost-action font-mono text-xs uppercase tracking-[0.12em]">
+                <Button type="button" variant="ghost" size="sm" onClick={() => mutate()} disabled={isValidating} className="col-span-2 justify-center ghost-action font-mono text-xs uppercase tracking-[0.12em] sm:col-span-1 sm:justify-start">
                   <RefreshCw className={`size-4 ${isValidating ? 'animate-spin' : ''}`} aria-hidden="true" />
                   {isValidating ? 'Refreshing' : 'Refresh'}
                 </Button>
