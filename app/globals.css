@@ -2498,6 +2498,10 @@
   .card-frame__rate-odds {
     display: none;
   }
+
+  .card-frame__rate-pct {
+    font-size: clamp(0.58rem, 4.4cqw, 0.82rem);
+  }
 }
 
 .card-frame--missing .card-frame__window {
