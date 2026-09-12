@@ -1553,6 +1553,8 @@
 .tarot-control-row,
 .pack-opening-button-row,
 .pack-purchase-row {
+  position: relative;
+  z-index: 40;
   display: flex;
   min-height: 4rem;
   align-items: center;
