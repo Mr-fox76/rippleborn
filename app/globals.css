@@ -2428,6 +2428,11 @@
   object-fit: cover;
 }
 
+/* Latest NFTs feed: soften the downscaled full-res art so it reads less crisp. */
+.latest-nft-image {
+  filter: saturate(0.98) contrast(0.96);
+}
+
 /* Corner tags float over the art: edition ordinal (left), rarity name (right). */
 .card-frame__ordinal,
 .card-frame__badge {
