@@ -2493,6 +2493,12 @@
   opacity: 0.92;
 }
 
+/* The percentage is the key stat, so render it larger than the odds ratio everywhere. */
+.card-frame__rate-pct {
+  font-size: clamp(0.68rem, 5cqw, 0.95rem);
+  font-weight: 700;
+}
+
 /* On phones the caption is too narrow for the odds ratio, so show only the percentage. */
 @media (max-width: 639px) {
   .card-frame__rate-odds {
