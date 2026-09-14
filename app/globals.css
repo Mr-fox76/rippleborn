@@ -91,29 +91,6 @@
   backdrop-filter: blur(1rem) saturate(1.2);
 }
 
-.site-safety-ribbon {
-  display: flex;
-  min-height: 1.75rem;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding-inline: 1rem;
-  border-bottom: 1px solid color-mix(in oklch, var(--gold) 18%, var(--border));
-  color: var(--muted-foreground);
-  background: color-mix(in oklch, var(--gold) 4%, oklch(0.055 0.015 225 / 94%));
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  line-height: 1.35;
-  letter-spacing: 0.08em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-.site-safety-ribbon strong {
-  color: var(--gold);
-}
-
-.site-safety-dot,
 .wallet-status-dot {
   width: 0.45rem;
   aspect-ratio: 1;
@@ -296,12 +273,6 @@
 }
 
 @media (max-width: 439px) {
-  .site-safety-ribbon {
-    min-height: 2rem;
-    font-size: 0.52rem;
-    letter-spacing: 0.05em;
-  }
-
   .collection-nav-action {
     height: 2.25rem;
     padding-inline: 0.8rem;
