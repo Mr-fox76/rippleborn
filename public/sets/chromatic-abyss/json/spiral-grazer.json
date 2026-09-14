@@ -17,6 +17,29 @@
     {
       "trait_type": "Card Number",
       "value": 4
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Chromatic Abyss"
+    },
+    {
+      "trait_type": "Set Code",
+      "value": "CHR"
+    },
+    {
+      "trait_type": "Set Size",
+      "value": 22
+    },
+    {
+      "trait_type": "Rarity Score",
+      "value": 15
+    },
+    {
+      "trait_type": "Artist",
+      "value": "Ledgerborn"
     }
-  ]
+  ],
+  "collection": {
+    "name": "Chromatic Abyss"
+  }
 }

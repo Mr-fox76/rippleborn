@@ -270,7 +270,7 @@ export function PackShop({
           <span className="text-foreground">{pack.theme.blurb}</span>
         </h1>
         <p className="pack-theme-accent font-mono text-[0.65rem] uppercase tracking-[0.22em]">
-          {pack.cardsPerPack} cards · {pack.priceXrp} XRP
+          First pack free. Then {pack.priceXrp} XRP.
         </p>
       </div>
 

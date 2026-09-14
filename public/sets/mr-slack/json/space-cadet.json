@@ -17,6 +17,29 @@
     {
       "trait_type": "Card Number",
       "value": 11
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Mr Slack"
+    },
+    {
+      "trait_type": "Set Code",
+      "value": "SLK"
+    },
+    {
+      "trait_type": "Set Size",
+      "value": 21
+    },
+    {
+      "trait_type": "Rarity Score",
+      "value": 35
+    },
+    {
+      "trait_type": "Artist",
+      "value": "Ledgerborn"
     }
-  ]
+  ],
+  "collection": {
+    "name": "Mr Slack"
+  }
 }

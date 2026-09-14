@@ -13,6 +13,25 @@
     {
       "trait_type": "Collection",
       "value": "Ledgerborn Mythic"
+    },
+    {
+      "trait_type": "Set Code",
+      "value": "MYTH"
+    },
+    {
+      "trait_type": "Set Size",
+      "value": 21
+    },
+    {
+      "trait_type": "Rarity Score",
+      "value": 35
+    },
+    {
+      "trait_type": "Artist",
+      "value": "Ledgerborn"
     }
-  ]
+  ],
+  "collection": {
+    "name": "Ledgerborn Mythic"
+  }
 }
