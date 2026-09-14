@@ -2433,7 +2433,10 @@
 
 .card-frame__badge {
   right: 4.5%;
-  color: var(--rarity-color, #f4f6fb);
+  color: #ffffff;
+  background: color-mix(in srgb, var(--rarity-color, #1d2b33) 80%, oklch(0 0 0 / 60%));
+  border: 1px solid color-mix(in srgb, var(--rarity-color, #f4f6fb) 62%, transparent);
+  text-shadow: 0 1px 2px oklch(0 0 0 / 55%);
 }
 
 .card-frame__caption {
