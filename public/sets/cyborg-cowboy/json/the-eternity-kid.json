@@ -17,6 +17,29 @@
     {
       "trait_type": "Card Number",
       "value": 20
+    },
+    {
+      "trait_type": "Collection",
+      "value": "Cyborg Cowboy"
+    },
+    {
+      "trait_type": "Set Code",
+      "value": "CYB"
+    },
+    {
+      "trait_type": "Set Size",
+      "value": 22
+    },
+    {
+      "trait_type": "Rarity Score",
+      "value": 90
+    },
+    {
+      "trait_type": "Artist",
+      "value": "Ledgerborn"
     }
-  ]
+  ],
+  "collection": {
+    "name": "Cyborg Cowboy"
+  }
 }
