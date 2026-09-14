@@ -104,7 +104,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/mr-slack/pack.png',
-    coverImage: '/sets/mr-slack/images/matrix-fox.jpg',
+    coverImage: '/sets/mr-slack/images/space-cadet.jpg',
     theme: {
       id: 'slack',
       blurb: 'Twenty-one foxes. On-ledger. Chase the Angel Fox.',

@@ -24,12 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ setId: st
 
   const title = `${pack.name} XRPL NFT Card Pack`
   const description = `${pack.description} Open a pack for ${pack.priceXrp} XRP and claim ${pack.cardsPerPack} original collectible NFTs on the XRP Ledger.`
-  const socialImage = {
-    ledgerborn: '/images/mythic-card-style-sample.png',
-    'cyborg-cowboy': '/sets/cyborg-cowboy/images/sovereign-of-sixguns.png',
-    'chromatic-abyss': '/sets/chromatic-abyss/images/thousand-petaled-mind-cover-v2.png',
-    'mr-slack': '/sets/mr-slack/images/matrix-fox.jpg',
-  }[pack.id]
+  const socialImage = `/images/og/${pack.id}-og.png`
 
   return {
     title,
@@ -45,8 +40,8 @@ export async function generateMetadata({ params }: { params: Promise<{ setId: st
       images: [
         {
           url: socialImage,
-          width: 1024,
-          height: 1024,
+          width: 1200,
+          height: 630,
           alt: `${pack.name} collectible NFT card pack`,
         },
       ],
