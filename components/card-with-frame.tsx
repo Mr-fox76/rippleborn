@@ -1,14 +1,14 @@
 import type { ReactNode } from 'react'
 
-/** Rarity → pull rate (bottom caption) and the rarity accent color. */
+/** Rarity → rarity score (bottom caption; higher = rarer) and the rarity accent color. */
 const RARITY_META = {
-  Common: { label: 'Common', pct: '65.4%', odds: '1 in 1.5', color: '#b9bfca' },
-  Rare: { label: 'Rare', pct: '22%', odds: '1 in 4.5', color: '#3b82f6' },
-  Epic: { label: 'Epic', pct: '8%', odds: '1 in 12.5', color: '#a855f7' },
-  Legendary: { label: 'Legendary', pct: '3.5%', odds: '1 in 29', color: '#eab308' },
-  Mythic: { label: 'Mythic', pct: '1.05%', odds: '1 in 95', color: '#ef4444' },
-  Phoenix: { label: 'Phoenix', pct: '0.05%', odds: '1 in 2,000', color: '#fb923c' },
-  Ultimate: { label: 'Ultimate', pct: '0.05%', odds: '1 in 2,000', color: '#ffe6a3' },
+  Common: { label: 'Common', pct: '15%', color: '#b9bfca' },
+  Rare: { label: 'Rare', pct: '35%', color: '#3b82f6' },
+  Epic: { label: 'Epic', pct: '55%', color: '#a855f7' },
+  Legendary: { label: 'Legendary', pct: '75%', color: '#eab308' },
+  Mythic: { label: 'Mythic', pct: '90%', color: '#ef4444' },
+  Phoenix: { label: 'Phoenix', pct: '100%', color: '#fb923c' },
+  Ultimate: { label: 'Ultimate', pct: '100%', color: '#ffe6a3' },
 } as const
 
 type FrameRarity = keyof typeof RARITY_META
@@ -50,8 +50,7 @@ export function CardWithFrame({
       <span className="card-frame__badge">{meta.label}</span>
       <span className="card-frame__caption">
         <span className="card-frame__rate">
-          <span className="card-frame__rate-pct">{meta.pct}</span>
-          <span className="card-frame__rate-odds"> · {meta.odds}</span>
+          <span className="card-frame__rate-pct">{meta.pct} rarity</span>
         </span>
       </span>
     </div>
