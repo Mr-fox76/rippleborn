@@ -5,6 +5,7 @@ import { PackWorkspace } from '@/components/pack-workspace'
 import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
 import type { CollectionStats } from '@/lib/pack-results'
 import { incrementHomepageVisits } from '@/lib/site-counter'
+import { PACK_CATALOG } from '@/lib/pack-catalog'
 import type { PackSetId } from '@/lib/rippleborn'
 
 export const dynamic = 'force-dynamic'
@@ -81,6 +82,17 @@ export default async function Page({
             </div>
           </div>
           <div className="flex flex-col items-center gap-4 md:items-end">
+            <nav aria-label="Pack navigation" className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm md:justify-end">
+              {PACK_CATALOG.map((pack) => (
+                <Link
+                  key={pack.id}
+                  href={pack.href}
+                  className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline"
+                >
+                  {pack.kicker}
+                </Link>
+              ))}
+            </nav>
             <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm md:justify-end">
               <Link href="/help" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Help</Link>
               <Link href="/artists" className="text-muted-foreground underline-offset-4 transition-colors hover:text-foreground hover:underline">Artists</Link>
