@@ -85,7 +85,7 @@
 }
 
 .site-header {
-  border-bottom: 1px solid color-mix(in oklch, var(--primary) 28%, var(--border));
+  border-bottom: 0px solid color-mix(in oklch, var(--primary) 28%, var(--border));
   background: oklch(0% 0 0 / 0.92);
   box-shadow: 0 0.75rem 2.5rem oklch(0.025 0.012 230 / 42%);
   backdrop-filter: blur(1rem) saturate(1.2);
