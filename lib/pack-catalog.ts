@@ -37,7 +37,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/ledgerborn/ledgerborn-mythic-pack-v2.png',
-    coverImage: '/cards/primordial-tidewyrm-cover-v2.png',
+    coverImage: '/sets/ledgerborn/ledgerborn-mythic-pack-v2.png',
     theme: {
       id: 'mythic',
       blurb: 'Ancient powers. On-ledger. Become Ledgerborn.',
@@ -59,7 +59,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png',
-    coverImage: '/sets/cyborg-cowboy/images/sovereign-of-sixguns-cover.png',
+    coverImage: '/sets/cyborg-cowboy/images/cyborg-cowboy-pack.png',
     theme: {
       id: 'cyborg',
       blurb: 'Frontier outlaws. On-ledger. Ride the machine frontier.',
@@ -81,7 +81,7 @@ export const PACK_CATALOG: readonly PackCatalogEntry[] = [
     cardsPerPack: 3,
     priceXrp: 5,
     packImage: '/sets/chromatic-abyss/pack.png',
-    coverImage: '/sets/chromatic-abyss/images/thousand-petaled-mind-cover-v2.png',
+    coverImage: '/sets/chromatic-abyss/pack.png',
     theme: {
       id: 'chromatic',
       blurb: 'Lucid visions. On-ledger. Stare into the abyss.',
