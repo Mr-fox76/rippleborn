@@ -40,9 +40,13 @@ async function queryHomepageVisits(): Promise<bigint | null> {
   }
 }
 
-export const getHomepageVisits = unstable_cache(
+const cachedHomepageVisits = unstable_cache(
   queryHomepageVisits,
   ['homepage-visits'],
   { revalidate: 300, tags: ['homepage-visits'] },
 )
+
+export async function getHomepageVisits(): Promise<bigint | null> {
+  return cachedHomepageVisits()
+}
 
