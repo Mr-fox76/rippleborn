@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { desc, eq, inArray } from 'drizzle-orm'
+import { revalidateTag, unstable_cache } from 'next/cache'
 import { addDiscoveryNumbers } from '@/lib/card-discoveries'
 import { getCardSetLine } from '@/lib/collection-catalog'
 import { CHROMATIC_ABYSS_POOL } from '@/lib/chromatic-abyss'
@@ -78,7 +79,7 @@ export function createPackCommitment(paymentTxHash: string, cards: Card[]) {
     .digest('hex')
 }
 
-export async function getCollectionStats(setId?: PackSetId): Promise<CollectionStats> {
+async function queryCollectionStats(setId?: PackSetId): Promise<CollectionStats> {
   const fulfilledPacks = await db
     .select({ cards: packResults.cardsJson })
     .from(packResults)
@@ -134,6 +135,12 @@ export async function getCollectionStats(setId?: PackSetId): Promise<CollectionS
   )
 }
 
+export const getCollectionStats = unstable_cache(
+  queryCollectionStats,
+  ['collection-stats'],
+  { revalidate: 300, tags: ['pack-results'] },
+)
+
 export type LatestMintedNft = {
   nftId: string
   name: string
@@ -156,7 +163,7 @@ export async function markNftRevealed(nftId: string) {
   await db.insert(revealedNfts).values({ nftId }).onConflictDoNothing()
 }
 
-export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]> {
+async function queryLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]> {
   // Pull a wide window of recent packs since only flipped cards qualify for the feed.
   const recentPacks = await db
     .select({ mintResults: packResults.mintResultsJson })
@@ -215,6 +222,12 @@ export async function getLatestMintedNfts(limit = 5): Promise<LatestMintedNft[]>
   })
 }
 
+export const getLatestMintedNfts = unstable_cache(
+  queryLatestMintedNfts,
+  ['latest-minted-nfts'],
+  { revalidate: 300, tags: ['pack-results'] },
+)
+
 export async function getPackResult(orderId: number): Promise<PackResultRecord | null> {
   const [record] = await db
     .select({
@@ -268,6 +281,7 @@ export async function saveMintResults(orderId: number, cards: MintedPackCard[]) 
     .update(packResults)
     .set({ status: 'fulfilled', mintResultsJson: cards, errorMessage: null, updatedAt: new Date() })
     .where(eq(packResults.orderId, orderId))
+  revalidateTag('pack-results', 'max')
 }
 
 export async function markPackFailed(orderId: number, message: string) {

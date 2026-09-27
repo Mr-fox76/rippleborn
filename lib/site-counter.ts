@@ -1,6 +1,7 @@
 import 'server-only'
 
-import { sql } from 'drizzle-orm'
+import { sql, eq } from 'drizzle-orm'
+import { unstable_cache } from 'next/cache'
 import { db } from '@/lib/db'
 import { siteCounters } from '@/lib/db/schema'
 
@@ -25,3 +26,23 @@ export async function incrementHomepageVisits(): Promise<bigint | null> {
     return null
   }
 }
+
+async function queryHomepageVisits(): Promise<bigint | null> {
+  try {
+    const [counter] = await db
+      .select({ visitCount: siteCounters.visitCount })
+      .from(siteCounters)
+      .where(eq(siteCounters.counterKey, HOME_PAGE_COUNTER))
+      .limit(1)
+    return counter?.visitCount ?? null
+  } catch {
+    return null
+  }
+}
+
+export const getHomepageVisits = unstable_cache(
+  queryHomepageVisits,
+  ['homepage-visits'],
+  { revalidate: 300, tags: ['homepage-visits'] },
+)
+
