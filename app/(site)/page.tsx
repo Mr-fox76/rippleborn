@@ -4,7 +4,7 @@ import { NetworkStatus } from '@/components/network-status'
 import { PackWorkspace } from '@/components/pack-workspace'
 import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
 import type { CollectionStats } from '@/lib/pack-results'
-import { incrementHomepageVisits } from '@/lib/site-counter'
+import { getHomepageVisits } from '@/lib/site-counter'
 import { PACK_CATALOG } from '@/lib/pack-catalog'
 import type { PackSetId } from '@/lib/rippleborn'
 
@@ -24,7 +24,7 @@ export default async function Page({
     getCollectionStats('chromatic-abyss').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats('mr-slack').catch(() => EMPTY_COLLECTION_STATS),
     getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
-    incrementHomepageVisits().catch(() => 0),
+    getHomepageVisits().catch(() => 0),
     getLatestMintedNfts(6).catch(() => []),
   ])
 
