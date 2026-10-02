@@ -8,10 +8,6 @@ export async function POST() {
     const payload = await getXamanSdk().payload.create({
       txjson: { TransactionType: 'SignIn' },
       options: { expire: 5 },
-      custom_meta: {
-        identifier: 'rippleborn-wallet-connect',
-        instruction: 'Sign in with Xaman. Purchases and NFT claims require XRPL Mainnet.',
-      },
     }, true)
 
     if (!payload) throw new Error('Xaman did not create a connection request.')
