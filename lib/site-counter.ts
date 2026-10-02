@@ -46,7 +46,8 @@ const cachedHomepageVisits = unstable_cache(
   { revalidate: 300, tags: ['homepage-visits'] },
 )
 
-export async function getHomepageVisits(): Promise<bigint | null> {
-  return cachedHomepageVisits()
+export async function getHomepageVisits(): Promise<number | null> {
+  const visitCount = await cachedHomepageVisits()
+  return visitCount === null ? null : Number(visitCount)
 }
 
