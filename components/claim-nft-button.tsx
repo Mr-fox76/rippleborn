@@ -86,6 +86,75 @@ function ChainDetails({
   )
 }
 
+export function BatchClaimButton({
+  buyer,
+  claims,
+  onClaimed,
+}: {
+  buyer: string
+  claims: Array<{ nftId: string; offerId: string }>
+  onClaimed?: (nftIds: string[]) => void
+}) {
+  const [claim, setClaim] = useState<ClaimRequest | null>(null)
+  const [creating, setCreating] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const { data: status } = useSWR<ClaimStatus & { nftIds?: string[] }>(claim ? `/api/nft/claim/batch/${claim.uuid}` : null, fetcher, {
+    refreshInterval: (latest) => (latest?.status === 'pending' ? 2500 : 0),
+  })
+
+  useEffect(() => {
+    if (status?.status === 'claimed') onClaimed?.(status.nftIds ?? claims.map((item) => item.nftId))
+  }, [claims, onClaimed, status?.status, status?.nftIds])
+
+  async function createBatchClaim() {
+    setCreating(true)
+    setError(null)
+    try {
+      const response = await fetch('/api/nft/claim/batch', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ buyer, claims }),
+      })
+      const data = (await response.json()) as ClaimRequest & { error?: string }
+      if (!response.ok) throw new Error(data.error ?? 'Unable to create batch claim request.')
+      setClaim(data)
+    } catch (claimError) {
+      setError(claimError instanceof Error ? claimError.message : 'Unable to create batch claim request.')
+    } finally {
+      setCreating(false)
+    }
+  }
+
+  const claimed = status?.status === 'claimed'
+  return (
+    <Dialog>
+      <DialogTrigger render={<Button type="button" size="lg" disabled={claimed || creating} className="w-full font-mono text-xs font-semibold uppercase tracking-wider" />}>
+        {claimed ? <CheckCircle2 data-icon="inline-start" /> : <ScanLine data-icon="inline-start" />}
+        {claimed ? 'All claimed' : creating ? 'Preparing batch…' : `Claim all ${claims.length}`}
+      </DialogTrigger>
+      <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>{claimed ? 'NFTs claimed' : 'Claim all NFTs'}</DialogTitle>
+          <DialogDescription>Accept all {claims.length} free NFT offers in one atomic XRPL Batch transaction.</DialogDescription>
+        </DialogHeader>
+        {!claim || status?.status === 'failed' || status?.status === 'rejected' || status?.status === 'expired' ? (
+          <Button type="button" size="lg" onClick={createBatchClaim} disabled={creating}>
+            <ScanLine data-icon="inline-start" />
+            {creating ? 'Preparing Xaman…' : 'Continue with Xaman'}
+          </Button>
+        ) : (
+          <div className="flex flex-col items-center gap-3">
+            <div className="qr-panel w-full max-w-48 overflow-hidden p-2"><Image src={claim.qrUrl} alt="Scan to claim all NFTs in Xaman" width={176} height={176} className="h-auto w-full" unoptimized /></div>
+            <Button nativeButton={false} render={<a href={claim.deepLink} target="_blank" rel="noopener noreferrer" />}><ExternalLink data-icon="inline-start" />Open in Xaman</Button>
+            <p className="font-mono text-xs uppercase tracking-wider text-muted-foreground" aria-live="polite">{status?.status === 'pending' ? 'Waiting for signature' : 'Open or scan to sign'}</p>
+          </div>
+        )}
+        {error || (status?.status === 'failed' ? status.error : null) ? <p role="alert" className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">{error ?? status?.error}</p> : null}
+      </DialogContent>
+    </Dialog>
+  )
+}
+
 export function ClaimNftButton({
   buyer,
   nftId,
