@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { SmoothImage } from '@/components/smooth-image'
 import { RotateCcw } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { ClaimNftButton } from '@/components/claim-nft-button'
+import { BatchClaimButton, ClaimNftButton } from '@/components/claim-nft-button'
 import { CardWithFrame } from '@/components/card-with-frame'
 import type { SampleCard } from '@/lib/pack-catalog'
 import { getDisplayCardName, type Card } from '@/lib/rippleborn'
@@ -272,8 +272,16 @@ function RevealedSpread({
     setClaimed((current) => new Set(current).add(nftId))
   }, [])
 
+  const batchClaims = claimableCards.map((card) => ({ nftId: card.nftId as string, offerId: card.offerId as string }))
+
   return (
     <div className="flex flex-col items-center gap-6">
+      {buyer && batchClaims.length >= 2 ? (
+        <div className="w-full max-w-sm">
+          <BatchClaimButton buyer={buyer} claims={batchClaims} onClaimed={(nftIds) => nftIds.forEach(markClaimed)} />
+          <p className="mt-2 text-center font-mono text-[0.65rem] uppercase tracking-wider text-muted-foreground">One atomic transaction · individual claim buttons remain available below</p>
+        </div>
+      ) : null}
       <ol className="tarot-spread mx-auto flex w-full max-w-7xl flex-col items-center justify-center gap-6 sm:flex-row sm:items-start sm:gap-7">
         {[1, 0, 2].map((index) => {
         const card = cards[index]
