@@ -55,15 +55,14 @@ const nextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'Strict-Transport-Security', value: 'max-age=63072000' },
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
           {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
           {
-            key: 'Content-Security-Policy-Report-Only',
+            key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'",
+              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self' https://foxes.company https://*.lovable.app",
           },
         ],
       },
