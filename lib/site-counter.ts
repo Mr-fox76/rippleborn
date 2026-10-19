@@ -42,8 +42,8 @@ async function queryHomepageVisits(): Promise<number | null> {
 
 const cachedHomepageVisits = unstable_cache(
   queryHomepageVisits,
-  ['homepage-visits'],
-  { revalidate: 300, tags: ['homepage-visits'] },
+  ['homepage-visits-v2'],
+  { revalidate: 300, tags: ['homepage-visits-v2'] },
 )
 
 export async function getHomepageVisits(): Promise<number | null> {

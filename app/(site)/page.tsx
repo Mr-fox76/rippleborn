@@ -17,15 +17,21 @@ export default async function Page({
 }) {
   const { set } = await searchParams
 
-  // Fetch every set's live stats up front so nothing renders as a zero placeholder while loading.
-  const [mythic, cyborg, chromatic, slack, allSets, visitCount, latestNfts] = await Promise.all([
-    getCollectionStats('ledgerborn').catch(() => EMPTY_COLLECTION_STATS),
-    getCollectionStats('cyborg-cowboy').catch(() => EMPTY_COLLECTION_STATS),
-    getCollectionStats('chromatic-abyss').catch(() => EMPTY_COLLECTION_STATS),
-    getCollectionStats('mr-slack').catch(() => EMPTY_COLLECTION_STATS),
-    getCollectionStats().catch(() => EMPTY_COLLECTION_STATS),
-    getHomepageVisits().catch(() => 0),
-    getLatestMintedNfts(6).catch(() => []),
+  // Keep the homepage renderable when a database query is slow or temporarily exhausted.
+  // Stats are enhancements; they must never leave the whole site suspended behind loading.tsx.
+  const withTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 4000) =>
+    Promise.race([
+      promise.catch(() => fallback),
+      new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs)),
+    ])
+
+  const [mythic, cyborg, chromatic, slack, visitCount, latestNfts] = await Promise.all([
+    withTimeout(getCollectionStats('ledgerborn'), EMPTY_COLLECTION_STATS),
+    withTimeout(getCollectionStats('cyborg-cowboy'), EMPTY_COLLECTION_STATS),
+    withTimeout(getCollectionStats('chromatic-abyss'), EMPTY_COLLECTION_STATS),
+    withTimeout(getCollectionStats('mr-slack'), EMPTY_COLLECTION_STATS),
+    withTimeout(getHomepageVisits(), 0),
+    withTimeout(getLatestMintedNfts(6), []),
   ])
 
   const statsBySet: Record<PackSetId, CollectionStats> = {
