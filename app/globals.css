@@ -986,7 +986,10 @@
 
 .stable-opening-visual {
   position: relative;
+  display: block;
+  width: 100%;
   min-height: 42rem;
+  flex: 1 1 auto;
   contain: layout paint;
   isolation: isolate;
 }
