@@ -27,14 +27,14 @@ export async function incrementHomepageVisits(): Promise<bigint | null> {
   }
 }
 
-async function queryHomepageVisits(): Promise<bigint | null> {
+async function queryHomepageVisits(): Promise<number | null> {
   try {
     const [counter] = await db
       .select({ visitCount: siteCounters.visitCount })
       .from(siteCounters)
       .where(eq(siteCounters.counterKey, HOME_PAGE_COUNTER))
       .limit(1)
-    return counter?.visitCount ?? null
+    return counter?.visitCount == null ? null : Number(counter.visitCount)
   } catch {
     return null
   }
