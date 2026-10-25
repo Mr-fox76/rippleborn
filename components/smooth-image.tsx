@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils'
  * detected via the ref callback (`complete`) and shown instantly with no fade.
  */
 export function SmoothImage({ className, onLoad, ...props }: ImageProps) {
-  const [loaded, setLoaded] = useState(false)
+  const [, setLoaded] = useState(false)
 
   const ref = useCallback((node: HTMLImageElement | null) => {
     if (node?.complete && node.naturalWidth > 0) setLoaded(true)
@@ -24,7 +24,7 @@ export function SmoothImage({ className, onLoad, ...props }: ImageProps) {
         setLoaded(true)
         onLoad?.(event)
       }}
-      className={cn('transition-opacity duration-700 ease-out', loaded ? 'opacity-100' : 'opacity-0', className)}
+      className={cn('opacity-100 transition-opacity duration-700 ease-out', className)}
     />
   )
 }
