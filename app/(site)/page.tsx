@@ -2,50 +2,30 @@ import Link from 'next/link'
 import { IssuerTrustNotice } from '@/components/issuer-trust-notice'
 import { NetworkStatus } from '@/components/network-status'
 import { PackWorkspace } from '@/components/pack-workspace'
-import { EMPTY_COLLECTION_STATS, getCollectionStats, getLatestMintedNfts } from '@/lib/pack-results'
-import type { CollectionStats } from '@/lib/pack-results'
-import { getHomepageVisits } from '@/lib/site-counter'
+import { EMPTY_COLLECTION_STATS } from '@/lib/pack-results'
+import type { CollectionStats, LatestMintedNft } from '@/lib/pack-results'
 import { PACK_CATALOG } from '@/lib/pack-catalog'
 import type { PackSetId } from '@/lib/rippleborn'
 
 export const dynamic = 'force-dynamic'
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ set?: string }>
-}) {
-  const { set } = await searchParams
-
-  // Keep the homepage renderable when a database query is slow or temporarily exhausted.
-  // Stats are enhancements; they must never leave the whole site suspended behind loading.tsx.
-  const withTimeout = <T,>(promise: Promise<T>, fallback: T, timeoutMs = 4000) =>
-    Promise.race([
-      promise.catch(() => fallback),
-      new Promise<T>((resolve) => setTimeout(() => resolve(fallback), timeoutMs)),
-    ])
-
-  const [mythic, cyborg, chromatic, slack, visitCount, latestNfts] = await Promise.all([
-    withTimeout(getCollectionStats('ledgerborn'), EMPTY_COLLECTION_STATS),
-    withTimeout(getCollectionStats('cyborg-cowboy'), EMPTY_COLLECTION_STATS),
-    withTimeout(getCollectionStats('chromatic-abyss'), EMPTY_COLLECTION_STATS),
-    withTimeout(getCollectionStats('mr-slack'), EMPTY_COLLECTION_STATS),
-    withTimeout(getHomepageVisits(), 0),
-    withTimeout(getLatestMintedNfts(6), []),
-  ])
-
+export default function Page() {
+  // Database-backed stats are enhancements. Keep the card workspace independent
+  // from database latency or quota exhaustion so the homepage always renders.
   const statsBySet: Record<PackSetId, CollectionStats> = {
-    ledgerborn: mythic,
-    'cyborg-cowboy': cyborg,
-    'chromatic-abyss': chromatic,
-    'mr-slack': slack,
+    ledgerborn: EMPTY_COLLECTION_STATS,
+    'cyborg-cowboy': EMPTY_COLLECTION_STATS,
+    'chromatic-abyss': EMPTY_COLLECTION_STATS,
+    'mr-slack': EMPTY_COLLECTION_STATS,
   }
+  const visitCount = 0
+  const latestNfts: LatestMintedNft[] = []
 
   return (
     <>
       <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col gap-10 px-4 py-10 sm:px-6 sm:py-14 lg:py-16">
 
-        <PackWorkspace statsBySet={statsBySet} initialSlug={set} />
+        <PackWorkspace statsBySet={statsBySet} />
         <section
           aria-labelledby="artists-block-heading"
           className="flex w-full flex-col items-center gap-4 border border-border/50 bg-card/40 px-6 py-10 text-center sm:px-8"
