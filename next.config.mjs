@@ -61,8 +61,7 @@ const nextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value:
-              "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self' https://foxes.company https://*.lovable.app",
+            value: "frame-ancestors 'self' https://foxes.company https://*.lovable.app", 
           },
         ],
       },
